@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.2">
+  <CommandSet xml:lang="de" Name="ParkenDdCommands_de">
+    <AppName> ParkenDD </AppName>
+    <Example> Wo kann ich in Dresden parken? </Example>
+
+    <Command Name="selectCity">
+      <Example> wo kann ich in Dresden parken?  </Example>
+      <ListenFor RequireAppName="BeforePhrase"> wo kann [ich] [man] in {city} parken? </ListenFor>
+      <ListenFor RequireAppName="BeforePhrase"> wo sind in {city} Parkplätze? </ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase"> zeige die Parkplätze [in] [von] {city} </ListenFor>
+      <Feedback> die Parkplätze in {city} werden geladen... </Feedback>
+      <Navigate/>
+    </Command>
+    
+    <Command Name="selectParkingLot">
+      <Example> wie viele Plätze sind in Dresden in der Centrum Galerie frei?  </Example>
+      <ListenFor RequireAppName="BeforePhrase"> wie viele Plätze sind in {city} [in] [im] [am] [an] [dem] [der] {parking_lot} [frei] [voll] [verfügbar] [belegt] [übrig]? </ListenFor>
+      <ListenFor RequireAppName="BeforePhrase"> wie viel Platz ist in {city} [in] [im] [am] [an] [dem] [der] {parking_lot} [frei] [belegt] [übrig] [verfügbar]? </ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase"> [zeig] [zeige] Infos [für] [von] [vom] [der] [dem] {parking_lot} in {city} </ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase"> [zeig] [zeige] Informationen [für] [von] [vom] [der] [dem] {parking_lot} in {city} </ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase"> [zeig] [zeige] Details [für] [von] [vom] [der] [dem] {parking_lot} in {city} </ListenFor>
+      <Feedback> {parking_lot} in {city} wird geladen... </Feedback>
+      <Navigate/>
+    </Command>
+
+    <PhraseList Label="city">
+      <Item>Dresden</Item>
+    </PhraseList>
+    <PhraseList Label="parking_lot">
+      <Item>Centrum Galerie</Item>
+    </PhraseList>
+  </CommandSet>
+</VoiceCommands>

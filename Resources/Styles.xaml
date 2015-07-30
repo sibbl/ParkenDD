@@ -1,0 +1,448 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:ParkenDD.Win10.Controls">
+
+    <Color x:Key="DeepBlueColor">#09487f</Color>
+    <Color x:Key="DarkBlueColor">#14548c</Color>
+    <Color x:Key="BlueColor">#2675a6</Color>
+    <Color x:Key="MediumBlueColor">#50a0bf</Color>
+    <Color x:Key="LightBlueColor">#79c7d9</Color>
+    <Color x:Key="RedColor">#c70000</Color>
+    <Color x:Key="GreenColor">#26b500</Color>
+
+    <SolidColorBrush x:Key="DeepBlueBrush" Color="{StaticResource DeepBlueColor}"/>
+    <SolidColorBrush x:Key="DarkBlueBrush" Color="{StaticResource DarkBlueColor}"/>
+    <SolidColorBrush x:Key="BlueBrush" Color="{StaticResource BlueColor}"/>
+    <SolidColorBrush x:Key="MediumBlueBrush" Color="{StaticResource MediumBlueColor}"/>
+    <SolidColorBrush x:Key="LightBlueBrush" Color="{StaticResource LightBlueColor}"/>
+    <SolidColorBrush x:Key="RedBrush" Color="{StaticResource RedColor}"/>
+    <SolidColorBrush x:Key="GreenBrush" Color="{StaticResource GreenColor}"/>
+
+    <Style x:Key="SplitViewLogoStyle" TargetType="TextBlock">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="12,0,0,0" />
+    </Style>
+    
+    <Style x:Key="TopBarStyle" TargetType="RelativePanel">
+        <Setter Property="Height" Value="78" />
+        <Setter Property="Padding" Value="0,30,0,0" />
+    </Style>
+    <Style x:Key="SplitViewTopBarStyle" BasedOn="{StaticResource TopBarStyle}" TargetType="RelativePanel">
+        <Setter Property="Background" Value="{StaticResource DarkBlueColor}" />
+        <Setter Property="BorderBrush" Value="{StaticResource DeepBlueColor}" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+    </Style>
+    <Style x:Key="SplitViewContainerStyle" TargetType="Grid">
+        <Setter Property="Background" Value="{StaticResource DarkBlueColor}" />
+    </Style>
+    <Style x:Key="ParkingLotListTopBarStyle" BasedOn="{StaticResource TopBarStyle}" TargetType="RelativePanel">
+        <Setter Property="Background" Value="#FFF" />
+        <Setter Property="BorderBrush" Value="#DDD" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+    </Style>
+    <Style x:Key="ParkingLotListPanelStyle" TargetType="RelativePanel">
+        <Setter Property="Background" Value="#FFF" />
+    </Style>
+
+    <Style x:Key="ParkingLotListDonutStyle" TargetType="controls:ParkingLotLoadDonut">
+        <Setter Property="Height" Value="35" />
+        <Setter Property="Width" Value="35" />
+        <Setter Property="Margin" Value="0,0,10,0" />
+    </Style>
+
+    <Style x:Key="ParkingLotLoadDonutContainerStyle" TargetType="Grid">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style x:Key="ParkingLotLoadDonutBackgroundStyle" TargetType="Ellipse">
+        <Setter Property="Fill" Value="{StaticResource BlueColor}"/>
+    </Style>
+
+    <Style x:Key="ParkingLotLoadDonutValueInvertedStyle" TargetType="Ellipse">
+        <Setter Property="Fill" Value="{StaticResource RedColor}"/>
+    </Style>
+
+    <Style x:Key="ParkingLotLoadDonutValueStyle" TargetType="Path">
+        <Setter Property="Fill" Value="{StaticResource GreenColor}"/>
+    </Style>
+
+    <Style x:Key="ParkingLotLoadDonutHoleStyle" TargetType="Ellipse">
+        <Setter Property="Fill" Value="#FFF"/>
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ParkingLotMapIconDonutStyle" TargetType="controls:ParkingLotLoadDonut">
+        <Setter Property="Height" Value="25" />
+        <Setter Property="Width" Value="25" />
+    </Style>
+
+    <Style x:Key="ParkingLotLoadLabelStyle" TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="#666666" />
+    </Style>
+
+    <Style x:Key="ParkingLotListStyle" TargetType="ListView">
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ContentPresenter Grid.Column="0" />
+                        <StackPanel Grid.Column="1" Background="Red">
+                            
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerTransitions">
+            <Setter.Value>
+                <TransitionCollection>
+                    <EntranceThemeTransition/>
+                </TransitionCollection>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ParkingLotListHeaderStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="Foreground" Value="#333333" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="ParkingLotListHeaderContainerStyle" TargetType="ListViewHeaderItem">
+        <Setter Property="MinHeight" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid Margin="10,7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ContentPresenter Grid.Column="0" />
+                        <Line
+                            Grid.Column="1"
+                            Margin="10,2,0,0"
+                            X1="0"
+                            Y1="0"
+                            X2="1"
+                            Y2="0"
+                            Stretch="Fill"
+                            Stroke="#dddddd"
+                            StrokeThickness="1" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+
+    <Style x:Key="ParkingLotListTitleStyle" TargetType="TextBlock">
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+
+    <Style x:Key="ParkingLotListAddressStyle" TargetType="TextBlock">
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="Foreground" Value="#666666" />
+    </Style>
+
+    <Style x:Key="ParkingLotListFreeLotsStyle" TargetType="TextBlock">
+        <Setter Property="TextAlignment" Value="Right"/>
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="Foreground" Value="{StaticResource GreenColor}" />
+    </Style>
+
+    <Style x:Key="ParkingLotListTotalLotsStyle" TargetType="TextBlock">
+        <Setter Property="TextAlignment" Value="Right"/>
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="Foreground" Value="#666666"  />
+    </Style>
+    
+    <Style x:Key="MapTopBarStyle" BasedOn="{StaticResource TopBarStyle}" TargetType="RelativePanel">
+        <Setter Property="Background" Value="{StaticResource BlueColor}" />
+        <Setter Property="Canvas.ZIndex" Value="1"/>
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="0"/>
+                    <GradientStop Color="Transparent" Offset="1"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <SolidColorBrush x:Key="NavButtonPressedBackgroundBrush" Color="{StaticResource MediumBlueColor}" Opacity="0.5" />
+    <SolidColorBrush x:Key="NavButtonHoverBackgroundBrush" Color="{StaticResource MediumBlueColor}" Opacity="0.25" />
+
+    <Style x:Key="NavButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="1,4,0,0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="HoverBackground">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PressedBackground">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource RadioButtonContentDisabledForegroundThemeBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource RadioButtonContentDisabledForegroundThemeBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Focused">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0"
+                                                             Storyboard.TargetName="FocusVisualWhite"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="1" />
+                                        <DoubleAnimation Duration="0"
+                                                             Storyboard.TargetName="FocusVisualBlack"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="1" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unfocused" />
+                                <VisualState x:Name="PointerFocused" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="48" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="20" />
+                            </Grid.ColumnDefinitions>
+                            <Rectangle x:Name="PressedBackground" Grid.ColumnSpan="4" Visibility="Collapsed" Fill="{StaticResource NavButtonPressedBackgroundBrush}"/>
+                            <Rectangle x:Name="HoverBackground" Grid.ColumnSpan="4" Visibility="Collapsed" Fill="{StaticResource NavButtonHoverBackgroundBrush}"/>
+                            <Rectangle x:Name="FocusVisualWhite"
+                        				Opacity="0"
+                        				Stroke="{ThemeResource FocusVisualWhiteStrokeThemeBrush}"
+                        				StrokeDashArray="1,1"
+                        				StrokeDashOffset="1.5"
+                        				StrokeEndLineCap="Square" />
+                            <Rectangle x:Name="FocusVisualBlack"
+                        				Opacity="0"
+                        				Stroke="{ThemeResource FocusVisualBlackStrokeThemeBrush}"
+                        				StrokeDashArray="1,1"
+                        				StrokeDashOffset="0.5"
+                        				StrokeEndLineCap="Square" />
+                            <TextBlock HorizontalAlignment="Center" x:Name="Icon"
+                        				VerticalAlignment="Center"
+                                        FontSize="16"
+                        				FontFamily="Segoe MDL2 Assets" 
+                                        Text="{TemplateBinding Tag}" />
+                            <ContentPresenter x:Name="ContentPresenter"
+                        			Grid.Column="1"
+                        			Margin="{TemplateBinding Padding}"
+                        			HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        			VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        			AutomationProperties.AccessibilityView="Raw"
+                        			Content="{TemplateBinding Content}"
+                        			ContentTemplate="{TemplateBinding ContentTemplate}"
+                        			ContentTransitions="{TemplateBinding ContentTransitions}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="NavIconButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Width" Value="48" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="HoverBackground">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PressedBackground">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource RadioButtonContentDisabledForegroundThemeBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource RadioButtonContentDisabledForegroundThemeBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Focused">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0"
+                                                             Storyboard.TargetName="FocusVisualWhite"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="1" />
+                                        <DoubleAnimation Duration="0"
+                                                             Storyboard.TargetName="FocusVisualBlack"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="1" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unfocused" />
+                                <VisualState x:Name="PointerFocused" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="48" />
+                            </Grid.RowDefinitions>
+                            <Rectangle x:Name="PressedBackground" Grid.ColumnSpan="4" Visibility="Collapsed" Fill="{StaticResource NavButtonPressedBackgroundBrush}"/>
+                            <Rectangle x:Name="HoverBackground" Grid.ColumnSpan="4" Visibility="Collapsed" Fill="{StaticResource NavButtonHoverBackgroundBrush}"/>
+                            <Rectangle x:Name="FocusVisualWhite"
+                        				Opacity="0"
+                        				Stroke="{ThemeResource FocusVisualWhiteStrokeThemeBrush}"
+                        				StrokeDashArray="1,1"
+                        				StrokeDashOffset="1.5"
+                        				StrokeEndLineCap="Square" />
+                            <Rectangle x:Name="FocusVisualBlack"
+                        				Opacity="0"
+                        				Stroke="{ThemeResource FocusVisualBlackStrokeThemeBrush}"
+                        				StrokeDashArray="1,1"
+                        				StrokeDashOffset="0.5"
+                        				StrokeEndLineCap="Square" />
+                            <TextBlock HorizontalAlignment="Center" x:Name="Icon"
+                        				VerticalAlignment="Center"
+                                       TextAlignment="Center"
+                                        FontSize="16"
+                                        Width="{TemplateBinding Width}"
+                        				FontFamily="Segoe MDL2 Assets" 
+                                        Text="{TemplateBinding Tag}" />
+                            <ContentPresenter x:Name="ContentPresenter"
+                                    Visibility="Collapsed"
+                        			Margin="{TemplateBinding Padding}"
+                        			HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        			VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        			AutomationProperties.AccessibilityView="Raw"
+                        			Content="{TemplateBinding Content}"
+                        			ContentTemplate="{TemplateBinding ContentTemplate}"
+                        			ContentTransitions="{TemplateBinding ContentTransitions}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="SplitViewNavButtonStyle" TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
+        <Setter Property="Foreground" Value="#FFFFFF" />
+    </Style>
+    <Style x:Key="SplitViewNavIconButtonStyle" TargetType="Button" BasedOn="{StaticResource NavIconButtonStyle}">
+        <Setter Property="Foreground" Value="#FFFFFF" />
+    </Style>
+    <Style x:Key="SelectCityProgressBarStyle" TargetType="ProgressBar">
+        <Setter Property="IsIndeterminate" Value="True" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style x:Key="SplitViewCityItemTextStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#FFFFFF" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <Style x:Key="ParkingLotAutoSuggestBoxStyle" TargetType="AutoSuggestBox">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+    </Style>
+    <Style x:Key="ParkingLotSearchTextBoxStyle" TargetType="TextBox">
+        <Setter Property="Padding" Value="14" />
+        <Setter Property="Background" Value="#FFF" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style x:Key="ParkingLotListProgressBarStyle" TargetType="ProgressBar">
+        <Setter Property="IsIndeterminate" Value="True" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Foreground" Value="{StaticResource MediumBlueBrush}" />
+    </Style>
+</ResourceDictionary>

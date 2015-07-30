@@ -1,0 +1,38 @@
+﻿<UserControl
+    x:Class="ParkenDD.Win10.Controls.ParkingLotLoadDonut"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ParkenDD.Win10.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="200"
+    d:DesignWidth="200">
+
+    <Grid Style="{ThemeResource ParkingLotLoadDonutContainerStyle}">
+        <Ellipse
+            x:Name="BackgroundCircle"
+            Style="{ThemeResource ParkingLotLoadDonutBackgroundStyle}"
+            />
+        <Ellipse
+            x:Name="ValueInvertedCircle"
+            Style="{ThemeResource ParkingLotLoadDonutValueInvertedStyle}"
+            />
+        <Path
+            x:Name="ValuePath"
+            Style="{ThemeResource ParkingLotLoadDonutValueStyle}"
+            />
+        <Ellipse
+            x:Name="HoleCircle"
+            Style="{ThemeResource ParkingLotLoadDonutHoleStyle}"
+            >
+            
+        </Ellipse>
+        <TextBlock
+            Style="{ThemeResource ParkingLotLoadLabelStyle}"
+            Text="Value"
+            Name="FreeLabel"
+            />
+    </Grid>
+
+</UserControl>
