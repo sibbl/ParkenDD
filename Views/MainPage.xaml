@@ -26,13 +26,11 @@
     </Page.Resources>
 
     <SplitView
-        Background="Black"
         OpenPaneLength="200"
         x:Name="SplitView"
         CompactPaneLength="48"
         DisplayMode="Inline"
         IsPaneOpen="True"
-        PaneBackground="DimGray"
         >
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
