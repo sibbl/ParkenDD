@@ -21,7 +21,7 @@
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Margin" Value="12,0,0,0" />
     </Style>
-    
+
     <Style x:Key="TopBarStyle" TargetType="RelativePanel">
         <Setter Property="Height" Value="78" />
         <Setter Property="Padding" Value="0,30,0,0" />
@@ -93,13 +93,6 @@
                 </TransitionCollection>
             </Setter.Value>
         </Setter>
-        <Setter Property="ItemContainerStyle">
-            <Setter.Value>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                </Style>
-            </Setter.Value>
-        </Setter>
     </Style>
 
     <Style x:Key="ParkingLotListHeaderStyle" TargetType="TextBlock">
@@ -162,7 +155,7 @@
         <Setter Property="FontSize" Value="11" />
         <Setter Property="Foreground" Value="#666666"  />
     </Style>
-    
+
     <Style x:Key="MapTopBarStyle" BasedOn="{StaticResource TopBarStyle}" TargetType="RelativePanel">
         <Setter Property="Background" Value="{StaticResource LightBlueColor}" />
         <Setter Property="Canvas.ZIndex" Value="1"/>
@@ -424,5 +417,50 @@
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Foreground" Value="{StaticResource LightBlueColor}" />
+    </Style>
+    <Style x:Key="SelectCityListContainerStyle" TargetType="ListViewItem">
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+        <Setter Property="TabNavigation" Value="Local"/>
+        <Setter Property="IsHoldingEnabled" Value="True"/>
+        <Setter Property="Padding" Value="12,0,12,0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
+        <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <ListViewItemPresenter
+                        CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                        ContentMargin="{TemplateBinding Padding}"
+                        CheckMode="Inline"
+                        ContentTransitions="{TemplateBinding ContentTransitions}"
+                        CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                        DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
+                        DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+                        DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}"
+                        DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                        FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
+                        FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+                        PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
+                        ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                        SelectionCheckMarkVisualEnabled="True"
+                        SelectedForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" SelectedPointerOverBackground="#59000000" PressedBackground="#4C000000" PointerOverBackground="#26000000">
+                        <ListViewItemPresenter.SelectedBackground>
+                            <SolidColorBrush Color="#99000000" Opacity="0.40000000596046448"/>
+                        </ListViewItemPresenter.SelectedBackground>
+                        <ListViewItemPresenter.SelectedPressedBackground>
+                            <SolidColorBrush Color="#7F000000" Opacity="0.25"/>
+                        </ListViewItemPresenter.SelectedPressedBackground>
+                    </ListViewItemPresenter>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

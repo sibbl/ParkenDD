@@ -143,6 +143,7 @@
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
                     ItemsSource="{x:Bind Vm.MetaData.Cities.List}"
                     SelectedItem="{Binding SelectedCity, Mode=TwoWay}"
+                    ItemContainerStyle="{StaticResource SelectCityListContainerStyle}"
                     >
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -213,7 +214,8 @@
                             ScrollViewer.VerticalScrollBarVisibility="Auto"
                             ItemsSource="{Binding Source={StaticResource SelectedCityDataGrouped}}"
                             SelectedItem="{Binding SelectedParkingLot, Mode=TwoWay}"
-                            Style="{ThemeResource ParkingLotListStyle}">
+                            Style="{ThemeResource ParkingLotListStyle}"
+                            ItemContainerStyle="{StaticResource SelectCityListContainerStyle}">
                             <ListView.GroupStyle>
                                 <GroupStyle
                                     HidesIfEmpty="True"
