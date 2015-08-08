@@ -17,6 +17,9 @@ namespace ParkenDD.Services
 
             SimpleIoc.Default.Register<INavigationService, NavigationService>();
             SimpleIoc.Default.Register<VoiceCommandService>();
+            SimpleIoc.Default.Register<MapDrawingService>();
+            SimpleIoc.Default.Register<GeolocationService>();
+            SimpleIoc.Default.Register<ParkingLotListFilterService>();
 
             if (ViewModelBase.IsInDesignModeStatic)
             {

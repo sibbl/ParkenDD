@@ -11,29 +11,40 @@ using ParkenDD.Messages;
 using ParkenDD.Services;
 using ParkenDD.Api.Models;
 using ParkenDD.Api.Interfaces;
+using ParkenDD.Models;
 
 namespace ParkenDD.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        #region PRIVATE PROPERTIES
         private readonly IParkenDdClient _client;
         private readonly VoiceCommandService _voiceCommands;
+        private readonly ParkingLotListFilterService _filterService;
         private readonly Dictionary<string, City> _cities = new Dictionary<string, City>();
+        #endregion
 
+        #region PUBLIC PROPERTIES
+
+        #region MetaData
         private MetaData _metaData;
         public MetaData MetaData
         {
             get { return _metaData; }
             set { Set(() => MetaData, ref _metaData, value); }
         }
+        #endregion
 
+        #region LoadingMetaData
         private bool _loadingMetaData;
         public bool LoadingMetaData
         {
             get { return _loadingMetaData; }
             set { Set(() => LoadingMetaData, ref _loadingMetaData, value); }
         }
+        #endregion
 
+        #region SelectedCity
         private MetaDataCityRow _selectedCity;
         public MetaDataCityRow SelectedCity
         {
@@ -44,7 +55,9 @@ namespace ParkenDD.ViewModels
                 LoadCityAndSelectCity();
             }
         }
+        #endregion
 
+        #region SelectedCityData
         private City _selectedCityData;
         public City SelectedCityData
         {
@@ -55,7 +68,9 @@ namespace ParkenDD.ViewModels
                 ParkingLots = value == null ? null :  new ObservableCollection<ParkingLot>(value.Lots);
             }
         }
+        #endregion
 
+        #region SelectedParkingLot
         private ParkingLot _selectedParkingLot;
         public ParkingLot SelectedParkingLot
         {
@@ -65,28 +80,95 @@ namespace ParkenDD.ViewModels
                 Set(() => SelectedParkingLot, ref _selectedParkingLot, value);
             }
         }
+        #endregion
 
+        #region LoadingCity
         private bool _loadingCity;
         public bool LoadingCity
         {
             get { return _loadingCity; }
             set { Set(() => LoadingCity, ref _loadingCity, value); }
         }
+        #endregion
 
+        #region ParkingLots
         private ObservableCollection<ParkingLot> _parkingLots;
         public ObservableCollection<ParkingLot> ParkingLots
         {
             get { return _parkingLots; }
-            set { Set(() => ParkingLots, ref _parkingLots, value); }
+            set
+            {
+                Set(() => ParkingLots, ref _parkingLots, value);
+                UpdateParkingLotListFilter();
+            }
         }
+        #endregion
 
+        #region ParkingLotsCollectionViewSource
+        private IEnumerable<ParkingLotListGroup> _parkingLotsCollectionViewSource;
+        public IEnumerable<ParkingLotListGroup> ParkingLotsCollectionViewSource
+        {
+            get { return _parkingLotsCollectionViewSource; }
+            set
+            {
+                Set(() => ParkingLotsCollectionViewSource, ref _parkingLotsCollectionViewSource, value);
+            }
+        }
+        #endregion
 
-        public MainViewModel(IParkenDdClient client, VoiceCommandService voiceCommandService)
+        #region ParkingLotFilterMode
+        private ParkingLotFilterMode _parkingLotFilterMode;
+        public ParkingLotFilterMode ParkingLotFilterMode
+        {
+            get { return _parkingLotFilterMode; }
+            set { Set(() => ParkingLotFilterMode, ref _parkingLotFilterMode, value); }
+        }
+        #endregion
+
+        #region ParkingLotFilterIsGrouped
+        private bool _parkingLotFilterIsGrouped;
+        public bool ParkingLotFilterIsGrouped
+        {
+            get { return _parkingLotFilterIsGrouped; }
+            set
+            {
+                Set(() => ParkingLotFilterIsGrouped, ref _parkingLotFilterIsGrouped, value);
+                UpdateParkingLotListFilter();
+            }
+        }
+        #endregion
+
+        #region ParkingLotFilterAscending
+        private bool _parkingLotFilterAscending;
+        public bool ParkingLotFilterAscending
+        {
+            get { return _parkingLotFilterAscending; }
+            set
+            {
+                Set(() => ParkingLotFilterAscending, ref _parkingLotFilterAscending, value);
+                UpdateParkingLotListFilter();
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region CONSTRUCTOR
+
+        public MainViewModel(IParkenDdClient client, VoiceCommandService voiceCommandService, ParkingLotListFilterService filterService)
         {
             _client = client;
             _voiceCommands = voiceCommandService;
+            _filterService = filterService;
+            ParkingLotFilterMode = ParkingLotFilterMode.Alphabetically;
+            ParkingLotFilterIsGrouped = true;
+            ParkingLotFilterAscending = true;
             LoadMetaData();
         }
+
+        #endregion
+
+        #region LOGIC
 
         private async void LoadMetaData()
         {
@@ -216,7 +298,23 @@ namespace ParkenDD.ViewModels
             return _cities[cityId];
         }
 
+        private async void UpdateParkingLotListFilter()
+        {
+            if (ParkingLots == null)
+            {
+                ParkingLotsCollectionViewSource = null;
+            }
+            else
+            {
+                ParkingLotsCollectionViewSource = await _filterService.CreateGroups(ParkingLots);
+            }
+        }
 
+        #endregion
+
+        #region COMMANDS
+
+        #region ReloadSelectedCityCommand
         private RelayCommand _reloadSelecedCityCommand;
         public RelayCommand ReloadSelectedCityCommand => _reloadSelecedCityCommand ?? (_reloadSelecedCityCommand = new RelayCommand(ReloadSelectedCity));
 
@@ -226,5 +324,41 @@ namespace ParkenDD.ViewModels
             SelectedCityData = await LoadCity(SelectedCity.Id);
             LoadingCity = false;
         }
+        #endregion
+
+        #region SetParkingLotFilterToAlphabeticallyCommand
+        private RelayCommand _setParkingLotFilterToAlphabeticallyCommand;
+        public RelayCommand SetParkingLotFilterToAlphabeticallyCommand => _setParkingLotFilterToAlphabeticallyCommand ?? (_setParkingLotFilterToAlphabeticallyCommand = new RelayCommand(SetParkingLotFilterToAlphabetically));
+
+        private void SetParkingLotFilterToAlphabetically()
+        {
+            ParkingLotFilterMode = ParkingLotFilterMode.Alphabetically;
+            UpdateParkingLotListFilter();
+        }
+        #endregion
+
+        #region SetParkingLotFilterToAlphabeticallyCommand
+        private RelayCommand _setParkingLotFilterToDistanceCommand;
+        public RelayCommand SetParkingLotFilterToDistanceCommand => _setParkingLotFilterToDistanceCommand ?? (_setParkingLotFilterToDistanceCommand = new RelayCommand(SetParkingLotFilterToDistance));
+
+        private void SetParkingLotFilterToDistance()
+        {
+            ParkingLotFilterMode = ParkingLotFilterMode.Distance;
+            UpdateParkingLotListFilter();
+        }
+        #endregion
+
+        #region SetParkingLotFilterToAvailabilityCommand
+        private RelayCommand _setParkingLotFilterToAvailabilityCommand;
+        public RelayCommand SetParkingLotFilterToAvailabilityCommand => _setParkingLotFilterToAvailabilityCommand ?? (_setParkingLotFilterToAvailabilityCommand = new RelayCommand(SetParkingLotFilterToAvailability));
+
+        private void SetParkingLotFilterToAvailability()
+        {
+            ParkingLotFilterMode = ParkingLotFilterMode.Availability;
+            UpdateParkingLotListFilter();
+        }
+        #endregion
+
+        #endregion
     }
 }

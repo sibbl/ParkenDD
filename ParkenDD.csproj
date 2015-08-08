@@ -108,14 +108,20 @@
     <Compile Include="Controls\ParkingLotLoadDonut.xaml.cs">
       <DependentUpon>ParkingLotLoadDonut.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\ParkingLotListGroupConverter.cs" />
     <Compile Include="Converters\TrimTextConverter.cs" />
+    <Compile Include="Services\GeolocationService.cs" />
+    <Compile Include="Services\MapDrawingService.cs" />
     <Compile Include="Messages\ZoomMapToBoundsMessage.cs" />
+    <Compile Include="Models\ParkingLotFilterMode.cs" />
+    <Compile Include="Models\ParkingLotListGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Design\DesignApiService.cs" />
+    <Compile Include="Services\ParkingLotListFilterService.cs" />
     <Compile Include="Services\ViewModelLocatorService.cs" />
     <Compile Include="Services\VoiceCommandService.cs" />
     <Compile Include="Triggers\ItemFocusStateTrigger.cs" />
+    <Compile Include="Utils\GeoUtils.cs" />
+    <Compile Include="Utils\MapElementUtils.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -177,6 +183,7 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

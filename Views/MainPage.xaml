@@ -15,13 +15,12 @@
     DataContext="{Binding Main, Source={StaticResource Locator}}">
 
     <Page.Resources>
-        <converters:ParkingLotListGroupConverter x:Key="ParkingLotListGroupConverter" />
         <converters:TrimTextConverter x:Key="TrimTextConverter" />
         <CollectionViewSource
             x:Key="SelectedCityDataGrouped"
             IsSourceGrouped="True"
             ItemsPath="ParkingLots"
-            Source="{Binding ParkingLots, Converter={StaticResource ParkingLotListGroupConverter}}"
+            Source="{Binding ParkingLotsCollectionViewSource}"
             />
     </Page.Resources>
 
@@ -195,7 +194,33 @@
                                 x:Name="ParkingLotListFilterBtn"
                                 RelativePanel.LeftOf="ParkingLotListRefreshBtn"
                                 Tag=""
-                                Style="{StaticResource NavIconButtonStyle}" />
+                                Style="{StaticResource NavIconButtonStyle}">
+                                <Button.Flyout>
+                                    <MenuFlyout>
+                                        <ToggleMenuFlyoutItem
+                                            x:Name="ParkingLotFilterMenuItemAlphabetically"
+                                            Command="{Binding SetParkingLotFilterToAlphabeticallyCommand}"
+                                            Text="Alphabetisch" />
+                                        <ToggleMenuFlyoutItem
+                                            x:Name="ParkingLotFilterMenuItemAvailability"
+                                            Command="{Binding SetParkingLotFilterToAvailabilityCommand}"
+                                            Text="Belegung" />
+                                        <ToggleMenuFlyoutItem
+                                            x:Name="ParkingLotFilterMenuItemDistance"
+                                            Command="{Binding SetParkingLotFilterToDistanceCommand}"
+                                            Text="Entfernung" />
+                                        <MenuFlyoutSeparator />
+                                        <ToggleMenuFlyoutItem
+                                            x:Name="ParkingLotFilterMenuItemAscending"
+                                            IsChecked="{Binding ParkingLotFilterAscending, Mode=TwoWay}"
+                                            Text="Aufsteigend" />
+                                        <ToggleMenuFlyoutItem
+                                            x:Name="ParkingLotFilterMenuItemGrouping"
+                                            IsChecked="{Binding ParkingLotFilterIsGrouped, Mode=TwoWay}"
+                                            Text="Gruppierung" /> 
+                                    </MenuFlyout>
+                                </Button.Flyout>
+                            </Button>
                             <Button
                                 x:Name="ParkingLotListRefreshBtn"
                                 RelativePanel.AlignRightWithPanel="True"

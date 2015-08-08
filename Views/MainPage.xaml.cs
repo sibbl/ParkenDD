@@ -1,31 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Graphics.Imaging;
-using Windows.Storage.Streams;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Messaging;
 using ParkenDD.Messages;
 using ParkenDD.Api.Models;
 using ParkenDD.ViewModels;
-using System.Linq;
-using ParkenDD.Controls;
+using GalaSoft.MvvmLight.Ioc;
+using ParkenDD.Models;
+using ParkenDD.Services;
+using ParkenDD.Utils;
 
 namespace ParkenDD.Views
 {
     public sealed partial class MainPage : Page
     {
-        private Dictionary<ParkingLot, MapIcon> _mapIconParkingLotDict; 
         public MainViewModel Vm => (MainViewModel)DataContext;
+        private MapDrawingService DrawingService => SimpleIoc.Default.GetInstance<MapDrawingService>();
         private ParkingLot _selectedLot;
 
         public MainPage()
@@ -55,16 +49,22 @@ namespace ParkenDD.Views
             {
                 if (args.PropertyName == nameof(Vm.ParkingLots))
                 {
-                    DrawLotsOnMap();
+                    DrawingService.DrawParkingLots(Map, BackgroundDrawingContainer);
                     if (Vm.ParkingLots != null)
                     {
-                        Vm.ParkingLots.CollectionChanged += (o, eventArgs) => DrawLotsOnMap();
+                        Vm.ParkingLots.CollectionChanged += (o, eventArgs) =>
+                        {
+                            DrawingService.DrawParkingLots(Map, BackgroundDrawingContainer);
+                        };
                     }
                 }else if(args.PropertyName == nameof(Vm.SelectedParkingLot))
                 {
-                    RedrawLot(Vm.SelectedParkingLot);
-                    RedrawLot(_selectedLot);
+                    DrawingService.RedrawParkingLot(BackgroundDrawingContainer, Vm.SelectedParkingLot);
+                    DrawingService.RedrawParkingLot(BackgroundDrawingContainer, _selectedLot);
                     _selectedLot = Vm.SelectedParkingLot;
+                }else if (args.PropertyName == nameof(Vm.ParkingLotFilterMode))
+                {
+                    UpdateParkingLotFilter();
                 }
             };
             ParkingLotList.SelectionChanged += (sender, args) =>
@@ -73,104 +73,36 @@ namespace ParkenDD.Views
             };
             Map.MapElementClick += (sender, args) =>
             {
-                MapIcon iconOnTop = null;
-                foreach (var element in args.MapElements)
-                {
-                    if (element is MapIcon && (iconOnTop == null || iconOnTop.ZIndex < element.ZIndex))
-                    {
-                        iconOnTop = (MapIcon)element;
-                    }
-                }
-                if (iconOnTop != null && _mapIconParkingLotDict != null && _mapIconParkingLotDict.ContainsValue(iconOnTop))
-                {
-                    Vm.SelectedParkingLot = _mapIconParkingLotDict.FirstOrDefault(x => x.Value == iconOnTop).Key;
-                }
+                Vm.SelectedParkingLot = DrawingService.GetParkingLotOfIcon(args.MapElements.GetTopmostIcon());
             };
+            UpdateParkingLotFilter();
+        }
+
+        private void UpdateParkingLotFilter()
+        {
+            switch (Vm.ParkingLotFilterMode)
+            {
+                case ParkingLotFilterMode.Alphabetically:
+                    ParkingLotFilterMenuItemAlphabetically.IsChecked = true;
+                    ParkingLotFilterMenuItemDistance.IsChecked =
+                        ParkingLotFilterMenuItemAvailability.IsChecked = false;
+                    break;
+                case ParkingLotFilterMode.Availability:
+                    ParkingLotFilterMenuItemAvailability.IsChecked = true;
+                    ParkingLotFilterMenuItemAlphabetically.IsChecked =
+                        ParkingLotFilterMenuItemDistance.IsChecked = false;
+                    break;
+                case ParkingLotFilterMode.Distance:
+                    ParkingLotFilterMenuItemDistance.IsChecked = true;
+                    ParkingLotFilterMenuItemAlphabetically.IsChecked =
+                        ParkingLotFilterMenuItemAvailability.IsChecked = false;
+                    break;
+            }
         }
 
         private void ToggleSplitView(object sender, RoutedEventArgs routedEventArgs)
         {
             SplitView.IsPaneOpen = !SplitView.IsPaneOpen;
-        }
-
-        private async void RedrawLot(ParkingLot lot)
-        {
-            if(lot != null && _mapIconParkingLotDict != null &&_mapIconParkingLotDict.ContainsKey(lot))
-            {
-                var icon = _mapIconParkingLotDict[lot];
-                icon.Image = await GetMapIconDonutImage(lot);
-                icon.ZIndex = getZindexForLot(lot);
-            }
-        }
-
-        private int getZindexForLot(ParkingLot lot)
-        {
-            if(Vm.SelectedParkingLot == lot)
-            {
-                return 100001; //max value
-            }
-            var zIndex = ((double)lot.FreeLots / (double)lot.TotalLots);
-            if (Double.IsNaN(zIndex) || Double.IsInfinity(zIndex))
-            {
-                zIndex = 0;
-            }else if(zIndex > 100)
-            {
-                zIndex = 100;
-            }
-            return (int)Math.Round(zIndex * 1000);
-        }
-
-        private async void DrawLotOnMap(ParkingLot lot)
-        {
-            if (lot?.Coordinates != null)
-            {
-                var icon = new MapIcon
-                {
-                    Location = lot.Coordinates.Point,
-                    NormalizedAnchorPoint = new Point(0.5, 0.5),
-                    Title = lot.Name,
-                    CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible,
-                    Image = await GetMapIconDonutImage(lot),
-                    ZIndex = getZindexForLot(lot),
-                };
-                _mapIconParkingLotDict.Add(lot, icon);
-                Map.MapElements.Add(icon);
-            }
-        }
-
-        private void DrawLotsOnMap()
-        {
-            var lots = Vm.ParkingLots;
-            Map.MapElements.Clear();
-            _mapIconParkingLotDict = new Dictionary<ParkingLot, MapIcon>();
-            if (lots != null)
-            {
-                foreach (var lot in lots)
-                {
-                    DrawLotOnMap(lot);
-                }
-            }
-        }
-
-        public async Task<IRandomAccessStreamReference> GetMapIconDonutImage(ParkingLot lot)
-        {
-            var drawDonut = new ParkingLotLoadDonut();
-            drawDonut.ParkingLot = lot;
-            drawDonut.Style = Application.Current.Resources["ParkingLotMapIconDonutStyle"] as Style;
-            BackgroundDrawingContainer.Children.Add(drawDonut);
-
-            var rtb = new RenderTargetBitmap();
-            await rtb.RenderAsync(drawDonut);
-
-            BackgroundDrawingContainer.Children.Remove(drawDonut);
-
-            var pixels = (await rtb.GetPixelsAsync()).ToArray();
-            var stream = new InMemoryRandomAccessStream();
-            var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.BmpEncoderId, stream);
-            encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, (uint)rtb.PixelWidth, (uint)rtb.PixelHeight, 96, 96, pixels);
-            await encoder.FlushAsync();
-            stream.Seek(0);
-            return RandomAccessStreamReference.CreateFromStream(stream.AsStream().AsRandomAccessStream());
         }
     }
 }
