@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml.Data;
-using ParkenDD.Win10.Models;
+using ParkenDD.Api.Models;
 
-namespace ParkenDD.Win10.Converter.Value
+namespace ParkenDD.Converters
 {
     public class ParkingLotListGroupConverter : IValueConverter
     {

@@ -14,11 +14,11 @@ using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Messaging;
-using ParkenDD.Win10.Messages;
-using ParkenDD.Win10.Models;
-using ParkenDD.Win10.ViewModels;
+using ParkenDD.Messages;
+using ParkenDD.Api.Models;
+using ParkenDD.ViewModels;
 
-namespace ParkenDD.Win10.Views
+namespace ParkenDD.Views
 {
     public sealed partial class MainPage : Page
     {

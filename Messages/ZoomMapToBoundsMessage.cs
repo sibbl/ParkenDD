@@ -1,6 +1,6 @@
 ﻿using Windows.Devices.Geolocation;
 
-namespace ParkenDD.Win10.Messages
+namespace ParkenDD.Messages
 {
     public class ZoomMapToBoundsMessage
     {

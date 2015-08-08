@@ -2,11 +2,12 @@
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
-using ParkenDD.Win10.Services.DesignTime;
-using ParkenDD.Win10.Services.Interfaces;
-using ParkenDD.Win10.ViewModels;
+using ParkenDD.Api;
+using ParkenDD.Api.Interfaces;
+using ParkenDD.Design;
+using ParkenDD.ViewModels;
 
-namespace ParkenDD.Win10.Services
+namespace ParkenDD.Services
 {
     public class ViewModelLocatorService
     {
@@ -19,11 +20,11 @@ namespace ParkenDD.Win10.Services
 
             if (ViewModelBase.IsInDesignModeStatic)
             {
-                SimpleIoc.Default.Register<IApiService, DesignApiService>();
+                SimpleIoc.Default.Register<IParkenDdClient, DesignParkenDdClient>();
             }
             else
             {
-                SimpleIoc.Default.Register<IApiService, ApiService>();
+                SimpleIoc.Default.Register<IParkenDdClient, ParkenDdClient>();
             }
 
             SimpleIoc.Default.Register<MainViewModel>();

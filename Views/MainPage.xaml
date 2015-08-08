@@ -1,21 +1,21 @@
 ﻿<Page
-    x:Class="ParkenDD.Win10.Views.MainPage"
+    x:Class="ParkenDD.Views.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:ParkenDD.Win10.Models"
+    xmlns:models="using:ParkenDD.Api.Models"
     xmlns:windowsStateTriggers="using:WindowsStateTriggers"
-    xmlns:triggers="using:ParkenDD.Win10.Triggers"
-    xmlns:controls="using:ParkenDD.Win10.Controls"
-    xmlns:converter="using:ParkenDD.Win10.Converter.Value"
+    xmlns:triggers="using:ParkenDD.Triggers"
+    xmlns:controls="using:ParkenDD.Controls"
+    xmlns:converters="using:ParkenDD.Converters"
     xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     DataContext="{Binding Main, Source={StaticResource Locator}}">
 
     <Page.Resources>
-        <converter:ParkingLotListGroupConverter x:Key="ParkingLotListGroupConverter" />
+        <converters:ParkingLotListGroupConverter x:Key="ParkingLotListGroupConverter" />
         <CollectionViewSource
             x:Key="SelectedCityDataGrouped"
             IsSourceGrouped="True"

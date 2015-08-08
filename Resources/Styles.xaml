@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:ParkenDD.Win10.Controls">
+    xmlns:controls="using:ParkenDD.Controls">
 
     <Color x:Key="DeepBlueColor">#09487f</Color>
     <Color x:Key="DarkBlueColor">#14548c</Color>

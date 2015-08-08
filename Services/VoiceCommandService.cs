@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using GalaSoft.MvvmLight.Ioc;
-using ParkenDD.Win10.Models;
-using ParkenDD.Win10.ViewModels;
+using ParkenDD.Api.Models;
+using ParkenDD.ViewModels;
 
-namespace ParkenDD.Win10.Services
+namespace ParkenDD.Services
 {
     public class VoiceCommandService
     {

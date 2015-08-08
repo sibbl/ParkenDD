@@ -5,9 +5,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
-using ParkenDD.Win10.Models;
+using ParkenDD.Api.Models;
 
-namespace ParkenDD.Win10.Controls
+namespace ParkenDD.Controls
 {
     public sealed partial class ParkingLotLoadDonut : UserControl
     {

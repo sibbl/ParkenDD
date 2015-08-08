@@ -3,7 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsStateTriggers;
 
-namespace ParkenDD.Win10.Triggers
+namespace ParkenDD.Triggers
 {
     public class ItemFocusStateTrigger : StateTriggerBase, ITriggerValue
     {

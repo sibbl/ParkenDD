@@ -7,16 +7,16 @@ using Windows.Devices.Geolocation;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using ParkenDD.Win10.Messages;
-using ParkenDD.Win10.Models;
-using ParkenDD.Win10.Services;
-using ParkenDD.Win10.Services.Interfaces;
+using ParkenDD.Messages;
+using ParkenDD.Services;
+using ParkenDD.Api.Models;
+using ParkenDD.Api.Interfaces;
 
-namespace ParkenDD.Win10.ViewModels
+namespace ParkenDD.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private readonly IApiService _api;
+        private readonly IParkenDdClient _client;
         private readonly VoiceCommandService _voiceCommands;
         private readonly Dictionary<string, City> _cities = new Dictionary<string, City>();
 
@@ -81,9 +81,9 @@ namespace ParkenDD.Win10.ViewModels
         }
 
 
-        public MainViewModel(IApiService api, VoiceCommandService voiceCommandService)
+        public MainViewModel(IParkenDdClient client, VoiceCommandService voiceCommandService)
         {
-            _api = api;
+            _client = client;
             _voiceCommands = voiceCommandService;
             LoadMetaData();
         }
@@ -91,7 +91,7 @@ namespace ParkenDD.Win10.ViewModels
         private async void LoadMetaData()
         {
             LoadingMetaData = true;
-            MetaData = await _api.GetMeta();
+            MetaData = await _client.GetMeta();
             LoadingMetaData = false;
             _voiceCommands.UpdateCityList(MetaData);
         }
@@ -110,7 +110,7 @@ namespace ParkenDD.Win10.ViewModels
         {
             if (MetaData == null || FindCityByName(MetaData, name) == null)
             {
-                MetaData = await _api.GetMeta();
+                MetaData = await _client.GetMeta();
             }
             var city = FindCityByName(MetaData, name);
             if (city != null)
@@ -123,7 +123,7 @@ namespace ParkenDD.Win10.ViewModels
         {
             if (MetaData == null || FindCityByName(MetaData, cityName) == null)
             {
-                MetaData = await _api.GetMeta();
+                MetaData = await _client.GetMeta();
             }
             var city = FindCityByName(MetaData, cityName);
             if (city != null)
@@ -212,7 +212,7 @@ namespace ParkenDD.Win10.ViewModels
             {
                 return _cities[cityId];
             }
-            _cities[cityId] = await _api.GetCity(cityId);
+            _cities[cityId] = await _client.GetCity(cityId);
             return _cities[cityId];
         }
 

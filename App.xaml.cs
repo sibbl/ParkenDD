@@ -1,4 +1,4 @@
-﻿using ParkenDD.Win10.Views;
+﻿using ParkenDD.Views;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;

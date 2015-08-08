@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ParkenDD.Win10.Models;
-using ParkenDD.Win10.Services.Interfaces;
+using ParkenDD.Api.Models;
+using ParkenDD.Api.Interfaces;
 
-namespace ParkenDD.Win10.Services.DesignTime
+namespace ParkenDD.Design
 {
-    public class DesignApiService : IApiService
+    public class DesignParkenDdClient : IParkenDdClient
     {
         public async Task<MetaData> GetMeta(CancellationToken? ct = null)
         {
