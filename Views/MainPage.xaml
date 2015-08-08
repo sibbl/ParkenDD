@@ -16,6 +16,7 @@
 
     <Page.Resources>
         <converters:ParkingLotListGroupConverter x:Key="ParkingLotListGroupConverter" />
+        <converters:TrimTextConverter x:Key="TrimTextConverter" />
         <CollectionViewSource
             x:Key="SelectedCityDataGrouped"
             IsSourceGrouped="True"
@@ -224,7 +225,7 @@
                                     <GroupStyle.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBlock
-                                                Text="{Binding Header}"
+                                                Text="{Binding Header, Converter={StaticResource TrimTextConverter}}"
                                                 Style="{ThemeResource ParkingLotListHeaderStyle}"/>
                                         </DataTemplate>
                                     </GroupStyle.HeaderTemplate>
@@ -253,11 +254,11 @@
                                             Grid.RowSpan="2"
                                             Grid.Column="1">
                                             <TextBlock
-                                                Text="{Binding Name}"
+                                                Text="{Binding Name, Converter={StaticResource TrimTextConverter}}"
                                                 Style="{ThemeResource ParkingLotListTitleStyle}"
                                                 />
                                             <TextBlock
-                                                Text="{Binding Address}"
+                                                Text="{Binding Address, Converter={StaticResource TrimTextConverter}}"
                                                 Style="{ThemeResource ParkingLotListAddressStyle}"
                                                 />
                                         </StackPanel>
