@@ -102,10 +102,17 @@ namespace ParkenDD.Views
 
         private int getZindexForLot(ParkingLot lot)
         {
+            if(Vm.SelectedParkingLot == lot)
+            {
+                return 100001; //max value
+            }
             var zIndex = ((double)lot.FreeLots / (double)lot.TotalLots);
             if (Double.IsNaN(zIndex) || Double.IsInfinity(zIndex))
             {
                 zIndex = 0;
+            }else if(zIndex > 100)
+            {
+                zIndex = 100;
             }
             return (int)Math.Round(zIndex * 1000);
         }
