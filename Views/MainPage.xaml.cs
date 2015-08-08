@@ -26,6 +26,7 @@ namespace ParkenDD.Views
     {
         private Dictionary<ParkingLot, MapIcon> _mapIconParkingLotDict; 
         public MainViewModel Vm => (MainViewModel)DataContext;
+        private ParkingLot _selectedLot;
 
         public MainPage()
         {
@@ -59,6 +60,11 @@ namespace ParkenDD.Views
                     {
                         Vm.ParkingLots.CollectionChanged += (o, eventArgs) => DrawLotsOnMap();
                     }
+                }else if(args.PropertyName == nameof(Vm.SelectedParkingLot))
+                {
+                    RedrawLot(Vm.SelectedParkingLot);
+                    RedrawLot(_selectedLot);
+                    _selectedLot = Vm.SelectedParkingLot;
                 }
             };
             ParkingLotList.SelectionChanged += (sender, args) =>
@@ -77,10 +83,7 @@ namespace ParkenDD.Views
                 }
                 if (iconOnTop != null && _mapIconParkingLotDict != null && _mapIconParkingLotDict.ContainsValue(iconOnTop))
                 {
-                    var oldSelectedParkingLot = Vm.SelectedParkingLot;
                     Vm.SelectedParkingLot = _mapIconParkingLotDict.FirstOrDefault(x => x.Value == iconOnTop).Key;
-                    RedrawLot(oldSelectedParkingLot);
-                    RedrawLot(Vm.SelectedParkingLot);
                 }
             };
         }
@@ -92,7 +95,7 @@ namespace ParkenDD.Views
 
         private async void RedrawLot(ParkingLot lot)
         {
-            if(_mapIconParkingLotDict.ContainsKey(lot))
+            if(lot != null && _mapIconParkingLotDict != null &&_mapIconParkingLotDict.ContainsKey(lot))
             {
                 var icon = _mapIconParkingLotDict[lot];
                 icon.Image = await GetMapIconDonutImage(lot);

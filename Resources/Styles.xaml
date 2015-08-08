@@ -169,8 +169,8 @@
         </Setter>
     </Style>
 
-    <SolidColorBrush x:Key="NavButtonPressedBackgroundBrush" Color="{StaticResource LightBlueColor}" Opacity="0.5" />
-    <SolidColorBrush x:Key="NavButtonHoverBackgroundBrush" Color="{StaticResource LightBlueColor}" Opacity="0.25" />
+    <SolidColorBrush x:Key="NavButtonPressedBackgroundBrush" Color="#000" Opacity="0.3" />
+    <SolidColorBrush x:Key="NavButtonHoverBackgroundBrush" Color="#000" Opacity="0.15" />
 
     <Style x:Key="NavButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="Transparent" />
