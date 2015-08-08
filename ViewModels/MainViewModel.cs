@@ -105,8 +105,8 @@ namespace ParkenDD.ViewModels
         #endregion
 
         #region ParkingLotsCollectionViewSource
-        private IEnumerable<ParkingLotListGroup> _parkingLotsCollectionViewSource;
-        public IEnumerable<ParkingLotListGroup> ParkingLotsCollectionViewSource
+        private object _parkingLotsCollectionViewSource;
+        public object ParkingLotsCollectionViewSource
         {
             get { return _parkingLotsCollectionViewSource; }
             set
@@ -306,7 +306,14 @@ namespace ParkenDD.ViewModels
             }
             else
             {
-                ParkingLotsCollectionViewSource = await _filterService.CreateGroups(ParkingLots);
+                if (ParkingLotFilterIsGrouped)
+                {
+                    ParkingLotsCollectionViewSource = await _filterService.CreateGroups(ParkingLots);
+                }
+                else
+                {
+                    ParkingLotsCollectionViewSource = await _filterService.CreateList(ParkingLots);
+                }
             }
         }
 

@@ -108,6 +108,7 @@
     <Compile Include="Controls\ParkingLotLoadDonut.xaml.cs">
       <DependentUpon>ParkingLotLoadDonut.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\IsCollectionViewSourceGroupedConverter.cs" />
     <Compile Include="Converters\TrimTextConverter.cs" />
     <Compile Include="Services\GeolocationService.cs" />
     <Compile Include="Services\MapDrawingService.cs" />

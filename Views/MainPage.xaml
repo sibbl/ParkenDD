@@ -16,9 +16,10 @@
 
     <Page.Resources>
         <converters:TrimTextConverter x:Key="TrimTextConverter" />
+        <converters:IsCollectionViewSourceGroupedConverter x:Key="IsCollectionViewSourceGroupedConverter" />
         <CollectionViewSource
             x:Key="SelectedCityDataGrouped"
-            IsSourceGrouped="True"
+            IsSourceGrouped="{Binding ParkingLotsCollectionViewSource, Converter={StaticResource IsCollectionViewSourceGroupedConverter}}"
             ItemsPath="ParkingLots"
             Source="{Binding ParkingLotsCollectionViewSource}"
             />
