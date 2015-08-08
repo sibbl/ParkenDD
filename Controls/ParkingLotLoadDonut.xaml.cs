@@ -1,28 +1,52 @@
 ﻿using System;
-using System.Globalization;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 using ParkenDD.Api.Models;
+using GalaSoft.MvvmLight.Ioc;
+using ParkenDD.ViewModels;
 
 namespace ParkenDD.Controls
 {
     public sealed partial class ParkingLotLoadDonut : UserControl
     {
+        private MainViewModel MainVm
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<MainViewModel>();
+            }
+        }
+
         public ParkingLotLoadDonut()
         {
             InitializeComponent();
             ParkingLot = null;
             Loaded += (sender, args) =>
             {
+                UpdateIsSelected();
                 Draw();
             };
             DataContextChanged += (sender, args) =>
             {
+                UpdateIsSelected();
                 Draw();
             };
+
+            MainVm.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == nameof(MainVm.SelectedParkingLot))
+                {
+                    UpdateIsSelected();
+                }
+            };
+        }
+
+        private void UpdateIsSelected()
+        {
+            VisualStateManager.GoToState(this, ParkingLot == MainVm?.SelectedParkingLot ? "Selected" : "Unselected", true);
         }
 
         public static readonly DependencyProperty ParkingLotProperty = DependencyProperty.Register("ParkingLot", typeof(ParkingLot), typeof(ParkingLotLoadDonut), null);
@@ -36,6 +60,7 @@ namespace ParkenDD.Controls
             set
             {
                 SetValue(ParkingLotProperty, value);
+                UpdateIsSelected();
                 Draw();
             }
         }

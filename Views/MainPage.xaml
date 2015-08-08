@@ -304,11 +304,8 @@
                         />
                 </RelativePanel>
                 <Grid 
-                    Margin="-500,-500,0,0">
-                    <controls:ParkingLotLoadDonut
-                        x:Name="MapIconDonut"
-                        Style="{ThemeResource ParkingLotMapIconDonutStyle}"/>
-                </Grid>
+                    x:Name="BackgroundDrawingContainer"
+                    Margin="-500,-500,0,0" />
             </RelativePanel>
         </SplitView.Content>
     </SplitView>

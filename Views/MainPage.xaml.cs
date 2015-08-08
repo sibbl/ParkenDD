@@ -17,12 +17,14 @@ using GalaSoft.MvvmLight.Messaging;
 using ParkenDD.Messages;
 using ParkenDD.Api.Models;
 using ParkenDD.ViewModels;
+using System.Linq;
+using ParkenDD.Controls;
 
 namespace ParkenDD.Views
 {
     public sealed partial class MainPage : Page
     {
-        private Dictionary<MapIcon, ParkingLot> _mapIconParkingLotDict; 
+        private Dictionary<ParkingLot, MapIcon> _mapIconParkingLotDict; 
         public MainViewModel Vm => (MainViewModel)DataContext;
 
         public MainPage()
@@ -73,9 +75,12 @@ namespace ParkenDD.Views
                         iconOnTop = (MapIcon)element;
                     }
                 }
-                if (iconOnTop != null && _mapIconParkingLotDict != null && _mapIconParkingLotDict.ContainsKey(iconOnTop))
+                if (iconOnTop != null && _mapIconParkingLotDict != null && _mapIconParkingLotDict.ContainsValue(iconOnTop))
                 {
-                    Vm.SelectedParkingLot = _mapIconParkingLotDict[iconOnTop];
+                    var oldSelectedParkingLot = Vm.SelectedParkingLot;
+                    Vm.SelectedParkingLot = _mapIconParkingLotDict.FirstOrDefault(x => x.Value == iconOnTop).Key;
+                    RedrawLot(oldSelectedParkingLot);
+                    RedrawLot(Vm.SelectedParkingLot);
                 }
             };
         }
@@ -85,43 +90,70 @@ namespace ParkenDD.Views
             SplitView.IsPaneOpen = !SplitView.IsPaneOpen;
         }
 
-        private async void DrawLotsOnMap()
+        private async void RedrawLot(ParkingLot lot)
+        {
+            if(_mapIconParkingLotDict.ContainsKey(lot))
+            {
+                var icon = _mapIconParkingLotDict[lot];
+                icon.Image = await GetMapIconDonutImage(lot);
+                icon.ZIndex = getZindexForLot(lot);
+            }
+        }
+
+        private int getZindexForLot(ParkingLot lot)
+        {
+            var zIndex = ((double)lot.FreeLots / (double)lot.TotalLots);
+            if (Double.IsNaN(zIndex) || Double.IsInfinity(zIndex))
+            {
+                zIndex = 0;
+            }
+            return (int)Math.Round(zIndex * 1000);
+        }
+
+        private async void DrawLotOnMap(ParkingLot lot)
+        {
+            if (lot?.Coordinates != null)
+            {
+                var icon = new MapIcon
+                {
+                    Location = lot.Coordinates.Point,
+                    NormalizedAnchorPoint = new Point(0.5, 0.5),
+                    Title = lot.Name,
+                    CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible,
+                    Image = await GetMapIconDonutImage(lot),
+                    ZIndex = getZindexForLot(lot),
+                };
+                _mapIconParkingLotDict.Add(lot, icon);
+                Map.MapElements.Add(icon);
+            }
+        }
+
+        private void DrawLotsOnMap()
         {
             var lots = Vm.ParkingLots;
             Map.MapElements.Clear();
-            _mapIconParkingLotDict = new Dictionary<MapIcon, ParkingLot>();
+            _mapIconParkingLotDict = new Dictionary<ParkingLot, MapIcon>();
             if (lots != null)
             {
                 foreach (var lot in lots)
                 {
-                    if (lot?.Coordinates != null)
-                    {
-                        MapIconDonut.ParkingLot = lot;
-                        var zIndex = ((double) lot.FreeLots/(double) lot.TotalLots);
-                        if (Double.IsNaN(zIndex) || Double.IsInfinity(zIndex))
-                        {
-                            zIndex = 0;
-                        }
-                        var icon = new MapIcon
-                        {
-                            Location = lot.Coordinates.Point,
-                            NormalizedAnchorPoint = new Point(0.5, 0.5),
-                            Title = lot.Name,
-                            CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible,
-                            Image = await GetMapIconDonutImage(),
-                            ZIndex = (int) Math.Round(zIndex * 1000),
-                        };
-                        _mapIconParkingLotDict.Add(icon, lot);
-                        Map.MapElements.Add(icon);
-                    }
+                    DrawLotOnMap(lot);
                 }
             }
         }
 
-        public async Task<IRandomAccessStreamReference> GetMapIconDonutImage()
-        { 
+        public async Task<IRandomAccessStreamReference> GetMapIconDonutImage(ParkingLot lot)
+        {
+            var drawDonut = new ParkingLotLoadDonut();
+            drawDonut.ParkingLot = lot;
+            drawDonut.Style = Application.Current.Resources["ParkingLotMapIconDonutStyle"] as Style;
+            BackgroundDrawingContainer.Children.Add(drawDonut);
+
             var rtb = new RenderTargetBitmap();
-            await rtb.RenderAsync(MapIconDonut);
+            await rtb.RenderAsync(drawDonut);
+
+            BackgroundDrawingContainer.Children.Remove(drawDonut);
+
             var pixels = (await rtb.GetPixelsAsync()).ToArray();
             var stream = new InMemoryRandomAccessStream();
             var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.BmpEncoderId, stream);

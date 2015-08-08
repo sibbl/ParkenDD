@@ -5,11 +5,35 @@
     xmlns:local="using:ParkenDD.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:windowsStateTriggers="using:WindowsStateTriggers"
     mc:Ignorable="d"
+    x:Name="UserControl"
     d:DesignHeight="200"
     d:DesignWidth="200">
 
     <Grid Style="{ThemeResource ParkingLotLoadDonutContainerStyle}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Unselected">
+                    <VisualState.StateTriggers>
+                        <windowsStateTriggers:EqualsStateTrigger Value="{Binding Path=IsSelected, ElementName=UserControl}" EqualTo="False" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HoleCircle.Fill" Value="#FFF" />
+                        <Setter Target="FreeLabel.Foreground" Value="#666666" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Selected">
+                    <VisualState.StateTriggers>
+                        <windowsStateTriggers:EqualsStateTrigger Value="{Binding Path=IsSelected, ElementName=UserControl}" EqualTo="True" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HoleCircle.Fill" Value="{StaticResource BlueBrush}" />
+                        <Setter Target="FreeLabel.Foreground" Value="#FFF" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Ellipse
             x:Name="BackgroundCircle"
             Style="{ThemeResource ParkingLotLoadDonutBackgroundStyle}"
@@ -31,7 +55,7 @@
         <TextBlock
             Style="{ThemeResource ParkingLotLoadLabelStyle}"
             Text="Value"
-            Name="FreeLabel"
+            x:Name="FreeLabel"
             />
     </Grid>
 
