@@ -167,6 +167,7 @@
                     ItemsSource="{x:Bind Vm.MetaData.Cities.List}"
                     SelectedItem="{Binding SelectedCity, Mode=TwoWay}"
                     ItemContainerStyle="{StaticResource SelectCityListContainerStyle}"
+                    SelectionChanged="SplitViewItemSelectionChanged"
                     >
                     <ListView.ItemTemplate>
                         <DataTemplate>
