@@ -67,6 +67,12 @@ namespace ParkenDD.Services
                     Image = await GetMapIconDonutImage(drawingContainer, lot),
                     ZIndex = GetZIndexForParkingLot(lot),
                 };
+                if (_mapIconParkingLotDict.ContainsKey(lot))
+                {
+                    //TODO: optimize this code. Don't redraw the whole icon if maybe only location or title changed
+                    map.MapElements.Remove(_mapIconParkingLotDict[lot]);
+                    _mapIconParkingLotDict.Remove(lot);
+                }
                 _mapIconParkingLotDict.Add(lot, icon);
                 map.MapElements.Add(icon);
             }

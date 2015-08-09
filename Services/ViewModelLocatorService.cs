@@ -20,6 +20,8 @@ namespace ParkenDD.Services
             SimpleIoc.Default.Register<MapDrawingService>();
             SimpleIoc.Default.Register<GeolocationService>();
             SimpleIoc.Default.Register<ParkingLotListFilterService>();
+            SimpleIoc.Default.Register<SettingsService>();
+            SimpleIoc.Default.Register<LifecycleService>();
 
             if (ViewModelBase.IsInDesignModeStatic)
             {

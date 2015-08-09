@@ -16,12 +16,9 @@
 
     <Page.Resources>
         <converters:TrimTextConverter x:Key="TrimTextConverter" />
-        <converters:IsCollectionViewSourceGroupedConverter x:Key="IsCollectionViewSourceGroupedConverter" />
         <CollectionViewSource
-            x:Key="SelectedCityDataGrouped"
-            IsSourceGrouped="{Binding ParkingLotsCollectionViewSource, Converter={StaticResource IsCollectionViewSourceGroupedConverter}}"
+            x:Key="SelectedCityData"
             ItemsPath="ParkingLots"
-            Source="{Binding ParkingLotsCollectionViewSource}"
             />
     </Page.Resources>
 
@@ -237,9 +234,11 @@
                             x:Name="ParkingLotList"
                             Grid.Row="1"
                             ScrollViewer.VerticalScrollBarVisibility="Auto"
-                            ItemsSource="{Binding Source={StaticResource SelectedCityDataGrouped}}"
+                            ItemsSource="{Binding Source={StaticResource SelectedCityData}}"
                             SelectedItem="{Binding SelectedParkingLot, Mode=TwoWay}"
                             Style="{ThemeResource ParkingLotListStyle}"
+                            SelectionMode="Single"
+                            IsMultiSelectCheckBoxEnabled="False"
                             ItemContainerStyle="{StaticResource SelectCityListContainerStyle}">
                             <ListView.GroupStyle>
                                 <GroupStyle
@@ -272,17 +271,17 @@
                                             Grid.RowSpan="2"
                                             Grid.Column="0"
                                             Style="{ThemeResource ParkingLotListDonutStyle}"
-                                            ParkingLot="{Binding}"/>
+                                            ParkingLot="{x:Bind}"/>
                                         <StackPanel
                                             Grid.Row="0"
                                             Grid.RowSpan="2"
                                             Grid.Column="1">
                                             <TextBlock
-                                                Text="{Binding Name, Converter={StaticResource TrimTextConverter}}"
+                                                Text="{x:Bind Name, Converter={StaticResource TrimTextConverter}}"
                                                 Style="{ThemeResource ParkingLotListTitleStyle}"
                                                 />
                                             <TextBlock
-                                                Text="{Binding Address, Converter={StaticResource TrimTextConverter}}"
+                                                Text="{x:Bind Address, Converter={StaticResource TrimTextConverter}}"
                                                 Style="{ThemeResource ParkingLotListAddressStyle}"
                                                 />
                                         </StackPanel>

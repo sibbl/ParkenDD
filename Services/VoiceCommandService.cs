@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using GalaSoft.MvvmLight.Ioc;
+using Microsoft.ApplicationInsights;
 using ParkenDD.Api.Models;
 using ParkenDD.ViewModels;
 
@@ -17,8 +19,20 @@ namespace ParkenDD.Services
         }
         public async void Init() {
             //TODO: catch exceptions and log them
-            var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///" + VoiceCommandPath));
-            await  Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstallCommandDefinitionsFromStorageFileAsync(storageFile);
+            try
+            {
+                var storageFile =
+                    await
+                        Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(
+                            new Uri("ms-appx:///" + VoiceCommandPath));
+                await
+                    Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager
+                        .InstallCommandDefinitionsFromStorageFileAsync(storageFile);
+            }
+            catch (Exception e)
+            {
+                new TelemetryClient().TrackException(e, new Dictionary<string,string> {{"name", "voiceCommandInit"}, {"handled", "true"}});
+            }
         }
 
         public async Task UpdateCityList(MetaData metaData)

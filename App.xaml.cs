@@ -5,6 +5,9 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using GalaSoft.MvvmLight.Ioc;
+using ParkenDD.Services;
+using ParkenDD.ViewModels;
 
 namespace ParkenDD
 {
@@ -22,6 +25,7 @@ namespace ParkenDD
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync();
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.Resuming += OnResuming;
         }
 
         /// <summary>
@@ -52,7 +56,7 @@ namespace ParkenDD
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
-                    //TODO: Load state from previously suspended application
+                    SimpleIoc.Default.GetInstance<LifecycleService>().Restore();
                 }
 
                 // Place the frame in the current Window
@@ -87,11 +91,16 @@ namespace ParkenDD
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
+            await SimpleIoc.Default.GetInstance<LifecycleService>().SaveAsync();
             deferral.Complete();
+        }
+
+        private void OnResuming(object sender, object o)
+        {
+            SimpleIoc.Default.GetInstance<LifecycleService>().Restore();
         }
     }
 }

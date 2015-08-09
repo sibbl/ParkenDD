@@ -11,16 +11,18 @@ using ParkenDD.Messages;
 using ParkenDD.Services;
 using ParkenDD.Api.Models;
 using ParkenDD.Api.Interfaces;
+using ParkenDD.Interfaces;
 using ParkenDD.Models;
 
 namespace ParkenDD.ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase, ICanResume, ICanSuspend
     {
         #region PRIVATE PROPERTIES
         private readonly IParkenDdClient _client;
         private readonly VoiceCommandService _voiceCommands;
         private readonly ParkingLotListFilterService _filterService;
+        private readonly SettingsService _settings;
         private readonly Dictionary<string, City> _cities = new Dictionary<string, City>();
         #endregion
 
@@ -104,14 +106,26 @@ namespace ParkenDD.ViewModels
         }
         #endregion
 
-        #region ParkingLotsCollectionViewSource
-        private object _parkingLotsCollectionViewSource;
-        public object ParkingLotsCollectionViewSource
+        #region ParkingLotsGroupedCollectionViewSource
+        private IEnumerable<ParkingLotListGroup> _parkingLotsGroupedCollectionViewSource;
+        public IEnumerable<ParkingLotListGroup> ParkingLotsGroupedCollectionViewSource
         {
-            get { return _parkingLotsCollectionViewSource; }
+            get { return _parkingLotsGroupedCollectionViewSource; }
             set
             {
-                Set(() => ParkingLotsCollectionViewSource, ref _parkingLotsCollectionViewSource, value);
+                Set(() => ParkingLotsGroupedCollectionViewSource, ref _parkingLotsGroupedCollectionViewSource, value);
+            }
+        }
+        #endregion
+
+        #region ParkingLotsListCollectionViewSource
+        private IEnumerable<ParkingLot> _parkingLotsListCollectionViewSource;
+        public IEnumerable<ParkingLot> ParkingLotsListCollectionViewSource
+        {
+            get { return _parkingLotsListCollectionViewSource; }
+            set
+            {
+                Set(() => ParkingLotsListCollectionViewSource, ref _parkingLotsListCollectionViewSource, value);
             }
         }
         #endregion
@@ -155,15 +169,14 @@ namespace ParkenDD.ViewModels
 
         #region CONSTRUCTOR
 
-        public MainViewModel(IParkenDdClient client, VoiceCommandService voiceCommandService, ParkingLotListFilterService filterService)
+        public MainViewModel(IParkenDdClient client, VoiceCommandService voiceCommandService, ParkingLotListFilterService filterService, SettingsService settings, LifecycleService lifecycle)
         {
             _client = client;
             _voiceCommands = voiceCommandService;
             _filterService = filterService;
-            ParkingLotFilterMode = ParkingLotFilterMode.Alphabetically;
-            ParkingLotFilterIsGrouped = true;
-            ParkingLotFilterAscending = true;
-            LoadMetaData();
+            _settings = settings;
+            lifecycle.Register(this);
+            OnResume();
         }
 
         #endregion
@@ -183,16 +196,47 @@ namespace ParkenDD.ViewModels
             return metaData?.Cities?.Select(x => x.Value).FirstOrDefault(x => x.Name.ToLower().Equals(name.ToLower()));
         }
 
+        private MetaDataCityRow FindCityById(MetaData metaData, string id)
+        {
+            if (metaData == null || metaData.Cities == null || !metaData.Cities.ContainsKey(id))
+            {
+                return null;
+            }
+            return metaData.Cities[id];
+        }
+
         private ParkingLot FindParkingLotByName(City city, string name)
         {
             return city?.Lots?.FirstOrDefault(x => x.Name.ToLower().Equals(name.ToLower()));
         }
 
+        private ParkingLot FindParkingLotById(City city, string id)
+        {
+            return city?.Lots?.FirstOrDefault(x => x.Id.Equals(id));
+        }
+
+        private async void TrySelectCityById(string id)
+        {
+            if (FindCityById(MetaData, id) == null)
+            {
+                LoadingMetaData = true;
+                MetaData = await _client.GetMeta();
+                LoadingMetaData = false;
+            }
+            var city = FindCityById(MetaData, id);
+            if (city != null)
+            {
+                SelectedCity = city;
+            }
+        }
+
         public async void TrySelectCityByName(string name)
         {
-            if (MetaData == null || FindCityByName(MetaData, name) == null)
+            if (FindCityByName(MetaData, name) == null)
             {
+                LoadingMetaData = true;
                 MetaData = await _client.GetMeta();
+                LoadingMetaData = false;
             }
             var city = FindCityByName(MetaData, name);
             if (city != null)
@@ -203,26 +247,60 @@ namespace ParkenDD.ViewModels
 
         public async void TrySelectParkingLotByName(string cityName, string parkingLotName)
         {
-            if (MetaData == null || FindCityByName(MetaData, cityName) == null)
+            if (FindCityByName(MetaData, cityName) == null)
             {
+                LoadingMetaData = true;
                 MetaData = await _client.GetMeta();
+                LoadingMetaData = false;
             }
             var city = FindCityByName(MetaData, cityName);
             if (city != null)
             {
                 LoadingCity = true;
-                var cityDetails = await LoadCity(cityName);
+                var cityDetails = await LoadCity(city.Name);
                 LoadingCity = false;
                 if (FindParkingLotByName(cityDetails, parkingLotName) == null)
                 {
                     //force refresh
                     LoadingCity = true;
-                    cityDetails = await LoadCity(cityName, true);
+                    cityDetails = await LoadCity(city.Name, true);
                     LoadingCity = false;
                 }
                 SelectedCity = city;
                 SelectedCityData = cityDetails;
                 var parkingLot = FindParkingLotByName(cityDetails, parkingLotName);
+                if (parkingLot != null)
+                {
+                    SelectedParkingLot = parkingLot;
+                }
+            }
+        }
+
+        private async void TrySelectParkingLotById(string cityId, string parkingLotId)
+        {
+            //TODO: optimize this so that city + meta data is loaded parallely.
+            if (FindCityById(MetaData, cityId) == null)
+            {
+                LoadingMetaData = true;
+                MetaData = await _client.GetMeta();
+                LoadingMetaData = false;
+            }
+            var city = FindCityById(MetaData, cityId);
+            if (city != null)
+            {
+                LoadingCity = true;
+                var cityDetails = await LoadCity(city.Name);
+                LoadingCity = false;
+                if (FindParkingLotById(cityDetails, parkingLotId) == null)
+                {
+                    //force refresh
+                    LoadingCity = true;
+                    cityDetails = await LoadCity(city.Name, true);
+                    LoadingCity = false;
+                }
+                SelectedCity = city;
+                SelectedCityData = cityDetails;
+                var parkingLot = FindParkingLotById(cityDetails, parkingLotId);
                 if (parkingLot != null)
                 {
                     SelectedParkingLot = parkingLot;
@@ -302,18 +380,25 @@ namespace ParkenDD.ViewModels
         {
             if (ParkingLots == null)
             {
-                ParkingLotsCollectionViewSource = null;
+                if (ParkingLotFilterIsGrouped)
+                {
+                    ParkingLotsGroupedCollectionViewSource = null;
+                }
+                else
+                {
+                    ParkingLotsListCollectionViewSource = null;
+                }
             }
             else
             {
                 LoadingCity = true;
                 if (ParkingLotFilterIsGrouped)
                 {
-                    ParkingLotsCollectionViewSource = await _filterService.CreateGroups(ParkingLots);
+                    ParkingLotsGroupedCollectionViewSource = await _filterService.CreateGroups(ParkingLots);
                 }
                 else
                 {
-                    ParkingLotsCollectionViewSource = await _filterService.CreateList(ParkingLots);
+                    ParkingLotsListCollectionViewSource = await _filterService.CreateList(ParkingLots);
                 }
                 LoadingCity = false;
             }
@@ -369,5 +454,41 @@ namespace ParkenDD.ViewModels
         #endregion
 
         #endregion
+
+        public void OnResume()
+        {
+            ParkingLotFilterMode = _settings.ParkingLotFilterMode;
+            ParkingLotFilterIsGrouped = _settings.ParkingLotFilterIsGrouped;
+            ParkingLotFilterAscending = _settings.ParkingLotFilterAscending;
+            var selectedCityId = _settings.SelectedCityId;
+            if (!String.IsNullOrEmpty(selectedCityId))
+            {
+                var selectedParkingLotId = _settings.SelectedParkingLotId;
+                if (String.IsNullOrEmpty(selectedParkingLotId))
+                {
+                    TrySelectCityById(selectedCityId);
+                }
+                else
+                {
+                    TrySelectParkingLotById(selectedCityId, selectedParkingLotId);
+                }
+            }
+            else
+            {
+                LoadMetaData();
+            }
+        }
+
+        public Task OnSuspend()
+        {
+            return Task.Run(() =>
+            {
+                _settings.ParkingLotFilterMode = ParkingLotFilterMode;
+                _settings.ParkingLotFilterAscending = ParkingLotFilterAscending;
+                _settings.ParkingLotFilterIsGrouped = ParkingLotFilterIsGrouped;
+                _settings.SelectedCityId = SelectedCity?.Id;
+                _settings.SelectedParkingLotId = SelectedParkingLot?.Id;
+            });
+        }
     }
 }

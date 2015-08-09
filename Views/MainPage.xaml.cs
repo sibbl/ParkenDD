@@ -4,6 +4,7 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Messaging;
 using ParkenDD.Messages;
@@ -30,7 +31,11 @@ namespace ParkenDD.Views
 
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
 
-            Messenger.Default.Register(this, async (ZoomMapToBoundsMessage msg) => await Map.TrySetViewBoundsAsync(msg.BoundingBox, null, MapAnimationKind.Bow));
+            Messenger.Default.Register(this, async (ZoomMapToBoundsMessage msg) =>
+            {
+                await Map.TrySetViewBoundsAsync(msg.BoundingBox, null, MapAnimationKind.Bow);
+            });
+            //TODO: set other colors as well
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = new Color()
             {
                 A = 0,
@@ -62,15 +67,30 @@ namespace ParkenDD.Views
                     DrawingService.RedrawParkingLot(BackgroundDrawingContainer, Vm.SelectedParkingLot);
                     DrawingService.RedrawParkingLot(BackgroundDrawingContainer, _selectedLot);
                     _selectedLot = Vm.SelectedParkingLot;
-                    bool isParkingLotInView;
-                    Map.IsLocationInView(_selectedLot.Coordinates.Point, out isParkingLotInView);
-                    if (!isParkingLotInView)
+                    var selectedParkingLotPoint = _selectedLot?.Coordinates?.Point;
+                    if (selectedParkingLotPoint != null)
                     {
-                        await Map.TrySetViewAsync(_selectedLot.Coordinates.Point);
+                        bool isParkingLotInView;
+                        Map.IsLocationInView(selectedParkingLotPoint, out isParkingLotInView);
+                        if (!isParkingLotInView)
+                        {
+                            await Map.TrySetViewAsync(selectedParkingLotPoint);
+                        }
                     }
                 }else if (args.PropertyName == nameof(Vm.ParkingLotFilterMode))
                 {
                     UpdateParkingLotFilter();
+                }else if (args.PropertyName == nameof(Vm.ParkingLotsGroupedCollectionViewSource))
+                {
+                    var cvs = Resources["SelectedCityData"] as CollectionViewSource;
+                    cvs.IsSourceGrouped = true;
+                    cvs.Source = Vm.ParkingLotsGroupedCollectionViewSource;
+                }
+                else if (args.PropertyName == nameof(Vm.ParkingLotsListCollectionViewSource))
+                {
+                    var cvs = Resources["SelectedCityData"] as CollectionViewSource;
+                    cvs.IsSourceGrouped = false;
+                    cvs.Source = Vm.ParkingLotsListCollectionViewSource;
                 }
             };
             ParkingLotList.SelectionChanged += (sender, args) =>
