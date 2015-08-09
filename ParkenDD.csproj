@@ -108,6 +108,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Behaviors\WindowSizeBehavior.cs" />
     <Compile Include="Controls\ParkingLotLoadDonut.xaml.cs">
       <DependentUpon>ParkingLotLoadDonut.xaml</DependentUpon>
     </Compile>

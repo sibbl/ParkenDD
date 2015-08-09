@@ -11,9 +11,18 @@
     xmlns:converters="using:ParkenDD.Converters"
     xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
     xmlns:cimbalinoConverters="using:Cimbalino.Toolkit.Converters"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:ParkenDD.Behaviors"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     DataContext="{Binding Main, Source={StaticResource Locator}}">
+
+
+    <interactivity:Interaction.Behaviors>
+        <behaviors:WindowSizeBehavior 
+            PreferredMinSize="300,450"
+            />
+    </interactivity:Interaction.Behaviors>
 
     <Page.Resources>
         <converters:TrimTextConverter x:Key="TrimTextConverter" />
