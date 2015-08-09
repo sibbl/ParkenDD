@@ -306,6 +306,7 @@ namespace ParkenDD.ViewModels
             }
             else
             {
+                LoadingCity = true;
                 if (ParkingLotFilterIsGrouped)
                 {
                     ParkingLotsCollectionViewSource = await _filterService.CreateGroups(ParkingLots);
@@ -314,6 +315,7 @@ namespace ParkenDD.ViewModels
                 {
                     ParkingLotsCollectionViewSource = await _filterService.CreateList(ParkingLots);
                 }
+                LoadingCity = false;
             }
         }
 
