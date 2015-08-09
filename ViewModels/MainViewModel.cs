@@ -311,10 +311,10 @@ namespace ParkenDD.ViewModels
         private async void LoadCityAndSelectCity()
         {
             SelectedCityData = null;
-            SelectedParkingLot = null;
             LoadingCity = true;
             SelectedCityData = await LoadCity(SelectedCity.Id);
             LoadingCity = false;
+            SelectedParkingLot = null;
             _voiceCommands.UpdateParkingLotList(SelectedCityData);
             UpdateMapBounds();
         }
