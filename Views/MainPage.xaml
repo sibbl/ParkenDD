@@ -10,12 +10,14 @@
     xmlns:controls="using:ParkenDD.Controls"
     xmlns:converters="using:ParkenDD.Converters"
     xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
+    xmlns:cimbalinoConverters="using:Cimbalino.Toolkit.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     DataContext="{Binding Main, Source={StaticResource Locator}}">
 
     <Page.Resources>
         <converters:TrimTextConverter x:Key="TrimTextConverter" />
+        <cimbalinoConverters:NegativeBooleanConverter x:Key="NegativeBooleanConverter" />
         <CollectionViewSource
             x:Key="SelectedCityData"
             ItemsPath="ParkingLots"
@@ -209,9 +211,12 @@
                                             Text="Entfernung" />
                                         <MenuFlyoutSeparator />
                                         <ToggleMenuFlyoutItem
-                                            x:Name="ParkingLotFilterMenuItemAscending"
                                             IsChecked="{Binding ParkingLotFilterAscending, Mode=TwoWay}"
                                             Text="Aufsteigend" />
+                                        <ToggleMenuFlyoutItem
+                                            IsChecked="{Binding ParkingLotFilterAscending, Mode=TwoWay, Converter={StaticResource NegativeBooleanConverter}}"
+                                            Text="Absteigend" />
+                                        <MenuFlyoutSeparator />
                                         <ToggleMenuFlyoutItem
                                             x:Name="ParkingLotFilterMenuItemGrouping"
                                             IsChecked="{Binding ParkingLotFilterIsGrouped, Mode=TwoWay}"

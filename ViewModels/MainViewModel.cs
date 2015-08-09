@@ -392,6 +392,7 @@ namespace ParkenDD.ViewModels
             else
             {
                 LoadingCity = true;
+                var selectedParkingLot = SelectedParkingLot;
                 if (ParkingLotFilterIsGrouped)
                 {
                     ParkingLotsGroupedCollectionViewSource = await _filterService.CreateGroups(ParkingLots);
@@ -400,6 +401,7 @@ namespace ParkenDD.ViewModels
                 {
                     ParkingLotsListCollectionViewSource = await _filterService.CreateList(ParkingLots);
                 }
+                SelectedParkingLot = selectedParkingLot; //need to do this as the CVS uses the first one again...
                 LoadingCity = false;
             }
         }
