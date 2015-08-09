@@ -45,7 +45,7 @@ namespace ParkenDD.Views
                 G = 84,
                 R = 20
             };
-            Vm.PropertyChanged += (sender, args) =>
+            Vm.PropertyChanged += async (sender, args) =>
             {
                 if (args.PropertyName == nameof(Vm.ParkingLots))
                 {
@@ -62,6 +62,12 @@ namespace ParkenDD.Views
                     DrawingService.RedrawParkingLot(BackgroundDrawingContainer, Vm.SelectedParkingLot);
                     DrawingService.RedrawParkingLot(BackgroundDrawingContainer, _selectedLot);
                     _selectedLot = Vm.SelectedParkingLot;
+                    bool isParkingLotInView;
+                    Map.IsLocationInView(_selectedLot.Coordinates.Point, out isParkingLotInView);
+                    if (!isParkingLotInView)
+                    {
+                        await Map.TrySetViewAsync(_selectedLot.Coordinates.Point);
+                    }
                 }else if (args.PropertyName == nameof(Vm.ParkingLotFilterMode))
                 {
                     UpdateParkingLotFilter();
