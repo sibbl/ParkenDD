@@ -28,24 +28,13 @@
         OpenPaneLength="200"
         x:Name="SplitView"
         CompactPaneLength="48"
-        DisplayMode="Inline"
-        IsPaneOpen="True"
+        DisplayMode="Overlay"
         >
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
-                <VisualState x:Name="narrow">
+                <VisualState x:Name="hideHamburger">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="SplitView.DisplayMode" Value="Overlay" />
-                        <Setter Target="ParkingLotListMenuBtn.Visibility" Value="Visible" />
-                        <Setter Target="SplitViewMenuBtn.Visibility" Value="Visible" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="wide">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="800" />
+                        <AdaptiveTrigger MinWindowWidth="1000" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="SplitView.DisplayMode" Value="Inline" />
@@ -53,6 +42,33 @@
                         <Setter Target="ParkingLotListMenuBtn.Visibility" Value="Collapsed" />
                         <Setter Target="SplitViewMenuBtn.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup>
+                <VisualState x:Name="mobile">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ParkingLotMap.(RelativePanel.AlignTopWithPanel)" Value="False"/>
+                        <Setter Target="ParkingLotMap.(RelativePanel.AlignBottomWithPanel)" Value="False"/>
+                        <Setter Target="ParkingLotMap.(RelativePanel.AlignLeftWithPanel)" Value="True"/>
+                        <Setter Target="ParkingLotListPanel.(RelativePanel.AlignRightWithPanel)" Value="True"/>
+                        <Setter Target="ParkingLotListPanel.(RelativePanel.AlignTopWithPanel)" Value="False"/>
+                        <Setter Target="ParkingLotMap.(FrameworkElement.Height)" Value="150"/>
+                        <Setter Target="ParkingLotListPanel.(FrameworkElement.Width)" Value="Auto"/>
+                        <Setter Target="ParkingLotListTopBar.(FrameworkElement.Width)" Value="Auto"/>
+                        <Setter Target="ParkingLotListTopBar.(RelativePanel.AlignRightWithPanel)" Value="True"/>
+                        <Setter Target="ParkingLotMap.(RelativePanel.Below)" Value="ParkingLotListTopBar"/>
+                        <Setter Target="ParkingLotListPanel.(RelativePanel.Below)" Value="ParkingLotMap" />
+                        <Setter Target="ParkingLotMap.(RelativePanel.RightOf)" Value="" />
+                        <Setter Target="MapTopBar.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="desktop">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
             <VisualStateGroup>
@@ -157,83 +173,79 @@
             <RelativePanel
                 x:Name="RelativePanelContainer">
                 <RelativePanel
-                    x:Name="ParkingLotListPanel"
-                    Style="{ThemeResource ParkingLotListPanelStyle}"
+                    x:Name="ParkingLotListTopBar"
                     RelativePanel.AlignTopWithPanel="True"
                     RelativePanel.AlignLeftWithPanel="True"
-                    RelativePanel.AlignBottomWithPanel="True">
-                    <Grid
-                        Width="300"
+                    Width="300"
+                    Style="{ThemeResource ParkingLotListTopBarStyle}">
+                    <Button
+                        x:Name="ParkingLotListMenuBtn"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        Click="ToggleSplitView"
+                        Tag=""
+                        Style="{StaticResource NavIconButtonStyle}" />
+                    <AutoSuggestBox
+                        x:Name="SearchBox"
+                        RelativePanel.LeftOf="ParkingLotListFilterBtn"
+                        RelativePanel.RightOf="ParkingLotListMenuBtn"
                         RelativePanel.AlignTopWithPanel="True"
-                        RelativePanel.AlignBottomWithPanel="True">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <RelativePanel
-                            x:Name="ParkingLotListTopBar"
-                            Style="{ThemeResource ParkingLotListTopBarStyle}"
-                            Grid.Row="0">
-                            <Button
-                                x:Name="ParkingLotListMenuBtn"
-                                RelativePanel.AlignLeftWithPanel="True"
-                                Click="ToggleSplitView"
-                                Tag=""
-                                Style="{StaticResource NavIconButtonStyle}" />
-                            <AutoSuggestBox
-                                x:Name="SearchBox"
-                                RelativePanel.LeftOf="ParkingLotListFilterBtn"
-                                RelativePanel.RightOf="ParkingLotListMenuBtn"
-                                RelativePanel.AlignTopWithPanel="True"
-                                RelativePanel.AlignBottomWithPanel="True"
-                                PlaceholderText="Adresse suchen..."
-                                Style="{StaticResource ParkingLotAutoSuggestBoxStyle}"
-                                TextBoxStyle="{StaticResource ParkingLotSearchTextBoxStyle}"
-                                />
-                            <Button
-                                x:Name="ParkingLotListFilterBtn"
-                                RelativePanel.LeftOf="ParkingLotListRefreshBtn"
-                                Tag=""
-                                Style="{StaticResource NavIconButtonStyle}">
-                                <Button.Flyout>
-                                    <MenuFlyout>
-                                        <ToggleMenuFlyoutItem
-                                            x:Name="ParkingLotFilterMenuItemAlphabetically"
-                                            Command="{Binding SetParkingLotFilterToAlphabeticallyCommand}"
-                                            Text="Alphabetisch" />
-                                        <ToggleMenuFlyoutItem
-                                            x:Name="ParkingLotFilterMenuItemAvailability"
-                                            Command="{Binding SetParkingLotFilterToAvailabilityCommand}"
-                                            Text="Belegung" />
-                                        <ToggleMenuFlyoutItem
-                                            x:Name="ParkingLotFilterMenuItemDistance"
-                                            Command="{Binding SetParkingLotFilterToDistanceCommand}"
-                                            Text="Entfernung" />
-                                        <MenuFlyoutSeparator />
-                                        <ToggleMenuFlyoutItem
-                                            IsChecked="{Binding ParkingLotFilterAscending, Mode=TwoWay}"
-                                            Text="Aufsteigend" />
-                                        <ToggleMenuFlyoutItem
-                                            IsChecked="{Binding ParkingLotFilterAscending, Mode=TwoWay, Converter={StaticResource NegativeBooleanConverter}}"
-                                            Text="Absteigend" />
-                                        <MenuFlyoutSeparator />
-                                        <ToggleMenuFlyoutItem
-                                            x:Name="ParkingLotFilterMenuItemGrouping"
-                                            IsChecked="{Binding ParkingLotFilterIsGrouped, Mode=TwoWay}"
-                                            Text="Gruppierung" /> 
-                                    </MenuFlyout>
-                                </Button.Flyout>
-                            </Button>
-                            <Button
-                                x:Name="ParkingLotListRefreshBtn"
-                                RelativePanel.AlignRightWithPanel="True"
-                                Tag=""
-                                Style="{StaticResource NavIconButtonStyle}" />
-                        </RelativePanel>
+                        RelativePanel.AlignBottomWithPanel="True"
+                        PlaceholderText="Adresse suchen..."
+                        Style="{StaticResource ParkingLotAutoSuggestBoxStyle}"
+                        TextBoxStyle="{StaticResource ParkingLotSearchTextBoxStyle}"
+                        />
+                    <Button
+                        x:Name="ParkingLotListFilterBtn"
+                        RelativePanel.LeftOf="ParkingLotListRefreshBtn"
+                        Tag=""
+                        Style="{StaticResource NavIconButtonStyle}">
+                        <Button.Flyout>
+                            <MenuFlyout>
+                                <ToggleMenuFlyoutItem
+                                    x:Name="ParkingLotFilterMenuItemAlphabetically"
+                                    Command="{Binding SetParkingLotFilterToAlphabeticallyCommand}"
+                                    Text="Alphabetisch" />
+                                <ToggleMenuFlyoutItem
+                                    x:Name="ParkingLotFilterMenuItemAvailability"
+                                    Command="{Binding SetParkingLotFilterToAvailabilityCommand}"
+                                    Text="Belegung" />
+                                <ToggleMenuFlyoutItem
+                                    x:Name="ParkingLotFilterMenuItemDistance"
+                                    Command="{Binding SetParkingLotFilterToDistanceCommand}"
+                                    Text="Entfernung" />
+                                <MenuFlyoutSeparator />
+                                <ToggleMenuFlyoutItem
+                                    IsChecked="{Binding ParkingLotFilterAscending, Mode=TwoWay}"
+                                    Text="Aufsteigend" />
+                                <ToggleMenuFlyoutItem
+                                    IsChecked="{Binding ParkingLotFilterAscending, Mode=TwoWay, Converter={StaticResource NegativeBooleanConverter}}"
+                                    Text="Absteigend" />
+                                <MenuFlyoutSeparator />
+                                <ToggleMenuFlyoutItem
+                                    x:Name="ParkingLotFilterMenuItemGrouping"
+                                    IsChecked="{Binding ParkingLotFilterIsGrouped, Mode=TwoWay}"
+                                    Text="Gruppierung" />
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
+                    <Button
+                        x:Name="ParkingLotListRefreshBtn"
+                        RelativePanel.AlignRightWithPanel="True"
+                        Tag=""
+                        Style="{StaticResource NavIconButtonStyle}" />
+                </RelativePanel>
+                <RelativePanel
+                    x:Name="ParkingLotListPanel"
+                    RelativePanel.Below="ParkingLotListTopBar"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignBottomWithPanel="True"
+                    Width="300"
+                    Style="{ThemeResource ParkingLotListPanelStyle}">
                         <ProgressBar
                             x:Name="ParkingLotListProgressBar"
                             Style="{ThemeResource ParkingLotListProgressBarStyle}"
-                            Grid.Row="1"
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.AlignRightWithPanel="True"
                             />
                         <ListView
                             x:Name="ParkingLotList"
@@ -244,6 +256,8 @@
                             Style="{ThemeResource ParkingLotListStyle}"
                             SelectionMode="Single"
                             IsMultiSelectCheckBoxEnabled="False"
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.AlignRightWithPanel="True"
                             ItemContainerStyle="{StaticResource SelectCityListContainerStyle}">
                             <ListView.GroupStyle>
                                 <GroupStyle
@@ -310,14 +324,13 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                    </Grid>
                 </RelativePanel>
                 <RelativePanel 
                     x:Name="ParkingLotMap"
+                    RelativePanel.RightOf="ParkingLotListPanel"
                     RelativePanel.AlignTopWithPanel="True"
                     RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.AlignBottomWithPanel="True"
-                    RelativePanel.RightOf="ParkingLotListPanel">
+                    RelativePanel.AlignBottomWithPanel="True">
                     <RelativePanel
                         x:Name="MapTopBar"
                         Style="{ThemeResource MapTopBarStyle}"
