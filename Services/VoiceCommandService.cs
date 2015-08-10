@@ -35,25 +35,45 @@ namespace ParkenDD.Services
             }
         }
 
-        public async Task UpdateCityList(MetaData metaData)
+        public async void UpdateCityList(MetaData metaData)
         {
-            //TODO: catch exceptions and log them
-            Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinition commandSet;
+            await UpdateCityListAsync(metaData);
+        }
 
-            if (Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstalledCommandDefinitions.TryGetValue("ParkenDdCommands_de", out commandSet))
+        public async Task UpdateCityListAsync(MetaData metaData)
+        {
+            if (metaData?.Cities != null)
             {
-                await commandSet.SetPhraseListAsync("city", metaData.Cities.Select(x => x.Value.Name));
+                //TODO: catch exceptions and log them
+                Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinition commandSet;
+
+                if (
+                    Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstalledCommandDefinitions
+                        .TryGetValue("ParkenDdCommands_de", out commandSet))
+                {
+                    await commandSet.SetPhraseListAsync("city", metaData.Cities.Select(x => x.Value.Name));
+                }
             }
         }
 
-        public async Task UpdateParkingLotList(City city)
+        public async void UpdateParkingLotList(City city)
         {
-            //TODO: catch exceptions and log them
-            Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinition commandSet;
+            await UpdateParkingLotListAsync(city);
+        }
 
-            if (Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstalledCommandDefinitions.TryGetValue("ParkenDdCommands_de", out commandSet))
+        public async Task UpdateParkingLotListAsync(City city)
+        {
+            if (city?.Lots != null)
             {
-                await commandSet.SetPhraseListAsync("parking_lot", city.Lots.Select(x => x.Name));
+                //TODO: catch exceptions and log them
+                Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinition commandSet;
+
+                if (
+                    Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstalledCommandDefinitions
+                        .TryGetValue("ParkenDdCommands_de", out commandSet))
+                {
+                    await commandSet.SetPhraseListAsync("parking_lot", city.Lots.Select(x => x.Name));
+                }
             }
         }
 

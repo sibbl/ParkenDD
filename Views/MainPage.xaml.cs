@@ -1,6 +1,8 @@
 ﻿using System;
 using Windows.ApplicationModel.Core;
+using Windows.Devices.Geolocation;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
@@ -22,6 +24,7 @@ namespace ParkenDD.Views
         public MainViewModel Vm => (MainViewModel)DataContext;
         private MapDrawingService DrawingService => SimpleIoc.Default.GetInstance<MapDrawingService>();
         private ParkingLot _selectedLot;
+        private GeoboundingBox _initialMapBbox;
 
         public MainPage()
         {
@@ -31,9 +34,21 @@ namespace ParkenDD.Views
 
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
 
+            Map.Loaded += async (sender, args) =>
+            {
+                if (_initialMapBbox != null)
+                {
+                    await Map.TrySetViewBoundsAsync(_initialMapBbox, null, MapAnimationKind.None);
+                }
+            };
+
             Messenger.Default.Register(this, async (ZoomMapToBoundsMessage msg) =>
             {
-                await Map.TrySetViewBoundsAsync(msg.BoundingBox, null, MapAnimationKind.Bow);
+                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    _initialMapBbox = msg.BoundingBox; //set initial bbox as the following won't work while splash screen is still visible
+                     await Map.TrySetViewBoundsAsync(msg.BoundingBox, null, MapAnimationKind.Bow);
+                 });
             });
             //TODO: set other colors as well
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = new Color()

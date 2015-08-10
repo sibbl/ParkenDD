@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls.Maps;
@@ -100,40 +96,6 @@ namespace ParkenDD.Services
                 return GetValueOrDefault(nameof(SelectedParkingLotId), string.Empty);
             }
             set { AddOrUpdateValue(nameof(SelectedParkingLotId), value); }
-        }
-
-        public MapCamera MapCamera
-        {
-            get
-            {
-                if (ViewModelBase.IsInDesignModeStatic) return null;
-
-                var fieldOfView = GetValueOrDefault(nameof(MapCamera.FieldOfView), 0d);
-                var heading = GetValueOrDefault(nameof(MapCamera.Heading), 0d);
-                var pitch = GetValueOrDefault(nameof(MapCamera.Pitch), 0d);
-                var roll = GetValueOrDefault(nameof(MapCamera.Roll), 0d);
-                var lat = GetValueOrDefault(nameof(MapCamera.Location.Position.Latitude), double.NaN);
-                var lng = GetValueOrDefault(nameof(MapCamera.Location.Position.Longitude), double.NaN);
-
-                if (!Double.IsNaN(lat) && !Double.IsNaN(lng))
-                {
-                    return new MapCamera(new Geopoint(new BasicGeoposition
-                    {
-                        Latitude = lat,
-                        Longitude = lng,
-                    }), heading, pitch, roll, fieldOfView);
-                }
-                return null;
-            }
-            set
-            {
-                AddOrUpdateValue(nameof(MapCamera.FieldOfView), value.FieldOfView);
-                AddOrUpdateValue(nameof(MapCamera.Heading), value.Heading);
-                AddOrUpdateValue(nameof(MapCamera.Pitch), value.Pitch);
-                AddOrUpdateValue(nameof(MapCamera.Roll), value.Roll);
-                AddOrUpdateValue(nameof(MapCamera.Location.Position.Latitude), value.Location.Position.Latitude);
-                AddOrUpdateValue(nameof(MapCamera.Location.Position.Longitude), value.Location.Position.Longitude);
-            }
         }
 
         public ParkingLotFilterMode ParkingLotFilterMode

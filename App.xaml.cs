@@ -8,7 +8,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Ioc;
 using ParkenDD.Services;
-using ParkenDD.ViewModels;
 
 namespace ParkenDD
 {
@@ -44,7 +43,8 @@ namespace ParkenDD
             }
 #endif
 
-            Frame rootFrame = Window.Current.Content as Frame;
+            var rootFrame = Window.Current.Content as Frame;
+            ApplicationLanguages.PrimaryLanguageOverride = Windows.System.UserProfile.GlobalizationPreferences.Languages[0];
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -52,7 +52,6 @@ namespace ParkenDD
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
-                ApplicationLanguages.PrimaryLanguageOverride = Windows.System.UserProfile.GlobalizationPreferences.Languages[0];
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
@@ -73,7 +72,7 @@ namespace ParkenDD
                 rootFrame.Navigate(typeof(MainPage), e.Arguments);
             }
             // Ensure the current window is active
-            Window.Current.Activate();
+           Window.Current.Activate();
         }
 
         /// <summary>

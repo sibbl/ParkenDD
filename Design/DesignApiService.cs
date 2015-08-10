@@ -9,7 +9,7 @@ namespace ParkenDD.Design
 {
     public class DesignParkenDdClient : IParkenDdClient
     {
-        public async Task<MetaData> GetMeta(CancellationToken? ct = null)
+        public async Task<MetaData> GetMetaDataAsync(CancellationToken? ct = null)
         {
             return new MetaData
             {
@@ -46,7 +46,7 @@ namespace ParkenDD.Design
             };
         }
 
-        public async Task<City> GetCity(string cityId, CancellationToken? ct = null)
+        public async Task<City> GetCityAsync(string cityId, CancellationToken? ct = null)
         {
             return new City
             {

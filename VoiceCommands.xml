@@ -25,7 +25,7 @@
     </Command>
 
     <PhraseList Label="city">
-      <Item>Dresden</Item>
+      <Item>Dresden</Item>s
     </PhraseList>
     <PhraseList Label="parking_lot">
       <Item>Centrum Galerie</Item>
