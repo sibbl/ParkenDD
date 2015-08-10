@@ -112,6 +112,7 @@
     <Compile Include="Controls\ParkingLotLoadDonut.xaml.cs">
       <DependentUpon>ParkingLotLoadDonut.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\DistanceToParkingLotConverter.cs" />
     <Compile Include="Converters\TrimTextConverter.cs" />
     <Compile Include="Interfaces\ICanResume.cs" />
     <Compile Include="Interfaces\ICanSuspend.cs" />

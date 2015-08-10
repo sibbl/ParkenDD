@@ -149,7 +149,7 @@
         <Setter Property="Foreground" Value="{StaticResource GreenColor}" />
     </Style>
 
-    <Style x:Key="ParkingLotListTotalLotsStyle" TargetType="TextBlock">
+    <Style x:Key="ParkingLotListDistanceStyle" TargetType="TextBlock">
         <Setter Property="TextAlignment" Value="Right"/>
         <Setter Property="FontWeight" Value="Light" />
         <Setter Property="FontSize" Value="11" />

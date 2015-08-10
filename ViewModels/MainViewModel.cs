@@ -165,6 +165,15 @@ namespace ParkenDD.ViewModels
         }
         #endregion
 
+        #region UserLocation
+        private Geoposition _userLocation;
+        public Geoposition UserLocation
+        {
+            get { return _userLocation; }
+            set { Set(() => UserLocation, ref _userLocation, value); }
+        }
+        #endregion
+
         #endregion
 
         #region CONSTRUCTOR

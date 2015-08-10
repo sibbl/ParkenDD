@@ -26,6 +26,7 @@
 
     <Page.Resources>
         <converters:TrimTextConverter x:Key="TrimTextConverter" />
+        <converters:DistanceToParkingLotConverter x:Key="DistanceToParkingLotConverter" />
         <cimbalinoConverters:NegativeBooleanConverter x:Key="NegativeBooleanConverter" />
         <CollectionViewSource
             x:Key="SelectedCityData"
@@ -315,22 +316,20 @@
                                                 />
                                         </StackPanel>
                                         <TextBlock
-                                            Grid.Row="0"
+                                            Grid.Row="1"
                                             Grid.Column="2"
                                             Style="{ThemeResource ParkingLotListFreeLotsStyle}"
                                             >
                                             <Run Text="frei: " />
                                             <Run Text="{x:Bind FreeLots}" />
-                                        </TextBlock>
-                                        <TextBlock
-                                            Grid.Row="1"
+                                    </TextBlock>
+                                    <TextBlock
+                                            Grid.Row="0"
                                             Grid.Column="2"
-                                            Style="{ThemeResource ParkingLotListTotalLotsStyle}"
-                                            >
-                                            <Run Text="insg.: " />
-                                            <Run Text="{x:Bind TotalLots}" />
-                                        </TextBlock>
-                                    </Grid>
+                                            Style="{ThemeResource ParkingLotListDistanceStyle}"
+                                            Text="{Binding Converter={StaticResource DistanceToParkingLotConverter}}"
+                                            />
+                                </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
