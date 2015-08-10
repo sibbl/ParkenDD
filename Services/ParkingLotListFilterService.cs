@@ -13,7 +13,6 @@ namespace ParkenDD.Services
 {
     public class ParkingLotListFilterService
     {
-       // var orderedItems = orderAsc ? items.OrderBy(x => x.Region) : items.OrderByDescending(x => x.Region);
         public async Task<IEnumerable<ParkingLot>> CreateList(IEnumerable<ParkingLot> items)
         {
             var mainVm = SimpleIoc.Default.GetInstance<MainViewModel>();
@@ -28,10 +27,7 @@ namespace ParkenDD.Services
                     var availabilitySortingFunc = new Func<ParkingLot, double>(x => ((double)x.TotalLots / (double)x.FreeLots));
                     return orderAsc ? items.OrderBy(availabilitySortingFunc) : items.OrderByDescending(availabilitySortingFunc);
                 case ParkingLotFilterMode.Distance:
-                    //TODO: get distance here
-                    var locationService = SimpleIoc.Default.GetInstance<GeolocationService>();
-
-                    var userPos = await locationService.GetUserLocation();
+                    var userPos = await SimpleIoc.Default.GetInstance<GeolocationService>().GetUserLocation();
                     if (userPos == null)
                     {
                         mainVm.ParkingLotFilterMode = ParkingLotFilterMode.Alphabetically;
