@@ -99,7 +99,9 @@
     <Content Include="Assets\Square44x44Logo.targetsize-256_altform-unplated.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-48_altform-unplated.png" />
     <Content Include="Assets\Square71x71Logo.scale-200.png" />
-    <Content Include="VoiceCommands.xml" />
+    <Content Include="VoiceCommands.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="ParkenDD_StoreKey.pfx" />
     <None Include="project.json" />
     <None Include="Service References\Application Insights\ConnectedService.json" />
@@ -180,6 +182,10 @@
     <ProjectReference Include="..\ParkenDD.Api\ParkenDD.Api.csproj">
       <Project>{107b1abb-77f0-4181-ac0a-4dc253a0389b}</Project>
       <Name>ParkenDD.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ParkenDD.Background\ParkenDD.Background.csproj">
+      <Project>{e0bf6760-049b-4346-a68a-877bbd026e92}</Project>
+      <Name>ParkenDD.Background</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

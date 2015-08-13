@@ -24,6 +24,11 @@
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.appService" EntryPoint="ParkenDD.Background.VoiceCommandService">
+          <uap:AppService Name="VoiceCommandServiceEndpoint" />
+        </uap:Extension>
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>
