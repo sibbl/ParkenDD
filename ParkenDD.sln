@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkenDD", "ParkenDD.csproj", "{12149A2C-647C-4FB9-B11E-C6DA320B5C97}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkenDD", "ParkenDD\ParkenDD.csproj", "{12149A2C-647C-4FB9-B11E-C6DA320B5C97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkenDD.Api", "..\ParkenDD.Api\ParkenDD.Api.csproj", "{107B1ABB-77F0-4181-AC0A-4DC253A0389B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkenDD.Api", "ParkenDD.Api\ParkenDD.Api.csproj", "{107B1ABB-77F0-4181-AC0A-4DC253A0389B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkenDD.Background", "..\ParkenDD.Background\ParkenDD.Background.csproj", "{E0BF6760-049B-4346-A68A-877BBD026E92}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkenDD.Background", "ParkenDD.Background\ParkenDD.Background.csproj", "{E0BF6760-049B-4346-A68A-877BBD026E92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
