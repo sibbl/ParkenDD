@@ -56,26 +56,27 @@ namespace ParkenDD.Api.Models
         public string Name { get; set; }
 
         /// <summary>
+        ///     Indicates whether a forecast or tendency is available
+        /// </summary>
+        [JsonProperty("forecast")]
+        public bool HasForecast { get; set; }
+
+        /// <summary>
+        ///     Short time data for parking lot
+        /// </summary>
+        [JsonIgnore] //currently not in API
+        public ForecastBase Forecast { get; set; }
+
+        /// <summary>
         ///     Shows if long time data is available
         /// </summary>
         [JsonProperty("long_forecast_available")]
         public bool HasLongForecast { get; set; }
 
         /// <summary>
-        ///     Short time data for parking lot
-        /// </summary>
-        [JsonProperty("forecast")]
-        public ForecastBase Forecast { get; set; }
-
-        /// <summary>
         ///     City region of this parking lot
         /// </summary>
         [JsonProperty("region")]
         public string Region { get; set; }
-
-        /// <summary>
-        ///     Indicates whether a forecast or tendency is available
-        /// </summary>
-        public bool HasForecast => Forecast != null;
     }
 }

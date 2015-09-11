@@ -12,15 +12,12 @@ namespace ParkenDD.Api.Converters
         {
             if (reader.TokenType == JsonToken.StartObject)
             {
-                var instance = (Dictionary<string, string>)serializer.Deserialize(reader, typeof(Dictionary<string, string>));
+                var dict = (Dictionary<string, MetaDataCityRow>)serializer.Deserialize(reader, typeof(Dictionary<string, MetaDataCityRow>));
                 var result = new MetaDataCities();
-                foreach (var i in instance)
+                foreach (var i in dict)
                 {
-                    result.Add(i.Value, new MetaDataCityRow
-                    {
-                        Id = i.Value,
-                        Name = i.Key
-                    });
+                    i.Value.Id = i.Key;
+                    result.Add(i.Key, i.Value);
                 }
                 return result;
             }
