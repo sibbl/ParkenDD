@@ -1,28 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Windows.Devices.Geolocation;
-using GalaSoft.MvvmLight.Ioc;
-using ParkenDD.Api.Models;
-using ParkenDD.Services;
-using ParkenDD.Utils;
-using ParkenDD.ViewModels;
+﻿using System.Collections.Generic;
 
 namespace ParkenDD.Models
 {
     public class ParkingLotListGroup
     {
         public string Header { get; set; }
-        public List<ParkingLot> ParkingLots { get; set; }
+        public List<SelectableParkingLot> ParkingLots { get; set; }
         public ParkingLotListGroup()
         {
-            ParkingLots = new List<ParkingLot>();
+            ParkingLots = new List<SelectableParkingLot>();
         }
-        public ParkingLotListGroup(string header, ParkingLot parkingLot)
+        public ParkingLotListGroup(string header, SelectableParkingLot parkingLot)
         {
             Header = header;
-            ParkingLots = new List<ParkingLot> { parkingLot };
+            ParkingLots = new List<SelectableParkingLot> { parkingLot };
         }
     }
 }

@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:ParkenDD.Api.Models"
+    xmlns:models="using:ParkenDD.Models"
     xmlns:windowsStateTriggers="using:WindowsStateTriggers"
     xmlns:triggers="using:ParkenDD.Triggers"
     xmlns:controls="using:ParkenDD.Controls"
@@ -28,6 +28,7 @@
         <converters:TrimTextConverter x:Key="TrimTextConverter" />
         <converters:DistanceToParkingLotConverter x:Key="DistanceToParkingLotConverter" />
         <cimbalinoConverters:NegativeBooleanConverter x:Key="NegativeBooleanConverter" />
+        <cimbalinoConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <CollectionViewSource
             x:Key="SelectedCityData"
             ItemsPath="ParkingLots"
@@ -252,43 +253,45 @@
                     RelativePanel.AlignBottomWithPanel="True"
                     Width="300"
                     Style="{ThemeResource ParkingLotListPanelStyle}">
-                        <ProgressBar
-                            x:Name="ParkingLotListProgressBar"
-                            Style="{ThemeResource ParkingLotListProgressBarStyle}"
-                            RelativePanel.AlignLeftWithPanel="True"
-                            RelativePanel.AlignRightWithPanel="True"
-                            />
-                        <ListView
-                            x:Name="ParkingLotList"
-                            Grid.Row="1"
-                            ScrollViewer.VerticalScrollBarVisibility="Auto"
-                            ItemsSource="{Binding Source={StaticResource SelectedCityData}}"
-                            SelectedItem="{Binding SelectedParkingLot, Mode=TwoWay}"
-                            Style="{ThemeResource ParkingLotListStyle}"
-                            SelectionMode="Single"
-                            IsMultiSelectCheckBoxEnabled="False"
-                            RelativePanel.AlignLeftWithPanel="True"
-                            RelativePanel.AlignRightWithPanel="True"
-                            ItemContainerStyle="{StaticResource SelectCityListContainerStyle}">
-                            <ListView.GroupStyle>
-                                <GroupStyle
-                                    HidesIfEmpty="True"
-                                    HeaderContainerStyle="{StaticResource ParkingLotListHeaderContainerStyle}"
-                                    >
-                                    <GroupStyle.HeaderTemplate>
-                                        <DataTemplate>
-                                            <TextBlock
-                                                Text="{Binding Header, Converter={StaticResource TrimTextConverter}}"
-                                                Style="{ThemeResource ParkingLotListHeaderStyle}"/>
-                                        </DataTemplate>
-                                    </GroupStyle.HeaderTemplate>
-                                </GroupStyle>
-                            </ListView.GroupStyle>
-                            <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="models:ParkingLot">
+                    <ProgressBar
+                        x:Name="ParkingLotListProgressBar"
+                        Style="{ThemeResource ParkingLotListProgressBarStyle}"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"
+                        />
+                    <ListView
+                        x:Name="ParkingLotList"
+                        Grid.Row="1"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        ItemsSource="{Binding Source={StaticResource SelectedCityData}}"
+                        SelectedItem="{Binding SelectedParkingLot, Mode=TwoWay}"
+                        Style="{ThemeResource ParkingLotListStyle}"
+                        SelectionMode="Single"
+                        IsMultiSelectCheckBoxEnabled="False"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"
+                        ItemContainerStyle="{StaticResource SelectCityListContainerStyle}">
+                        <ListView.GroupStyle>
+                            <GroupStyle
+                                HidesIfEmpty="True"
+                                HeaderContainerStyle="{StaticResource ParkingLotListHeaderContainerStyle}"
+                                >
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock
+                                            Text="{Binding Header, Converter={StaticResource TrimTextConverter}}"
+                                            Style="{ThemeResource ParkingLotListHeaderStyle}"/>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </ListView.GroupStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:SelectableParkingLot">
+                                <StackPanel Style="{ThemeResource ParkingLotListItemStyle}">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*" />
+                                            <RowDefinition Height="Auto" />
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
@@ -298,41 +301,52 @@
                                         </Grid.ColumnDefinitions>
                                         <controls:ParkingLotLoadDonut
                                             Grid.Row="0"
-                                            Grid.RowSpan="2"
+                                            Grid.RowSpan="3"
                                             Grid.Column="0"
                                             Style="{ThemeResource ParkingLotListDonutStyle}"
-                                            ParkingLot="{x:Bind}"/>
-                                        <StackPanel
+                                            ParkingLot="{x:Bind ParkingLot}"/>
+                                        <TextBlock Style="{ThemeResource ParkingLotListTitleStyle}"
+                                                    Text="{x:Bind ParkingLot.Name, Converter={StaticResource TrimTextConverter}}"
+                                                Grid.Row="0"
+                                                Grid.Column="1"/>
+                                        <TextBlock
                                             Grid.Row="0"
-                                            Grid.RowSpan="2"
-                                            Grid.Column="1">
+                                            Grid.Column="2"
+                                            Style="{ThemeResource ParkingLotHasForecastTextStyle}"
+                                            Text="VORHERSAGE"
+                                            Visibility="{x:Bind ParkingLot.HasForecast, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                        <TextBlock
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            Style="{ThemeResource ParkingLotListDetailStyle}"
+                                            >
+                                            <Run Text="{x:Bind ParkingLot.FreeLots}" Foreground="{StaticResource GreenBrush}" />
+                                            <Run Text="/" />
+                                            <Run Text="{x:Bind ParkingLot.TotalLots}" />
+                                            <Run Text="frei" />
+                                        </TextBlock>
+                                        <TextBlock
+                                            Grid.Row="2"
+                                            Grid.Column="2"
+                                            Style="{ThemeResource ParkingLotListDistanceStyle}"
+                                            Text="{x:Bind ParkingLot, Converter={StaticResource DistanceToParkingLotConverter}}"
+                                            />
+                                        <StackPanel
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Grid.ColumnSpan="2"
+                                            Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+
                                             <TextBlock
-                                                Text="{x:Bind Name, Converter={StaticResource TrimTextConverter}}"
-                                                Style="{ThemeResource ParkingLotListTitleStyle}"
-                                                />
-                                            <TextBlock
-                                                Text="{x:Bind Address, Converter={StaticResource TrimTextConverter}}"
+                                                Text="{x:Bind ParkingLot.Address, Converter={StaticResource TrimTextConverter}}"
                                                 Style="{ThemeResource ParkingLotListAddressStyle}"
                                                 />
                                         </StackPanel>
-                                        <TextBlock
-                                            Grid.Row="1"
-                                            Grid.Column="2"
-                                            Style="{ThemeResource ParkingLotListFreeLotsStyle}"
-                                            >
-                                            <Run Text="frei: " />
-                                            <Run Text="{x:Bind FreeLots}" />
-                                    </TextBlock>
-                                    <TextBlock
-                                            Grid.Row="0"
-                                            Grid.Column="2"
-                                            Style="{ThemeResource ParkingLotListDistanceStyle}"
-                                            Text="{Binding Converter={StaticResource DistanceToParkingLotConverter}}"
-                                            />
-                                </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                                    </Grid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </RelativePanel>
                 <RelativePanel 
                     x:Name="ParkingLotMap"

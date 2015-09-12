@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Navigation;
+using Cimbalino.Toolkit.Extensions;
 using GalaSoft.MvvmLight.Messaging;
 using ParkenDD.Messages;
 using ParkenDD.Api.Models;
@@ -23,7 +24,7 @@ namespace ParkenDD.Views
     {
         public MainViewModel Vm => (MainViewModel)DataContext;
         private MapDrawingService DrawingService => SimpleIoc.Default.GetInstance<MapDrawingService>();
-        private ParkingLot _selectedLot;
+        private SelectableParkingLot _selectedLot;
         private GeoboundingBox _initialMapBbox;
 
         public MainPage()
@@ -82,7 +83,7 @@ namespace ParkenDD.Views
                     DrawingService.RedrawParkingLot(BackgroundDrawingContainer, Vm.SelectedParkingLot);
                     DrawingService.RedrawParkingLot(BackgroundDrawingContainer, _selectedLot);
                     _selectedLot = Vm.SelectedParkingLot;
-                    var selectedParkingLotPoint = _selectedLot?.Coordinates?.Point;
+                    var selectedParkingLotPoint = _selectedLot?.ParkingLot?.Coordinates?.Point;
                     if (selectedParkingLotPoint != null)
                     {
                         bool isParkingLotInView;

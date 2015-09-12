@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.VoiceCommands;
 using ParkenDD.Api;
+using ParkenDD.Api.Models;
 
 namespace ParkenDD.Background
 {
@@ -24,6 +26,9 @@ namespace ParkenDD.Background
                 case "getParkingLotData":
                     //TODO: localization
                     //TODO: load the requested parking lot
+                    var cityStr = voiceCommand.Properties["city"][0];
+                    var lotName = voiceCommand.Properties["parking_lot"][0] + "aaa";
+
                     var api = new ParkenDdClient();
                     var waitMsg = new VoiceCommandUserMessage
                     {
@@ -32,30 +37,53 @@ namespace ParkenDD.Background
                     };
                     var waitResponse = VoiceCommandResponse.CreateResponse(waitMsg);
                     await voiceServiceConnection.ReportProgressAsync(waitResponse);
-                    var city = await api.GetCityAsync("Dresden");
-                    var lot = city.Lots.FirstOrDefault(x => x.Id.Equals("dresdentaschenbergpalais"));
-                    // get the message the user has spoken
-                    //var message = voiceCommand.Properties["message"][0];
+                    var getCityTask = api.GetCityAsync(cityStr);
+                    var getMetaTask = api.GetMetaDataAsync();
+                    await Task.WhenAll(getCityTask, getMetaTask);
 
-                    var percent = Math.Round((double) lot.FreeLots/(double) lot.TotalLots);
-                    // create response messages for Cortana to respond
-                    var responseMsg = new VoiceCommandUserMessage
+                    var meta = getMetaTask.Result;
+                    var city = getCityTask.Result;
+                    var lot = city?.Lots?.FirstOrDefault(x => x.Name.ToLower().Equals(lotName.ToLower()));
+                    if (lot == null)
                     {
-                        DisplayMessage = string.Format("Im Parkplatz {0} sind noch {1} von {2}  Parkplätzen frei ({3}%)", 
-                            lot.Name,
-                            lot.FreeLots,
-                            lot.TotalLots,
-                            percent),
-                        SpokenMessage = string.Format("Im Parkplatz {0} sind noch {1} von {2} Parkplätzen frei",
-                            lot.Name,
-                            lot.FreeLots,
-                            lot.TotalLots)
-                    };
+                        var cityMeta = meta?.Cities?.FirstOrDefault(x => x.Value.Name.ToLower().Equals(cityStr.ToLower()));
+                        if (cityMeta != null)
+                        {
+                            city = await api.GetCityAsync(cityMeta.Value.Value.Id);
+                            lot = city?.Lots?.FirstOrDefault(x => x.Name.ToLower().Equals(lotName.ToLower()));
+                        }
+                    }
+                    if (lot == null)
+                    {
+                        var errorMsg = new VoiceCommandUserMessage { 
+                            DisplayMessage = "Parkplatz nicht gefunden...",
+                            SpokenMessage = "Der Parkplatz wurde leider nicht gefunden..."
+                        };
+                        var errorResp = VoiceCommandResponse.CreateResponseForPrompt(errorMsg, errorMsg);
+                        var result = await voiceServiceConnection.RequestConfirmationAsync(errorResp);
+                    }
+                    else
+                    {
+                        var percent = Math.Round((double) lot.FreeLots/(double) lot.TotalLots);
+                        // create response messages for Cortana to respond
+                        var responseMsg = new VoiceCommandUserMessage
+                        {
+                            DisplayMessage =
+                                string.Format("Der Parkplatz {0} hat noch {1} von {2} Parkplätzen frei ({3}%)",
+                                    lot.Name,
+                                    lot.FreeLots,
+                                    lot.TotalLots,
+                                    percent),
+                            SpokenMessage = string.Format("Der Parkplatz {0} hat noch {1} von {2} Parkplätzen frei",
+                                lot.Name,
+                                lot.FreeLots,
+                                lot.TotalLots)
+                        };
 
-                    // create a response and ask Cortana to respond with success
-                    var response = VoiceCommandResponse.CreateResponse(responseMsg);
-                    await voiceServiceConnection.ReportSuccessAsync(response);
-
+                        // create a response and ask Cortana to respond with success
+                        var response = VoiceCommandResponse.CreateResponse(responseMsg);
+                        await voiceServiceConnection.ReportSuccessAsync(response);
+                    }
                     break;
             }
 

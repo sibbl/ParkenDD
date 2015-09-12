@@ -115,9 +115,11 @@
       <DependentUpon>ParkingLotLoadDonut.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\DistanceToParkingLotConverter.cs" />
+    <Compile Include="Converters\IsParkingLotSelectedVisibilityConverter.cs" />
     <Compile Include="Converters\TrimTextConverter.cs" />
     <Compile Include="Interfaces\ICanResume.cs" />
     <Compile Include="Interfaces\ICanSuspend.cs" />
+    <Compile Include="Models\SelectableParkingLot.cs" />
     <Compile Include="Services\GeolocationService.cs" />
     <Compile Include="Services\MapDrawingService.cs" />
     <Compile Include="Messages\ZoomMapToBoundsMessage.cs" />
@@ -199,7 +201,6 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -68,18 +68,26 @@ namespace ParkenDD.ViewModels
             set
             {
                 Set(() => SelectedCityData, ref _selectedCityData, value); 
-                ParkingLots = value == null ? null :  new ObservableCollection<ParkingLot>(value.Lots);
+                ParkingLots = value == null ? null :  new ObservableCollection<SelectableParkingLot>(value.Lots.Select(x => new SelectableParkingLot(x)));
             }
         }
         #endregion
 
         #region SelectedParkingLot
-        private ParkingLot _selectedParkingLot;
-        public ParkingLot SelectedParkingLot
+        private SelectableParkingLot _selectedParkingLot;
+        public SelectableParkingLot SelectedParkingLot
         {
             get { return _selectedParkingLot; }
             set
             {
+                if (value != null)
+                {
+                    value.IsSelected = true;
+                }
+                if (_selectedParkingLot != null)
+                {
+                    _selectedParkingLot.IsSelected = false;
+                }
                 Set(() => SelectedParkingLot, ref _selectedParkingLot, value);
             }
         }
@@ -95,8 +103,8 @@ namespace ParkenDD.ViewModels
         #endregion
 
         #region ParkingLots
-        private ObservableCollection<ParkingLot> _parkingLots;
-        public ObservableCollection<ParkingLot> ParkingLots
+        private ObservableCollection<SelectableParkingLot> _parkingLots;
+        public ObservableCollection<SelectableParkingLot> ParkingLots
         {
             get { return _parkingLots; }
             set
@@ -120,8 +128,8 @@ namespace ParkenDD.ViewModels
         #endregion
 
         #region ParkingLotsListCollectionViewSource
-        private IEnumerable<ParkingLot> _parkingLotsListCollectionViewSource;
-        public IEnumerable<ParkingLot> ParkingLotsListCollectionViewSource
+        private IEnumerable<SelectableParkingLot> _parkingLotsListCollectionViewSource;
+        public IEnumerable<SelectableParkingLot> ParkingLotsListCollectionViewSource
         {
             get { return _parkingLotsListCollectionViewSource; }
             set
@@ -318,7 +326,7 @@ namespace ParkenDD.ViewModels
                 var parkingLot = FindParkingLotByName(cityDetails, parkingLotName);
                 if (parkingLot != null)
                 {
-                    SelectedParkingLot = parkingLot;
+                    SelectedParkingLot = new SelectableParkingLot(parkingLot);
                 }
             }
         }
@@ -345,7 +353,7 @@ namespace ParkenDD.ViewModels
             await Task.WhenAll(taskCity, taskParkingLot);
             if (parkingLot != null)
             {
-                SelectedParkingLot = parkingLot;
+                SelectedParkingLot = new SelectableParkingLot(parkingLot);
             }
         }
 
@@ -529,7 +537,7 @@ namespace ParkenDD.ViewModels
                 _settings.ParkingLotFilterAscending = ParkingLotFilterAscending;
                 _settings.ParkingLotFilterIsGrouped = ParkingLotFilterIsGrouped;
                 _settings.SelectedCityId = SelectedCity?.Id;
-                _settings.SelectedParkingLotId = SelectedParkingLot?.Id;
+                _settings.SelectedParkingLotId = SelectedParkingLot?.ParkingLot?.Id;
             });
         }
     }

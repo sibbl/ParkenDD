@@ -77,7 +77,7 @@ namespace ParkenDD.Services
             }
         }
 
-        public void HandleActivation(VoiceCommandActivatedEventArgs args)
+        public async void HandleActivation(VoiceCommandActivatedEventArgs args)
         {
             var speechRecognitionResult = args.Result;
 
@@ -87,13 +87,13 @@ namespace ParkenDD.Services
             if (voiceCommandName == "selectCity")
             {
                 var cityName = speechRecognitionResult.SemanticInterpretation.Properties["city"][0];
-                SimpleIoc.Default.GetInstance<MainViewModel>().TrySelectCityByName(cityName);
+                await SimpleIoc.Default.GetInstance<MainViewModel>().TrySelectCityByName(cityName);
             }
             else if(voiceCommandName == "selectParkingLot")
             {
                 var cityName = speechRecognitionResult.SemanticInterpretation.Properties["city"][0];
                 var parkingLotName = speechRecognitionResult.SemanticInterpretation.Properties["parking_lot"][0];
-                SimpleIoc.Default.GetInstance<MainViewModel>().TrySelectParkingLotByName(cityName, parkingLotName);
+                await SimpleIoc.Default.GetInstance<MainViewModel>().TrySelectParkingLotByName(cityName, parkingLotName);
             }
         }
     }

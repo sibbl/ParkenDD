@@ -12,13 +12,7 @@ namespace ParkenDD.Controls
 {
     public sealed partial class ParkingLotLoadDonut : UserControl
     {
-        private MainViewModel MainVm
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<MainViewModel>();
-            }
-        }
+        private MainViewModel MainVm => SimpleIoc.Default.GetInstance<MainViewModel>();
 
         public ParkingLotLoadDonut()
         {
@@ -46,7 +40,7 @@ namespace ParkenDD.Controls
 
         private void UpdateIsSelected()
         {
-            VisualStateManager.GoToState(this, ParkingLot == MainVm?.SelectedParkingLot ? "Selected" : "Unselected", true);
+            VisualStateManager.GoToState(this, ParkingLot == MainVm?.SelectedParkingLot?.ParkingLot ? "Selected" : "Unselected", true);
         }
 
         public static readonly DependencyProperty ParkingLotProperty = DependencyProperty.Register("ParkingLot", typeof(ParkingLot), typeof(ParkingLotLoadDonut), null);

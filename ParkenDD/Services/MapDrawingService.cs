@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Media.Imaging;
 using ParkenDD.Api.Models;
 using ParkenDD.Controls;
+using ParkenDD.Models;
 using ParkenDD.ViewModels;
 
 namespace ParkenDD.Services
@@ -20,25 +21,25 @@ namespace ParkenDD.Services
     public class MapDrawingService
     {
         private readonly MainViewModel _mainVm;
-        private Dictionary<ParkingLot, MapIcon> _mapIconParkingLotDict;
+        private Dictionary<SelectableParkingLot, MapIcon> _mapIconParkingLotDict;
         public MapDrawingService(MainViewModel mainVm)
         {
             _mainVm = mainVm;
         }
 
-        public async void RedrawParkingLot(Grid drawingContainer, ParkingLot lot)
+        public async void RedrawParkingLot(Grid drawingContainer, SelectableParkingLot lot)
         {
             if (lot != null && _mapIconParkingLotDict != null && _mapIconParkingLotDict.ContainsKey(lot))
             {
                 var icon = _mapIconParkingLotDict[lot];
-                icon.Image = await GetMapIconDonutImage(drawingContainer, lot);
-                icon.ZIndex = GetZIndexForParkingLot(lot);
+                icon.Image = await GetMapIconDonutImage(drawingContainer, lot.ParkingLot);
+                icon.ZIndex = GetZIndexForParkingLot(lot.ParkingLot);
             }
         }
 
         private int GetZIndexForParkingLot(ParkingLot lot)
         {
-            if (_mainVm.SelectedParkingLot == lot)
+            if (_mainVm.SelectedParkingLot?.ParkingLot == lot)
             {
                 return 100001; //100% * 1000 + 1 to be on top
             }
@@ -54,18 +55,18 @@ namespace ParkenDD.Services
             return (int)Math.Round(zIndex * 1000);
         }
 
-        private async void DrawParkingLot(MapControl map, Grid drawingContainer, ParkingLot lot)
+        private async void DrawParkingLot(MapControl map, Grid drawingContainer, SelectableParkingLot lot)
         {
-            if (lot?.Coordinates != null)
+            if (lot?.ParkingLot?.Coordinates != null)
             {
                 var icon = new MapIcon
                 {
-                    Location = lot.Coordinates.Point,
+                    Location = lot.ParkingLot.Coordinates.Point,
                     NormalizedAnchorPoint = new Point(0.5, 0.5),
-                    Title = lot.Name,
+                    Title = lot.ParkingLot.Name,
                     CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible,
-                    Image = await GetMapIconDonutImage(drawingContainer, lot),
-                    ZIndex = GetZIndexForParkingLot(lot),
+                    Image = await GetMapIconDonutImage(drawingContainer, lot.ParkingLot),
+                    ZIndex = GetZIndexForParkingLot(lot.ParkingLot),
                 };
                 if (_mapIconParkingLotDict.ContainsKey(lot))
                 {
@@ -82,7 +83,7 @@ namespace ParkenDD.Services
         {
             var lots = _mainVm.ParkingLots;
             map.MapElements.Clear();
-            _mapIconParkingLotDict = new Dictionary<ParkingLot, MapIcon>();
+            _mapIconParkingLotDict = new Dictionary<SelectableParkingLot, MapIcon>();
             if (lots != null)
             {
                 foreach (var lot in lots)
@@ -115,7 +116,7 @@ namespace ParkenDD.Services
             return RandomAccessStreamReference.CreateFromStream(stream.AsStream().AsRandomAccessStream());
         }
 
-        public ParkingLot GetParkingLotOfIcon(MapIcon icon)
+        public SelectableParkingLot GetParkingLotOfIcon(MapIcon icon)
         {
             if (icon != null && _mapIconParkingLotDict != null && _mapIconParkingLotDict.ContainsValue(icon))
             {
