@@ -535,7 +535,7 @@ namespace ParkenDD.ViewModels
                             launcherPosString,
                             lot.Coordinates.Latitude.ToString(CultureInfo.InvariantCulture),
                             lot.Coordinates.Longitude.ToString(CultureInfo.InvariantCulture),
-                            lot.Name
+                            String.Format("Parkplatz {0}", lot.Name) //TODO: localize
                         )
                     )
                 );
