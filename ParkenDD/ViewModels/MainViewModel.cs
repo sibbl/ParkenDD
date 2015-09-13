@@ -19,6 +19,9 @@ using ParkenDD.Models;
 
 namespace ParkenDD.ViewModels
 {
+    public class DataPoint
+    {
+    }
     public class MainViewModel : ViewModelBase, ICanResume, ICanSuspend
     {
         #region PRIVATE PROPERTIES

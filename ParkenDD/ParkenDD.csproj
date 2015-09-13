@@ -111,15 +111,21 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviors\WindowSizeBehavior.cs" />
+    <Compile Include="Controls\ParkingLotForecastChart.xaml.cs">
+      <DependentUpon>ParkingLotForecastChart.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ParkingLotLoadDonut.xaml.cs">
       <DependentUpon>ParkingLotLoadDonut.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\DistanceToParkingLotConverter.cs" />
-    <Compile Include="Converters\IsParkingLotSelectedVisibilityConverter.cs" />
+    <Compile Include="Converters\DoubleToNullableDoubleConverter.cs" />
+    <Compile Include="Converters\TimeSpanToDateTimeAxisLabelFormatConverter.cs" />
     <Compile Include="Converters\TrimTextConverter.cs" />
     <Compile Include="Interfaces\ICanResume.cs" />
     <Compile Include="Interfaces\ICanSuspend.cs" />
     <Compile Include="Messages\ZoomMapToCoordinateMessage.cs" />
+    <Compile Include="Models\ParkingLotForecastDataPoint.cs" />
+    <Compile Include="Models\ParkingLotForecastTimespanSelection.cs" />
     <Compile Include="Models\SelectableParkingLot.cs" />
     <Compile Include="Services\GeolocationService.cs" />
     <Compile Include="Services\MapDrawingService.cs" />
@@ -168,6 +174,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\ParkingLotForecastChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ParkingLotLoadDonut.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

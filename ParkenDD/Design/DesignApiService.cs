@@ -103,5 +103,10 @@ namespace ParkenDD.Design
                 }
             };
         }
+
+        public async Task<Forecast> GetForecastAsync(string cityId, string parkingLotId, DateTime @from, DateTime to, CancellationToken? ct = null)
+        {
+            return new Forecast();
+        }
     }
 }

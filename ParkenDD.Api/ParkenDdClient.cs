@@ -121,9 +121,9 @@ namespace ParkenDD.Api
                     },
                     Converters =
                     {
-                        new MetaDataCitiesConverter(),
-                        new ForecastConverter(),
-                        new UriConverter()
+                        new JsonMetaDataCitiesConverter(),
+                        new JsonForecastConverter(),
+                        new JsonUriConverter()
                     }
                 }
             );
@@ -151,6 +151,28 @@ namespace ParkenDD.Api
         {
             return Request<City>(
                 requestUri: cityId,
+                cancellationToken: ct
+            );
+        }
+
+        /// <summary>
+        ///     Get forecast from server
+        /// </summary>
+        /// <param name="cityId">ID of city</param>
+        /// <param name="parkingLotId">ID of parking lot</param>
+        /// <param name="from">start time (inclusive)</param>
+        /// <param name="to">end time (inclusive)</param>
+        /// <param name="ct">cancellation token</param>
+        /// <returns></returns>
+        public Task<Forecast> GetForecastAsync(string cityId, string parkingLotId, DateTime from, DateTime to, CancellationToken? ct = null)
+        {
+            if (from > to)
+            {
+                throw new ArgumentOutOfRangeException(nameof(to), "End date must be after or equal to start date.");
+            }
+            return Request<Forecast>(
+                requestUri:
+                    $"{cityId}/{parkingLotId}/timespan?from={IsoDateConverter.ToIsoString(@from)}&to={IsoDateConverter.ToIsoString(to)}",
                 cancellationToken: ct
             );
         }

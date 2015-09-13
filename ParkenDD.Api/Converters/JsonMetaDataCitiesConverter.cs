@@ -6,7 +6,7 @@ using ParkenDD.Api.Models;
 
 namespace ParkenDD.Api.Converters
 {
-    public class MetaDataCitiesConverter : JsonConverter
+    public class JsonMetaDataCitiesConverter : JsonConverter
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {

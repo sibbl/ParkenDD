@@ -13,6 +13,8 @@
     xmlns:cimbalinoConverters="using:Cimbalino.Toolkit.Converters"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:ParkenDD.Behaviors"
+    xmlns:charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
+    xmlns:dataVisualization="using:WinRTXamlToolkit.Controls.DataVisualization"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     DataContext="{Binding Main, Source={StaticResource Locator}}">
@@ -27,6 +29,7 @@
     <Page.Resources>
         <converters:TrimTextConverter x:Key="TrimTextConverter" />
         <converters:DistanceToParkingLotConverter x:Key="DistanceToParkingLotConverter" />
+        <converters:DoubleToNullableDoubleConverter x:Key="DoubleToNullableDoubleConverter" />
         <cimbalinoConverters:NegativeBooleanConverter x:Key="NegativeBooleanConverter" />
         <cimbalinoConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <cimbalinoConverters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
@@ -321,7 +324,7 @@
                                             Grid.Column="1"
                                             Style="{ThemeResource ParkingLotListDetailStyle}"
                                             >
-                                            <Run Text="{x:Bind ParkingLot.FreeLots}" Foreground="{StaticResource GreenBrush}" />
+                                            <Run Text="{x:Bind ParkingLot.FreeLots}" FontWeight="SemiBold" />
                                             <Run Text="/" />
                                             <Run Text="{x:Bind ParkingLot.TotalLots}" />
                                             <Run Text="frei" />
@@ -346,6 +349,13 @@
                                     </Grid>
                                     <StackPanel
                                         Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        
+                                        <controls:ParkingLotForecastChart
+                                            Visibility="{Binding HasForecast, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                            HorizontalAlignment="Stretch"
+                                            DataContext="{x:Bind ParkingLot}"
+                                            />
+
                                         <Button Content="Wegbeschreibung"
                                                 Tag="&#xE816;"
                                                 Style="{ThemeResource ParkingLotListNavigationButton}"

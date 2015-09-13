@@ -5,7 +5,7 @@ using ParkenDD.Api.Models;
 
 namespace ParkenDD.Api.Converters
 {
-    public sealed class ForecastConverter : JsonConverter
+    public sealed class JsonForecastConverter : JsonConverter
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {

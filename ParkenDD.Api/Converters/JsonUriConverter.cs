@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace ParkenDD.Api.Converters
 {
-    public class UriConverter : JsonConverter
+    public class JsonUriConverter : JsonConverter
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
