@@ -8,10 +8,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Navigation;
-using Cimbalino.Toolkit.Extensions;
 using GalaSoft.MvvmLight.Messaging;
 using ParkenDD.Messages;
-using ParkenDD.Api.Models;
 using ParkenDD.ViewModels;
 using GalaSoft.MvvmLight.Ioc;
 using ParkenDD.Models;
@@ -26,6 +24,7 @@ namespace ParkenDD.Views
         private MapDrawingService DrawingService => SimpleIoc.Default.GetInstance<MapDrawingService>();
         private SelectableParkingLot _selectedLot;
         private GeoboundingBox _initialMapBbox;
+        private Geopoint _initialCoordinates;
 
         public MainPage()
         {
@@ -41,6 +40,10 @@ namespace ParkenDD.Views
                 {
                     await Map.TrySetViewBoundsAsync(_initialMapBbox, null, MapAnimationKind.None);
                 }
+                if (_initialCoordinates != null)
+                {
+                    await Map.TrySetViewAsync(_initialCoordinates, null, null, null, MapAnimationKind.None);
+                }
             };
 
             Messenger.Default.Register(this, async (ZoomMapToBoundsMessage msg) =>
@@ -48,9 +51,19 @@ namespace ParkenDD.Views
                 await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
                     _initialMapBbox = msg.BoundingBox; //set initial bbox as the following won't work while splash screen is still visible
-                     await Map.TrySetViewBoundsAsync(msg.BoundingBox, null, MapAnimationKind.Bow);
-                 });
+                    await Map.TrySetViewBoundsAsync(msg.BoundingBox, null, MapAnimationKind.Bow);
+                });
             });
+
+            Messenger.Default.Register(this, async (ZoomMapToCoordinateMessage msg) =>
+            {
+                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    _initialCoordinates = msg.Point; //set initial coordinates as the following won't work while splash screen is still visible
+                    await Map.TrySetViewAsync(msg.Point, null, null, null, MapAnimationKind.Bow);
+                });
+            });
+
             //TODO: set other colors as well
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = new Color()
             {

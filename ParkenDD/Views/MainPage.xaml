@@ -29,6 +29,7 @@
         <converters:DistanceToParkingLotConverter x:Key="DistanceToParkingLotConverter" />
         <cimbalinoConverters:NegativeBooleanConverter x:Key="NegativeBooleanConverter" />
         <cimbalinoConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <cimbalinoConverters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
         <CollectionViewSource
             x:Key="SelectedCityData"
             ItemsPath="ParkingLots"
@@ -335,14 +336,21 @@
                                             Grid.Row="1"
                                             Grid.Column="1"
                                             Grid.ColumnSpan="2"
-                                            Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
-
+                                            Visibility="{x:Bind ParkingLot.Address, Converter={StaticResource StringToVisibilityConverter}}">
                                             <TextBlock
+                                            Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                 Text="{x:Bind ParkingLot.Address, Converter={StaticResource TrimTextConverter}}"
                                                 Style="{ThemeResource ParkingLotListAddressStyle}"
                                                 />
                                         </StackPanel>
                                     </Grid>
+                                    <StackPanel
+                                        Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Button Content="Wegbeschreibung"
+                                                Style="{ThemeResource ParkingLotListNavigationButton}"
+                                                Command="{Binding Main.NavigateToParkingLotCommand, Source={StaticResource Locator}}"
+                                                CommandParameter="{x:Bind ParkingLot}"/>
+                                    </StackPanel>
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>

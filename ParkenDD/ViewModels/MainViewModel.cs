@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
+using Windows.System;
+using Cimbalino.Toolkit.Extensions;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
@@ -394,6 +397,11 @@ namespace ParkenDD.ViewModels
             }
             if (Double.IsNaN(maxLat) || Double.IsNaN(maxLat) || Double.IsNaN(maxLat) || Double.IsNaN(maxLat))
             {
+                var cityPoint = SelectedCity.Coordinates?.Point;
+                if (cityPoint != null)
+                {
+                    Messenger.Default.Send(new ZoomMapToCoordinateMessage(SelectedCity.Coordinates.Point));
+                }
                 return;
             }
             Messenger.Default.Send(
@@ -500,6 +508,69 @@ namespace ParkenDD.ViewModels
         {
             ParkingLotFilterMode = ParkingLotFilterMode.Availability;
             UpdateParkingLotListFilter();
+        }
+        #endregion
+
+
+        #region NavigateToParkingLotCommand
+        private RelayCommand<ParkingLot> _navigateToParkingLotCommand;
+        public RelayCommand<ParkingLot> NavigateToParkingLotCommand => _navigateToParkingLotCommand ?? (_navigateToParkingLotCommand = new RelayCommand<ParkingLot>(NavigateToParkingLot));
+
+        private async void NavigateToParkingLot(ParkingLot lot)
+        {
+            const string launcherString = "bingmaps:?rtp=~{0}";
+            const string launcherPosString = "pos.{0}_{1}_{2}";
+            const string launcherAdrString = "adr.{0}";
+            if (lot == null)
+            {
+                return;
+            }
+            Uri launcherUri = null;
+            if (lot.Coordinates != null)
+            {
+                launcherUri = new Uri(
+                    String.Format(
+                        launcherString,
+                        String.Format(
+                            launcherPosString,
+                            lot.Coordinates.Latitude.ToString(CultureInfo.InvariantCulture),
+                            lot.Coordinates.Longitude.ToString(CultureInfo.InvariantCulture),
+                            lot.Name
+                        )
+                    )
+                );
+            }else if (!String.IsNullOrEmpty(lot.Address))
+            {
+                launcherUri = new Uri(
+                    String.Format(
+                        launcherString,
+                        String.Format(
+                            launcherAdrString,
+                            Uri.EscapeDataString(lot.Address + ", " + SelectedCity.Name)
+                            )
+                        )
+                    );
+            }
+            else
+            {
+                launcherUri = new Uri(
+                    String.Format(
+                        launcherString,
+                        String.Format(
+                            launcherAdrString,
+                            Uri.EscapeDataString(lot.Name + ", " + SelectedCity.Name)
+                            )
+                        )
+                    );
+            }
+            if (launcherUri != null)
+            {
+                var launcherOptions = new LauncherOptions
+                {
+                    TargetApplicationPackageFamilyName = "Microsoft.WindowsMaps_8wekyb3d8bbwe"
+                };
+                await Launcher.LaunchUriAsync(launcherUri, launcherOptions);
+            }
         }
         #endregion
 

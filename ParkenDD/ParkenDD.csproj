@@ -119,6 +119,7 @@
     <Compile Include="Converters\TrimTextConverter.cs" />
     <Compile Include="Interfaces\ICanResume.cs" />
     <Compile Include="Interfaces\ICanSuspend.cs" />
+    <Compile Include="Messages\ZoomMapToCoordinateMessage.cs" />
     <Compile Include="Models\SelectableParkingLot.cs" />
     <Compile Include="Services\GeolocationService.cs" />
     <Compile Include="Services\MapDrawingService.cs" />
