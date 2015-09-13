@@ -347,6 +347,7 @@
                                     <StackPanel
                                         Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <Button Content="Wegbeschreibung"
+                                                Tag="&#xE816;"
                                                 Style="{ThemeResource ParkingLotListNavigationButton}"
                                                 Command="{Binding Main.NavigateToParkingLotCommand, Source={StaticResource Locator}}"
                                                 CommandParameter="{x:Bind ParkingLot}"/>
