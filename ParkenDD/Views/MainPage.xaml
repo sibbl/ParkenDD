@@ -83,6 +83,7 @@
                         <Setter Target="ParkingLotListPanel.(RelativePanel.Below)" Value="ParkingLotMap" />
                         <Setter Target="ParkingLotMap.(RelativePanel.RightOf)" Value="" />
                         <Setter Target="MapTopBar.Visibility" Value="Collapsed" />
+                        <Setter Target="ParkingLotMap.(RelativePanel.BorderThickness)" Value="0,0,0,1"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="desktop">
@@ -141,7 +142,7 @@
             </VisualStateGroup>
 
             <VisualStateGroup>
-                <VisualState x:Name="mobileView">
+                <VisualState x:Name="mobilePlatform">
                     <VisualState.StateTriggers>
                         <windowsStateTriggers:DeviceFamilyStateTrigger DeviceFamily="Mobile"/>
                     </VisualState.StateTriggers>
@@ -150,6 +151,7 @@
                         <Setter Target="SplitViewTopBar.Padding" Value="0" />
                         <Setter Target="ParkingLotListTopBar.Height" Value="48" />
                         <Setter Target="ParkingLotListTopBar.Padding" Value="0" />
+                        <Setter Target="MapTopBar.(UIElement.Visibility)" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -157,10 +159,13 @@
         <SplitView.Pane>
             <Grid 
                 Style="{ThemeResource SplitViewContainerStyle}"
+                BorderThickness="0,0,1,0"
+                BorderBrush="{StaticResource DarkBlueBrush}"
                 >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <RelativePanel
                     x:Name="SplitViewTopBar"
@@ -202,6 +207,16 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                <Button
+                    Grid.Row="2"
+                    Style="{StaticResource AboutButtonStyle}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Margin="0,3,4,0">&#xE946; </TextBlock>
+                            <TextBlock>Informationen</TextBlock>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
             </Grid>
         </SplitView.Pane>
         <SplitView.Content>
@@ -428,13 +443,15 @@
                     RelativePanel.RightOf="ParkingLotListPanel"
                     RelativePanel.AlignTopWithPanel="True"
                     RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.AlignBottomWithPanel="True">
+                    RelativePanel.AlignBottomWithPanel="True"
+                    BorderThickness="1,0,0,0"
+                    BorderBrush="#dddddd">
                     <RelativePanel
                         x:Name="MapTopBar"
                         Style="{ThemeResource MapTopBarStyle}"
                         RelativePanel.AlignTopWithPanel="True"
                         RelativePanel.AlignLeftWithPanel="True"
-                        RelativePanel.AlignRightWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True" Margin="-1,0,0,0"
                         />
                     <maps:MapControl
                         x:Name="Map"

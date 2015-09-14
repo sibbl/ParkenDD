@@ -76,16 +76,14 @@ namespace ParkenDD.Views
             {
                 await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
-                    if (msg.Result == null)
-                    {
-                        DrawingService.RemoveSearchResult(Map);
-                    }
-                    else
-                    {
-                        DrawingService.DrawSearchResult(Map, msg.Result);
-                        await Map.TrySetViewAsync(msg.Result.Point, null, null, null, MapAnimationKind.Bow);
-                    }
+                    DrawingService.DrawSearchResult(Map, msg.Result);
+                    await Map.TrySetViewAsync(msg.Result.Point, null, null, null, MapAnimationKind.Bow);
                 });
+            });
+
+            Messenger.Default.Register(this, (HideSearchResultOnMapMessage msg) =>
+            {
+                DrawingService.RemoveSearchResult(Map);
             });
 
             Vm.PropertyChanged += async (sender, args) =>

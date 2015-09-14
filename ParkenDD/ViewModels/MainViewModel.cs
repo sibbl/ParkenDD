@@ -206,10 +206,6 @@ namespace ParkenDD.ViewModels
             set
             {
                 Set(() => SearchText, ref _searchText, value);
-                if (string.IsNullOrWhiteSpace(SearchText))
-                {
-                    Messenger.Default.Send(this, new ShowSearchResultOnMapMessage(null));
-                }
             }
         }
         #endregion
@@ -741,6 +737,12 @@ namespace ParkenDD.ViewModels
                 {
                     SearchSuggestions = result.Locations.Select(x => new AddressSearchSuggestionItem(x)).Where(x => !string.IsNullOrEmpty(x.ToString())).ToList();
                 }
+            }
+
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                Messenger.Default.Send(new HideSearchResultOnMapMessage());
+                SearchSuggestions = null;
             }
         }
 

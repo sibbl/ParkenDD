@@ -8,6 +8,7 @@ using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
@@ -140,7 +141,13 @@ namespace ParkenDD.Services
             {
                 foreach (var lot in lots)
                 {
-                    DrawParkingLot(map, drawingContainer, lot);
+                    CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        DrawParkingLot
+                            (map,
+                                drawingContainer,
+                                lot);
+                    });
                 }
             }
         }
