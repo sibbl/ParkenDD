@@ -43,7 +43,7 @@ namespace ParkenDD.Triggers
 
         #region ITriggerValue
 
-        private bool m_IsActive;
+        private bool _isActive;
 
         /// <summary>
         /// Gets a value indicating whether this trigger is active.
@@ -51,15 +51,14 @@ namespace ParkenDD.Triggers
         /// <value><c>true</c> if this trigger is active; otherwise, <c>false</c>.</value>
         public bool IsActive
         {
-            get { return m_IsActive; }
+            get { return _isActive; }
             private set
             {
-                if (m_IsActive != value)
+                if (_isActive != value)
                 {
-                    m_IsActive = value;
-                    base.SetActive(value);
-                    if (IsActiveChanged != null)
-                        IsActiveChanged(this, EventArgs.Empty);
+                    _isActive = value;
+                    SetActive(value);
+                    IsActiveChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }

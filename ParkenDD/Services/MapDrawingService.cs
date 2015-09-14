@@ -52,7 +52,7 @@ namespace ParkenDD.Services
                 return ZindexTopmostParkingLot; //100% * 1000 + 1 to be on top
             }
             var zIndex = ((double)lot.FreeLots / (double)lot.TotalLots);
-            if (Double.IsNaN(zIndex) || Double.IsInfinity(zIndex))
+            if (double.IsNaN(zIndex) || double.IsInfinity(zIndex))
             {
                 zIndex = 0;
             }

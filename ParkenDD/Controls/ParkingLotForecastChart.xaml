@@ -6,14 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
-    xmlns:converters="using:ParkenDD.Converters"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
-    
-    <UserControl.Resources>
-        <converters:TimeSpanToDateTimeAxisLabelFormatConverter x:Key="TimeSpanToDateTimeAxisLabelFormatConverter" />
-    </UserControl.Resources>
 
     <StackPanel Style="{ThemeResource ParkingLotForecastChartContainerStyle}">
         <ComboBox

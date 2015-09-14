@@ -42,9 +42,7 @@
         <Ellipse
             x:Name="HoleCircle"
             Style="{ThemeResource ParkingLotLoadDonutHoleStyle}"
-            >
-            
-        </Ellipse>
+            />
         <TextBlock
             Style="{ThemeResource ParkingLotLoadLabelStyle}"
             Text="Value"

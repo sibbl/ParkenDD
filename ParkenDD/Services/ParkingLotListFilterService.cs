@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight.Ioc;
+using Microsoft.Practices.ServiceLocation;
 using ParkenDD.Models;
 using ParkenDD.Utils;
 using ParkenDD.ViewModels;
@@ -13,7 +13,7 @@ namespace ParkenDD.Services
     {
         public async Task<IEnumerable<SelectableParkingLot>> CreateList(IEnumerable<SelectableParkingLot> items)
         {
-            var mainVm = SimpleIoc.Default.GetInstance<MainViewModel>();
+            var mainVm = ServiceLocator.Current.GetInstance<MainViewModel>();
             var filter = mainVm.ParkingLotFilterMode;
             var orderAsc = mainVm.ParkingLotFilterAscending;
             var alphabeticalSortingFunc = new Func<SelectableParkingLot, string>(x => x.ParkingLot.Name);
@@ -25,7 +25,7 @@ namespace ParkenDD.Services
                     var availabilitySortingFunc = new Func<SelectableParkingLot, double>(x => ((double)x.ParkingLot.TotalLots / (double)x.ParkingLot.FreeLots));
                     return orderAsc ? items.OrderBy(availabilitySortingFunc) : items.OrderByDescending(availabilitySortingFunc);
                 case ParkingLotFilterMode.Distance:
-                    var userPos = await SimpleIoc.Default.GetInstance<GeolocationService>().GetUserLocation();
+                    var userPos = await ServiceLocator.Current.GetInstance<GeolocationService>().GetUserLocation();
                     if (userPos == null)
                     {
                         mainVm.ParkingLotFilterMode = ParkingLotFilterMode.Alphabetically;

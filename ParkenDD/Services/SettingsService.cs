@@ -1,7 +1,5 @@
 ﻿using System;
-using Windows.Devices.Geolocation;
 using Windows.Storage;
-using Windows.UI.Xaml.Controls.Maps;
 using GalaSoft.MvvmLight;
 using ParkenDD.Models;
 

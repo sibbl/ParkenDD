@@ -3,33 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:ParkenDD.Controls"
     xmlns:charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
-    xmlns:dataVisualization="using:WinRTXamlToolkit.Controls.DataVisualization"
-    xmlns:converters="using:ParkenDD.Converters"
-    xmlns:cimbalinoConverters="using:Cimbalino.Toolkit.Converters">
-    
-    <converters:TrimTextConverter x:Key="TrimTextConverter" />
-    <converters:DistanceToParkingLotConverter x:Key="DistanceToParkingLotConverter" />
-    <converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter" />
-    <cimbalinoConverters:NegativeBooleanConverter x:Key="NegativeBooleanConverter" />
-    <cimbalinoConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    <cimbalinoConverters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
-    <cimbalinoConverters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-
-    <x:Double x:Key="ChartMinimum">0</x:Double>
-    <x:Double x:Key="ChartMaximum">100</x:Double>
-    <x:Double x:Key="ChartInterval">10</x:Double>
-
-    <Color x:Key="DarkBlueColor">#09487f</Color> 
-    <Color x:Key="BlueColor">#14548c</Color>
-    <Color x:Key="LightBlueColor">#50a0bf</Color>
-    <Color x:Key="RedColor">#c70000</Color>
-    <Color x:Key="GreenColor">#26b500</Color>
-
-    <SolidColorBrush x:Key="DarkBlueBrush" Color="{StaticResource DarkBlueColor}"/>
-    <SolidColorBrush x:Key="BlueBrush" Color="{StaticResource BlueColor}"/>
-    <SolidColorBrush x:Key="LightBlueBrush" Color="{StaticResource LightBlueColor}"/>
-    <SolidColorBrush x:Key="RedBrush" Color="{StaticResource RedColor}"/>
-    <SolidColorBrush x:Key="GreenBrush" Color="{StaticResource GreenColor}"/>
+    xmlns:dataVisualization="using:WinRTXamlToolkit.Controls.DataVisualization">
 
     <Style x:Key="SplitViewLogoStyle" TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -42,19 +16,23 @@
         <Setter Property="Height" Value="78" />
         <Setter Property="Padding" Value="0,30,0,0" />
     </Style>
+    
     <Style x:Key="SplitViewTopBarStyle" BasedOn="{StaticResource TopBarStyle}" TargetType="RelativePanel">
         <Setter Property="Background" Value="{StaticResource BlueColor}" />
         <Setter Property="BorderBrush" Value="{StaticResource DarkBlueColor}" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
     </Style>
+    
     <Style x:Key="SplitViewContainerStyle" TargetType="Grid">
         <Setter Property="Background" Value="{StaticResource BlueColor}" />
     </Style>
+    
     <Style x:Key="ParkingLotListTopBarStyle" BasedOn="{StaticResource TopBarStyle}" TargetType="RelativePanel">
         <Setter Property="Background" Value="#FFF" />
         <Setter Property="BorderBrush" Value="#DDD" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
     </Style>
+    
     <Style x:Key="ParkingLotListPanelStyle" TargetType="RelativePanel">
         <Setter Property="Background" Value="#FFF" />
     </Style>
@@ -536,6 +514,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
     <Style x:Key="NavIconButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
@@ -642,38 +621,46 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
     <Style x:Key="SplitViewNavButtonStyle" TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
         <Setter Property="Foreground" Value="#FFFFFF" />
     </Style>
+    
     <Style x:Key="SplitViewNavIconButtonStyle" TargetType="Button" BasedOn="{StaticResource NavIconButtonStyle}">
         <Setter Property="Foreground" Value="#FFFFFF" />
     </Style>
+    
     <Style x:Key="SelectCityProgressBarStyle" TargetType="ProgressBar">
         <Setter Property="IsIndeterminate" Value="True" />
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Foreground" Value="White" />
     </Style>
+    
     <Style x:Key="SplitViewCityItemTextStyle" TargetType="TextBlock">
         <Setter Property="Foreground" Value="#FFFFFF" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
+    
     <Style x:Key="ParkingLotAutoSuggestBoxStyle" TargetType="AutoSuggestBox">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
     </Style>
+    
     <Style x:Key="ParkingLotSearchTextBoxStyle" TargetType="TextBox">
         <Setter Property="Padding" Value="14" />
         <Setter Property="Background" Value="#FFF" />
         <Setter Property="BorderThickness" Value="0" />
     </Style>
+    
     <Style x:Key="ParkingLotListProgressBarStyle" TargetType="ProgressBar">
         <Setter Property="IsIndeterminate" Value="True" />
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Foreground" Value="{StaticResource LightBlueColor}" />
     </Style>
+    
     <Style x:Key="SelectCityListContainerStyle" TargetType="ListViewItem">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
@@ -745,29 +732,36 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
     <Style x:Key="ParkingLotAutoSuggestBoxSuggestionItemStyle" TargetType="StackPanel">
         <Setter Property="Padding" Value="0,5,0,5" />
     </Style>
+    
     <Style x:Key="ParkingLotAutoSuggestBoxSuggestionItemStreetStyle" TargetType="TextBlock">
         <Setter Property="FontSize" Value="14" />
     </Style>
+    
     <Style x:Key="ParkingLotAutoSuggestBoxSuggestionItemNeighborhoodStyle" TargetType="TextBlock">
         <Setter Property="FontSize" Value="14" />
     </Style>
+    
     <Style x:Key="ParkingLotAutoSuggestBoxSuggestionItemDistrictStyle" TargetType="TextBlock">
         <Setter Property="FontSize" Value="11" />
         <Setter Property="Foreground" Value="#666666" />
     </Style>
+    
     <Style x:Key="ParkingLotAutoSuggestBoxSuggestionItemTownStyle" TargetType="TextBlock">
         <Setter Property="FontSize" Value="12" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Foreground" Value="#333333" />
     </Style>
+    
     <Style x:Key="ParkingLotAutoSuggestBoxSuggestionItemContainerStyle" TargetType="ListViewItem">
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="BorderThickness" Value="0,0,0,1" />
         <Setter Property="BorderBrush" Value="#14000000" />
     </Style>
+    
     <Style x:Key="AboutButtonStyle" TargetType="Button">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="FontSize" Value="11" />
@@ -844,4 +838,5 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
 </ResourceDictionary>

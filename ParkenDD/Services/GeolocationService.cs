@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
-using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Messaging;
-using ParkenDD.Messages;
+using Microsoft.Practices.ServiceLocation;
 using ParkenDD.ViewModels;
 
 namespace ParkenDD.Services
 {
     public class GeolocationService
     {
-        private static MainViewModel MainVm => SimpleIoc.Default.GetInstance<MainViewModel>();
+        private static MainViewModel MainVm => ServiceLocator.Current.GetInstance<MainViewModel>();
         public async Task<Geoposition> GetUserLocation()
         {
             var accessStatus = await Geolocator.RequestAccessAsync();

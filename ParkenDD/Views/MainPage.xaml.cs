@@ -1,9 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Devices.Geolocation;
-using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -13,7 +11,7 @@ using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Messaging;
 using ParkenDD.Messages;
 using ParkenDD.ViewModels;
-using GalaSoft.MvvmLight.Ioc;
+using Microsoft.Practices.ServiceLocation;
 using ParkenDD.Models;
 using ParkenDD.Services;
 using ParkenDD.Utils;
@@ -23,7 +21,7 @@ namespace ParkenDD.Views
     public sealed partial class MainPage : Page
     {
         public MainViewModel Vm => (MainViewModel)DataContext;
-        private MapDrawingService DrawingService => SimpleIoc.Default.GetInstance<MapDrawingService>();
+        private static MapDrawingService DrawingService => ServiceLocator.Current.GetInstance<MapDrawingService>();
         private SelectableParkingLot _selectedLot;
         private GeoboundingBox _initialMapBbox;
         private Geopoint _initialCoordinates;

@@ -1,0 +1,16 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:ParkenDD.Converters"
+    xmlns:cimbalinoConverters="using:Cimbalino.Toolkit.Converters">
+
+    <converters:TrimTextConverter x:Key="TrimTextConverter" />
+    <converters:DistanceToParkingLotConverter x:Key="DistanceToParkingLotConverter" />
+    <converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter" />
+    <converters:TimeSpanToDateTimeAxisLabelFormatConverter x:Key="TimeSpanToDateTimeAxisLabelFormatConverter" />
+    <cimbalinoConverters:NegativeBooleanConverter x:Key="NegativeBooleanConverter" />
+    <cimbalinoConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <cimbalinoConverters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+    <cimbalinoConverters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+
+</ResourceDictionary>

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Globalization;
 using Windows.UI.Xaml.Data;
-using GalaSoft.MvvmLight.Ioc;
+using Microsoft.Practices.ServiceLocation;
 using ParkenDD.Api.Models;
 using ParkenDD.Utils;
 using ParkenDD.ViewModels;
@@ -13,7 +12,7 @@ namespace ParkenDD.Converters
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var lot = value as ParkingLot;
-            var location = SimpleIoc.Default.GetInstance<MainViewModel>()?.UserLocation;
+            var location = ServiceLocator.Current.GetInstance<MainViewModel>()?.UserLocation;
             if (lot?.Coordinates?.Point == null || location == null)
             {
                 return string.Empty;

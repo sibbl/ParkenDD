@@ -10,9 +10,10 @@ namespace ParkenDD.Utils
             MapIcon iconOnTop = null;
             foreach (var element in elements)
             {
-                if (element is MapIcon && (iconOnTop == null || iconOnTop.ZIndex < element.ZIndex))
+                var top = element as MapIcon;
+                if (top != null && (iconOnTop == null || iconOnTop.ZIndex < top.ZIndex))
                 {
-                    iconOnTop = (MapIcon)element;
+                    iconOnTop = top;
                 }
             }
             return iconOnTop;

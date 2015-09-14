@@ -11,6 +11,8 @@
         <ResourceDictionary>
             <services:ViewModelLocatorService x:Key="Locator" d:IsDataSource="True" />
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Definitions.xaml" />
+                <ResourceDictionary Source="Resources/Converters.xaml" />
                 <ResourceDictionary Source="Resources/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

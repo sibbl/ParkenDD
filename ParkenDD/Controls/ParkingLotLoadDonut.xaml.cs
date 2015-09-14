@@ -5,14 +5,14 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 using ParkenDD.Api.Models;
-using GalaSoft.MvvmLight.Ioc;
+using Microsoft.Practices.ServiceLocation;
 using ParkenDD.ViewModels;
 
 namespace ParkenDD.Controls
 {
     public sealed partial class ParkingLotLoadDonut : UserControl
     {
-        private MainViewModel MainVm => SimpleIoc.Default.GetInstance<MainViewModel>();
+        private static MainViewModel MainVm => ServiceLocator.Current.GetInstance<MainViewModel>();
 
         public ParkingLotLoadDonut()
         {
@@ -65,18 +65,19 @@ namespace ParkenDD.Controls
             {
                 FreeLabel.FontSize = ActualHeight*0.25;
             }
-            var value = Double.NaN;
+            var value = double.NaN;
             var lot = ParkingLot;
             if (lot != null && lot.TotalLots != 0)
             {
                 value = ((double)lot.FreeLots) / ((double)lot.TotalLots);
             }
-            if (Double.IsNaN(value) || Double.IsInfinity(value))
+            if (double.IsNaN(value) || double.IsInfinity(value))
             {
                 ValueInvertedCircle.Visibility = ValuePath.Visibility = Visibility.Collapsed;
                 FreeLabel.Text = "?";
                 return;
-            }else if (value < 0)
+            }
+            if (value < 0)
             {
                 value = 0;
             }else if (value > 1)
@@ -147,7 +148,7 @@ namespace ParkenDD.Controls
             };
             fig.Segments.Add(finalQuart);
 
-            LineSegment lastLine = new LineSegment {Point = new Point(radius, radius)};
+            var lastLine = new LineSegment {Point = new Point(radius, radius)};
             fig.Segments.Add(lastLine);
             pg.Figures.Add(fig);
             ValuePath.SetValue(Path.DataProperty, pg);

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
-using GalaSoft.MvvmLight.Ioc;
 using Microsoft.ApplicationInsights;
+using Microsoft.Practices.ServiceLocation;
 using ParkenDD.Api.Models;
 using ParkenDD.ViewModels;
 
@@ -87,13 +87,13 @@ namespace ParkenDD.Services
             if (voiceCommandName == "selectCity")
             {
                 var cityName = speechRecognitionResult.SemanticInterpretation.Properties["city"][0];
-                await SimpleIoc.Default.GetInstance<MainViewModel>().TrySelectCityByName(cityName);
+                await ServiceLocator.Current.GetInstance<MainViewModel>().TrySelectCityByName(cityName);
             }
             else if(voiceCommandName == "selectParkingLot")
             {
                 var cityName = speechRecognitionResult.SemanticInterpretation.Properties["city"][0];
                 var parkingLotName = speechRecognitionResult.SemanticInterpretation.Properties["parking_lot"][0];
-                await SimpleIoc.Default.GetInstance<MainViewModel>().TrySelectParkingLotByName(cityName, parkingLotName);
+                await ServiceLocator.Current.GetInstance<MainViewModel>().TrySelectParkingLotByName(cityName, parkingLotName);
             }
         }
     }

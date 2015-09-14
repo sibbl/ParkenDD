@@ -19,17 +19,14 @@ namespace ParkenDD.Converters
             {
                 return dt.ToString(HourFormat);
             }
-            else
+            var days = (now.Date - dt.Date).Days;
+            if (days < 2)
             {
-                var days = (now.Date - dt.Date).Days;
-                if (days < 2)
-                {
-                    //TODO: localize
-                    return String.Format("gestern um {0}", dt.ToString(HourFormat));
-                }
                 //TODO: localize
-                return String.Format("vor {0} Tagen", days);
+                return string.Format("gestern um {0}", dt.ToString(HourFormat));
             }
+            //TODO: localize
+            return string.Format("vor {0} Tagen", days);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

@@ -5,13 +5,10 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Activation;
 using Windows.Devices.Geolocation;
 using Windows.Services.Maps;
 using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
-using Cimbalino.Toolkit.Extensions;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
@@ -785,7 +782,7 @@ namespace ParkenDD.ViewModels
             TryLoadOnlineCityData();
         }
 
-        public async void OnResume()
+        public void OnResume()
         {
             ParkingLotFilterMode = _settings.ParkingLotFilterMode;
             ParkingLotFilterIsGrouped = _settings.ParkingLotFilterIsGrouped;

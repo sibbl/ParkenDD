@@ -7,6 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Ioc;
+using Microsoft.Practices.ServiceLocation;
 using ParkenDD.Services;
 
 namespace ParkenDD
@@ -57,7 +58,7 @@ namespace ParkenDD
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
-                    SimpleIoc.Default.GetInstance<LifecycleService>().Restore();
+                    ServiceLocator.Current.GetInstance<LifecycleService>().Restore();
                 }
 
                 // Place the frame in the current Window
@@ -95,13 +96,13 @@ namespace ParkenDD
         private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            await SimpleIoc.Default.GetInstance<LifecycleService>().SaveAsync();
+            await ServiceLocator.Current.GetInstance<LifecycleService>().SaveAsync();
             deferral.Complete();
         }
 
         private void OnResuming(object sender, object o)
         {
-            SimpleIoc.Default.GetInstance<LifecycleService>().Restore();
+            ServiceLocator.Current.GetInstance<LifecycleService>().Restore();
         }
     }
 }

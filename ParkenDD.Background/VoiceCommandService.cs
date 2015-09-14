@@ -5,7 +5,6 @@ using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.VoiceCommands;
 using ParkenDD.Api;
-using ParkenDD.Api.Models;
 
 namespace ParkenDD.Background
 {
@@ -16,20 +15,17 @@ namespace ParkenDD.Background
             var serviceDeferral = taskInstance.GetDeferral();
             var triggerDetails = taskInstance.TriggerDetails as AppServiceTriggerDetails;
 
-            // get the voiceCommandServiceConnection from the tigger details
             var voiceServiceConnection = VoiceCommandServiceConnection.FromAppServiceTriggerDetails(triggerDetails);
             var voiceCommand = await voiceServiceConnection.GetVoiceCommandAsync();
 
-            // switch statement to handle different commands
             switch (voiceCommand.CommandName)
             {
                 case "getParkingLotData":
-                    //TODO: localization
-                    //TODO: load the requested parking lot
                     var cityStr = voiceCommand.Properties["city"][0];
-                    var lotName = voiceCommand.Properties["parking_lot"][0] + "aaa";
+                    var lotName = voiceCommand.Properties["parking_lot"][0];
 
                     var api = new ParkenDdClient();
+                    //TODO: localize
                     var waitMsg = new VoiceCommandUserMessage
                     {
                         DisplayMessage = "Moment, ich fahre kurz vorbei...",
@@ -55,19 +51,20 @@ namespace ParkenDD.Background
                     }
                     if (lot == null)
                     {
+                        //TODO: localize
                         var errorMsg = new VoiceCommandUserMessage { 
                             DisplayMessage = "Parkplatz nicht gefunden...",
                             SpokenMessage = "Der Parkplatz wurde leider nicht gefunden..."
                         };
                         var errorResp = VoiceCommandResponse.CreateResponseForPrompt(errorMsg, errorMsg);
-                        var result = await voiceServiceConnection.RequestConfirmationAsync(errorResp);
+                        await voiceServiceConnection.RequestConfirmationAsync(errorResp);
                     }
                     else
                     {
                         var percent = Math.Round((double) lot.FreeLots/(double) lot.TotalLots);
-                        // create response messages for Cortana to respond
                         var responseMsg = new VoiceCommandUserMessage
                         {
+                            //TODO: localize
                             DisplayMessage =
                                 string.Format("Der Parkplatz {0} hat noch {1} von {2} Parkplätzen frei ({3}%)",
                                     lot.Name,
@@ -80,14 +77,12 @@ namespace ParkenDD.Background
                                 lot.TotalLots)
                         };
 
-                        // create a response and ask Cortana to respond with success
                         var response = VoiceCommandResponse.CreateResponse(responseMsg);
                         await voiceServiceConnection.ReportSuccessAsync(response);
                     }
                     break;
             }
 
-            //Complete the service deferral
             serviceDeferral?.Complete();
         }
     }
