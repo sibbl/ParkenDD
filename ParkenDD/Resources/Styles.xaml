@@ -131,7 +131,7 @@
     <Style x:Key="ParkingLotListNavigationButton" TargetType="Button">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="Margin" Value="-12,0,-12,-8" />
+        <Setter Property="Margin" Value="-12,5,-12,-8" />
         <Setter Property="Padding" Value="7" />
         <Setter Property="Background" Value="#0C000000" />
         <Setter Property="BorderThickness" Value="0"/>
@@ -141,7 +141,7 @@
                 <ControlTemplate TargetType="Button">
                     <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
@@ -283,7 +283,7 @@
 
     <Style x:Key="ParkingLotForecastChartStyle" TargetType="charting:Chart">
         <Setter Property="Height" Value="150" />
-        <Setter Property="Margin" Value="0,-7,0,-7" />
+        <Setter Property="Margin" Value="0,-7,0,-10" />
         <Setter Property="Padding" Value="10,0,20,0" />
         <Setter Property="LegendStyle">
             <Setter.Value>
