@@ -212,7 +212,7 @@
                     Style="{StaticResource AboutButtonStyle}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="Segoe MDL2 Assets" Margin="0,3,4,0">&#xE946; </TextBlock>
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Margin="0,2,4,0" FontSize="12">&#xE946; </TextBlock>
                             <TextBlock>Informationen</TextBlock>
                         </StackPanel>
                     </Button.Content>
