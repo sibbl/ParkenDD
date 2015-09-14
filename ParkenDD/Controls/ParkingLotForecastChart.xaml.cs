@@ -17,10 +17,9 @@ namespace ParkenDD.Controls
         //TODO: localize
         private List<ParkingLotForecastTimespanSelection> ComboBoxValues { get; set; } = new List<ParkingLotForecastTimespanSelection>
         {
-            new ParkingLotForecastTimespanSelection {Title = "Vorhersage für die nächsten 3 Stunden", TimeSpan = TimeSpan.FromHours(3)},
+            new ParkingLotForecastTimespanSelection {Title = "Vorhersage für die nächsten 6 Stunden", TimeSpan = TimeSpan.FromHours(6)},
             new ParkingLotForecastTimespanSelection {Title = "Vorhersage für die nächsten 24 Stunden", TimeSpan = TimeSpan.FromHours(24)},
             new ParkingLotForecastTimespanSelection {Title = "Vorhersage für die nächsten 7 Tage", TimeSpan = TimeSpan.FromDays(7)},
-            new ParkingLotForecastTimespanSelection {Title = "Vorhersage für die nächsten 4 Wochen", TimeSpan = TimeSpan.FromDays(7*4)},
         };
 
         public ParkingLotForecastChart()
