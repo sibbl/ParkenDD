@@ -10,6 +10,11 @@ namespace ParkenDD.Models
         {
             ParkingLots = new List<SelectableParkingLot>();
         }
+        public ParkingLotListGroup(string header)
+        {
+            Header = header;
+            ParkingLots = new List<SelectableParkingLot>();
+        }
         public ParkingLotListGroup(string header, SelectableParkingLot parkingLot)
         {
             Header = header;

@@ -51,6 +51,7 @@ namespace ParkenDD.Views
                 {
                     await Map.TrySetViewAsync(_initialCoordinates, null, null, null, MapAnimationKind.None);
                 }
+                UpdateParkingLotFilter();
             };
 
             Messenger.Default.Register(this, async (ZoomMapToBoundsMessage msg) =>

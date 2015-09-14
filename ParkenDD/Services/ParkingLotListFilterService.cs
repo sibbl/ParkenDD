@@ -40,23 +40,22 @@ namespace ParkenDD.Services
         }
         public async Task<IEnumerable<ParkingLotListGroup>> CreateGroups(IEnumerable<SelectableParkingLot> items)
         {
-            var mainVm = SimpleIoc.Default.GetInstance<MainViewModel>();
-            var orderAsc = mainVm.ParkingLotFilterAscending;
-            var orderedItems = await CreateList(orderAsc ? items.OrderBy(x => x.ParkingLot.Region) : items.OrderByDescending(x => x.ParkingLot.Region));
+            var orderedItems = await CreateList(items);
             var result = new List<ParkingLotListGroup>();
+            //create groups in the order which the server returned
+            foreach (var i in items)
+            {
+                var header = i.ParkingLot.Region ?? "Weitere"; //TODO: localize
+                if (!result.Any(x => x.Header.Equals(header)))
+                {
+                    result.Add(new ParkingLotListGroup(header));
+                }
+            }
+            //then add ordered items
             foreach (var i in orderedItems)
             {
                 var header = i.ParkingLot.Region ?? "Weitere"; //TODO: localize
-                var existingGroup = result.FirstOrDefault(x => x.Header.Equals(header));
-                if (existingGroup == null)
-                {
-                    var newGroup = new ParkingLotListGroup(header, i);
-                    result.Add(newGroup);
-                }
-                else
-                {
-                    existingGroup.ParkingLots.Add(i);
-                }
+                result.FirstOrDefault(x => x.Header.Equals(header)).ParkingLots.Add(i);
             }
             if (result.Count == 1)
             {

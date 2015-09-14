@@ -33,9 +33,8 @@ namespace ParkenDD.Utils
             }
         }
 
-        public static void Merge(this City city, City newData, ObservableCollection<SelectableParkingLot> parkingLotCollection, out bool addedOrRemovedItems)
+        public static void Merge(this City city, City newData, ObservableCollection<SelectableParkingLot> parkingLotCollection)
         {
-            addedOrRemovedItems = false;
             city.DataSource = newData.DataSource;
             city.LastDownloaded = newData.LastDownloaded;
             city.LastUpdated = newData.LastUpdated;
@@ -46,7 +45,6 @@ namespace ParkenDD.Utils
                 {
                     city.Lots.Add(newLot);
                     parkingLotCollection.Add(new SelectableParkingLot(newLot));
-                    addedOrRemovedItems = true;
                 }
                 else
                 {
@@ -73,7 +71,6 @@ namespace ParkenDD.Utils
                 if (selectableParkingLot != null)
                 {
                     parkingLotCollection.Remove(selectableParkingLot);
-                    addedOrRemovedItems = true;
                 }
             }
         }

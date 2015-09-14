@@ -521,13 +521,8 @@ namespace ParkenDD.ViewModels
                 if (forceRefresh)
                 {
                     var newCityData = await GetCity(cityId, true);
-                    bool addedOrRemovedItems;
-                    _cities[cityId].Merge(newCityData, ParkingLots, out addedOrRemovedItems);
-                    if (addedOrRemovedItems)
-                    {
-                        Debug.WriteLine("[MainVm] LoadCity: added or removed items");
-                        UpdateParkingLotListFilter();
-                    }
+                    _cities[cityId].Merge(newCityData, ParkingLots);
+                    UpdateParkingLotListFilter();
                     return _cities[cityId];
                 }
                 return _cities[cityId];
