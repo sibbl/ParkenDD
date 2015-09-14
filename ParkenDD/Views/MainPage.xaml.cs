@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Devices.Geolocation;
 using Windows.UI;
@@ -86,9 +88,26 @@ namespace ParkenDD.Views
                     DrawingService.DrawParkingLots(Map, BackgroundDrawingContainer);
                     if (Vm.ParkingLots != null)
                     {
+                        foreach (var selectableParkingLot in Vm.ParkingLots)
+                        {
+                            selectableParkingLot.ParkingLot.PropertyChanged += (sender1, changedEventArgs) =>
+                            {
+                                DrawingService.RedrawParkingLot(BackgroundDrawingContainer, selectableParkingLot);
+                            };
+                        }
                         Vm.ParkingLots.CollectionChanged += (o, eventArgs) =>
                         {
                             DrawingService.DrawParkingLots(Map, BackgroundDrawingContainer);
+                            if (eventArgs.NewItems != null)
+                            {
+                                foreach (var selectableParkingLot in eventArgs.NewItems.OfType<SelectableParkingLot>())
+                                {
+                                    selectableParkingLot.ParkingLot.PropertyChanged += (sender1, changedEventArgs) =>
+                                    {
+                                        DrawingService.RedrawParkingLot(BackgroundDrawingContainer, selectableParkingLot);
+                                    };
+                                }
+                            }
                         };
                     }
                 }else if(args.PropertyName == nameof(Vm.SelectedParkingLot))

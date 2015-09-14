@@ -1,33 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
 
 namespace ParkenDD.Api.Models
 {
-    public class City
+    public class City : ViewModelBase
     {
         /// <summary>
         ///     Link to the source of the data
         /// </summary>
         [JsonProperty("data_source")]
-        public Uri DataSource { get; set; }
+        public Uri DataSource
+        {
+            get { return _dataSource; }
+            set { Set(() => DataSource, ref _dataSource, value); }
+        }
+        private Uri _dataSource;
 
         /// <summary>
         ///     Time and date of the last download of the data.
         /// </summary>
         [JsonProperty("last_downloaded")]
-        public DateTime LastDownloaded { get; set; }
+        public DateTime LastDownloaded
+        {
+            get { return _lastDownloaded; }
+            set { Set(() => LastDownloaded, ref _lastDownloaded, value); }
+        }
+        private DateTime _lastDownloaded;
 
         /// <summary>
         ///     Time and date of the last update of the data source
         /// </summary>
         [JsonProperty("last_updated")]
-        public DateTime LastUpdated { get; set; }
+        public DateTime LastUpdated
+        {
+            get { return _lastUpdated; }
+            set { Set(() => LastUpdated, ref _lastUpdated, value); }
+        }
+        private DateTime _lastUpdated;
 
         /// <summary>
         ///     Array of parking lots in the city.
         /// </summary>
         [JsonProperty("lots")]
-        public List<ParkingLot> Lots { get; set; }
+        public ObservableCollection<ParkingLot> Lots
+        {
+            get { return _lots; }
+            set { Set(() => Lots, ref _lots, value); }
+        }
+        private ObservableCollection<ParkingLot> _lots;
     }
 }

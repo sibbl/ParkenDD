@@ -1,11 +1,11 @@
 ﻿{
   "dependencies": {
     "Cimbalino.Toolkit": "2.0.0-beta2",
-    "Microsoft.ApplicationInsights": "1.0.0",
+    "Microsoft.ApplicationInsights": "1.2.0",
     "Microsoft.ApplicationInsights.PersistenceChannel": "1.0.0",
     "Microsoft.ApplicationInsights.WindowsApps": "1.0.0",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
-    "MvvmLightLibs": "5.1.1",
+    "MvvmLightLibs": "5.2.0",
     "Newtonsoft.Json": "7.0.1",
     "WindowsStateTriggers": "1.0.2",
     "WinRTXamlToolkit.Controls.DataVisualization.Windows": "1.8.1"

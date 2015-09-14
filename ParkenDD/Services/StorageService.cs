@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Cimbalino.Toolkit.Extensions;
 using Newtonsoft.Json;
 using ParkenDD.Api.Models;
 
@@ -46,6 +45,7 @@ namespace ParkenDD.Services
         {
             return await ReadAsync<MetaData>(MetaDataFilename);
         }
+
         public async void SaveCityData(string cityId, City data)
         {
             await SaveCityDataAsync(cityId, data);

@@ -118,7 +118,7 @@
       <DependentUpon>ParkingLotLoadDonut.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\DistanceToParkingLotConverter.cs" />
-    <Compile Include="Converters\DoubleToNullableDoubleConverter.cs" />
+    <Compile Include="Converters\DateTimeToStringConverter.cs" />
     <Compile Include="Converters\TimeSpanToDateTimeAxisLabelFormatConverter.cs" />
     <Compile Include="Converters\TrimTextConverter.cs" />
     <Compile Include="Interfaces\ICanResume.cs" />
@@ -141,6 +141,7 @@
     <Compile Include="Services\ViewModelLocatorService.cs" />
     <Compile Include="Services\VoiceCommandService.cs" />
     <Compile Include="Triggers\ItemFocusStateTrigger.cs" />
+    <Compile Include="Utils\ClassUtils.cs" />
     <Compile Include="Utils\GeoUtils.cs" />
     <Compile Include="Utils\MapElementUtils.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

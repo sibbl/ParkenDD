@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace ParkenDD.Api.Models
 {
     public class MetaDataCities : Dictionary<string, MetaDataCityRow>
     {
-        public List<MetaDataCityRow> List => this.Select(x => x.Value).ToList();
+        public ObservableCollection<MetaDataCityRow> List => new ObservableCollection<MetaDataCityRow>(this.Select(x => x.Value).ToList());
 
         public MetaDataCities()
         {

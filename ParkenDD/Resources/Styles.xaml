@@ -3,7 +3,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:ParkenDD.Controls"
     xmlns:charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
-    xmlns:dataVisualization="using:WinRTXamlToolkit.Controls.DataVisualization">
+    xmlns:dataVisualization="using:WinRTXamlToolkit.Controls.DataVisualization"
+    xmlns:converters="using:ParkenDD.Converters"
+    xmlns:cimbalinoConverters="using:Cimbalino.Toolkit.Converters">
+    
+    <converters:TrimTextConverter x:Key="TrimTextConverter" />
+    <converters:DistanceToParkingLotConverter x:Key="DistanceToParkingLotConverter" />
+    <converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter" />
+    <cimbalinoConverters:NegativeBooleanConverter x:Key="NegativeBooleanConverter" />
+    <cimbalinoConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <cimbalinoConverters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+    <cimbalinoConverters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 
     <x:Double x:Key="ChartMinimum">0</x:Double>
     <x:Double x:Key="ChartMaximum">100</x:Double>
@@ -92,12 +102,24 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
+    <Style x:Key="ParkingLotListLastRefreshTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="9" />
+        <Setter Property="Foreground" Value="#999999" />
+        <Setter Property="Padding" Value="0,3,0,0" />
+    </Style>
+
     <Style x:Key="ParkingLotListStyle" TargetType="ListView">
-        <Setter Property="ItemContainerTransitions">
+        <Setter Property="HeaderTemplate">
             <Setter.Value>
-                <TransitionCollection>
-                    <EntranceThemeTransition/>
-                </TransitionCollection>
+                <DataTemplate>
+                    <TextBlock
+                        Visibility="{Binding Main.SelectedCityData, Converter={StaticResource NullToVisibilityConverter}, Source={StaticResource Locator}}"
+                        Style="{ThemeResource ParkingLotListLastRefreshTextBlockStyle}">
+                        <Run Text="Stand: " />
+                        <Run Text="{Binding}" />
+                    </TextBlock>
+                </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>

@@ -16,12 +16,10 @@ using ParkenDD.Api.Models;
 using ParkenDD.Api.Interfaces;
 using ParkenDD.Interfaces;
 using ParkenDD.Models;
+using ParkenDD.Utils;
 
 namespace ParkenDD.ViewModels
 {
-    public class DataPoint
-    {
-    }
     public class MainViewModel : ViewModelBase, ICanResume, ICanSuspend
     {
         #region PRIVATE PROPERTIES
@@ -31,6 +29,8 @@ namespace ParkenDD.ViewModels
         private readonly SettingsService _settings;
         private readonly StorageService _storage;
         private readonly Dictionary<string, City> _cities = new Dictionary<string, City>();
+        private readonly Dictionary<string, bool> _cityHasOnlineData = new Dictionary<string, bool>();
+        private bool _metaDataIsOnlineData = false;
         #endregion
 
         #region PUBLIC PROPERTIES
@@ -62,6 +62,7 @@ namespace ParkenDD.ViewModels
             {
                 Set(() => SelectedCity, ref _selectedCity, value);
                 LoadCityAndSelectCity();
+                TryLoadOnlineCityData();
             }
         }
         #endregion
@@ -218,7 +219,9 @@ namespace ParkenDD.ViewModels
             LoadingMetaData = true;
             MetaData = await GetMetaData();
             LoadingMetaData = false;
-            SelectedCity = FindCityByName(MetaData, "Dresden"); //TODO: select nearest city
+            SelectedCity = FindCityByName(MetaData, "Dresden"); //TODO: select nearest or recently selected city
+            TryLoadOnlineMetaData();
+            TryLoadOnlineCityData();
         }
 
         private async Task<MetaData> GetOfflineMetaData()
@@ -242,6 +245,7 @@ namespace ParkenDD.ViewModels
                 }
             }
             var metaData = await _client.GetMetaDataAsync();
+            _metaDataIsOnlineData = true;
             _storage.SaveMetaData(metaData);
             _voiceCommands.UpdateCityList(metaData);
             return metaData;
@@ -258,6 +262,7 @@ namespace ParkenDD.ViewModels
                 }
             }
             var city = await _client.GetCityAsync(cityId);
+            _cityHasOnlineData[cityId] = true;
             _storage.SaveCityData(cityId, city);
             _voiceCommands.UpdateParkingLotList(city);
             return city;
@@ -298,6 +303,7 @@ namespace ParkenDD.ViewModels
             {
                 SelectedCity = city;
             }
+            TryLoadOnlineMetaData();
         }
 
         public async Task TrySelectCityByName(string name)
@@ -311,6 +317,7 @@ namespace ParkenDD.ViewModels
             {
                 SelectedCity = city;
             }
+            TryLoadOnlineMetaData();
         }
 
         public async Task TrySelectParkingLotByName(string cityName, string parkingLotName)
@@ -335,6 +342,8 @@ namespace ParkenDD.ViewModels
                     SelectedParkingLot = new SelectableParkingLot(parkingLot);
                 }
             }
+            TryLoadOnlineMetaData();
+            TryLoadOnlineCityData();
         }
 
         private async Task TrySelectParkingLotById(string cityId, string parkingLotId)
@@ -361,6 +370,8 @@ namespace ParkenDD.ViewModels
             {
                 SelectedParkingLot = new SelectableParkingLot(parkingLot);
             }
+            TryLoadOnlineMetaData();
+            TryLoadOnlineCityData();
         }
 
         private async void LoadCityAndSelectCity()
@@ -427,8 +438,19 @@ namespace ParkenDD.ViewModels
 
         private async Task<City> LoadCity(string cityId, bool forceRefresh = false)
         {
-            if (_cities.ContainsKey(cityId) && !forceRefresh)
+            if (_cities.ContainsKey(cityId))
             {
+                if (forceRefresh)
+                {
+                    var newCityData = await GetCity(cityId, true);
+                    bool addedOrRemovedItems;
+                    _cities[cityId].Merge(newCityData, ParkingLots, out addedOrRemovedItems);
+                    if (addedOrRemovedItems)
+                    {
+                        UpdateParkingLotListFilter();
+                    }
+                    return _cities[cityId];
+                }
                 return _cities[cityId];
             }
             _cities[cityId] = await GetCity(cityId, forceRefresh);
@@ -465,21 +487,28 @@ namespace ParkenDD.ViewModels
             }
         }
 
+        private async void TryLoadOnlineCityData()
+        {
+            if (SelectedCity != null)
+            {
+                if (!_cityHasOnlineData.ContainsKey(SelectedCity.Id) || _cityHasOnlineData[SelectedCity.Id] != true)
+                {
+                    await LoadCity(SelectedCity.Id, true);
+                }
+            }
+        }
+
+        private async void TryLoadOnlineMetaData()
+        {
+            if (_metaDataIsOnlineData != true)
+            {
+                MetaData.Merge(await GetMetaData(true));
+            }
+        }
+
         #endregion
 
         #region COMMANDS
-
-        #region ReloadSelectedCityCommand
-        private RelayCommand _reloadSelecedCityCommand;
-        public RelayCommand ReloadSelectedCityCommand => _reloadSelecedCityCommand ?? (_reloadSelecedCityCommand = new RelayCommand(ReloadSelectedCity));
-
-        private async void ReloadSelectedCity()
-        {
-            LoadingCity = true;
-            SelectedCityData = await LoadCity(SelectedCity.Id);
-            LoadingCity = false;
-        }
-        #endregion
 
         #region SetParkingLotFilterToAlphabeticallyCommand
         private RelayCommand _setParkingLotFilterToAlphabeticallyCommand;
@@ -513,7 +542,6 @@ namespace ParkenDD.ViewModels
             UpdateParkingLotListFilter();
         }
         #endregion
-
 
         #region NavigateToParkingLotCommand
         private RelayCommand<ParkingLot> _navigateToParkingLotCommand;
@@ -573,6 +601,21 @@ namespace ParkenDD.ViewModels
                     TargetApplicationPackageFamilyName = "Microsoft.WindowsMaps_8wekyb3d8bbwe"
                 };
                 await Launcher.LaunchUriAsync(launcherUri, launcherOptions);
+            }
+        }
+        #endregion
+
+        #region RefreshCityDetailsCommand
+        private RelayCommand _refreshCityDetailsCommand;
+        public RelayCommand RefreshCityDetailsCommand => _refreshCityDetailsCommand ?? (_refreshCityDetailsCommand = new RelayCommand(RefreshCityDetails));
+
+        private async void RefreshCityDetails()
+        {
+            if (SelectedCity != null)
+            {
+                LoadingCity = true;
+                await LoadCity(SelectedCity.Id, true);
+                LoadingCity = false;
             }
         }
         #endregion

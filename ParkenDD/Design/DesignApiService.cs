@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using ParkenDD.Api.Models;
@@ -53,7 +54,7 @@ namespace ParkenDD.Design
                 DataSource = new Uri("https://www.dresden.de/parken"),
                 LastDownloaded = DateTime.Now.AddMinutes(-29),
                 LastUpdated = DateTime.Now.AddMinutes(-37),
-                Lots = new List<ParkingLot>
+                Lots = new ObservableCollection<ParkingLot>
                 {
                     new ParkingLot
                     {
