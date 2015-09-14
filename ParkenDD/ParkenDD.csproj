@@ -112,6 +112,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Behaviors\StatusBarBehavior.cs" />
+    <Compile Include="Behaviors\TitleBarBehavior.cs" />
     <Compile Include="Behaviors\WindowSizeBehavior.cs" />
     <Compile Include="Controls\ParkingLotForecastChart.xaml.cs">
       <DependentUpon>ParkingLotForecastChart.xaml</DependentUpon>

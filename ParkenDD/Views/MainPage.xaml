@@ -21,6 +21,20 @@
         <behaviors:WindowSizeBehavior 
             PreferredMinSize="300,450"
             />
+        <behaviors:TitleBarBehavior
+            ButtonBackgroundColor="Transparent"
+            ButtonForegroundColor="{StaticResource BlueColor}"
+            ButtonInactiveBackgroundColor="Transparent"
+            ButtonInactiveForegroundColor="{StaticResource LightBlueColor}"
+            ButtonHoverBackgroundColor="{StaticResource BlueColor}"
+            ButtonHoverForegroundColor="#FFFFFF"
+            ButtonPressedBackgroundColor="{StaticResource DarkBlueColor}"
+            ButtonPressedForegroundColor="#FFFFFF"    
+            />
+        <behaviors:StatusBarBehavior
+            ForegroundColor="#666666"
+            BackgroundColor="#FFFFFF"
+            />
     </interactivity:Interaction.Behaviors>
 
     <Page.Resources>
@@ -122,6 +136,20 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="SelectCityProgressBar.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+
+            <VisualStateGroup>
+                <VisualState x:Name="mobileView">
+                    <VisualState.StateTriggers>
+                        <windowsStateTriggers:DeviceFamilyStateTrigger DeviceFamily="Mobile"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SplitViewTopBar.Height" Value="48" />
+                        <Setter Target="SplitViewTopBar.Padding" Value="0" />
+                        <Setter Target="ParkingLotListTopBar.Height" Value="48" />
+                        <Setter Target="ParkingLotListTopBar.Padding" Value="0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

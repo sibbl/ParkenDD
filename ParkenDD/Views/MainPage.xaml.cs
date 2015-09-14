@@ -83,32 +83,11 @@ namespace ParkenDD.Views
                     else
                     {
                         DrawingService.DrawSearchResult(Map, msg.Result);
-                        bool isInView;
-                        Map.IsLocationInView(msg.Result.Point, out isInView);
-                        if (!isInView)
-                        {
-                            await Map.TrySetViewAsync(msg.Result.Point, null, null, null, MapAnimationKind.Bow);
-                        }
-
+                        await Map.TrySetViewAsync(msg.Result.Point, null, null, null, MapAnimationKind.Bow);
                     }
                 });
             });
 
-            //TODO: set other colors as well
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = new Color()
-            {
-                A = 0,
-                B = 255,
-                G = 0,
-                R = 0
-            };
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = new Color()
-            {
-                A = 255,
-                B = 140,
-                G = 84,
-                R = 20
-            };
             Vm.PropertyChanged += async (sender, args) =>
             {
                 if (args.PropertyName == nameof(Vm.ParkingLots))
