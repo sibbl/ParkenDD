@@ -11,6 +11,7 @@
     xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:ParkenDD.Behaviors"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     DataContext="{Binding Main, Source={StaticResource Locator}}">
@@ -197,9 +198,44 @@
                         RelativePanel.AlignTopWithPanel="True"
                         RelativePanel.AlignBottomWithPanel="True"
                         PlaceholderText="Adresse suchen..."
+                        ItemsSource="{Binding SearchSuggestions}"
+                        Text="{Binding SearchText, Mode=TwoWay}"
                         Style="{StaticResource ParkingLotAutoSuggestBoxStyle}"
                         TextBoxStyle="{StaticResource ParkingLotSearchTextBoxStyle}"
-                        />
+                        QueryIcon="Find"
+                        ItemContainerStyle="{StaticResource ParkingLotAutoSuggestBoxSuggestionItemContainerStyle}"
+                        >
+                        <AutoSuggestBox.ItemTemplate>
+                            <DataTemplate x:DataType="models:AddressSearchSuggestionItem">
+                                <StackPanel Style="{ThemeResource ParkingLotAutoSuggestBoxSuggestionItemStyle}">
+                                    <TextBlock
+                                        Style="{ThemeResource ParkingLotAutoSuggestBoxSuggestionItemStreetStyle}"
+                                        Text="{x:Bind Street, Mode=OneTime}"
+                                        Visibility="{x:Bind Street, Mode=OneTime, Converter={StaticResource StringToVisibilityConverter}}" />
+                                    <TextBlock
+                                        Style="{ThemeResource ParkingLotAutoSuggestBoxSuggestionItemNeighborhoodStyle}"
+                                        Text="{x:Bind Neighborhood, Mode=OneTime}"
+                                        Visibility="{x:Bind Neighborhood, Mode=OneTime, Converter={StaticResource StringToVisibilityConverter}}" />
+                                    <TextBlock
+                                        Style="{ThemeResource ParkingLotAutoSuggestBoxSuggestionItemDistrictStyle}"
+                                        Text="{x:Bind District, Mode=OneTime}"
+                                        Visibility="{x:Bind District, Mode=OneTime, Converter={StaticResource StringToVisibilityConverter}}" />
+                                    <TextBlock
+                                        Style="{ThemeResource ParkingLotAutoSuggestBoxSuggestionItemTownStyle}"
+                                        Text="{x:Bind Town, Mode=OneTime}"
+                                        Visibility="{x:Bind Town, Mode=OneTime, Converter={StaticResource StringToVisibilityConverter}}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </AutoSuggestBox.ItemTemplate>
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="TextChanged">
+                                <core:InvokeCommandAction Command="{Binding SearchTextChangedCommand}" />
+                            </core:EventTriggerBehavior>
+                            <core:EventTriggerBehavior EventName="QuerySubmitted">
+                                <core:InvokeCommandAction Command="{Binding SearchResultChosenCommand}" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </AutoSuggestBox>
                     <Button
                         x:Name="ParkingLotListFilterBtn"
                         RelativePanel.LeftOf="ParkingLotListRefreshBtn"
@@ -374,6 +410,7 @@
                         />
                     <maps:MapControl
                         x:Name="Map"
+                        Center="{Binding MapCenter, Mode=TwoWay}"
                         RelativePanel.AlignLeftWithPanel="True"
                         RelativePanel.AlignRightWithPanel="True"
                         RelativePanel.AlignBottomWithPanel="True"

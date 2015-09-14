@@ -96,9 +96,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Assets\SearchMapIcon.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-256_altform-unplated.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-48_altform-unplated.png" />
     <Content Include="Assets\Square71x71Logo.scale-200.png" />
+    <Content Include="Assets\UserPositionMapIcon.png" />
     <Content Include="VoiceCommands.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -123,7 +125,9 @@
     <Compile Include="Converters\TrimTextConverter.cs" />
     <Compile Include="Interfaces\ICanResume.cs" />
     <Compile Include="Interfaces\ICanSuspend.cs" />
+    <Compile Include="Messages\ShowSearchResultOnMapMessage.cs" />
     <Compile Include="Messages\ZoomMapToCoordinateMessage.cs" />
+    <Compile Include="Models\AddressSearchSuggestionItem.cs" />
     <Compile Include="Models\ParkingLotForecastDataPoint.cs" />
     <Compile Include="Models\ParkingLotForecastTimespanSelection.cs" />
     <Compile Include="Models\SelectableParkingLot.cs" />

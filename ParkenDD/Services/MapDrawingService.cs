@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
@@ -20,8 +21,14 @@ namespace ParkenDD.Services
 {
     public class MapDrawingService
     {
+        private const int ZindexTopmostParkingLot = 100001; //100% * 1000 + 1 to be on top
+        private const int ZindexSearchResult = 100002;
+        private const int ZindexUserPosition = 100003;
+
         private readonly MainViewModel _mainVm;
         private Dictionary<SelectableParkingLot, MapIcon> _mapIconParkingLotDict;
+        private MapIcon _searchResultIcon;
+        private MapIcon _userPositionIcon;
         public MapDrawingService(MainViewModel mainVm)
         {
             _mainVm = mainVm;
@@ -41,7 +48,7 @@ namespace ParkenDD.Services
         {
             if (_mainVm.SelectedParkingLot?.ParkingLot == lot)
             {
-                return 100001; //100% * 1000 + 1 to be on top
+                return ZindexTopmostParkingLot; //100% * 1000 + 1 to be on top
             }
             var zIndex = ((double)lot.FreeLots / (double)lot.TotalLots);
             if (Double.IsNaN(zIndex) || Double.IsInfinity(zIndex))
@@ -79,10 +86,55 @@ namespace ParkenDD.Services
             }
         }
 
+        public void RemoveSearchResult(MapControl map)
+        {
+            if (_searchResultIcon != null)
+            {
+                map.MapElements.Remove(_searchResultIcon);
+                _searchResultIcon = null;
+            }
+        }
+
+        public void DrawSearchResult(MapControl map, AddressSearchSuggestionItem result)
+        {
+            if (_searchResultIcon == null)
+            {
+                _searchResultIcon = new MapIcon();
+                map.MapElements.Add(_searchResultIcon);
+                _searchResultIcon.ZIndex = ZindexSearchResult;
+                _searchResultIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/SearchMapIcon.png"));
+                _searchResultIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
+                _searchResultIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+            }
+            _searchResultIcon.Location = result.Point;
+            _searchResultIcon.Title = result.ToString();
+        }
+
+        public void DrawUserPosition(MapControl map, Geoposition point)
+        {
+            if (_userPositionIcon == null)
+            {
+                _userPositionIcon = new MapIcon();
+                map.MapElements.Add(_userPositionIcon);
+                _userPositionIcon.Title = " Standort"; //TODO: localize
+                _userPositionIcon.ZIndex = ZindexUserPosition;
+                _userPositionIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/UserPositionMapIcon.png"));
+                _userPositionIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
+                _userPositionIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+            }
+            _userPositionIcon.Location = point.Coordinate.Point;
+        }
+
         public void DrawParkingLots(MapControl map, Grid drawingContainer)
         {
             var lots = _mainVm.ParkingLots;
-            map.MapElements.Clear();
+            if (_mapIconParkingLotDict != null)
+            {
+                foreach (var icon in _mapIconParkingLotDict)
+                {
+                    map.MapElements.Remove(icon.Value);
+                }
+            }
             _mapIconParkingLotDict = new Dictionary<SelectableParkingLot, MapIcon>();
             if (lots != null)
             {
@@ -106,6 +158,8 @@ namespace ParkenDD.Services
             await rtb.RenderAsync(drawDonut);
 
             drawingContainer.Children.Remove(drawDonut);
+
+            //TODO: take care of possible scaling issues
 
             var pixels = (await rtb.GetPixelsAsync()).ToArray();
             var stream = new InMemoryRandomAccessStream();

@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
 using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Messaging;
+using ParkenDD.Messages;
 using ParkenDD.ViewModels;
 
 namespace ParkenDD.Services

@@ -36,6 +36,11 @@ namespace ParkenDD.Views
 
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
 
+            Loaded += (sender, args) =>
+            {
+                Vm.TryGetUserPosition();
+            };
+
             Map.Loaded += async (sender, args) =>
             {
                 if (_initialMapBbox != null)
@@ -63,6 +68,28 @@ namespace ParkenDD.Views
                 {
                     _initialCoordinates = msg.Point; //set initial coordinates as the following won't work while splash screen is still visible
                     await Map.TrySetViewAsync(msg.Point, null, null, null, MapAnimationKind.Bow);
+                });
+            });
+
+            Messenger.Default.Register(this, async (ShowSearchResultOnMapMessage msg) =>
+            {
+                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    if (msg.Result == null)
+                    {
+                        DrawingService.RemoveSearchResult(Map);
+                    }
+                    else
+                    {
+                        DrawingService.DrawSearchResult(Map, msg.Result);
+                        bool isInView;
+                        Map.IsLocationInView(msg.Result.Point, out isInView);
+                        if (!isInView)
+                        {
+                            await Map.TrySetViewAsync(msg.Result.Point, null, null, null, MapAnimationKind.Bow);
+                        }
+
+                    }
                 });
             });
 
@@ -139,6 +166,9 @@ namespace ParkenDD.Views
                     var cvs = Resources["SelectedCityData"] as CollectionViewSource;
                     cvs.IsSourceGrouped = false;
                     cvs.Source = Vm.ParkingLotsListCollectionViewSource;
+                }else if (args.PropertyName == nameof(Vm.UserLocation))
+                {
+                    DrawingService.DrawUserPosition(Map, Vm.UserLocation);
                 }
             };
             ParkingLotList.SelectionChanged += (sender, args) =>

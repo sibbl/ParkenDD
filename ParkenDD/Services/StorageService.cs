@@ -15,7 +15,14 @@ namespace ParkenDD.Services
         private async Task SaveAsync<T>(string filename, T data)
         {
             var file = await _tempFolder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
-            await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(data));
+            try
+            {
+                await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(data));
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
         private async Task<T> ReadAsync<T>(string filename)
