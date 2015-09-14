@@ -559,6 +559,10 @@ namespace ParkenDD.ViewModels
                     ParkingLotsListCollectionViewSource = await _filterService.CreateList(ParkingLots);
                 }
                 SelectedParkingLot = selectedParkingLot; //need to do this as the CVS uses the first one again...
+                if (SelectedParkingLot != null)
+                {
+                    SelectedParkingLot.IsSelected = true;
+                }
                 LoadingCity = false;
             }
         }
