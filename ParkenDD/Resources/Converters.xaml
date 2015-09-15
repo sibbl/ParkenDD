@@ -8,6 +8,8 @@
     <converters:DistanceToParkingLotConverter x:Key="DistanceToParkingLotConverter" />
     <converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter" />
     <converters:TimeSpanToDateTimeAxisLabelFormatConverter x:Key="TimeSpanToDateTimeAxisLabelFormatConverter" />
+    <converters:ParkingLotStateToVisibilityConverter x:Key="ParkingLotStateToVisibilityConverter" />
+    <converters:ParkingLotStateStringConverter x:Key="ParkingLotStateStringConverter" />
     <cimbalinoConverters:NegativeBooleanConverter x:Key="NegativeBooleanConverter" />
     <cimbalinoConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <cimbalinoConverters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />

@@ -88,6 +88,7 @@ namespace ParkenDD.Views
             {
                 if (args.PropertyName == nameof(Vm.ParkingLots))
                 {
+                    FindName(nameof(BackgroundDrawingContainer));
                     DrawingService.DrawParkingLots(Map, BackgroundDrawingContainer);
                     if (Vm.ParkingLots != null)
                     {
