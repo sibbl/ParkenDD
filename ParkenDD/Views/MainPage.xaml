@@ -13,7 +13,7 @@
     xmlns:behaviors="using:ParkenDD.Behaviors"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Background="#FFFFFF"
     DataContext="{Binding Main, Source={StaticResource Locator}}">
 
 
