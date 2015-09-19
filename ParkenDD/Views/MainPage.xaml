@@ -392,7 +392,7 @@
                                             Grid.Column="2"
                                             Style="{ThemeResource ParkingLotHasForecastTextStyle}"
                                             Text="VORHERSAGE"
-                                            x:Phase="4"
+                                            x:Phase="0"
                                             Visibility="{x:Bind ParkingLot.HasForecast, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                         <StackPanel
                                             Orientation="Horizontal"
