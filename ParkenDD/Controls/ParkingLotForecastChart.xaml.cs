@@ -7,6 +7,7 @@ using Microsoft.Practices.ServiceLocation;
 using ParkenDD.Api.Interfaces;
 using ParkenDD.Api.Models;
 using ParkenDD.Models;
+using ParkenDD.Services;
 using ParkenDD.ViewModels;
 using WinRTXamlToolkit.Controls.DataVisualization.Charting;
 
@@ -15,12 +16,14 @@ namespace ParkenDD.Controls
     public sealed partial class ParkingLotForecastChart : UserControl
     {
         //TODO: localize
-        private List<ParkingLotForecastTimespanSelection> ComboBoxValues { get; set; } = new List<ParkingLotForecastTimespanSelection>
+        private List<ParkingLotForecastTimespanSelection> ComboBoxValues { get; } = new List<ParkingLotForecastTimespanSelection>
         {
-            new ParkingLotForecastTimespanSelection {Title = "Vorhersage für die nächsten 6 Stunden", TimeSpan = TimeSpan.FromHours(6)},
-            new ParkingLotForecastTimespanSelection {Title = "Vorhersage für die nächsten 24 Stunden", TimeSpan = TimeSpan.FromHours(24)},
-            new ParkingLotForecastTimespanSelection {Title = "Vorhersage für die nächsten 7 Tage", TimeSpan = TimeSpan.FromDays(7)},
+            new ParkingLotForecastTimespanSelection(ParkingLotForecastTimespanEnum.Hours6),
+            new ParkingLotForecastTimespanSelection(ParkingLotForecastTimespanEnum.Hours24),
+            new ParkingLotForecastTimespanSelection(ParkingLotForecastTimespanEnum.Days7),
         };
+
+        private bool _initialized;
 
         public ParkingLotForecastChart()
         {
@@ -44,7 +47,8 @@ namespace ParkenDD.Controls
             //TODO: cancel running updating tasks
             ForecastChart.Series.Clear();
             var parkingLot = DataContext as ParkingLot;
-            var timeSpan = (SelectionComboBox.SelectedItem as ParkingLotForecastTimespanSelection)?.TimeSpan;
+            var timeSpanSelection = SelectionComboBox.SelectedItem as ParkingLotForecastTimespanSelection;
+            var timeSpan = timeSpanSelection?.TimeSpan;
             if (parkingLot != null && parkingLot.HasForecast && timeSpan.HasValue)
             {
                 //TODO: add some fancy animation!
@@ -68,6 +72,12 @@ namespace ParkenDD.Controls
                 ForecastChart.Series.Add(series);
                 ForecastChart.Opacity = 1;
                 LoadingProgressRing.Visibility = Visibility.Collapsed;
+                if (_initialized)
+                {
+                    ServiceLocator.Current.GetInstance<TrackingService>()?
+                        .TrackForecastRangeEvent(parkingLot, timeSpanSelection?.Mode);
+                }
+                _initialized = false;
             }
         }
     }

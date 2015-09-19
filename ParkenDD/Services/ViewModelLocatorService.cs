@@ -23,6 +23,7 @@ namespace ParkenDD.Services
             SimpleIoc.Default.Register<SettingsService>();
             SimpleIoc.Default.Register<LifecycleService>();
             SimpleIoc.Default.Register<StorageService>();
+            SimpleIoc.Default.Register<TrackingService>();
 
             if (ViewModelBase.IsInDesignModeStatic)
             {

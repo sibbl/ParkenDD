@@ -13,8 +13,12 @@ namespace ParkenDD.Services
     public class VoiceCommandService
     {
         private const string VoiceCommandPath = "VoiceCommands.xml";
-        public VoiceCommandService()
+
+        private readonly TrackingService _tracking;
+
+        public VoiceCommandService(TrackingService tracking)
         {
+            _tracking = tracking;
             Init();
         }
         public async void Init() {
@@ -31,7 +35,7 @@ namespace ParkenDD.Services
             }
             catch (Exception e)
             {
-                new TelemetryClient().TrackException(e, new Dictionary<string,string> {{"name", "voiceCommandInit"}, {"handled", "true"}});
+               _tracking.TrackException(e, new Dictionary<string,string> {{"name", "voiceCommandInit"}, {"handled", "true"}});
             }
         }
 
@@ -82,6 +86,8 @@ namespace ParkenDD.Services
             var speechRecognitionResult = args.Result;
 
             var voiceCommandName = speechRecognitionResult.RulePath[0];
+
+            _tracking.TrackVoiceCommandEvent(voiceCommandName);
 
             //TODO: check encoding of properties. Umlauts are currently not supported.
             if (voiceCommandName == "selectCity")

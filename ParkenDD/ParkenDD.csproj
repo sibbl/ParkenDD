@@ -154,6 +154,7 @@
     <Compile Include="Messages\ZoomMapToCoordinateMessage.cs" />
     <Compile Include="Models\AddressSearchSuggestionItem.cs" />
     <Compile Include="Models\ParkingLotForecastDataPoint.cs" />
+    <Compile Include="Models\ParkingLotForecastTimespanEnum.cs" />
     <Compile Include="Models\ParkingLotForecastTimespanSelection.cs" />
     <Compile Include="Models\SelectableParkingLot.cs" />
     <Compile Include="Services\GeolocationService.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\StorageService.cs" />
     <Compile Include="Services\LifecycleService.cs" />
+    <Compile Include="Services\TrackingService.cs" />
     <Compile Include="Services\ViewModelLocatorService.cs" />
     <Compile Include="Services\VoiceCommandService.cs" />
     <Compile Include="Triggers\ItemFocusStateTrigger.cs" />

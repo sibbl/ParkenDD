@@ -32,6 +32,7 @@ namespace ParkenDD.ViewModels
         private readonly SettingsService _settings;
         private readonly StorageService _storage;
         private readonly GeolocationService _geo;
+        private readonly TrackingService _tracking;
         private readonly Dictionary<string, City> _cities = new Dictionary<string, City>();
         private readonly Dictionary<string, bool> _cityHasOnlineData = new Dictionary<string, bool>();
         private bool _metaDataIsOnlineData = false;
@@ -100,6 +101,7 @@ namespace ParkenDD.ViewModels
                     _selectedParkingLot.IsSelected = false;
                 }
                 Set(() => SelectedParkingLot, ref _selectedParkingLot, value);
+                _tracking.TrackSelectParkingLotEvent(SelectedCity, SelectedParkingLot?.ParkingLot);
             }
         }
         #endregion
@@ -241,7 +243,8 @@ namespace ParkenDD.ViewModels
             SettingsService settings,
             LifecycleService lifecycle,
             StorageService storage,
-            GeolocationService geo)
+            GeolocationService geo,
+            TrackingService tracking)
         {
             _client = client;
             _voiceCommands = voiceCommandService;
@@ -249,6 +252,7 @@ namespace ParkenDD.ViewModels
             _settings = settings;
             _storage = storage;
             _geo = geo;
+            _tracking = tracking;
             lifecycle.Register(this);
             OnResume();
         }
@@ -442,6 +446,7 @@ namespace ParkenDD.ViewModels
 
         private async void LoadCityAndSelectCity()
         {
+            _tracking.TrackSelectCityEvent(SelectedCity);
             Debug.WriteLine("[MainVm] LoadCityAndSelectCity");
             Debug.WriteLine("[MainVm] LoadCityAndSelectCity: found selected city, reset selection");
             SelectedCityData = null;
@@ -545,6 +550,7 @@ namespace ParkenDD.ViewModels
             else
             {
                 LoadingCity = true;
+                _tracking.TrackParkingLotFilterEvent(ParkingLotFilterMode, ParkingLotFilterAscending, ParkingLotFilterIsGrouped);
                 var selectedParkingLot = SelectedParkingLot;
                 if (ParkingLotFilterIsGrouped)
                 {
@@ -656,6 +662,7 @@ namespace ParkenDD.ViewModels
                 return;
             }
             Uri launcherUri = null;
+            _tracking.TrackNavigateToParkingLotEvent(SelectedCity, lot);
             if (lot.Coordinates != null)
             {
                 launcherUri = new Uri(
@@ -713,6 +720,7 @@ namespace ParkenDD.ViewModels
             TryGetUserPosition();
             if (SelectedCity != null)
             {
+                _tracking.TrackReloadCityEvent(SelectedCity);
                 LoadingCity = true;
                 await LoadCity(SelectedCity.Id, true);
                 LoadingCity = false;
@@ -760,6 +768,7 @@ namespace ParkenDD.ViewModels
             var result = args.ChosenSuggestion as AddressSearchSuggestionItem;
             if (result != null)
             {
+                _tracking.TrackSelectSearchResultEvent();
                 Messenger.Default.Send(new ShowSearchResultOnMapMessage(result));
             }
         }
