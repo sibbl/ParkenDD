@@ -35,7 +35,7 @@ namespace ParkenDD.ViewModels
         private readonly TrackingService _tracking;
         private readonly Dictionary<string, City> _cities = new Dictionary<string, City>();
         private readonly Dictionary<string, bool> _cityHasOnlineData = new Dictionary<string, bool>();
-        private bool _metaDataIsOnlineData = false;
+        private bool _metaDataIsOnlineData;
         #endregion
 
         #region PUBLIC PROPERTIES
@@ -65,9 +65,12 @@ namespace ParkenDD.ViewModels
             get { return _selectedCity; }
             set
             {
-                Set(() => SelectedCity, ref _selectedCity, value);
-                LoadCityAndSelectCity();
-                TryLoadOnlineCityData();
+                if (Set(() => SelectedCity, ref _selectedCity, value))
+                {
+                    LoadCityAndSelectCity();
+                    TryLoadOnlineCityData();
+                    _tracking.TrackSelectCityEvent(SelectedCity);
+                }
             }
         }
         #endregion
@@ -100,8 +103,10 @@ namespace ParkenDD.ViewModels
                 {
                     _selectedParkingLot.IsSelected = false;
                 }
-                Set(() => SelectedParkingLot, ref _selectedParkingLot, value);
-                _tracking.TrackSelectParkingLotEvent(SelectedCity, SelectedParkingLot?.ParkingLot);
+                if (Set(() => SelectedParkingLot, ref _selectedParkingLot, value))
+                {
+                    _tracking.TrackSelectParkingLotEvent(SelectedCity, SelectedParkingLot?.ParkingLot);
+                }
             }
         }
         #endregion
@@ -154,10 +159,19 @@ namespace ParkenDD.ViewModels
 
         #region ParkingLotFilterMode
         private ParkingLotFilterMode _parkingLotFilterMode;
+
         public ParkingLotFilterMode ParkingLotFilterMode
         {
             get { return _parkingLotFilterMode; }
-            set { Set(() => ParkingLotFilterMode, ref _parkingLotFilterMode, value); }
+            set
+            {
+                if (Set(() => ParkingLotFilterMode, ref _parkingLotFilterMode, value))
+                {
+
+                    _tracking.TrackParkingLotFilterEvent(ParkingLotFilterMode, ParkingLotFilterAscending,
+                        ParkingLotFilterIsGrouped);
+                }
+            }
         }
         #endregion
 
@@ -168,8 +182,12 @@ namespace ParkenDD.ViewModels
             get { return _parkingLotFilterIsGrouped; }
             set
             {
-                Set(() => ParkingLotFilterIsGrouped, ref _parkingLotFilterIsGrouped, value);
-                UpdateParkingLotListFilter();
+                if (Set(() => ParkingLotFilterIsGrouped, ref _parkingLotFilterIsGrouped, value))
+                {
+                    UpdateParkingLotListFilter();
+                    _tracking.TrackParkingLotFilterEvent(ParkingLotFilterMode, ParkingLotFilterAscending,
+                        ParkingLotFilterIsGrouped)
+                }
             }
         }
         #endregion
@@ -181,8 +199,12 @@ namespace ParkenDD.ViewModels
             get { return _parkingLotFilterAscending; }
             set
             {
-                Set(() => ParkingLotFilterAscending, ref _parkingLotFilterAscending, value);
-                UpdateParkingLotListFilter();
+                if (Set(() => ParkingLotFilterAscending, ref _parkingLotFilterAscending, value))
+                {
+                    UpdateParkingLotListFilter();
+                    _tracking.TrackParkingLotFilterEvent(ParkingLotFilterMode, ParkingLotFilterAscending,
+                        ParkingLotFilterIsGrouped);
+                }
             }
         }
         #endregion
@@ -446,7 +468,6 @@ namespace ParkenDD.ViewModels
 
         private async void LoadCityAndSelectCity()
         {
-            _tracking.TrackSelectCityEvent(SelectedCity);
             Debug.WriteLine("[MainVm] LoadCityAndSelectCity");
             Debug.WriteLine("[MainVm] LoadCityAndSelectCity: found selected city, reset selection");
             SelectedCityData = null;
@@ -550,7 +571,6 @@ namespace ParkenDD.ViewModels
             else
             {
                 LoadingCity = true;
-                _tracking.TrackParkingLotFilterEvent(ParkingLotFilterMode, ParkingLotFilterAscending, ParkingLotFilterIsGrouped);
                 var selectedParkingLot = SelectedParkingLot;
                 if (ParkingLotFilterIsGrouped)
                 {
@@ -789,6 +809,8 @@ namespace ParkenDD.ViewModels
 
         #endregion
 
+        #region LIFECYCLE
+
         private async void LoadLastState(string selectedCityId)
         {
             var selectedParkingLotId = _settings.SelectedParkingLotId;
@@ -831,5 +853,7 @@ namespace ParkenDD.ViewModels
                 _settings.SelectedParkingLotId = SelectedParkingLot?.ParkingLot?.Id;
             });
         }
+
+        #endregion
     }
 }

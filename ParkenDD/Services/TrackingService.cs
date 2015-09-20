@@ -44,34 +44,16 @@ namespace ParkenDD.Services
             _client.TrackEvent("Reload city", properties);
         }
 
-        private ParkingLotFilterMode _oldParkingLotFilterEvent;
-        private bool _oldParkingLotFilterAsc;
-        private bool _oldParkingLotFilterGrouping;
-        private bool _parkingLotFilterFirstCall = true;
 
         public void TrackParkingLotFilterEvent(ParkingLotFilterMode mode, bool ascending, bool group)
         {
-            if (_parkingLotFilterFirstCall)
+            var properties = new Dictionary<string, string>
             {
-                _oldParkingLotFilterEvent = mode;
-                _oldParkingLotFilterAsc = ascending;
-                _oldParkingLotFilterGrouping = group;
-                _parkingLotFilterFirstCall = false;
-                return;
-            }
-            //only track if at least one of the properties was changed
-            if (_oldParkingLotFilterEvent != mode ||
-                _oldParkingLotFilterAsc != ascending ||
-                _oldParkingLotFilterGrouping != group)
-            {
-                var properties = new Dictionary<string, string>
-                {
-                    {"mode", mode.ToString()},
-                    {"ascending", ascending.ToString()},
-                    {"group", ascending.ToString()},
-                };
-                _client.TrackEvent("Change parking lot filter", properties);
-            }
+                {"mode", mode.ToString()},
+                {"ascending", ascending.ToString()},
+                {"group", ascending.ToString()},
+            };
+            _client.TrackEvent("Change parking lot filter", properties);
         }
 
         public void TrackForecastRangeEvent(ParkingLot parkingLot, ParkingLotForecastTimespanEnum? mode)
