@@ -10,6 +10,8 @@
     <converters:TimeSpanToDateTimeAxisLabelFormatConverter x:Key="TimeSpanToDateTimeAxisLabelFormatConverter" />
     <converters:ParkingLotStateToVisibilityConverter x:Key="ParkingLotStateToVisibilityConverter" />
     <converters:ParkingLotStateStringConverter x:Key="ParkingLotStateStringConverter" />
+    <converters:IntGreaterZeroToVisibilityConverter x:Key="IntGreaterZeroToVisibilityConverter" />
+    
     <cimbalinoConverters:NegativeBooleanConverter x:Key="NegativeBooleanConverter" />
     <cimbalinoConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <cimbalinoConverters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />

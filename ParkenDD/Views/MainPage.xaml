@@ -415,10 +415,12 @@
                                                     Style="{ThemeResource ParkingLotListDetailStyle}"
                                                     Padding="3,0,3,0"
                                                     Text="/"
+                                                    Visibility="{x:Bind ParkingLot.TotalLots, Mode=OneWay, Converter={StaticResource IntGreaterZeroToVisibilityConverter}}"
                                                     />
                                                 <TextBlock
                                                     Style="{ThemeResource ParkingLotListDetailStyle}"
                                                     Text="{x:Bind ParkingLot.TotalLots, Mode=OneWay}"
+                                                    Visibility="{x:Bind ParkingLot.TotalLots, Mode=OneWay, Converter={StaticResource IntGreaterZeroToVisibilityConverter}}"
                                                     x:Phase="2" />
                                                 <TextBlock
                                                     Style="{ThemeResource ParkingLotListDetailStyle}"
