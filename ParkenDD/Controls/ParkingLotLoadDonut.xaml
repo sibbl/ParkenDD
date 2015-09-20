@@ -49,5 +49,4 @@
             x:Name="FreeLabel"
             />
     </Grid>
-
 </UserControl>

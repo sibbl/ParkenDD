@@ -27,7 +27,7 @@ namespace ParkenDD.Controls
 
         public ParkingLotForecastChart()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             ValueAxis.Minimum = 0;
             ValueAxis.Maximum = 100;

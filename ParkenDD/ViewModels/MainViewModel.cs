@@ -186,7 +186,7 @@ namespace ParkenDD.ViewModels
                 {
                     UpdateParkingLotListFilter();
                     _tracking.TrackParkingLotFilterEvent(ParkingLotFilterMode, ParkingLotFilterAscending,
-                        ParkingLotFilterIsGrouped)
+                        ParkingLotFilterIsGrouped);
                 }
             }
         }

@@ -4,6 +4,17 @@
     xmlns:controls="using:ParkenDD.Controls"
     xmlns:charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
     xmlns:dataVisualization="using:WinRTXamlToolkit.Controls.DataVisualization">
+    
+    <!-- #region Base -->
+
+    <Style x:Key="TopBarStyle" TargetType="RelativePanel">
+        <Setter Property="Height" Value="78" />
+        <Setter Property="Padding" Value="0,30,0,0" />
+    </Style>
+    
+    <!-- #endregion -->
+    
+    <!-- #region City selection / split view pane -->
 
     <Style x:Key="SplitViewLogoStyle" TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -12,29 +23,186 @@
         <Setter Property="Margin" Value="12,0,0,0" />
     </Style>
 
-    <Style x:Key="TopBarStyle" TargetType="RelativePanel">
-        <Setter Property="Height" Value="78" />
-        <Setter Property="Padding" Value="0,30,0,0" />
-    </Style>
-    
     <Style x:Key="SplitViewTopBarStyle" BasedOn="{StaticResource TopBarStyle}" TargetType="RelativePanel">
         <Setter Property="Background" Value="{StaticResource BlueColor}" />
         <Setter Property="BorderBrush" Value="{StaticResource DarkBlueColor}" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
     </Style>
-    
+
     <Style x:Key="SplitViewContainerStyle" TargetType="Grid">
         <Setter Property="Background" Value="{StaticResource BlueColor}" />
     </Style>
+    <Style x:Key="SelectCityProgressBarStyle" TargetType="ProgressBar">
+        <Setter Property="IsIndeterminate" Value="True" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <Style x:Key="SplitViewCityItemTextStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#FFFFFF" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="SelectCityListContainerStyle" TargetType="ListViewItem">
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+        <Setter Property="TabNavigation" Value="Local"/>
+        <Setter Property="IsHoldingEnabled" Value="True"/>
+        <Setter Property="Padding" Value="12,0,12,0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
+        <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <ListViewItemPresenter
+                        CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                        ContentMargin="{TemplateBinding Padding}"
+                        CheckMode="Inline"
+                        ContentTransitions="{TemplateBinding ContentTransitions}"
+                        CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                        DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
+                        DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+                        DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}"
+                        DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                        FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
+                        FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+                        PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
+                        ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                        SelectionCheckMarkVisualEnabled="True"
+                        SelectedForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        SelectedPointerOverBackground="#59000000"
+                        PressedBackground="#4C000000"
+                        PointerOverBackground="#26000000">
+                        <ListViewItemPresenter.SelectedBackground>
+                            <SolidColorBrush Color="#99000000" Opacity="0.40000000596046448"/>
+                        </ListViewItemPresenter.SelectedBackground>
+                        <ListViewItemPresenter.SelectedPressedBackground>
+                            <SolidColorBrush Color="#7F000000" Opacity="0.25"/>
+                        </ListViewItemPresenter.SelectedPressedBackground>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="SelectionStates">
+                                <VisualState x:Name="Unselected" />
+                                <VisualState x:Name="Selected">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames
+                                                            Storyboard.TargetName="AdditionalContent"
+                                                            Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="SelectedUnfocused">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames
+                                                            Storyboard.TargetName="AdditionalContent"
+                                                            Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </ListViewItemPresenter>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="AboutButtonStyle" TargetType="Button">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="BorderBrush" Value="{StaticResource DarkBlueBrush}" />
+        <Setter Property="BorderThickness" Value="0,1,0,0" />
+        <Setter Property="Background" Value="#0F000000" />
+        <Setter Property="Foreground" Value="#AAFFFFFF" />
+        <Setter Property="Padding" Value="9" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.(UIElement.Background)" Value="#19000000" />
+                                    </VisualState.Setters>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <SolidColorBrush Color="White"/>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.(UIElement.Background)" Value="#23000000" />
+                                    </VisualState.Setters>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <SolidColorBrush Color="White"/>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <PointerDownThemeAnimation Storyboard.TargetName="ContentPresenter"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ContentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- #endregion -->
+    
+    <!-- #region Parking lot selection -->
     
     <Style x:Key="ParkingLotListTopBarStyle" BasedOn="{StaticResource TopBarStyle}" TargetType="RelativePanel">
         <Setter Property="Background" Value="#FFF" />
         <Setter Property="BorderBrush" Value="#DDD" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="Width" Value="300" />
     </Style>
-    
+
     <Style x:Key="ParkingLotListPanelStyle" TargetType="RelativePanel">
         <Setter Property="Background" Value="#FFF" />
+        <Setter Property="Width" Value="300" />
     </Style>
 
     <Style x:Key="ParkingLotListDonutStyle" TargetType="controls:ParkingLotLoadDonut">
@@ -43,6 +211,10 @@
         <Setter Property="Margin" Value="0,0,10,-20" />
         <Setter Property="VerticalAlignment" Value="Top" />
     </Style>
+
+    <!-- #endregion -->
+    
+    <!-- #region ParkingLot load donut -->
 
     <Style x:Key="ParkingLotLoadDonutContainerStyle" TargetType="Grid">
         <Setter Property="Background" Value="Transparent" />
@@ -70,16 +242,6 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ParkingLotMapIconDonutStyle" TargetType="controls:ParkingLotLoadDonut">
-        <Setter Property="Height" Value="25" />
-        <Setter Property="Width" Value="25" />
-    </Style>
-
-    <Style x:Key="ParkingLotLoadLabelStyle" TargetType="TextBlock">
-        <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-    </Style>
-
     <Style x:Key="ParkingLotListLastRefreshTextBlockStyle" TargetType="TextBlock">
         <Setter Property="TextAlignment" Value="Right" />
         <Setter Property="FontSize" Value="9" />
@@ -87,7 +249,16 @@
         <Setter Property="Padding" Value="12,4,12,0" />
     </Style>
 
+    <Style x:Key="ParkingLotLoadLabelStyle" TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
     <Style x:Key="ParkingLotListStyle" TargetType="ListView">
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="IsMultiSelectCheckBoxEnabled" Value="False" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource SelectCityListContainerStyle}" />
         <Setter Property="HeaderTemplate">
             <Setter.Value>
                 <DataTemplate>
@@ -224,9 +395,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
     </Style>
-
 
     <Style x:Key="ParkingLotListTitleStyle" TargetType="TextBlock">
         <Setter Property="TextWrapping" Value="Wrap"/>
@@ -258,6 +427,44 @@
         <Setter Property="FontSize" Value="11" />
         <Setter Property="Foreground" Value="#666666"  />
     </Style>
+
+    <Style x:Key="ParkingLotListProgressBarStyle" TargetType="ProgressBar">
+        <Setter Property="IsIndeterminate" Value="True" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Foreground" Value="{StaticResource LightBlueColor}" />
+    </Style>
+
+    <!-- #endregion -->
+
+    <!-- #region Map -->
+
+    <Style x:Key="ParkingLotMapIconDonutStyle" TargetType="controls:ParkingLotLoadDonut">
+        <Setter Property="Height" Value="25" />
+        <Setter Property="Width" Value="25" />
+    </Style>
+
+    <Style x:Key="MapTopBarStyle" BasedOn="{StaticResource TopBarStyle}" TargetType="RelativePanel">
+        <Setter Property="Margin" Value="-1,0,0,0" />
+        <Setter Property="Canvas.ZIndex" Value="1" />
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="0"/>
+                    <GradientStop Color="Transparent" Offset="1"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ParkingLotMap" TargetType="RelativePanel">
+        <Setter Property="BorderThickness" Value="1,0,0,0" />
+        <Setter Property="BorderBrush" Value="#dddddd" />
+    </Style>
+
+    <!-- #endregion -->
+    
+    <!-- #region Forecast chart -->
 
     <Style x:Key="ParkingLotForecastChartStyle" TargetType="charting:Chart">
         <Setter Property="Height" Value="150" />
@@ -390,18 +597,10 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="FontSize" Value="12"/>
     </Style>
-
-    <Style x:Key="MapTopBarStyle" BasedOn="{StaticResource TopBarStyle}" TargetType="RelativePanel">
-        <Setter Property="Canvas.ZIndex" Value="1"/>
-        <Setter Property="Background">
-            <Setter.Value>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="White" Offset="0"/>
-                    <GradientStop Color="Transparent" Offset="1"/>
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
-    </Style>
+    
+    <!-- #endregion -->
+    
+    <!-- #region Nav buttons -->
 
     <SolidColorBrush x:Key="NavButtonPressedBackgroundBrush" Color="#000" Opacity="0.3" />
     <SolidColorBrush x:Key="NavButtonHoverBackgroundBrush" Color="#000" Opacity="0.15" />
@@ -621,116 +820,25 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
-    <Style x:Key="SplitViewNavButtonStyle" TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
-        <Setter Property="Foreground" Value="#FFFFFF" />
-    </Style>
-    
+
     <Style x:Key="SplitViewNavIconButtonStyle" TargetType="Button" BasedOn="{StaticResource NavIconButtonStyle}">
         <Setter Property="Foreground" Value="#FFFFFF" />
     </Style>
+
+    <!-- #endregion -->
     
-    <Style x:Key="SelectCityProgressBarStyle" TargetType="ProgressBar">
-        <Setter Property="IsIndeterminate" Value="True" />
-        <Setter Property="VerticalAlignment" Value="Top" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="White" />
-    </Style>
-    
-    <Style x:Key="SplitViewCityItemTextStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="#FFFFFF" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="TextWrapping" Value="Wrap" />
-    </Style>
+    <!-- #region Search -->
     
     <Style x:Key="ParkingLotAutoSuggestBoxStyle" TargetType="AutoSuggestBox">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="QueryIcon" Value="Find" />
     </Style>
     
     <Style x:Key="ParkingLotSearchTextBoxStyle" TargetType="TextBox">
         <Setter Property="Padding" Value="14" />
         <Setter Property="Background" Value="#FFF" />
         <Setter Property="BorderThickness" Value="0" />
-    </Style>
-    
-    <Style x:Key="ParkingLotListProgressBarStyle" TargetType="ProgressBar">
-        <Setter Property="IsIndeterminate" Value="True" />
-        <Setter Property="VerticalAlignment" Value="Top" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{StaticResource LightBlueColor}" />
-    </Style>
-    
-    <Style x:Key="SelectCityListContainerStyle" TargetType="ListViewItem">
-        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
-        <Setter Property="TabNavigation" Value="Local"/>
-        <Setter Property="IsHoldingEnabled" Value="True"/>
-        <Setter Property="Padding" Value="12,0,12,0"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
-        <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ListViewItem">
-                    <ListViewItemPresenter
-                        CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
-                        ContentMargin="{TemplateBinding Padding}"
-                        CheckMode="Inline"
-                        ContentTransitions="{TemplateBinding ContentTransitions}"
-                        CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
-                        DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
-                        DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
-                        DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}"
-                        DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
-                        FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
-                        FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
-                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                        PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
-                        PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
-                        ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
-                        SelectionCheckMarkVisualEnabled="True"
-                        SelectedForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
-                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                        SelectedPointerOverBackground="#59000000"
-                        PressedBackground="#4C000000"
-                        PointerOverBackground="#26000000">
-                        <ListViewItemPresenter.SelectedBackground>
-                            <SolidColorBrush Color="#99000000" Opacity="0.40000000596046448"/>
-                        </ListViewItemPresenter.SelectedBackground>
-                        <ListViewItemPresenter.SelectedPressedBackground>
-                            <SolidColorBrush Color="#7F000000" Opacity="0.25"/>
-                        </ListViewItemPresenter.SelectedPressedBackground>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="SelectionStates">
-                                <VisualState x:Name="Unselected" />
-                                <VisualState x:Name="Selected">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames
-                                                            Storyboard.TargetName="AdditionalContent"
-                                                            Storyboard.TargetProperty="(UIElement.Visibility)">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="SelectedUnfocused">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames
-                                                            Storyboard.TargetName="AdditionalContent"
-                                                            Storyboard.TargetProperty="(UIElement.Visibility)">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                    </ListViewItemPresenter>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
     
     <Style x:Key="ParkingLotAutoSuggestBoxSuggestionItemStyle" TargetType="StackPanel">
@@ -762,77 +870,9 @@
         <Setter Property="BorderBrush" Value="#14000000" />
     </Style>
 
-    <Style x:Key="AboutButtonStyle" TargetType="Button">
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="FontSize" Value="11" />
-        <Setter Property="BorderBrush" Value="{StaticResource DarkBlueBrush}" />
-        <Setter Property="BorderThickness" Value="0,1,0,0" />
-        <Setter Property="Background" Value="#0F000000" />
-        <Setter Property="Foreground" Value="#AAFFFFFF" />
-        <Setter Property="Padding" Value="9" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal">
-                                    <Storyboard>
-                                        <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter"/>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="PointerOver">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.(UIElement.Background)" Value="#19000000" />
-                                    </VisualState.Setters>
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                <DiscreteObjectKeyFrame.Value>
-                                                    <SolidColorBrush Color="White"/>
-                                                </DiscreteObjectKeyFrame.Value>
-                                            </DiscreteObjectKeyFrame>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter"/>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.(UIElement.Background)" Value="#23000000" />
-                                    </VisualState.Setters>
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                <DiscreteObjectKeyFrame.Value>
-                                                    <SolidColorBrush Color="White"/>
-                                                </DiscreteObjectKeyFrame.Value>
-                                            </DiscreteObjectKeyFrame>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <PointerDownThemeAnimation Storyboard.TargetName="ContentPresenter"/>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Disabled">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-
-                        <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+    <!-- #endregion -->
+    
+    <!-- #region Info dialog -->
 
     <Style x:Key="InfoDialogContainerStyle" TargetType="Grid">
         <Setter Property="Background" Value="#99000000" />
@@ -1127,4 +1167,6 @@
         <Setter Property="Padding" Value="0" />
     </Style>
 
+    <!-- #endregion -->
+    
 </ResourceDictionary>

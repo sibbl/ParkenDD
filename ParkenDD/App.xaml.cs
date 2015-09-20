@@ -22,10 +22,10 @@ namespace ParkenDD
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
-            this.Resuming += OnResuming;
-            this.UnhandledException += OnUnhandledException;
+            InitializeComponent();
+            Suspending += OnSuspending;
+            Resuming += OnResuming;
+            UnhandledException += OnUnhandledException;
         }
 
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
@@ -41,14 +41,6 @@ namespace ParkenDD
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-
-#if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                this.DebugSettings.EnableFrameRateCounter = true;
-            }
-#endif
-
             var rootFrame = Window.Current.Content as Frame;
             ApplicationLanguages.PrimaryLanguageOverride = Windows.System.UserProfile.GlobalizationPreferences.Languages[0];
 

@@ -16,7 +16,7 @@
     Background="#FFFFFF"
     DataContext="{Binding Main, Source={StaticResource Locator}}">
 
-
+    <!-- #region Behaviors -->
     <interactivity:Interaction.Behaviors>
         <behaviors:WindowSizeBehavior 
             PreferredMinSize="300,450"
@@ -36,15 +36,19 @@
             BackgroundColor="#FFFFFF"
             />
     </interactivity:Interaction.Behaviors>
+    <!-- #endregion -->
 
+    <!-- #region Page resources -->
     <Page.Resources>
         <CollectionViewSource
             x:Key="SelectedCityData"
             ItemsPath="ParkingLots"
             />
     </Page.Resources>
+    <!-- #endregion -->
 
     <Grid>
+        <!-- #region VisualStateGroups -->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="hideHamburger">
@@ -151,12 +155,15 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+        <!-- #endregion -->
+        <!-- #region SplitView -->
         <SplitView
             OpenPaneLength="200"
             x:Name="SplitView"
             CompactPaneLength="48"
             DisplayMode="Overlay"
             >
+            <!-- #region Pane -->
             <SplitView.Pane>
                 <Grid 
                     Style="{ThemeResource SplitViewContainerStyle}"
@@ -213,21 +220,23 @@
                         Style="{StaticResource AboutButtonStyle}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock FontFamily="Segoe MDL2 Assets" Margin="0,2,4,0" FontSize="12">&#xE946; </TextBlock>
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Margin="0,2,4,0" FontSize="12">&#xE946;</TextBlock>
                                 <TextBlock>Informationen</TextBlock>
                             </StackPanel>
                         </Button.Content>
                     </Button>
                 </Grid>
             </SplitView.Pane>
+            <!-- #endregion -->
+            <!-- #region Content -->
             <SplitView.Content>
                 <RelativePanel
                     x:Name="RelativePanelContainer">
+                    <!-- #region Toolbar -->
                     <RelativePanel
                         x:Name="ParkingLotListTopBar"
                         RelativePanel.AlignTopWithPanel="True"
                         RelativePanel.AlignLeftWithPanel="True"
-                        Width="300"
                         Style="{ThemeResource ParkingLotListTopBarStyle}">
                         <Button
                             x:Name="ParkingLotListMenuBtn"
@@ -246,7 +255,6 @@
                             Text="{Binding SearchText, Mode=TwoWay}"
                             Style="{StaticResource ParkingLotAutoSuggestBoxStyle}"
                             TextBoxStyle="{StaticResource ParkingLotSearchTextBoxStyle}"
-                            QueryIcon="Find"
                             ItemContainerStyle="{StaticResource ParkingLotAutoSuggestBoxSuggestionItemContainerStyle}"
                             >
                             <AutoSuggestBox.ItemTemplate>
@@ -321,12 +329,13 @@
                             Tag=""
                             Style="{StaticResource NavIconButtonStyle}" />
                     </RelativePanel>
+                    <!-- #endregion -->
+                    <!-- #region ParkingLot list -->
                     <RelativePanel
                         x:Name="ParkingLotListPanel"
                         RelativePanel.Below="ParkingLotListTopBar"
                         RelativePanel.AlignLeftWithPanel="True"
                         RelativePanel.AlignBottomWithPanel="True"
-                        Width="300"
                         Style="{ThemeResource ParkingLotListPanelStyle}">
                         <ProgressBar
                             x:Name="ParkingLotListProgressBar"
@@ -337,16 +346,13 @@
                         <ListView
                             x:Name="ParkingLotList"
                             Grid.Row="1"
-                            ScrollViewer.VerticalScrollBarVisibility="Auto"
                             ItemsSource="{Binding Source={StaticResource SelectedCityData}}"
                             SelectedItem="{Binding SelectedParkingLot, Mode=TwoWay}"
                             Style="{ThemeResource ParkingLotListStyle}"
-                            SelectionMode="Single"
                             Header="{Binding SelectedCityData.LastUpdated, Converter={StaticResource DateTimeToStringConverter}}"
-                            IsMultiSelectCheckBoxEnabled="False"
                             RelativePanel.AlignLeftWithPanel="True"
                             RelativePanel.AlignRightWithPanel="True"
-                            ItemContainerStyle="{StaticResource SelectCityListContainerStyle}">
+                            >
                             <ListView.GroupStyle>
                                 <GroupStyle
                                     HidesIfEmpty="True"
@@ -457,7 +463,7 @@
                                         <StackPanel
                                             x:Phase="0"
                                             Visibility="{x:Bind IsSelected, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                       
+
                                             <controls:ParkingLotForecastChart
                                                 Visibility="{x:Bind ParkingLot.HasForecast, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                 HorizontalAlignment="Stretch"
@@ -477,20 +483,22 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </RelativePanel>
+                    <!-- #endregion -->
+                    <!-- #region Map -->
                     <RelativePanel 
                         x:Name="ParkingLotMap"
                         RelativePanel.RightOf="ParkingLotListPanel"
                         RelativePanel.AlignTopWithPanel="True"
                         RelativePanel.AlignRightWithPanel="True"
                         RelativePanel.AlignBottomWithPanel="True"
-                        BorderThickness="1,0,0,0"
-                        BorderBrush="#dddddd">
+                        Style="{StaticResource ParkingLotMap}"
+                        >
                         <RelativePanel
                             x:Name="MapTopBar"
                             Style="{ThemeResource MapTopBarStyle}"
                             RelativePanel.AlignTopWithPanel="True"
                             RelativePanel.AlignLeftWithPanel="True"
-                            RelativePanel.AlignRightWithPanel="True" Margin="-1,0,0,0"
+                            RelativePanel.AlignRightWithPanel="True"
                             />
                         <maps:MapControl
                             x:Name="Map"
@@ -502,16 +510,23 @@
                             MapServiceToken="ODfhhm4fu4fI3bK7netn~Fld-dSJIU1C5srIK9bLJWA~AhmDa72RljmI6HW5OV0kEFt0sN_eRk-JF_Eu03jpeiigdHuK6fQ70zEBy5QaOoYq"
                             />
                     </RelativePanel>
+                    <!-- #endregion -->
+                    <!-- #region Container for background drawings -->
                     <Grid 
                         x:DeferLoadStrategy="Lazy"
                         x:Name="BackgroundDrawingContainer"
                         Margin="-500,-500,0,0" />
+                    <!-- #endregion -->
                 </RelativePanel>
             </SplitView.Content>
+            <!-- #endregion -->
         </SplitView>
+        <!-- #endregion -->
+        <!-- #region Info dialog -->
         <controls:InfoDialog
             Visibility="Collapsed"
             x:Name="InfoDialog"
             x:DeferLoadStrategy="Lazy" />
+        <!-- #endregion -->
     </Grid>
 </Page>

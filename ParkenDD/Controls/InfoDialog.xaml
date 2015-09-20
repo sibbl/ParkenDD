@@ -13,8 +13,8 @@
     d:DesignWidth="700"
     DataContext="{Binding InfoDialog, Source={StaticResource Locator}}">
 
-
     <Grid Style="{StaticResource InfoDialogContainerStyle}">
+        <!-- #region VisualStateManager -->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="addTitleBarPadding">
@@ -62,17 +62,20 @@
                 <VisualState x:Name="disallowTitleBarPaddingOnDesktop"/>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+        <!-- #endregion -->
         <Grid x:Name="InfoDialogWindow" Style="{StaticResource InfoDialogStyle}">
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="TitleBarPaddingRow" Height="0" MaxHeight="0" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+            <!-- #region Pivot -->
             <Pivot x:Name="InfoDialogPivot" Grid.Row="1" Style="{StaticResource InfoDialogPivotStyle}">
                 <Pivot.Resources>
                     <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource InfoDialogPivotHeaderStyle}"/>
                     <Style TargetType="ScrollViewer" BasedOn="{StaticResource InfoDialogPivotScrollViewerStyle}"/>
                 </Pivot.Resources>
+                <!-- #region Pivot item: information -->
                 <PivotItem Header="Info">
                     <ScrollViewer>
                         <StackPanel>
@@ -114,6 +117,8 @@
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>
+                <!-- #endregion -->
+                <!-- #region Pivot item: functions -->
                 <PivotItem Header="Funktionen">
                     <ScrollViewer>
                         <StackPanel>
@@ -176,6 +181,8 @@
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>
+                <!-- #endregion -->
+                <!-- #region Pivot item: data -->
                 <PivotItem Header="Daten">
                     <ScrollViewer>
                         <StackPanel>
@@ -191,7 +198,7 @@
                             <TextBlock Style="{StaticResource InfoDialogPivotContentTextBlockStyle}">
                                 Folgende Verlinkungen führen Sie zu den Webseiten, deren Quellen wir beziehen:
                             </TextBlock>
-                            <ItemsControl ItemsSource="{Binding Main.MetaData.Cities.List ,Source={StaticResource Locator}}">
+                            <ItemsControl ItemsSource="{Binding Main.MetaData.Cities.List, Source={StaticResource Locator}}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="apiModels:MetaDataCityRow">
                                         <StackPanel Style="{StaticResource InfoDialogPivotDataSourceItemContainerStyle}">
@@ -211,12 +218,16 @@
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>
+                <!-- #endregion -->
             </Pivot>
+            <!-- #endregion -->
+            <!-- #region Back button -->
             <Button
                 Grid.Row="2"
                 Content="Zurück"
                 Command="{Binding HideDialogCommand}"
                 Style="{StaticResource InfoDialogBackButtonStyle}"/>
+            <!-- #endregion -->
         </Grid>
     </Grid>
 </UserControl>
