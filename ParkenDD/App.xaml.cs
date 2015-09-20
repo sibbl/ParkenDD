@@ -30,7 +30,7 @@ namespace ParkenDD
 
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
         {
-            
+            //TODO: catch and handle unhandled exceptions here
             unhandledExceptionEventArgs.Handled = true;
         }
 

@@ -21,10 +21,38 @@ namespace ParkenDD.ViewModels
             },
             new LicenseInformationItem
             {
+                Name = "Cimbalino Toolkit",
+                Copyright = "2011 Pedro Lamas",
+                License = "MIT",
+                Link = new Uri("https://raw.githubusercontent.com/Cimbalino/Cimbalino-Toolkit/master/LICENSE.txt")
+            },
+            new LicenseInformationItem
+            {
                 Name = "Json.NET",
                 Copyright = "2007 James Newton-King",
                 License = "MIT",
                 Link = new Uri("https://raw.githubusercontent.com/JamesNK/Newtonsoft.Json/master/LICENSE.md")
+            },
+            new LicenseInformationItem
+            {
+                Name = "MvvmLight",
+                Copyright = "2009 - 2014 Laurent Bugnion",
+                License = "MIT",
+                Link = new Uri("https://mvvmlight.codeplex.com/license")
+            },
+            new LicenseInformationItem
+            {
+                Name = "WindowsStateTriggers",
+                Copyright = "Morten Nielsen",
+                License = "MIT",
+                Link = new Uri("https://raw.githubusercontent.com/dotMorten/WindowsStateTriggers/master/LICENSE")
+            },
+            new LicenseInformationItem
+            {
+                Name = "WinRT XAML Toolkit",
+                Copyright = "2012 Filip Skakun",
+                License = "MIT",
+                Link = new Uri("https://winrtxamltoolkit.codeplex.com/license")
             }
         };
 
