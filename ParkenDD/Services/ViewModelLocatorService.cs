@@ -35,7 +35,9 @@ namespace ParkenDD.Services
             }
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<InfoDialogViewModel>();
         }
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
+        public InfoDialogViewModel InfoDialog => ServiceLocator.Current.GetInstance<InfoDialogViewModel>();
     }
 }

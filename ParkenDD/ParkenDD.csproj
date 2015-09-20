@@ -96,6 +96,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Assets\Logo.png" />
     <Content Include="Assets\SearchMapIcon.scale-100.png" />
     <Content Include="Assets\SearchMapIcon.scale-120.png" />
     <Content Include="Assets\SearchMapIcon.scale-140.png" />
@@ -135,6 +136,9 @@
     <Compile Include="Behaviors\StatusBarBehavior.cs" />
     <Compile Include="Behaviors\TitleBarBehavior.cs" />
     <Compile Include="Behaviors\WindowSizeBehavior.cs" />
+    <Compile Include="Controls\InfoDialog.xaml.cs">
+      <DependentUpon>InfoDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ParkingLotForecastChart.xaml.cs">
       <DependentUpon>ParkingLotForecastChart.xaml</DependentUpon>
     </Compile>
@@ -150,9 +154,11 @@
     <Compile Include="Interfaces\ICanResume.cs" />
     <Compile Include="Interfaces\ICanSuspend.cs" />
     <Compile Include="Messages\HideSearchResultOnMapMessage.cs" />
+    <Compile Include="Messages\InfoDialogToggleVisibilityMessage.cs" />
     <Compile Include="Messages\ShowSearchResultOnMapMessage.cs" />
     <Compile Include="Messages\ZoomMapToCoordinateMessage.cs" />
     <Compile Include="Models\AddressSearchSuggestionItem.cs" />
+    <Compile Include="Models\LicenseInformationItem.cs" />
     <Compile Include="Models\ParkingLotForecastDataPoint.cs" />
     <Compile Include="Models\ParkingLotForecastTimespanEnum.cs" />
     <Compile Include="Models\ParkingLotForecastTimespanSelection.cs" />
@@ -175,6 +181,7 @@
     <Compile Include="Utils\ClassUtils.cs" />
     <Compile Include="Utils\GeoUtils.cs" />
     <Compile Include="Utils\MapElementUtils.cs" />
+    <Compile Include="ViewModels\InfoDialogViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -206,6 +213,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\InfoDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ParkingLotForecastChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

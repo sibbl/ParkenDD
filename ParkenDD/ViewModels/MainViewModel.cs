@@ -775,6 +775,18 @@ namespace ParkenDD.ViewModels
 
         #endregion
 
+        #region ShowInfoDialogCommand
+
+        private RelayCommand _showInfoDialogCommand;
+        public RelayCommand ShowInfoDialogCommand => _showInfoDialogCommand ?? (_showInfoDialogCommand = new RelayCommand(ShowInfoDialog));
+
+        private void ShowInfoDialog()
+        {
+            Messenger.Default.Send(new InfoDialogToggleVisibilityMessage(true));
+        }
+
+        #endregion
+
         #endregion
 
         private async void LoadLastState(string selectedCityId)

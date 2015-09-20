@@ -26,8 +26,8 @@
     </Command>
     
     <Command Name="selectParkingLot">
-      <Example> zeige den Parkplatz am Altmarkt in Dresden  </Example>
-      <ListenFor RequireAppName="BeforePhrase"> [zeige] [öffne] [den Parkplatz] {parking_lot} in {city} </ListenFor>
+      <Example> zeige den Parkplatz Centrum Galerie in Dresden  </Example>
+      <ListenFor RequireAppName="BeforePhrase"> [zeige] [öffne] [mir] [den Parkplatz] [am] [im] [in] [beim] [bei] [neben] [dem] [der] {parking_lot} in {city} </ListenFor>
       <Feedback> {parking_lot} in {city} wird geladen... </Feedback>
       <Navigate/>
     </Command>
@@ -37,6 +37,7 @@
     </PhraseList>
     
     <PhraseList Label="parking_lot">
+      <Item>Altmarkt</Item>
       <Item>Centrum Galerie</Item>
     </PhraseList>
   </CommandSet>

@@ -6,12 +6,14 @@
     <x:Double x:Key="ChartMaximum">100</x:Double>
     <x:Double x:Key="ChartInterval">10</x:Double>
 
+    <Color x:Key="VeryDarkBlueColor">#023a6a</Color>
     <Color x:Key="DarkBlueColor">#09487f</Color>
     <Color x:Key="BlueColor">#14548c</Color>
     <Color x:Key="LightBlueColor">#50a0bf</Color>
     <Color x:Key="RedColor">#c70000</Color>
     <Color x:Key="GreenColor">#26b500</Color>
 
+    <SolidColorBrush x:Key="VeryDarkBlueBrush" Color="{StaticResource VeryDarkBlueColor}"/>
     <SolidColorBrush x:Key="DarkBlueBrush" Color="{StaticResource DarkBlueColor}"/>
     <SolidColorBrush x:Key="BlueBrush" Color="{StaticResource BlueColor}"/>
     <SolidColorBrush x:Key="LightBlueBrush" Color="{StaticResource LightBlueColor}"/>

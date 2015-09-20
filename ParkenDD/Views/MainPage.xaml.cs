@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Devices.Geolocation;
@@ -25,6 +26,7 @@ namespace ParkenDD.Views
         private SelectableParkingLot _selectedLot;
         private GeoboundingBox _initialMapBbox;
         private Geopoint _initialCoordinates;
+        private bool _infoDialogVisible;
 
         public MainPage()
         {
@@ -84,79 +86,98 @@ namespace ParkenDD.Views
                 DrawingService.RemoveSearchResult(Map);
             });
 
-            Vm.PropertyChanged += async (sender, args) =>
+            Messenger.Default.Register(this, (InfoDialogToggleVisibilityMessage msg) =>
             {
-                if (args.PropertyName == nameof(Vm.ParkingLots))
-                {
-                    FindName(nameof(BackgroundDrawingContainer));
-                    DrawingService.DrawParkingLots(Map, BackgroundDrawingContainer);
-                    if (Vm.ParkingLots != null)
-                    {
-                        foreach (var selectableParkingLot in Vm.ParkingLots)
-                        {
-                            selectableParkingLot.ParkingLot.PropertyChanged += (sender1, changedEventArgs) =>
-                            {
-                                DrawingService.RedrawParkingLot(BackgroundDrawingContainer, selectableParkingLot);
-                            };
-                        }
-                        Vm.ParkingLots.CollectionChanged += (o, eventArgs) =>
-                        {
-                            DrawingService.DrawParkingLots(Map, BackgroundDrawingContainer);
-                            if (eventArgs.NewItems != null)
-                            {
-                                foreach (var selectableParkingLot in eventArgs.NewItems.OfType<SelectableParkingLot>())
-                                {
-                                    selectableParkingLot.ParkingLot.PropertyChanged += (sender1, changedEventArgs) =>
-                                    {
-                                        DrawingService.RedrawParkingLot(BackgroundDrawingContainer, selectableParkingLot);
-                                    };
-                                }
-                            }
-                        };
-                    }
-                }else if(args.PropertyName == nameof(Vm.SelectedParkingLot))
-                {
-                    DrawingService.RedrawParkingLot(BackgroundDrawingContainer, Vm.SelectedParkingLot);
-                    DrawingService.RedrawParkingLot(BackgroundDrawingContainer, _selectedLot);
-                    _selectedLot = Vm.SelectedParkingLot;
-                    var selectedParkingLotPoint = _selectedLot?.ParkingLot?.Coordinates?.Point;
-                    if (selectedParkingLotPoint != null)
-                    {
-                        bool isParkingLotInView;
-                        Map.IsLocationInView(selectedParkingLotPoint, out isParkingLotInView);
-                        if (!isParkingLotInView)
-                        {
-                            await Map.TrySetViewAsync(selectedParkingLotPoint);
-                        }
-                    }
-                }else if (args.PropertyName == nameof(Vm.ParkingLotFilterMode))
-                {
-                    UpdateParkingLotFilter();
-                }else if (args.PropertyName == nameof(Vm.ParkingLotsGroupedCollectionViewSource))
-                {
-                    var cvs = Resources["SelectedCityData"] as CollectionViewSource;
-                    cvs.IsSourceGrouped = true;
-                    cvs.Source = Vm.ParkingLotsGroupedCollectionViewSource;
-                }
-                else if (args.PropertyName == nameof(Vm.ParkingLotsListCollectionViewSource))
-                {
-                    var cvs = Resources["SelectedCityData"] as CollectionViewSource;
-                    cvs.IsSourceGrouped = false;
-                    cvs.Source = Vm.ParkingLotsListCollectionViewSource;
-                }else if (args.PropertyName == nameof(Vm.UserLocation))
-                {
-                    DrawingService.DrawUserPosition(Map, Vm.UserLocation);
-                }
-            };
+                FindName(nameof(InfoDialog));
+                _infoDialogVisible = msg.IsVisible;
+                InfoDialog.Visibility = msg.Visibility;
+            });
+
+            Vm.PropertyChanged += OnViewModelPropertyChanged;
+
             ParkingLotList.SelectionChanged += (sender, args) =>
             {
                 ParkingLotList.ScrollIntoView(ParkingLotList.SelectedItem);
             };
+
             Map.MapElementClick += (sender, args) =>
             {
                 Vm.SelectedParkingLot = DrawingService.GetParkingLotOfIcon(args.MapElements.GetTopmostIcon());
             };
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += (sender, args) =>
+            {
+                if (_infoDialogVisible)
+                {
+                    Messenger.Default.Send(new InfoDialogToggleVisibilityMessage(false));
+                    args.Handled = true;
+                }
+            };
+
             UpdateParkingLotFilter();
+        }
+
+        private async void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName == nameof(Vm.ParkingLots))
+            {
+                FindName(nameof(BackgroundDrawingContainer));
+                DrawingService.DrawParkingLots(Map, BackgroundDrawingContainer);
+                if (Vm.ParkingLots != null)
+                {
+                    foreach (var selectableParkingLot in Vm.ParkingLots)
+                    {
+                        selectableParkingLot.ParkingLot.PropertyChanged += (sender1, changedEventArgs) => { DrawingService.RedrawParkingLot(BackgroundDrawingContainer, selectableParkingLot); };
+                    }
+                    Vm.ParkingLots.CollectionChanged += (o, eventArgs) =>
+                    {
+                        DrawingService.DrawParkingLots(Map, BackgroundDrawingContainer);
+                        if (eventArgs.NewItems != null)
+                        {
+                            foreach (var selectableParkingLot in eventArgs.NewItems.OfType<SelectableParkingLot>())
+                            {
+                                selectableParkingLot.ParkingLot.PropertyChanged += (sender1, changedEventArgs) => { DrawingService.RedrawParkingLot(BackgroundDrawingContainer, selectableParkingLot); };
+                            }
+                        }
+                    };
+                }
+            }
+            else if (args.PropertyName == nameof(Vm.SelectedParkingLot))
+            {
+                DrawingService.RedrawParkingLot(BackgroundDrawingContainer, Vm.SelectedParkingLot);
+                DrawingService.RedrawParkingLot(BackgroundDrawingContainer, _selectedLot);
+                _selectedLot = Vm.SelectedParkingLot;
+                var selectedParkingLotPoint = _selectedLot?.ParkingLot?.Coordinates?.Point;
+                if (selectedParkingLotPoint != null)
+                {
+                    bool isParkingLotInView;
+                    Map.IsLocationInView(selectedParkingLotPoint, out isParkingLotInView);
+                    if (!isParkingLotInView)
+                    {
+                        await Map.TrySetViewAsync(selectedParkingLotPoint);
+                    }
+                }
+            }
+            else if (args.PropertyName == nameof(Vm.ParkingLotFilterMode))
+            {
+                UpdateParkingLotFilter();
+            }
+            else if (args.PropertyName == nameof(Vm.ParkingLotsGroupedCollectionViewSource))
+            {
+                var cvs = Resources["SelectedCityData"] as CollectionViewSource;
+                cvs.IsSourceGrouped = true;
+                cvs.Source = Vm.ParkingLotsGroupedCollectionViewSource;
+            }
+            else if (args.PropertyName == nameof(Vm.ParkingLotsListCollectionViewSource))
+            {
+                var cvs = Resources["SelectedCityData"] as CollectionViewSource;
+                cvs.IsSourceGrouped = false;
+                cvs.Source = Vm.ParkingLotsListCollectionViewSource;
+            }
+            else if (args.PropertyName == nameof(Vm.UserLocation))
+            {
+                DrawingService.DrawUserPosition(Map, Vm.UserLocation);
+            }
         }
 
         private void UpdateParkingLotFilter()
