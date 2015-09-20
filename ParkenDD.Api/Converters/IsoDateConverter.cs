@@ -8,14 +8,14 @@ namespace ParkenDD.Api.Converters
         private const string IsoDateFormat = "yyyy-MM-ddTHH:mm:ss";
         public static string ToIsoString(DateTime dt)
         {
-            return dt.ToString(IsoDateFormat);
+            return dt.ToUniversalTime().ToString(IsoDateFormat);
         }
 
         public static DateTime ToDateTime(string isoDateString)
         {
             DateTime result;
             if (DateTime.TryParseExact(isoDateString, IsoDateFormat, CultureInfo.InvariantCulture,
-                DateTimeStyles.AdjustToUniversal, out result))
+                DateTimeStyles.AssumeUniversal, out result))
             {
                 return result;
             }

@@ -116,6 +116,7 @@
     <Compile Include="Converters\IsoDateConverter.cs" />
     <Compile Include="Converters\JsonForecastConverter.cs" />
     <Compile Include="Converters\JsonMetaDataCitiesConverter.cs" />
+    <Compile Include="Converters\JsonUtcDateTimeConverter.cs" />
     <Compile Include="Converters\JsonUriConverter.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Coordinate.cs" />

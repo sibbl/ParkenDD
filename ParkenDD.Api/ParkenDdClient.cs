@@ -124,7 +124,8 @@ namespace ParkenDD.Api
                     {
                         new JsonMetaDataCitiesConverter(),
                         new JsonForecastConverter(),
-                        new JsonUriConverter()
+                        new JsonUriConverter(),
+                        new JsonUtcDateTimeConverter()
                     }
                 }
             );
