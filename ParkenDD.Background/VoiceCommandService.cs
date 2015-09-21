@@ -61,7 +61,7 @@ namespace ParkenDD.Background
                     }
                     else
                     {
-                        var percent = Math.Round((double) lot.FreeLots/(double) lot.TotalLots);
+                        var percent = Math.Round((double) lot.FreeLots/(double) lot.TotalLots * 100);
                         var responseMsg = new VoiceCommandUserMessage
                         {
                             //TODO: localize
@@ -71,8 +71,7 @@ namespace ParkenDD.Background
                                     lot.FreeLots,
                                     lot.TotalLots,
                                     percent),
-                            SpokenMessage = string.Format("Der Parkplatz {0} hat noch {1} von {2} Parkplätzen frei",
-                                lot.Name,
+                            SpokenMessage = string.Format("{0} von {1} Parkplätzen sind aktuell frei",
                                 lot.FreeLots,
                                 lot.TotalLots)
                         };
