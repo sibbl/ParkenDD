@@ -47,7 +47,7 @@ namespace ParkenDD.Api.Models
         [JsonProperty("total")] 
         public int TotalLots
         {
-            get { return _totalLots; }
+            get { return _totalLots >= _freeLots ? _totalLots : _freeLots; }
             set { Set(() => TotalLots, ref _totalLots, value); }
         }
         private int _totalLots;
