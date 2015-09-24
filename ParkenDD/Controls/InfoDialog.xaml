@@ -88,7 +88,7 @@
                             <TextBlock
                                 Style="{StaticResource InfoDialogPivotVersionTextBlockStyle}">
                                 <Run x:Uid="InfoDialogVersion">Version</Run>
-                                <Run x:Uid="InfoDialogVersionNumber">0.1</Run>
+                                <Run>0.7 BETA</Run>
                             </TextBlock>
                             <TextBlock
                                 x:Uid="InfoDialogAuthor"

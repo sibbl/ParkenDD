@@ -192,9 +192,6 @@
   <data name="InfoDialogVersion.Text" xml:space="preserve">
     <value>Version</value>
   </data>
-  <data name="InfoDialogVersionNumber.Text" xml:space="preserve">
-    <value>0.7 BETA</value>
-  </data>
   <data name="InfoDialogWriteAuthor.Content" xml:space="preserve">
     <value>write the developer</value>
   </data>
