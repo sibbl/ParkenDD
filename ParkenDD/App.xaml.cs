@@ -42,7 +42,8 @@ namespace ParkenDD
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             var rootFrame = Window.Current.Content as Frame;
-            ApplicationLanguages.PrimaryLanguageOverride = Windows.System.UserProfile.GlobalizationPreferences.Languages[0];
+            ApplicationLanguages.PrimaryLanguageOverride = "de-DE";
+            //var lang = Windows.System.UserProfile.GlobalizationPreferences.Languages[0];
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active

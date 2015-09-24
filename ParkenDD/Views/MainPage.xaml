@@ -181,6 +181,7 @@
                         Grid.Row="0"
                         >
                         <Button
+                            x:Uid="SplitViewMenuBtn"
                             x:Name="SplitViewMenuBtn"
                             Click="ToggleSplitView"
                             Tag=""
@@ -221,7 +222,7 @@
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock FontFamily="Segoe MDL2 Assets" Margin="0,2,4,0" FontSize="12">&#xE946;</TextBlock>
-                                <TextBlock>Informationen</TextBlock>
+                                <TextBlock x:Uid="InfoTextLabel">Informationen</TextBlock>
                             </StackPanel>
                         </Button.Content>
                     </Button>
@@ -239,6 +240,7 @@
                         RelativePanel.AlignLeftWithPanel="True"
                         Style="{ThemeResource ParkingLotListTopBarStyle}">
                         <Button
+                            x:Uid="ParkingLotListMenuBtn"
                             x:Name="ParkingLotListMenuBtn"
                             RelativePanel.AlignLeftWithPanel="True"
                             Click="ToggleSplitView"
@@ -246,11 +248,12 @@
                             Style="{StaticResource NavIconButtonStyle}" />
                         <AutoSuggestBox
                             x:Name="SearchBox"
+                            x:Uid="SearchBox"
                             RelativePanel.LeftOf="ParkingLotListFilterBtn"
                             RelativePanel.RightOf="ParkingLotListMenuBtn"
                             RelativePanel.AlignTopWithPanel="True"
                             RelativePanel.AlignBottomWithPanel="True"
-                            PlaceholderText="Adresse suchen..."
+                            PlaceholderText="~Adresse suchen..."
                             ItemsSource="{Binding SearchSuggestions}"
                             Text="{Binding SearchText, Mode=TwoWay}"
                             Style="{StaticResource ParkingLotAutoSuggestBoxStyle}"
@@ -289,6 +292,7 @@
                             </interactivity:Interaction.Behaviors>
                         </AutoSuggestBox>
                         <Button
+                            x:Uid="ParkingLotListFilterBtn"
                             x:Name="ParkingLotListFilterBtn"
                             RelativePanel.LeftOf="ParkingLotListRefreshBtn"
                             Tag=""
@@ -296,26 +300,32 @@
                             <Button.Flyout>
                                 <MenuFlyout>
                                     <ToggleMenuFlyoutItem
+                                        x:Uid="ParkingLotFilterMenuItemAlphabetically"
                                         x:Name="ParkingLotFilterMenuItemAlphabetically"
                                         Command="{Binding SetParkingLotFilterToAlphabeticallyCommand}"
                                         Text="Alphabetisch" />
                                     <ToggleMenuFlyoutItem
+                                        x:Uid="ParkingLotFilterMenuItemAvailability"
                                         x:Name="ParkingLotFilterMenuItemAvailability"
                                         Command="{Binding SetParkingLotFilterToAvailabilityCommand}"
                                         Text="Belegung" />
                                     <ToggleMenuFlyoutItem
+                                        x:Uid="ParkingLotFilterMenuItemDistance"
                                         x:Name="ParkingLotFilterMenuItemDistance"
                                         Command="{Binding SetParkingLotFilterToDistanceCommand}"
                                         Text="Entfernung" />
                                     <MenuFlyoutSeparator />
                                     <ToggleMenuFlyoutItem
+                                        x:Uid="ParkingLotFilterAscending"
                                         IsChecked="{Binding ParkingLotFilterAscending, Mode=TwoWay}"
                                         Text="Aufsteigend" />
                                     <ToggleMenuFlyoutItem
+                                        x:Uid="ParkingLotFilterDescending"
                                         IsChecked="{Binding ParkingLotFilterAscending, Mode=TwoWay, Converter={StaticResource NegativeBooleanConverter}}"
                                         Text="Absteigend" />
                                     <MenuFlyoutSeparator />
                                     <ToggleMenuFlyoutItem
+                                        x:Uid="ParkingLotFilterMenuItemGrouping"
                                         x:Name="ParkingLotFilterMenuItemGrouping"
                                         IsChecked="{Binding ParkingLotFilterIsGrouped, Mode=TwoWay}"
                                         Text="Gruppierung" />
@@ -324,6 +334,7 @@
                         </Button>
                         <Button
                             x:Name="ParkingLotListRefreshBtn"
+                            x:Uid="ParkingLotListRefreshBtn"
                             RelativePanel.AlignRightWithPanel="True"
                             Command="{Binding RefreshCityDetailsCommand}"
                             Tag=""
@@ -398,6 +409,7 @@
                                                 Grid.Row="0"
                                                 Grid.Column="2"
                                                 Style="{ThemeResource ParkingLotHasForecastTextStyle}"
+                                                x:Uid="ParkingLotHasForecastText"
                                                 Text="VORHERSAGE"
                                                 x:Phase="0"
                                                 Visibility="{x:Bind ParkingLot.HasForecast, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
@@ -423,8 +435,9 @@
                                                     Visibility="{x:Bind ParkingLot.TotalLots, Mode=OneWay, Converter={StaticResource IntGreaterZeroToVisibilityConverter}}"
                                                     x:Phase="2" />
                                                 <TextBlock
+                                                    x:Uid="ParkingLotListDetailFree"
                                                     Style="{ThemeResource ParkingLotListDetailStyle}"
-                                                    Text=" frei"
+                                                    Text="frei"
                                                     />
                                             </StackPanel>
                                             <TextBlock
@@ -475,6 +488,7 @@
 
                                             <Button Content="Wegbeschreibung"
                                                     Tag="&#xE816;"
+                                                    x:Uid="ParkingLotListNavigationBtn"
                                                     Style="{ThemeResource ParkingLotListNavigationButton}"
                                                     Command="{Binding Main.NavigateToParkingLotCommand, Source={StaticResource Locator}}"
                                                     x:Phase="6"

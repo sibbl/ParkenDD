@@ -76,19 +76,33 @@
                     <Style TargetType="ScrollViewer" BasedOn="{StaticResource InfoDialogPivotScrollViewerStyle}"/>
                 </Pivot.Resources>
                 <!-- #region Pivot item: information -->
-                <PivotItem Header="Info">
+                <PivotItem x:Uid="InfoDialogPivotInfo" Header="Info">
                     <ScrollViewer>
                         <StackPanel>
                             <Image
                                 Width="100"
                                 Source="ms-appx:///Assets/Logo.png" 
                                 />
-                            <TextBlock Style="{StaticResource InfoDialogPivotAppTitleTextBlockStyle}">ParkenDD</TextBlock>
-                            <TextBlock Style="{StaticResource InfoDialogPivotVersionTextBlockStyle}">Version 0.1</TextBlock>
-                            <TextBlock Style="{StaticResource InfoDialogPivotAppAuthorTextBlockStyle}">von Sebastian Müller (@sibbl)</TextBlock>
-                            <HyperlinkButton Style="{StaticResource InfoDialogPivotAppContactTextBlockStyle}" NavigateUri="mailto:me@sibbl.net?subject=ParkenDD%20Feedback">dem Entwickler schreiben</HyperlinkButton>
-                            <TextBlock Style="{StaticResource InfoDialogPivotContentTextBlockStyle}">Danke an Rob Tranquillo (@robtranquillo), Johannes Kliemann (@JK70523), Kilian Költzsch (@kiliankoe) und Constantin Müller (@ubahnverleih) für das Entwickeln der API bzw. Android- und iOS-Apps. Danke an Paul Balzer (@balzer82) für das Berechnen und Bereitstellen der Daten für die Vorhersagen. Danke an Matthias Altermann für das Gestalten und Bereitstellen des App-Logos.</TextBlock>
-                            <TextBlock Style="{StaticResource InfoDialogPivotContentTextHeaderStyle}">Lizenzen</TextBlock>
+                            <TextBlock
+                                Style="{StaticResource InfoDialogPivotAppTitleTextBlockStyle}">ParkenDD</TextBlock>
+                            <TextBlock
+                                Style="{StaticResource InfoDialogPivotVersionTextBlockStyle}">
+                                <Run x:Uid="InfoDialogVersion">Version</Run>
+                                <Run x:Uid="InfoDialogVersionNumber">0.1</Run>
+                            </TextBlock>
+                            <TextBlock
+                                x:Uid="InfoDialogAuthor"
+                                Style="{StaticResource InfoDialogPivotAppAuthorTextBlockStyle}">von Sebastian Müller (@sibbl)</TextBlock>
+                            <HyperlinkButton
+                                x:Uid="InfoDialogWriteAuthor"
+                                Style="{StaticResource InfoDialogPivotAppContactTextBlockStyle}"
+                                NavigateUri="mailto:me@sibbl.net?subject=ParkenDD%20Feedback">dem Entwickler schreiben</HyperlinkButton>
+                            <TextBlock
+                                x:Uid="InfoDialogThanks"
+                                Style="{StaticResource InfoDialogPivotContentTextBlockStyle}">Danke an Rob Tranquillo (@robtranquillo), Johannes Kliemann (@JK70523), Kilian Költzsch (@kiliankoe) und Constantin Müller (@ubahnverleih) für das Entwickeln der API bzw. Android- und iOS-Apps. Danke an Paul Balzer (@balzer82) für das Berechnen und Bereitstellen der Daten für die Vorhersagen. Danke an Matthias Altermann für das Gestalten und Bereitstellen des App-Logos.</TextBlock>
+                            <TextBlock
+                                x:Uid="InfoDialogLicensesTitle"
+                                Style="{StaticResource InfoDialogPivotContentTextHeaderStyle}">Lizenzen</TextBlock>
                             <ItemsControl
                                 ItemsSource="{Binding Licenses}">
                                 <ItemsControl.ItemTemplate>
@@ -96,12 +110,13 @@
                                         <StackPanel Style="{StaticResource InfoDialogPivotLicenseItemStyle}">
                                             <TextBlock Style="{StaticResource InfoDialogPivotContentTextBaseStyle}" Text="{x:Bind Name}" />
                                             <TextBlock Style="{StaticResource InfoDialogPivotContentTextBaseStyle}">
-                                                <Run>Copyright </Run>
+                                                <Run x:Uid="InfoDialogLicensesCopyright">Copyright </Run>
                                                 <Run Text="{x:Bind Copyright}" />
                                             </TextBlock>
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock
                                                     Style="{StaticResource InfoDialogPivotContentTextBaseStyle}"
+                                                    x:Uid="InfoDialogLicensesLabel"
                                                     Text="Lizenz: "
                                                     Margin="0,0,5,0"/>
                                                 <HyperlinkButton 
@@ -119,20 +134,44 @@
                 </PivotItem>
                 <!-- #endregion -->
                 <!-- #region Pivot item: functions -->
-                <PivotItem Header="Funktionen">
+                <PivotItem x:Uid="InfoDialogPivotFeatures" Header="Funktionen">
                     <ScrollViewer>
                         <StackPanel>
-                            <TextBlock Style="{StaticResource InfoDialogPivotContentTextHeaderStyle}" Text="Städte" />
-                            <TextBlock Style="{StaticResource InfoDialogPivotContentTextBlockStyle}" Text="Wählen Sie aus einer Liste von Städten aus, zu welcher Sie Informationen über die Parksituation erhalten wollen."/>
+                            <TextBlock
+                                x:Uid="InfoDialogFeaturesCitiesTitle"
+                                Style="{StaticResource InfoDialogPivotContentTextHeaderStyle}"
+                                Text="Städte" />
+                            <TextBlock
+                                x:Uid="InfoDialogFeaturesCitiesContent"
+                                Style="{StaticResource InfoDialogPivotContentTextBlockStyle}"
+                                Text="Wählen Sie aus einer Liste von Städten aus, zu welcher Sie Informationen über die Parksituation erhalten wollen."/>
 
-                            <TextBlock Style="{StaticResource InfoDialogPivotContentTextHeaderStyle}" Text="Parkplätze" />
-                            <TextBlock Style="{StaticResource InfoDialogPivotContentTextBlockStyle}" Text="Wurde eine Stadt ausgewählt, werden die Parkplätze, zu denen Daten vorliegen, in einer Listen- und Kartenansicht dargestellt. Sie können diese in der jeweiligen Ansicht auswählen und zusätzliche Informationen erhalten sowie eine Wegbeschreibung aufrufen."/>
+                            <TextBlock
+                                x:Uid="InfoDialogFeaturesParkingLotTitle"
+                                Style="{StaticResource InfoDialogPivotContentTextHeaderStyle}"
+                                Text="Parkplätze" />
+                            <TextBlock
+                                x:Uid="InfoDialogFeaturesParkingLotContent"
+                                Style="{StaticResource InfoDialogPivotContentTextBlockStyle}"
+                                Text="Wurde eine Stadt ausgewählt, werden die Parkplätze, zu denen Daten vorliegen, in einer Listen- und Kartenansicht dargestellt. Sie können diese in der jeweiligen Ansicht auswählen und zusätzliche Informationen erhalten sowie eine Wegbeschreibung aufrufen."/>
 
-                            <TextBlock Style="{StaticResource InfoDialogPivotContentTextHeaderStyle}" Text="Vorhersage" />
-                            <TextBlock Style="{StaticResource InfoDialogPivotContentTextBlockStyle}" Text="Bei einigen Parkplätzen stehen experimentelle Vorhersagen zur Verfügung, die für einen auswählbaren Zeitraum in einem Diagramm dargestellt werden. Diese Daten wurden von Algorithmen erzeugt und fortlaufend von uns optimiert."/>
+                            <TextBlock
+                                x:Uid="InfoDialogFeaturesPredictionTitle"
+                                Style="{StaticResource InfoDialogPivotContentTextHeaderStyle}"
+                                Text="Vorhersage" />
+                            <TextBlock
+                                x:Uid="InfoDialogFeaturesPredictionContent"
+                                Style="{StaticResource InfoDialogPivotContentTextBlockStyle}"
+                                Text="Bei einigen Parkplätzen stehen experimentelle Vorhersagen zur Verfügung, die für einen auswählbaren Zeitraum in einem Diagramm dargestellt werden. Diese Daten wurden von Algorithmen erzeugt und fortlaufend von uns optimiert."/>
 
-                            <TextBlock Style="{StaticResource InfoDialogPivotContentTextHeaderStyle}" Text="Cortana" />
-                            <TextBlock Style="{StaticResource InfoDialogPivotContentTextBlockStyle}" Text="Haben Sie Cortana aktiviert, können Sie über Sprachsuchen die App starten oder Informationen zur Parksituation erhalten, ohne die App zu starten. Verwenden Sie dazu zum Beispiel folgende Befehle:"/>
+                            <TextBlock
+                                x:Uid="InfoDialogFeaturesCortanaTitle"
+                                Style="{StaticResource InfoDialogPivotContentTextHeaderStyle}"
+                                Text="Cortana" />
+                            <TextBlock
+                                x:Uid="InfoDialogFeaturesCortanaContent"
+                                Style="{StaticResource InfoDialogPivotContentTextBlockStyle}"
+                                Text="Haben Sie Cortana aktiviert, können Sie über Sprachsuchen die App starten oder Informationen zur Parksituation erhalten, ohne die App zu starten. Verwenden Sie dazu zum Beispiel folgende Befehle:"/>
 
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -162,18 +201,21 @@
                                 <TextBlock
                                     Grid.Row="0"
                                     Grid.Column="1"
+                                    x:Uid="InfoDialogFeaturesCortanaSample1"
                                     Style="{StaticResource InfoDialogPivotContentTextBaseStyle}">
                                     ParkenDD, wo kann ich in Dresden parken?
                                 </TextBlock>
                                 <TextBlock
                                     Grid.Row="1"
                                     Grid.Column="1"
+                                    x:Uid="InfoDialogFeaturesCortanaSample2"
                                     Style="{StaticResource InfoDialogPivotContentTextBaseStyle}">
                                     ParkenDD, zeige den Parkplatz der Centrum Galerie in Dresden
                                 </TextBlock>
                                 <TextBlock
                                     Grid.Row="2"
                                     Grid.Column="1"
+                                    x:Uid="InfoDialogFeaturesCortanaSample3"
                                     Style="{StaticResource InfoDialogPivotContentTextBaseStyle}">
                                     ParkenDD, wie viele Parkplätze sind in Dresden in der Centrum Galerie frei?
                                 </TextBlock>
@@ -183,19 +225,27 @@
                 </PivotItem>
                 <!-- #endregion -->
                 <!-- #region Pivot item: data -->
-                <PivotItem Header="Daten">
+                <PivotItem x:Uid="InfoDialogPivotData" Header="Daten">
                     <ScrollViewer>
                         <StackPanel>
-                            <TextBlock Style="{StaticResource InfoDialogPivotContentTextHeaderStyle}">
+                            <TextBlock
+                                x:Uid="InfoDialogDataWhereTitle"
+                                Style="{StaticResource InfoDialogPivotContentTextHeaderStyle}">
                                 Woher stammen die Daten?
                             </TextBlock>
-                            <TextBlock Style="{StaticResource InfoDialogPivotContentTextBlockStyle}">
+                            <TextBlock
+                                x:Uid="InfoDialogDataWhereContent"
+                                Style="{StaticResource InfoDialogPivotContentTextBlockStyle}">
                                 Die Daten, die in dieser App dargestellt werden, stammen aus verschiedenen Quellen. Da sehr wenige Städte die Daten maschinenlesbar bereitstellen, wurde das Projekt ParkAPI (www.github.com/offenesdresden/ParkAPI) ins Leben gerufen, sodass die Daten, die auf Webseiten bereitgestellt werden, ständig in ein Format übersetzt werden, das Maschinen und eben auch Ihr Windows-Gerät verstehen.
                             </TextBlock>
-                            <TextBlock Style="{StaticResource InfoDialogPivotContentTextHeaderStyle}">
+                            <TextBlock
+                                x:Uid="InfoDialogDataWhere2Title"
+                                Style="{StaticResource InfoDialogPivotContentTextHeaderStyle}">
                                 Okay, aber woher stammen nun die Daten?
                             </TextBlock>
-                            <TextBlock Style="{StaticResource InfoDialogPivotContentTextBlockStyle}">
+                            <TextBlock
+                                x:Uid="InfoDialogDataWhere2Content"
+                                Style="{StaticResource InfoDialogPivotContentTextBlockStyle}">
                                 Folgende Verlinkungen führen Sie zu den Webseiten, deren Quellen wir beziehen:
                             </TextBlock>
                             <ItemsControl ItemsSource="{Binding Main.MetaData.Cities.List, Source={StaticResource Locator}}">
@@ -225,6 +275,7 @@
             <Button
                 Grid.Row="2"
                 Content="Zurück"
+                x:Uid="InfoDialogBackBtn"
                 Command="{Binding HideDialogCommand}"
                 Style="{StaticResource InfoDialogBackButtonStyle}"/>
             <!-- #endregion -->

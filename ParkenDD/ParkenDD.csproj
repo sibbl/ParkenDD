@@ -127,6 +127,9 @@
     </Content>
     <None Include="ParkenDD_StoreKey.pfx" />
     <None Include="project.json" />
+    <PRIResource Include="Resources\en-US\Strings.resw" />
+    <PRIResource Include="Resources\de-DE\Strings.resw" />
+    <PRIResource Include="Resources\Global.resw" />
     <None Include="Service References\Application Insights\ConnectedService.json" />
   </ItemGroup>
   <ItemGroup>
