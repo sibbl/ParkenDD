@@ -265,7 +265,7 @@
                     <TextBlock
                         Visibility="{Binding Main.SelectedCityData, Converter={StaticResource NullToVisibilityConverter}, Source={StaticResource Locator}}"
                         Style="{ThemeResource ParkingLotListLastRefreshTextBlockStyle}">
-                        <Run Text="Stand: " />
+                        <Run x:Uid="ParkingLotListDataAgeLabel" Text="Stand: " />
                         <Run Text="{Binding}" />
                     </TextBlock>
                 </DataTemplate>

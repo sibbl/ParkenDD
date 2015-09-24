@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="InfoDialogAuthor.Text" xml:space="preserve">
+    <value>by Sebastian Müller (@sibbl)</value>
+  </data>
+  <data name="InfoDialogBackBtn.Content" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="InfoDialogDataWhere2Content.Text" xml:space="preserve">
+    <value>Use the following links to open our sources in the browser:</value>
+  </data>
+  <data name="InfoDialogDataWhere2Title.Text" xml:space="preserve">
+    <value>Okay, but where is the data from?</value>
+  </data>
+  <data name="InfoDialogDataWhereContent.Text" xml:space="preserve">
+    <value>The data which is displayed by this app, is fetched from different sources. Hardly any city provides machine-readable data, so the project ParkAPI (www.github.com/offenesdresden/ParkAPI) was created. Using this scraper, realtime data is loaded from websites and translated into data formats, which computers and even your Windows device can understand.</value>
+  </data>
+  <data name="InfoDialogDataWhereTitle.Text" xml:space="preserve">
+    <value>Where is the data from?</value>
+  </data>
+  <data name="InfoDialogFeaturesCitiesContent.Text" xml:space="preserve">
+    <value>Select a city and get the current parking situation of the city.</value>
+  </data>
+  <data name="InfoDialogFeaturesCitiesTitle.Text" xml:space="preserve">
+    <value>Cities</value>
+  </data>
+  <data name="InfoDialogFeaturesCortanaContent.Text" xml:space="preserve">
+    <value>If you have Cortana activated, you can launch the app via voice commands or even get details without having to start the app. You can use the following commands:</value>
+  </data>
+  <data name="InfoDialogFeaturesCortanaSample1.Text" xml:space="preserve">
+    <value>ParkenDD, where in Dresden can I park?</value>
+  </data>
+  <data name="InfoDialogFeaturesCortanaSample2.Text" xml:space="preserve">
+    <value>ParkenDD, show the parking lot Centrum Galerie in Dresden</value>
+  </data>
+  <data name="InfoDialogFeaturesCortanaSample3.Text" xml:space="preserve">
+    <value>ParkenDD, how many parking spaces are available in the Centrum Galerie in Dresden?</value>
+  </data>
+  <data name="InfoDialogFeaturesCortanaTitle.Text" xml:space="preserve">
+    <value>Cortana</value>
+  </data>
+  <data name="InfoDialogFeaturesParkingLotContent.Text" xml:space="preserve">
+    <value>When a city is selected, the parking lots (of which data is available) are shown in a list and map view. You can select them in both views to get more details and be able to get directions.</value>
+  </data>
+  <data name="InfoDialogFeaturesParkingLotTitle.Text" xml:space="preserve">
+    <value>Parking lots</value>
+  </data>
+  <data name="InfoDialogFeaturesPredictionContent.Text" xml:space="preserve">
+    <value>At some parking lots, there are experimental predictions available for a selectable time span. This data is generated and optimized continuously.</value>
+  </data>
+  <data name="InfoDialogFeaturesPredictionTitle.Text" xml:space="preserve">
+    <value>Predictions</value>
+  </data>
+  <data name="InfoDialogLicensesCopyright.Text" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="InfoDialogLicensesLabel.Text" xml:space="preserve">
+    <value>License: </value>
+  </data>
+  <data name="InfoDialogLicensesTitle.Text" xml:space="preserve">
+    <value>Licenses</value>
+  </data>
+  <data name="InfoDialogPivotData.Header" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="InfoDialogPivotFeatures.Header" xml:space="preserve">
+    <value>Features</value>
+  </data>
+  <data name="InfoDialogPivotInfo.Header" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="InfoDialogThanks.Text" xml:space="preserve">
+    <value>Thanks to Rob Tranquillo (@robtranquillo), Johannes Kliemann (@JK70523), Kilian Költzsch (@kiliankoe) and Constantin Müller (@ubahnverleih) for developing the API as well as iOS and Android apps. Thanks to Paul Balzer (@balzer82) for calculating and providing the prediction data. Thanks to Matthias Altermann for designing and providing the app logo. </value>
+  </data>
+  <data name="InfoDialogVersion.Text" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="InfoDialogVersionNumber.Text" xml:space="preserve">
+    <value>0.7 BETA</value>
+  </data>
+  <data name="InfoDialogWriteAuthor.Content" xml:space="preserve">
+    <value>write the developer</value>
+  </data>
+  <data name="InfoDialogWriteAuthor.NavigateUri" xml:space="preserve">
+    <value>mailto:me@sibbl.net?subject=ParkenDD%20Feedback</value>
+  </data>
+  <data name="InfoTextLabel.Text" xml:space="preserve">
+    <value>about</value>
+  </data>
+  <data name="ParkingLotFilterAscending.Text" xml:space="preserve">
+    <value>Ascending</value>
+  </data>
+  <data name="ParkingLotFilterDescending.Text" xml:space="preserve">
+    <value>Descending</value>
+  </data>
+  <data name="ParkingLotFilterMenuItemAlphabetically.Text" xml:space="preserve">
+    <value>Alphabetically</value>
+  </data>
+  <data name="ParkingLotFilterMenuItemAvailability.Text" xml:space="preserve">
+    <value>Occupancy</value>
+  </data>
+  <data name="ParkingLotFilterMenuItemDistance.Text" xml:space="preserve">
+    <value>Distance</value>
+  </data>
+  <data name="ParkingLotFilterMenuItemGrouping.Text" xml:space="preserve">
+    <value>Grouping</value>
+  </data>
+  <data name="ParkingLotHasForecastText.Text" xml:space="preserve">
+    <value>PREDICTION</value>
+  </data>
+  <data name="ParkingLotListDataAgeLabel.Text" xml:space="preserve">
+    <value>from </value>
+  </data>
+  <data name="ParkingLotListDetailFree.Text" xml:space="preserve">
+    <value> frei</value>
+  </data>
+  <data name="ParkingLotListFilterBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="ParkingLotListMenuBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="ParkingLotListNavigationBtn.Content" xml:space="preserve">
+    <value>Directions</value>
+  </data>
+  <data name="ParkingLotListRefreshBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="SearchBox.PlaceholderText" xml:space="preserve">
+    <value>Search address...</value>
+  </data>
+  <data name="SplitViewMenuBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+</root>

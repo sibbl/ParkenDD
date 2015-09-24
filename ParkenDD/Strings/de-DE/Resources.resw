@@ -172,7 +172,7 @@
     <value>Copyright</value>
   </data>
   <data name="InfoDialogLicensesLabel.Text" xml:space="preserve">
-    <value>Lizenz:</value>
+    <value>Lizenz: </value>
   </data>
   <data name="InfoDialogLicensesTitle.Text" xml:space="preserve">
     <value>Lizenzen</value>
@@ -184,13 +184,13 @@
     <value>Funktionen</value>
   </data>
   <data name="InfoDialogPivotInfo.Header" xml:space="preserve">
-    <value>Info</value>
+    <value>Über</value>
   </data>
   <data name="InfoDialogThanks.Text" xml:space="preserve">
     <value>Danke an Rob Tranquillo (@robtranquillo), Johannes Kliemann (@JK70523), Kilian Költzsch (@kiliankoe) und Constantin Müller (@ubahnverleih) für das Entwickeln der API bzw. Android- und iOS-Apps. Danke an Paul Balzer (@balzer82) für das Berechnen und Bereitstellen der Daten für die Vorhersagen. Danke an Matthias Altermann für das Gestalten und Bereitstellen des App-Logos.</value>
   </data>
   <data name="InfoDialogVersion.Text" xml:space="preserve">
-    <value>Version </value>
+    <value>Version</value>
   </data>
   <data name="InfoDialogWriteAuthor.Content" xml:space="preserve">
     <value>dem Entwickler schreiben</value>
@@ -199,7 +199,7 @@
     <value>mailto:me@sibbl.net?subject=ParkenDD%20Feedback</value>
   </data>
   <data name="InfoTextLabel.Text" xml:space="preserve">
-    <value>mehr</value>
+    <value>Über</value>
   </data>
   <data name="ParkingLotFilterAscending.Text" xml:space="preserve">
     <value>Aufsteigend</value>
@@ -222,25 +222,28 @@
   <data name="ParkingLotHasForecastText.Text" xml:space="preserve">
     <value>VORHERSAGE</value>
   </data>
+  <data name="ParkingLotListDataAgeLabel.Text" xml:space="preserve">
+    <value>Stand: </value>
+  </data>
   <data name="ParkingLotListDetailFree.Text" xml:space="preserve">
     <value> frei</value>
   </data>
-  <data name="ParkingLotListFilterBtn.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="ParkingLotListFilterBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Filter</value>
   </data>
-  <data name="ParkingLotListMenuBtn.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="ParkingLotListMenuBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Menü</value>
   </data>
-  <data name="ParkingLotListNavigationBtn.Text" xml:space="preserve">
+  <data name="ParkingLotListNavigationBtn.Content" xml:space="preserve">
     <value>Wegbeschreibung</value>
   </data>
-  <data name="ParkingLotListRefreshBtn.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="ParkingLotListRefreshBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Aktualisieren</value>
   </data>
   <data name="SearchBox.PlaceholderText" xml:space="preserve">
     <value>Adresse suchen...</value>
   </data>
-  <data name="SplitViewMenuBtn.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SplitViewMenuBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Menü</value>
   </data>
 </root>
