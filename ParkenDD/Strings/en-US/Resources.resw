@@ -222,11 +222,29 @@
   <data name="ParkingLotHasForecastText.Text" xml:space="preserve">
     <value>PREDICTION</value>
   </data>
-  <data name="ParkingLotListDataAgeLabel.Text" xml:space="preserve">
-    <value>from </value>
-  </data>
   <data name="ParkingLotListDetailFree.Text" xml:space="preserve">
     <value> frei</value>
+  </data>
+  <data name="ParkingLotListFilterBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="ParkingLotListMenuBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="ParkingLotListNavigationBtn.Text" xml:space="preserve">
+    <value>Directions</value>
+  </data>
+  <data name="ParkingLotListRefreshBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="SearchBox.PlaceholderText" xml:space="preserve">
+    <value>Search address...</value>
+  </data>
+  <data name="SplitViewMenuBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="ParkingLotListDataAgeLabel.Text" xml:space="preserve">
+    <value>from </value>
   </data>
   <data name="ParkingLotListFilterBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Filter</value>
@@ -240,10 +258,8 @@
   <data name="ParkingLotListRefreshBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Refresh</value>
   </data>
-  <data name="SearchBox.PlaceholderText" xml:space="preserve">
-    <value>Search address...</value>
-  </data>
   <data name="SplitViewMenuBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Menu</value>
   </data>
+
 </root>
