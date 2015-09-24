@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -130,7 +130,7 @@
     <value>Okay, aber woher stammen nun die Daten?</value>
   </data>
   <data name="InfoDialogDataWhereContent.Text" xml:space="preserve">
-    <value>Die Daten, die in dieser App dargestellt werden, stammen aus verschiedenen Quellen. Da sehr wenige Städte die Daten maschinenlesbar bereitstellen, wurde das Projekt ParkAPI (www.github.com/offenesdresden/ParkAPI) ins Leben gerufen, sodass die Daten, die auf Webseiten bereitgestellt werden, ständig in ein Format übersetzt werden, das Maschinen und eben auch Ihr Windows-Gerät verstehen.</value>
+    <value>Die Daten, die in dieser App dargestellt werden, stammen aus verschiedenen Quellen. Da so gut wie keine Städte die Daten maschinenlesbar bereitstellen, wurde das Projekt ParkAPI (www.github.com/offenesdresden/ParkAPI) ins Leben gerufen, sodass die Daten, die auf Webseiten bereitgestellt werden, ständig in ein Format übersetzt werden, das Maschinen und eben auch Ihr Windows-Gerät verstehen.</value>
   </data>
   <data name="InfoDialogDataWhereTitle.Text" xml:space="preserve">
     <value>Woher stammen die Daten?</value>
@@ -222,11 +222,29 @@
   <data name="ParkingLotHasForecastText.Text" xml:space="preserve">
     <value>VORHERSAGE</value>
   </data>
-  <data name="ParkingLotListDataAgeLabel.Text" xml:space="preserve">
-    <value>Stand: </value>
-  </data>
   <data name="ParkingLotListDetailFree.Text" xml:space="preserve">
     <value> frei</value>
+  </data>
+  <data name="ParkingLotListFilterBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="ParkingLotListMenuBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Menü</value>
+  </data>
+  <data name="ParkingLotListNavigationBtn.Text" xml:space="preserve">
+    <value>Wegbeschreibung</value>
+  </data>
+  <data name="ParkingLotListRefreshBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Aktualisieren</value>
+  </data>
+  <data name="SearchBox.PlaceholderText" xml:space="preserve">
+    <value>Adresse suchen...</value>
+  </data>
+  <data name="SplitViewMenuBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Menü</value>
+  </data>
+  <data name="ParkingLotListDataAgeLabel.Text" xml:space="preserve">
+    <value>Stand: </value>
   </data>
   <data name="ParkingLotListFilterBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Filter</value>
@@ -240,10 +258,8 @@
   <data name="ParkingLotListRefreshBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Aktualisieren</value>
   </data>
-  <data name="SearchBox.PlaceholderText" xml:space="preserve">
-    <value>Adresse suchen...</value>
-  </data>
   <data name="SplitViewMenuBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Menü</value>
   </data>
+
 </root>
