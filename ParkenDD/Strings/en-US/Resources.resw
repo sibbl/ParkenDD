@@ -231,9 +231,6 @@
   <data name="ParkingLotListMenuBtn.ToolTipService.ToolTip" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="ParkingLotListNavigationBtn.Text" xml:space="preserve">
-    <value>Directions</value>
-  </data>
   <data name="ParkingLotListRefreshBtn.ToolTipService.ToolTip" xml:space="preserve">
     <value>Refresh</value>
   </data>
