@@ -13,8 +13,10 @@ namespace ParkenDD.Api
 {
     public class ParkenDdClient : IParkenDdClient
     {
+        private const string BaseUri = "http://api.parken.dd.de/";
         //private const string BaseUri = "http://park-api.higgsboson.tk/";
-        private const string BaseUri = "http://jkliemann.de/parkendd/park-api/";
+        //private const string BaseUri = "http://jkliemann.de/parkendd/park-api/";
+
         protected readonly HttpClient Client;
 
         public ParkenDdClient()
