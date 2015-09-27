@@ -41,6 +41,15 @@ namespace ParkenDD.Background
             switch (voiceCommand.CommandName)
             {
                 case "getParkingLotData":
+                    //TODO: localize
+                    var waitMsg = new VoiceCommandUserMessage
+                    {
+                        DisplayMessage = "Moment, ich fahre kurz vorbei...",
+                        SpokenMessage = "Einen Moment, ich fahre kurz vorbei..."
+                    };
+                    var waitResponse = VoiceCommandResponse.CreateResponse(waitMsg);
+                    await voiceServiceConnection.ReportProgressAsync(waitResponse);
+
                     var phrases = await ReadAsync<VoiceCommandPhrases>(VoiceCommandPhrasesFilename);
                     if (phrases != null)
                     {
@@ -48,6 +57,7 @@ namespace ParkenDD.Background
                         var parkingLotName = voiceCommand.Properties["parking_lot"][0];
 
                         ParkingLot lot = null;
+                        DateTime lastUpdated = DateTime.Now;
 
                         var cityId = phrases.FindCityIdByName(cityName);
                         if (cityId != null)
@@ -56,16 +66,9 @@ namespace ParkenDD.Background
                             if (parkingLotId != null)
                             {
                                 var api = new ParkenDdClient();
-                                //TODO: localize
-                                var waitMsg = new VoiceCommandUserMessage
-                                {
-                                    DisplayMessage = "Moment, ich fahre kurz vorbei...",
-                                    SpokenMessage = "Einen Moment, ich fahre kurz vorbei..."
-                                };
-                                var waitResponse = VoiceCommandResponse.CreateResponse(waitMsg);
-                                await voiceServiceConnection.ReportProgressAsync(waitResponse);
 
                                 var city = await api.GetCityAsync(cityId);
+                                lastUpdated = city.LastUpdated;
                                 lot = city?.Lots?.FirstOrDefault(x => x.Id.Equals(parkingLotId));
                             }
                         }
@@ -78,24 +81,54 @@ namespace ParkenDD.Background
                                 SpokenMessage = "Der Parkplatz wurde leider nicht gefunden..."
                             };
                             var errorResp = VoiceCommandResponse.CreateResponseForPrompt(errorMsg, errorMsg);
-                            await voiceServiceConnection.RequestConfirmationAsync(errorResp);
+                            await voiceServiceConnection.ReportFailureAsync(errorResp);
                         }
                         else
                         {
                             var percent = Math.Round((double)lot.FreeLots / (double)lot.TotalLots * 100);
+                            var age = DateTime.Now - lastUpdated;
+                            var ageNumber = 0;
+                            string spokenMessageFormat, displayMessageFormat;
+                            if (age <= TimeSpan.FromMinutes(5))
+                            {
+                                spokenMessageFormat = "{0} von {1} Parkplätzen sind aktuell frei";
+                                displayMessageFormat = "Der Parkplatz {0} hat aktuell {1} von {2} freie Parkplätze ({3}%).";
+                            }else if (age <= TimeSpan.FromHours(2))
+                            {
+                                spokenMessageFormat = "{0} von {1} Parkplätzen waren vor {2} Minuten frei";
+                                displayMessageFormat =
+                                    "Der Parkplatz {0} hatte vor {4} Minuten {1} von {2} freie Parkplätze ({3}%).";
+                                ageNumber = age.Minutes;
+                            }else if (age <= TimeSpan.FromDays(2))
+                            {
+                                spokenMessageFormat = "{0} von {1} Parkplätzen waren vor weniger als {2} Stunden frei";
+                                displayMessageFormat =
+                                    "Der Parkplatz {0} hatte vor weniger als {4} Stunden {1} von {2} freie Parkplätze ({3}%).";
+                                ageNumber = (int)Math.Ceiling(age.TotalHours);
+                            }
+                            else
+                            {
+                                spokenMessageFormat = "{0} von {1} Parkplätzen waren mehr als 2 Tagen frei";
+                                displayMessageFormat =
+                                    "Der Parkplatz {0} hatte vor mehr als 2 Tagen {1} von {2} freie Parkplätze ({3}%).";
+                            }
                             var responseMsg = new VoiceCommandUserMessage
                             {
                                 //TODO: localize
                                 DisplayMessage =
                                     string.Format(
-                                        "Der Parkplatz {0} hat noch {1} von {2} Parkplätzen frei ({3}%)",
-                                        lot.Name,
-                                        lot.FreeLots,
-                                        lot.TotalLots,
-                                        percent),
-                                SpokenMessage = string.Format("{0} von {1} Parkplätzen sind aktuell frei",
-                                    lot.FreeLots,
-                                    lot.TotalLots)
+                                        displayMessageFormat,
+                                        lot.Name, //0
+                                        lot.FreeLots, //1
+                                        lot.TotalLots, //2
+                                        percent, //3
+                                        ageNumber //4
+                                    ),
+                                SpokenMessage = string.Format(spokenMessageFormat,
+                                    lot.FreeLots, //0
+                                    lot.TotalLots, //1
+                                    ageNumber //2
+                                    )
                             };
 
                             var response = VoiceCommandResponse.CreateResponse(responseMsg);

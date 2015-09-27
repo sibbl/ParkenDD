@@ -81,10 +81,13 @@ namespace ParkenDD
 
         protected override void OnActivated(IActivatedEventArgs e)
         {
-            // Was the app activated by a voice command?
             if (e.Kind == ActivationKind.VoiceCommand)
             {
-                ServiceLocator.Current.GetInstance<VoiceCommandService>().HandleActivation(e as VoiceCommandActivatedEventArgs);
+                DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                {
+                    ServiceLocator.Current.GetInstance<VoiceCommandService>()
+                        .HandleActivation(e as VoiceCommandActivatedEventArgs);
+                });
             }
 
         }
