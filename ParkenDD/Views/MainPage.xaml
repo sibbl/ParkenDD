@@ -202,7 +202,7 @@
                     <ListView
                         Grid.Row="1"
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                        ItemsSource="{x:Bind Vm.MetaData.Cities.List}"
+                        ItemsSource="{x:Bind Vm.MetaData.Cities.List, Mode=OneWay}"
                         SelectedItem="{Binding SelectedCity, Mode=TwoWay}"
                         ItemContainerStyle="{StaticResource SelectCityListContainerStyle}"
                         SelectionChanged="SplitViewItemSelectionChanged"

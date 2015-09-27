@@ -114,6 +114,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\VoiceCommandPhrases.cs" />
+    <Compile Include="Models\VoiceCommandCityPhrase.cs" />
+    <Compile Include="Models\VoiceCommandMetaDataPhrase.cs" />
     <Compile Include="VoiceCommandService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

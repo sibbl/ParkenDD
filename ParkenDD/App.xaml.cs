@@ -3,11 +3,14 @@ using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Globalization;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using GalaSoft.MvvmLight.Threading;
 using Microsoft.Practices.ServiceLocation;
 using ParkenDD.Services;
+using ParkenDD.ViewModels;
 
 namespace ParkenDD
 {
@@ -23,8 +26,6 @@ namespace ParkenDD
         public App()
         {
             InitializeComponent();
-            Suspending += OnSuspending;
-            Resuming += OnResuming;
             UnhandledException += OnUnhandledException;
         }
 
@@ -41,8 +42,9 @@ namespace ParkenDD
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            DispatcherHelper.Initialize();
             var rootFrame = Window.Current.Content as Frame;
-            ApplicationLanguages.PrimaryLanguageOverride = "de-DE";
+            //ApplicationLanguages.PrimaryLanguageOverride = "de-DE";
             //var lang = Windows.System.UserProfile.GlobalizationPreferences.Languages[0];
 
             // Do not repeat app initialization when the Window already has content,
@@ -54,12 +56,15 @@ namespace ParkenDD
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                e.SplashScreen.Dismissed += (sender, args) =>
                 {
-                    ServiceLocator.Current.GetInstance<LifecycleService>().Restore();
-                }
-
-                // Place the frame in the current Window
+                    var loadState = (e.PreviousExecutionState == ApplicationExecutionState.Terminated);
+                    DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                    {
+                        ServiceLocator.Current
+                            .GetInstance<MainViewModel>().Initialize(loadState);
+                    });
+                };
                 Window.Current.Content = rootFrame;
             }
 
@@ -74,6 +79,16 @@ namespace ParkenDD
             Window.Current.Activate();
         }
 
+        protected override void OnActivated(IActivatedEventArgs e)
+        {
+            // Was the app activated by a voice command?
+            if (e.Kind == ActivationKind.VoiceCommand)
+            {
+                ServiceLocator.Current.GetInstance<VoiceCommandService>().HandleActivation(e as VoiceCommandActivatedEventArgs);
+            }
+
+        }
+
         /// <summary>
         /// Invoked when Navigation to a certain page fails
         /// </summary>
@@ -82,25 +97,6 @@ namespace ParkenDD
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
-
-        /// <summary>
-        /// Invoked when application execution is being suspended.  Application state is saved
-        /// without knowing whether the application will be terminated or resumed with the contents
-        /// of memory still intact.
-        /// </summary>
-        /// <param name="sender">The source of the suspend request.</param>
-        /// <param name="e">Details about the suspend request.</param>
-        private async void OnSuspending(object sender, SuspendingEventArgs e)
-        {
-            var deferral = e.SuspendingOperation.GetDeferral();
-            await ServiceLocator.Current.GetInstance<LifecycleService>().SaveAsync();
-            deferral.Complete();
-        }
-
-        private void OnResuming(object sender, object o)
-        {
-            ServiceLocator.Current.GetInstance<LifecycleService>().Restore();
         }
     }
 }

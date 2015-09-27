@@ -154,8 +154,6 @@
     <Compile Include="Converters\ParkingLotStateToVisibilityConverter.cs" />
     <Compile Include="Converters\TimeSpanToDateTimeAxisLabelFormatConverter.cs" />
     <Compile Include="Converters\TrimTextConverter.cs" />
-    <Compile Include="Interfaces\ICanResume.cs" />
-    <Compile Include="Interfaces\ICanSuspend.cs" />
     <Compile Include="Messages\HideSearchResultOnMapMessage.cs" />
     <Compile Include="Messages\InfoDialogToggleVisibilityMessage.cs" />
     <Compile Include="Messages\ShowSearchResultOnMapMessage.cs" />
@@ -176,7 +174,6 @@
     <Compile Include="Services\ParkingLotListFilterService.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\StorageService.cs" />
-    <Compile Include="Services\LifecycleService.cs" />
     <Compile Include="Services\TrackingService.cs" />
     <Compile Include="Services\ViewModelLocatorService.cs" />
     <Compile Include="Services\VoiceCommandService.cs" />
@@ -184,6 +181,7 @@
     <Compile Include="Utils\ClassUtils.cs" />
     <Compile Include="Utils\GeoUtils.cs" />
     <Compile Include="Utils\MapElementUtils.cs" />
+    <Compile Include="Utils\VoiceCommandPhraseUtils.cs" />
     <Compile Include="ViewModels\InfoDialogViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">

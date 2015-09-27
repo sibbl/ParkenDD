@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Newtonsoft.Json;
 using ParkenDD.Api.Models;
+using ParkenDD.Background.Models;
+using ParkenDD.Models;
 
 namespace ParkenDD.Services
 {
@@ -10,6 +12,7 @@ namespace ParkenDD.Services
     {
         private const string MetaDataFilename = "meta.json";
         private const string SelectedCityFilename = "city_{0}.json";
+        private const string VoiceCommandPhrasesFilename = "phrases.json";
         private readonly StorageFolder _tempFolder = ApplicationData.Current.TemporaryFolder;
 
         private async Task SaveAsync<T>(string filename, T data)
@@ -66,6 +69,22 @@ namespace ParkenDD.Services
         public async Task<City> ReadCityDataAsync(string cityId)
         {
             return await ReadAsync<City>(string.Format(SelectedCityFilename, cityId));
+        }
+
+        public async void SaveVoiceCommandPhrases(VoiceCommandPhrases data)
+        {
+            await SaveVoiceCommandPhrasesAsync(data);
+        }
+
+        public async Task SaveVoiceCommandPhrasesAsync(VoiceCommandPhrases data)
+        {
+            await SaveAsync(VoiceCommandPhrasesFilename, data);
+        }
+
+        public async Task<VoiceCommandPhrases> ReadVoiceCommandPhrasesAsync()
+        {
+            var dict = await ReadAsync<VoiceCommandPhrases>(VoiceCommandPhrasesFilename);
+            return dict ?? new VoiceCommandPhrases();
         }
     }
 }

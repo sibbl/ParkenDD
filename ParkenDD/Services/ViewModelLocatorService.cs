@@ -21,7 +21,6 @@ namespace ParkenDD.Services
             SimpleIoc.Default.Register<GeolocationService>();
             SimpleIoc.Default.Register<ParkingLotListFilterService>();
             SimpleIoc.Default.Register<SettingsService>();
-            SimpleIoc.Default.Register<LifecycleService>();
             SimpleIoc.Default.Register<StorageService>();
             SimpleIoc.Default.Register<TrackingService>();
 

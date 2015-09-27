@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace ParkenDD.Api.Models
 {
-    public class MetaData
+    public sealed class MetaData
     {
         /// <summary>
         ///     Version of all the json documents of ParkAPI itself

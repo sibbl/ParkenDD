@@ -36,11 +36,6 @@ namespace ParkenDD.Views
 
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
 
-            Loaded += (sender, args) =>
-            {
-                Vm.TryGetUserPosition();
-            };
-
             Map.Loaded += async (sender, args) =>
             {
                 if (_initialMapBbox != null)

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
-using Microsoft.ApplicationInsights;
 using Microsoft.Practices.ServiceLocation;
 using ParkenDD.Api.Models;
+using ParkenDD.Background.Models;
+using ParkenDD.Utils;
 using ParkenDD.ViewModels;
 
 namespace ParkenDD.Services
@@ -15,13 +15,25 @@ namespace ParkenDD.Services
         private const string VoiceCommandPath = "VoiceCommands.xml";
 
         private readonly TrackingService _tracking;
+        private readonly StorageService _storage;
+        private Task<VoiceCommandPhrases> _loadPhrasesTask;
+        private VoiceCommandPhrases _phrases;
 
-        public VoiceCommandService(TrackingService tracking)
+        public VoiceCommandService(TrackingService tracking, StorageService storage)
         {
             _tracking = tracking;
-            Init();
+            _storage = storage;
+            InstallVoiceCommandDefinitions();
+            LoadPhrases();
         }
-        public async void Init() {
+
+        private async void LoadPhrases()
+        {
+            _loadPhrasesTask = _storage.ReadVoiceCommandPhrasesAsync();
+            _phrases = await _loadPhrasesTask;
+        }
+
+        private async void InstallVoiceCommandDefinitions() {
             //TODO: catch exceptions and log them
             try
             {
@@ -46,6 +58,10 @@ namespace ParkenDD.Services
 
         public async Task UpdateCityListAsync(MetaData metaData)
         {
+            if (_phrases == null)
+            {
+                _phrases = await _loadPhrasesTask;
+            }
             if (metaData?.Cities != null)
             {
                 //TODO: catch exceptions and log them
@@ -55,19 +71,25 @@ namespace ParkenDD.Services
                     Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstalledCommandDefinitions
                         .TryGetValue("ParkenDdCommands_de", out commandSet))
                 {
-                    await commandSet.SetPhraseListAsync("city", metaData.Cities.Select(x => x.Value.Name));
+                    _phrases.UpdateCities(metaData);
+                    await commandSet.SetPhraseListAsync("city", _phrases.GetCityPhraseList());
+                    _storage.SaveVoiceCommandPhrases(_phrases);
                 }
             }
         }
 
-        public async void UpdateParkingLotList(City city)
+        public async void UpdateParkingLotList(MetaDataCityRow city, City data)
         {
-            await UpdateParkingLotListAsync(city);
+            await UpdateParkingLotListAsync(city, data);
         }
 
-        public async Task UpdateParkingLotListAsync(City city)
+        public async Task UpdateParkingLotListAsync(MetaDataCityRow city, City data)
         {
-            if (city?.Lots != null)
+            if (_phrases == null)
+            {
+                _phrases = await _loadPhrasesTask;
+            }
+            if (data?.Lots != null)
             {
                 //TODO: catch exceptions and log them
                 Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinition commandSet;
@@ -76,7 +98,9 @@ namespace ParkenDD.Services
                     Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstalledCommandDefinitions
                         .TryGetValue("ParkenDdCommands_de", out commandSet))
                 {
-                    await commandSet.SetPhraseListAsync("parking_lot", city.Lots.Select(x => x.Name));
+                    _phrases.UpdateParkingLots(city, data.Lots);
+                    await commandSet.SetPhraseListAsync("parking_lot", _phrases.GetParkingLotPhraseList());
+                    _storage.SaveVoiceCommandPhrases(_phrases);
                 }
             }
         }
@@ -88,18 +112,26 @@ namespace ParkenDD.Services
             var voiceCommandName = speechRecognitionResult.RulePath[0];
 
             _tracking.TrackVoiceCommandEvent(voiceCommandName);
-
-            //TODO: check encoding of properties. Umlauts are currently not supported.
+            
             if (voiceCommandName == "selectCity")
             {
                 var cityName = speechRecognitionResult.SemanticInterpretation.Properties["city"][0];
-                await ServiceLocator.Current.GetInstance<MainViewModel>().TrySelectCityByName(cityName);
+                var cityId = _phrases.FindCityIdByName(cityName);
+                if (cityId != null)
+                {
+                    await ServiceLocator.Current.GetInstance<MainViewModel>().TrySelectCityById(cityId);
+                }
             }
             else if(voiceCommandName == "selectParkingLot")
             {
                 var cityName = speechRecognitionResult.SemanticInterpretation.Properties["city"][0];
-                var parkingLotName = speechRecognitionResult.SemanticInterpretation.Properties["parking_lot"][0];
-                await ServiceLocator.Current.GetInstance<MainViewModel>().TrySelectParkingLotByName(cityName, parkingLotName);
+                var cityId = _phrases.FindCityIdByName(cityName);
+                if (cityId != null)
+                {
+                    var parkingLotName = speechRecognitionResult.SemanticInterpretation.Properties["parking_lot"][0];
+                    var parkingLotId = _phrases.FindParkingLotIdByNameAndCityId(cityId, parkingLotName);
+                    await ServiceLocator.Current.GetInstance<MainViewModel>().TrySelectParkingLotById(cityId, parkingLotId);
+                }
             }
         }
     }

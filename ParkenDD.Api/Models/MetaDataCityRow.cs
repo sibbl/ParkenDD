@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace ParkenDD.Api.Models
 {
-    public class MetaDataCityRow : ViewModelBase
+    public sealed class MetaDataCityRow : ViewModelBase
     {
         /// <summary>
         ///     Unique ID of city

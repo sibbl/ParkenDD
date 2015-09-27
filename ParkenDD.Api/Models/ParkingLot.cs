@@ -6,7 +6,7 @@ namespace ParkenDD.Api.Models
     /// <summary>
     ///     Data for single parking lot
     /// </summary>
-    public class ParkingLot : ViewModelBase
+    public sealed class ParkingLot : ViewModelBase
     {
         /// <summary>
         ///     Address of the parking lot
