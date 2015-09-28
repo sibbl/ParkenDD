@@ -218,6 +218,7 @@
                     <Button
                         Grid.Row="2"
                         Command="{Binding ShowInfoDialogCommand}"
+                        Click="ShowInfoDialogButtonClick"
                         Style="{StaticResource AboutButtonStyle}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">

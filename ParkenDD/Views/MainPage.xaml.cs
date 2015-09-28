@@ -202,12 +202,22 @@ namespace ParkenDD.Views
             SplitView.IsPaneOpen = !SplitView.IsPaneOpen;
         }
 
-        private void SplitViewItemSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void HideSplitViewPaneIfNotInline()
         {
             if (SplitView.DisplayMode != SplitViewDisplayMode.Inline)
             {
                 SplitView.IsPaneOpen = false;
             }
+        }
+
+        private void SplitViewItemSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            HideSplitViewPaneIfNotInline();
+        }
+
+        private void ShowInfoDialogButtonClick(object sender, RoutedEventArgs e)
+        {
+            HideSplitViewPaneIfNotInline();
         }
     }
 }
