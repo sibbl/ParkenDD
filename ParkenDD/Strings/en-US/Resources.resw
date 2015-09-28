@@ -258,10 +258,81 @@
   <data name="SplitViewMenuBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="VoiceCommandParkingStateWaitDisplayMsg" xml:space="preserve">
-    <value>One sec, I'm quickly driving there...</value>
+  <data name="VoiceCommandParkingStateParkingLotNotFoundDisplayMsg" xml:space="preserve">
+    <value>Sorry, I couldn&apos;t find the parking lot...</value>
   </data>
-  <data name="VoiceCommandParkingStateWaitSpokenMsg" xml:space="preserve">
-    <value>One second, I'm quickly driving there...</value>
+  <data name="VoiceCommandParkingStateParkingLotNotFoundSpokenMsg" xml:space="preserve">
+    <value>I couldn&apos;t find the parking lot</value>
   </data>
+  <data name="VoiceCommandParkingStateUpToDateSpokenMsg" xml:space="preserve">
+    <value>{0} of {1} parking spaces are currently available</value>
+    <comment>{0} = free lots, {1} = total lots</comment>
+  </data>
+  <data name="VoiceCommandParkingStateUpToDateDisplayMsg" xml:space="preserve">
+    <value>The parking lot {0} currently has {1} of {2} available parking spaces ({3}%).</value>
+    <comment>{0} = name, {1} = free lots, {2} = total lots, {3} = percentage</comment>
+  </data>
+  <data name="VoiceCommandParkingStateLessThan2HrsSpokenMsg" xml:space="preserve">
+    <value>{0} of {1} parking spaces were available {2} minutes ago</value>
+    <comment>{0} = free lots, {1} = total lots, {2} = age in minutes</comment>
+  </data>
+  <data name="VoiceCommandParkingStateLessThan2HrsDisplayMsg" xml:space="preserve">
+    <value>The parking lot {0} had {1} of {2} available parking spaces {4} minutes ago ({3}%).</value>
+    <comment>{0} = name, {1} = free lots, {2} = total lots, {3} = percentage, {4} = age in minutes</comment>
+  </data>
+  <data name="VoiceCommandParkingStateLessThan2DaysSpokenMsg" xml:space="preserve">
+    <value>{0} of {1} parking spaces were available less than {2} hours ago</value>
+    <comment>{0} = free lots, {1} = total lots, {2} = age in hours</comment>
+  </data>
+  <data name="VoiceCommandParkingStateLessThan2DaysDisplayMsg" xml:space="preserve">
+    <value>The parking lot {0} had {1} of {2} available parking spaces less than {4} hours ago ({3}%).</value>
+    <comment>{0} = name, {1} = free lots, {2} = total lots, {3} = percentage, {4} = age in hours</comment>
+  </data>
+  <data name="VoiceCommandParkingStateVeryOldSpokenMsg" xml:space="preserve">
+    <value>{0} of {1} parking spaces were available more than 2 days ago</value>
+    <comment>{0} = free lots, {1} = total lots</comment>
+  </data>
+  <data name="VoiceCommandParkingStateVeryOldDisplayMsg" xml:space="preserve">
+    <value>The parking lot {0} had {1} of {2} available parking spaces more than 2 days ago ({3}%).</value>
+    <comment>{0} = name, {1} = free lots, {2} = total lots, {3} = percentage </comment>
+  </data>
+  <data name="ParkingLotForecastTimespan7Days" xml:space="preserve">
+    <value>Forecast for the next 7 days</value>
+  </data>
+  <data name="ParkingLotForecastTimespan24Hrs" xml:space="preserve">
+    <value>Forecast for the next 24 hours</value>
+  </data>
+  <data name="ParkingLotForecastTimespan6Hrs" xml:space="preserve">
+    <value>Forecast for the next 6 hours</value>
+  </data>
+  <data name="ParkingLotLastRefreshHourFormat" xml:space="preserve">
+    <value>h:mm tt</value>
+  </data>
+  <data name="ParkingLotLastRefreshYesterdayAt" xml:space="preserve">
+    <value>yesterday at {0}</value>
+    <comment>{0} = formatted time</comment>
+  </data>
+  <data name="ParkingLotLastRefreshDaysAgo" xml:space="preserve">
+    <value>{0} days ago</value>
+    <comment>{0} = days integer</comment>
+  </data>
+  <data name="ParkingLotStateClosed" xml:space="preserve">
+    <value>closed</value>
+  </data>
+  <data name="ParkingLotStateOpen" xml:space="preserve">
+    <value>open</value>
+  </data>
+  <data name="MapCurrentLocationLabel" xml:space="preserve">
+    <value>location</value>
+  </data>
+  <data name="ParkingLotListGroupHeaderAll" xml:space="preserve">
+    <value>All parking lots</value>
+  </data>
+  <data name="ParkingLotListGroupHeaderOther" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="DirectionsParkingLotLabel" xml:space="preserve">
+    <value>Parking lot {0}</value>
+  </data>
+
 </root>
