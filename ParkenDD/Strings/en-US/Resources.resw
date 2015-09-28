@@ -163,10 +163,10 @@
     <value>Parking lots</value>
   </data>
   <data name="InfoDialogFeaturesPredictionContent.Text" xml:space="preserve">
-    <value>At some parking lots, there are experimental predictions available for a selectable time span. This data is generated and optimized continuously.</value>
+    <value>At some parking lots, there are experimental forecasts available for a selectable time span. This data is generated and optimized continuously.</value>
   </data>
   <data name="InfoDialogFeaturesPredictionTitle.Text" xml:space="preserve">
-    <value>Predictions</value>
+    <value>Forecasts</value>
   </data>
   <data name="InfoDialogLicensesCopyright.Text" xml:space="preserve">
     <value>Copyright</value>
@@ -187,7 +187,7 @@
     <value>Information</value>
   </data>
   <data name="InfoDialogThanks.Text" xml:space="preserve">
-    <value>Thanks to Rob Tranquillo (@robtranquillo), Johannes Kliemann (@JK70523), Kilian Költzsch (@kiliankoe) and Constantin Müller (@ubahnverleih) for developing the API as well as iOS and Android apps. Thanks to Paul Balzer (@balzer82) for calculating and providing the prediction data. Thanks to Matthias Altermann for designing and providing the app logo. </value>
+    <value>Thanks to Rob Tranquillo (@robtranquillo), Johannes Kliemann (@JK70523), Kilian Költzsch (@kiliankoe) and Constantin Müller (@ubahnverleih) for developing the API as well as iOS and Android apps. Thanks to Paul Balzer (@balzer82) for calculating and providing the forecast data. Thanks to Matthias Altermann for designing and providing the app logo. </value>
   </data>
   <data name="InfoDialogVersion.Text" xml:space="preserve">
     <value>Version</value>
@@ -220,7 +220,7 @@
     <value>Grouping</value>
   </data>
   <data name="ParkingLotHasForecastText.Text" xml:space="preserve">
-    <value>PREDICTION</value>
+    <value>FORECAST</value>
   </data>
   <data name="ParkingLotListDetailFree.Text" xml:space="preserve">
     <value> available</value>
