@@ -166,7 +166,7 @@
     <value>At some parking lots, there are experimental forecasts available for a selectable time span. This data is generated and optimized continuously.</value>
   </data>
   <data name="InfoDialogFeaturesPredictionTitle.Text" xml:space="preserve">
-    <value>Forecasts</value>
+    <value>Forecast</value>
   </data>
   <data name="InfoDialogLicensesCopyright.Text" xml:space="preserve">
     <value>Copyright</value>
