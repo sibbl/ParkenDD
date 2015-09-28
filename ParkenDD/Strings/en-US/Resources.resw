@@ -184,7 +184,7 @@
     <value>Features</value>
   </data>
   <data name="InfoDialogPivotInfo.Header" xml:space="preserve">
-    <value>About</value>
+    <value>Information</value>
   </data>
   <data name="InfoDialogThanks.Text" xml:space="preserve">
     <value>Thanks to Rob Tranquillo (@robtranquillo), Johannes Kliemann (@JK70523), Kilian Költzsch (@kiliankoe) and Constantin Müller (@ubahnverleih) for developing the API as well as iOS and Android apps. Thanks to Paul Balzer (@balzer82) for calculating and providing the prediction data. Thanks to Matthias Altermann for designing and providing the app logo. </value>
@@ -199,7 +199,7 @@
     <value>mailto:me@sibbl.net?subject=ParkenDD%20Feedback</value>
   </data>
   <data name="InfoTextLabel.Text" xml:space="preserve">
-    <value>about</value>
+    <value>information</value>
   </data>
   <data name="ParkingLotFilterAscending.Text" xml:space="preserve">
     <value>Ascending</value>
@@ -223,7 +223,7 @@
     <value>PREDICTION</value>
   </data>
   <data name="ParkingLotListDetailFree.Text" xml:space="preserve">
-    <value> frei</value>
+    <value> available</value>
   </data>
   <data name="ParkingLotListFilterBtn.ToolTipService.ToolTip" xml:space="preserve">
     <value>Filter</value>
@@ -241,7 +241,7 @@
     <value>Menu</value>
   </data>
   <data name="ParkingLotListDataAgeLabel.Text" xml:space="preserve">
-    <value>from </value>
+    <value>from</value>
   </data>
   <data name="ParkingLotListFilterBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Filter</value>
@@ -323,7 +323,7 @@
     <value>open</value>
   </data>
   <data name="MapCurrentLocationLabel" xml:space="preserve">
-    <value>location</value>
+    <value>Location</value>
   </data>
   <data name="ParkingLotListGroupHeaderAll" xml:space="preserve">
     <value>All parking lots</value>
