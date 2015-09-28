@@ -184,7 +184,7 @@
     <value>Funktionen</value>
   </data>
   <data name="InfoDialogPivotInfo.Header" xml:space="preserve">
-    <value>Über</value>
+    <value>Informationen</value>
   </data>
   <data name="InfoDialogThanks.Text" xml:space="preserve">
     <value>Danke an Rob Tranquillo (@robtranquillo), Johannes Kliemann (@JK70523), Kilian Költzsch (@kiliankoe) und Constantin Müller (@ubahnverleih) für das Entwickeln der API bzw. Android- und iOS-Apps. Danke an Paul Balzer (@balzer82) für das Berechnen und Bereitstellen der Daten für die Vorhersagen. Danke an Matthias Altermann für das Gestalten und Bereitstellen des App-Logos.</value>
@@ -199,7 +199,7 @@
     <value>mailto:me@sibbl.net?subject=ParkenDD%20Feedback</value>
   </data>
   <data name="InfoTextLabel.Text" xml:space="preserve">
-    <value>Über</value>
+    <value>Informationen</value>
   </data>
   <data name="ParkingLotFilterAscending.Text" xml:space="preserve">
     <value>Aufsteigend</value>
@@ -258,10 +258,81 @@
   <data name="SplitViewMenuBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Menü</value>
   </data>
-  <data name="VoiceCommandParkingStateWaitDisplayMsg" xml:space="preserve">
-    <value>Moment, ich fahre kurz vorbei...</value>
+  <data name="VoiceCommandParkingStateParkingLotNotFoundDisplayMsg" xml:space="preserve">
+    <value>Ich konnte den Parkplatz leider nicht finden...</value>
   </data>
-  <data name="VoiceCommandParkingStateWaitSpokenMsg" xml:space="preserve">
-    <value>Einen Moment, ich fahre kurz vorbei...</value>
+  <data name="VoiceCommandParkingStateParkingLotNotFoundSpokenMsg" xml:space="preserve">
+    <value>Ich konnte den Parkplatz leider nicht finden...</value>
   </data>
+  <data name="VoiceCommandParkingStateUpToDateSpokenMsg" xml:space="preserve">
+    <value>{0} von {1} Parkplätzen sind aktuell frei</value>
+    <comment>{0} = free lots, {1} = total lots</comment>
+  </data>
+  <data name="VoiceCommandParkingStateUpToDateDisplayMsg" xml:space="preserve">
+    <value>Der Parkplatz {0} hat aktuell {1} von {2} freie Parkplätze ({3}%).</value>
+    <comment>{0} = name, {1} = free lots, {2} = total lots, {3} = percentage</comment>
+  </data>
+  <data name="VoiceCommandParkingStateLessThan2HrsSpokenMsg" xml:space="preserve">
+    <value>{0} von {1} Parkplätzen waren vor {2} Minuten frei</value>
+    <comment>{0} = free lots, {1} = total lots, {2} = age in minutes</comment>
+  </data>
+  <data name="VoiceCommandParkingStateLessThan2HrsDisplayMsg" xml:space="preserve">
+    <value>Der Parkplatz {0} hatte vor {4} Minuten {1} von {2} freie Parkplätze ({3}%).</value>
+    <comment>{0} = name, {1} = free lots, {2} = total lots, {3} = percentage, {4} = age in minutes</comment>
+  </data>
+  <data name="VoiceCommandParkingStateLessThan2DaysSpokenMsg" xml:space="preserve">
+    <value>{0} von {1} Parkplätzen waren vor weniger als {2} Stunden frei</value>
+    <comment>{0} = free lots, {1} = total lots, {2} = age in hours</comment>
+  </data>
+  <data name="VoiceCommandParkingStateLessThan2DaysDisplayMsg" xml:space="preserve">
+    <value>Der Parkplatz {0} hatte vor weniger als {4} Stunden {1} von {2} freie Parkplätze ({3}%).</value>
+    <comment>{0} = name, {1} = free lots, {2} = total lots, {3} = percentage, {4} = age in hours</comment>
+  </data>
+  <data name="VoiceCommandParkingStateVeryOldSpokenMsg" xml:space="preserve">
+    <value>{0} von {1} Parkplätzen waren mehr als 2 Tagen frei</value>
+    <comment>{0} = free lots, {1} = total lots</comment>
+  </data>
+  <data name="VoiceCommandParkingStateVeryOldDisplayMsg" xml:space="preserve">
+    <value>Der Parkplatz {0} hatte vor mehr als 2 Tagen {1} von {2} freie Parkplätze ({3}%).</value>
+    <comment>{0} = name, {1} = free lots, {2} = total lots, {3} = percentage </comment>
+  </data>
+  <data name="ParkingLotForecastTimespan7Days" xml:space="preserve">
+    <value>Vorhersage für die nächsten 7 Tage</value>
+  </data>
+  <data name="ParkingLotForecastTimespan24Hrs" xml:space="preserve">
+    <value>Vorhersage für die nächsten 24 Stunden</value>
+  </data>
+  <data name="ParkingLotForecastTimespan6Hrs" xml:space="preserve">
+    <value>Vorhersage für die nächsten 6 Stunden</value>
+  </data>
+  <data name="ParkingLotLastRefreshHourFormat" xml:space="preserve">
+    <value>H:mm</value>
+  </data>
+  <data name="ParkingLotLastRefreshYesterdayAt" xml:space="preserve">
+    <value>gestern um {0}</value>
+    <comment>{0} = formatted time</comment>
+  </data>
+  <data name="ParkingLotLastRefreshDaysAgo" xml:space="preserve">
+    <value>vor {0} Tagen</value>
+    <comment>{0} = days integer</comment>
+  </data>
+  <data name="ParkingLotStateClosed" xml:space="preserve">
+    <value>geschlossen</value>
+  </data>
+  <data name="ParkingLotStateOpen" xml:space="preserve">
+    <value>geöffnet</value>
+  </data>
+  <data name="MapCurrentLocationLabel" xml:space="preserve">
+    <value>Standort</value>
+  </data>
+  <data name="ParkingLotListGroupHeaderAll" xml:space="preserve">
+    <value>Alle Parkplätze</value>
+  </data>
+  <data name="ParkingLotListGroupHeaderOther" xml:space="preserve">
+    <value>Weitere</value>
+  </data>
+  <data name="DirectionsParkingLotLabel" xml:space="preserve">
+    <value>Parkplatz {0}</value>
+  </data>
+
 </root>
