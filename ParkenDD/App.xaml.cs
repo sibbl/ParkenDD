@@ -45,6 +45,7 @@ namespace ParkenDD
             DispatcherHelper.Initialize();
             var rootFrame = Window.Current.Content as Frame;
             //ApplicationLanguages.PrimaryLanguageOverride = "de-DE";
+            //ApplicationLanguages.PrimaryLanguageOverride = "en-US";
             //var lang = Windows.System.UserProfile.GlobalizationPreferences.Languages[0];
 
             // Do not repeat app initialization when the Window already has content,

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
+using Windows.ApplicationModel.Resources;
 using Windows.ApplicationModel.VoiceCommands;
 using Windows.Storage;
 using Newtonsoft.Json;
@@ -38,14 +39,16 @@ namespace ParkenDD.Background
             var voiceServiceConnection = VoiceCommandServiceConnection.FromAppServiceTriggerDetails(triggerDetails);
             var voiceCommand = await voiceServiceConnection.GetVoiceCommandAsync();
 
+            var res = ResourceLoader.GetForViewIndependentUse("Resources");
+
             switch (voiceCommand.CommandName)
             {
                 case "getParkingLotData":
                     //TODO: localize
                     var waitMsg = new VoiceCommandUserMessage
                     {
-                        DisplayMessage = "Moment, ich fahre kurz vorbei...",
-                        SpokenMessage = "Einen Moment, ich fahre kurz vorbei..."
+                        DisplayMessage = res.GetString("VoiceCommandParkingStateWaitDisplayMsg"),
+                        SpokenMessage = res.GetString("VoiceCommandParkingStateWaitSpokenMsg")
                     };
                     var waitResponse = VoiceCommandResponse.CreateResponse(waitMsg);
                     await voiceServiceConnection.ReportProgressAsync(waitResponse);
@@ -57,7 +60,7 @@ namespace ParkenDD.Background
                         var parkingLotName = voiceCommand.Properties["parking_lot"][0];
 
                         ParkingLot lot = null;
-                        DateTime lastUpdated = DateTime.Now;
+                        var lastUpdated = DateTime.Now;
 
                         var cityId = phrases.FindCityIdByName(cityName);
                         if (cityId != null)
@@ -85,6 +88,7 @@ namespace ParkenDD.Background
                         }
                         else
                         {
+                            //TODO: localize
                             var percent = Math.Round((double)lot.FreeLots / (double)lot.TotalLots * 100);
                             var age = DateTime.Now - lastUpdated;
                             var ageNumber = 0;

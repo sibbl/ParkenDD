@@ -258,5 +258,10 @@
   <data name="SplitViewMenuBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Menü</value>
   </data>
-
+  <data name="VoiceCommandParkingStateWaitDisplayMsg" xml:space="preserve">
+    <value>Moment, ich fahre kurz vorbei...</value>
+  </data>
+  <data name="VoiceCommandParkingStateWaitSpokenMsg" xml:space="preserve">
+    <value>Einen Moment, ich fahre kurz vorbei...</value>
+  </data>
 </root>
