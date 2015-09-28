@@ -13,6 +13,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Media.Imaging;
+using GalaSoft.MvvmLight.Threading;
 using ParkenDD.Api.Models;
 using ParkenDD.Controls;
 using ParkenDD.Models;
@@ -117,7 +118,7 @@ namespace ParkenDD.Services
             {
                 _userPositionIcon = new MapIcon();
                 map.MapElements.Add(_userPositionIcon);
-                _userPositionIcon.Title = " Standort"; //TODO: localize
+                _userPositionIcon.Title = ResourceService.Instance.MapCurrentLocationLabel;
                 _userPositionIcon.ZIndex = ZindexUserPosition;
                 _userPositionIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/UserPositionMapIcon.png"));
                 _userPositionIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
@@ -141,7 +142,7 @@ namespace ParkenDD.Services
             {
                 foreach (var lot in lots)
                 {
-                    CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    DispatcherHelper.CheckBeginInvokeOnUI(() =>
                     {
                         DrawParkingLot
                             (map,

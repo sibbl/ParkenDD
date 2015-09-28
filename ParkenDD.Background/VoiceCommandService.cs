@@ -44,7 +44,6 @@ namespace ParkenDD.Background
             switch (voiceCommand.CommandName)
             {
                 case "getParkingLotData":
-                    //TODO: localize
                     var waitMsg = new VoiceCommandUserMessage
                     {
                         DisplayMessage = res.GetString("VoiceCommandParkingStateWaitDisplayMsg"),
@@ -77,48 +76,42 @@ namespace ParkenDD.Background
                         }
                         if (lot == null)
                         {
-                            //TODO: localize
                             var errorMsg = new VoiceCommandUserMessage
                             {
-                                DisplayMessage = "Parkplatz nicht gefunden...",
-                                SpokenMessage = "Der Parkplatz wurde leider nicht gefunden..."
+                                DisplayMessage = res.GetString("VoiceCommandParkingStateParkingLotNotFoundDisplayMsg"),
+                                SpokenMessage = res.GetString("VoiceCommandParkingStateParkingLotNotFoundSpokenMsg")
                             };
                             var errorResp = VoiceCommandResponse.CreateResponseForPrompt(errorMsg, errorMsg);
                             await voiceServiceConnection.ReportFailureAsync(errorResp);
                         }
                         else
                         {
-                            //TODO: localize
                             var percent = Math.Round((double)lot.FreeLots / (double)lot.TotalLots * 100);
                             var age = DateTime.Now - lastUpdated;
                             var ageNumber = 0;
                             string spokenMessageFormat, displayMessageFormat;
                             if (age <= TimeSpan.FromMinutes(5))
                             {
-                                spokenMessageFormat = "{0} von {1} Parkplätzen sind aktuell frei";
-                                displayMessageFormat = "Der Parkplatz {0} hat aktuell {1} von {2} freie Parkplätze ({3}%).";
+                                spokenMessageFormat = res.GetString("VoiceCommandParkingStateUpToDateSpokenMsg");
+                                displayMessageFormat = res.GetString("VoiceCommandParkingStateUpToDateDisplayMsg");
                             }else if (age <= TimeSpan.FromHours(2))
                             {
-                                spokenMessageFormat = "{0} von {1} Parkplätzen waren vor {2} Minuten frei";
-                                displayMessageFormat =
-                                    "Der Parkplatz {0} hatte vor {4} Minuten {1} von {2} freie Parkplätze ({3}%).";
+                                spokenMessageFormat = res.GetString("VoiceCommandParkingStateLessThan2HrsSpokenMsg");
+                                displayMessageFormat = res.GetString("VoiceCommandParkingStateLessThan2HrsDisplayMsg");
                                 ageNumber = age.Minutes;
                             }else if (age <= TimeSpan.FromDays(2))
                             {
-                                spokenMessageFormat = "{0} von {1} Parkplätzen waren vor weniger als {2} Stunden frei";
-                                displayMessageFormat =
-                                    "Der Parkplatz {0} hatte vor weniger als {4} Stunden {1} von {2} freie Parkplätze ({3}%).";
+                                spokenMessageFormat = res.GetString("VoiceCommandParkingStateLessThan2DaysSpokenMsg");
+                                displayMessageFormat = res.GetString("VoiceCommandParkingStateLessThan2DaysDisplayMsg");
                                 ageNumber = (int)Math.Ceiling(age.TotalHours);
                             }
                             else
                             {
-                                spokenMessageFormat = "{0} von {1} Parkplätzen waren mehr als 2 Tagen frei";
-                                displayMessageFormat =
-                                    "Der Parkplatz {0} hatte vor mehr als 2 Tagen {1} von {2} freie Parkplätze ({3}%).";
+                                spokenMessageFormat = res.GetString("VoiceCommandParkingStateVeryOldSpokenMsg");
+                                displayMessageFormat = res.GetString("VoiceCommandParkingStateVeryOldDisplayMsg");
                             }
                             var responseMsg = new VoiceCommandUserMessage
                             {
-                                //TODO: localize
                                 DisplayMessage =
                                     string.Format(
                                         displayMessageFormat,

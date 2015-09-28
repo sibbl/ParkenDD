@@ -1,14 +1,15 @@
 ﻿using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
+using ParkenDD.Services;
 
 namespace ParkenDD.Converters
 {
     public class DateTimeToStringConverter : DependencyObject, IValueConverter
     {
-        private const string HourFormat = "H:mm";
         public object Convert(object value, Type targetType, object parameter, string language)
         {
+            var res = ResourceService.Instance;
             if (!(value is DateTime))
             {
                 return value;
@@ -17,16 +18,14 @@ namespace ParkenDD.Converters
             var now = DateTime.Now;
             if (now.Date.Equals(dt.Date))
             {
-                return dt.ToString(HourFormat);
+                return dt.ToString(res.ParkingLotLastRefreshHourFormat);
             }
             var days = (now.Date - dt.Date).Days;
             if (days < 2)
             {
-                //TODO: localize
-                return string.Format("gestern um {0}", dt.ToString(HourFormat));
+                return string.Format(res.ParkingLotLastRefreshYesterdayAt, dt.ToString(res.ParkingLotLastRefreshHourFormat));
             }
-            //TODO: localize
-            return string.Format("vor {0} Tagen", days);
+            return string.Format(res.ParkingLotLastRefreshDaysAgo , days);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

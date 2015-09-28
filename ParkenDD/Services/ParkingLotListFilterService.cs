@@ -42,10 +42,11 @@ namespace ParkenDD.Services
         {
             var orderedItems = await CreateList(items);
             var result = new List<ParkingLotListGroup>();
+            var res = ResourceService.Instance;
             //create groups in the order which the server returned
             foreach (var i in items)
             {
-                var header = i.ParkingLot.Region ?? "Weitere"; //TODO: localize
+                var header = i.ParkingLot.Region ?? res.ParkingLotListGroupHeaderOther;
                 if (!result.Any(x => x.Header.Equals(header)))
                 {
                     result.Add(new ParkingLotListGroup(header));
@@ -54,12 +55,12 @@ namespace ParkenDD.Services
             //then add ordered items
             foreach (var i in orderedItems)
             {
-                var header = i.ParkingLot.Region ?? "Weitere"; //TODO: localize
+                var header = i.ParkingLot.Region ?? res.ParkingLotListGroupHeaderOther;
                 result.FirstOrDefault(x => x.Header.Equals(header)).ParkingLots.Add(i);
             }
             if (result.Count == 1)
             {
-                result[0].Header = "Alle Parkplätze"; //TODO: localize
+                result[0].Header = res.ParkingLotListGroupHeaderAll;
             }
             return result;
         }

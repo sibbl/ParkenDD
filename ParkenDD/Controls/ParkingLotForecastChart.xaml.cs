@@ -15,7 +15,6 @@ namespace ParkenDD.Controls
 {
     public sealed partial class ParkingLotForecastChart : UserControl
     {
-        //TODO: localize
         private List<ParkingLotForecastTimespanSelection> ComboBoxValues { get; } = new List<ParkingLotForecastTimespanSelection>
         {
             new ParkingLotForecastTimespanSelection(ParkingLotForecastTimespanEnum.Hours6),

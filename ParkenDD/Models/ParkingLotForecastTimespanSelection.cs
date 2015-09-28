@@ -1,4 +1,5 @@
 ﻿using System;
+using ParkenDD.Services;
 
 namespace ParkenDD.Models
 {
@@ -11,19 +12,18 @@ namespace ParkenDD.Models
         public ParkingLotForecastTimespanSelection(ParkingLotForecastTimespanEnum mode)
         {
             Mode = mode;
-            //TODO: localize
             switch (mode)
             {
                 case ParkingLotForecastTimespanEnum.Days7:
-                    Title = "Vorhersage für die nächsten 7 Tage";
+                    Title = ResourceService.Instance.ParkingLotForecastTimespan7Days;
                     TimeSpan = TimeSpan.FromDays(7);
                     break;
                 case ParkingLotForecastTimespanEnum.Hours24:
-                    Title = "Vorhersage für die nächsten 24 Stunden";
+                    Title = ResourceService.Instance.ParkingLotForecastTimespan24Hrs;
                     TimeSpan = TimeSpan.FromHours(24);
                     break;
                 case ParkingLotForecastTimespanEnum.Hours6:
-                    Title = "Vorhersage für die nächsten 6 Stunden";
+                    Title = ResourceService.Instance.ParkingLotForecastTimespan6Hrs;
                     TimeSpan = TimeSpan.FromHours(6);
                     break;
             }

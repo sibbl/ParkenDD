@@ -627,7 +627,7 @@ namespace ParkenDD.ViewModels
             {
                 return;
             }
-            Uri launcherUri = null;
+            Uri launcherUri;
             _tracking.TrackNavigateToParkingLotEvent(SelectedCity, lot);
             if (lot.Coordinates != null)
             {
@@ -638,7 +638,7 @@ namespace ParkenDD.ViewModels
                             launcherPosString,
                             lot.Coordinates.Latitude.ToString(CultureInfo.InvariantCulture),
                             lot.Coordinates.Longitude.ToString(CultureInfo.InvariantCulture),
-                            String.Format("Parkplatz {0}", lot.Name) //TODO: localize
+                            String.Format(ResourceService.Instance.DirectionsParkingLotLabel, lot.Name)
                         )
                     )
                 );

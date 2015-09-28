@@ -1,6 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
 using ParkenDD.Api.Models;
+using ParkenDD.Services;
 
 namespace ParkenDD.Converters
 {
@@ -15,11 +16,10 @@ namespace ParkenDD.Converters
             var state = (ParkingLotState) value;
             switch (state)
             {
-                //TODO: localize
                 case ParkingLotState.Closed:
-                    return "geschlossen";
+                    return ResourceService.Instance.ParkingLotStateClosed;
                 case ParkingLotState.Open:
-                    return "geöffnet";
+                    return ResourceService.Instance.ParkingLotStateOpen;
                 default:
                     return string.Empty;
             }
