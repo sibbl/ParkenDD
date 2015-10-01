@@ -51,7 +51,7 @@ namespace ParkenDD.Services
             {
                 {"mode", mode.ToString()},
                 {"ascending", ascending.ToString()},
-                {"group", ascending.ToString()},
+                {"group", group.ToString()},
             };
             _client.TrackEvent("Change parking lot filter", properties);
         }
