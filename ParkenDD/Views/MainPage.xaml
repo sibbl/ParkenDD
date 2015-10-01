@@ -481,11 +481,19 @@
                                             Visibility="{x:Bind IsSelected, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
 
                                             <controls:ParkingLotForecastChart
+                                                x:Name="ForecastChart"
                                                 Visibility="{x:Bind ParkingLot.HasForecast, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                 HorizontalAlignment="Stretch"
                                                 x:Phase="7"
                                                 DataContext="{x:Bind ParkingLot, Mode=OneWay}"
-                                                />
+                                                >
+
+                                                <interactivity:Interaction.Behaviors>
+                                                    <core:DataTriggerBehavior Binding="{x:Bind IsSelected, Mode=OneWay}" Value="True">
+                                                        <core:CallMethodAction MethodName="InitForecast" TargetObject="{Binding ElementName=ForecastChart}" />
+                                                    </core:DataTriggerBehavior>
+                                                </interactivity:Interaction.Behaviors>
+                                            </controls:ParkingLotForecastChart>
 
                                             <Button Content="Wegbeschreibung"
                                                     Tag="&#xE816;"

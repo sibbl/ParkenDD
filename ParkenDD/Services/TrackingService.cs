@@ -45,10 +45,10 @@ namespace ParkenDD.Services
         {
             var properties = new Dictionary<string, string>
             {
-                { "city", city.Id },
+                { "city", city?.Id },
             };
             _client.TrackEvent("Select city", properties);
-            _tracker.SendEvent("ui_action", "select_city", city.Id, 0);
+            _tracker.SendEvent("ui_action", "select_city", city?.Id, 0);
         }
 
         public void TrackReloadCityEvent(MetaDataCityRow city)

@@ -13,6 +13,7 @@ using GalaSoft.MvvmLight.Messaging;
 using ParkenDD.Messages;
 using ParkenDD.ViewModels;
 using Microsoft.Practices.ServiceLocation;
+using ParkenDD.Controls;
 using ParkenDD.Models;
 using ParkenDD.Services;
 using ParkenDD.Utils;
