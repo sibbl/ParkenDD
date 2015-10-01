@@ -29,69 +29,77 @@ namespace ParkenDD.Controls
         public ParkingLotForecastChart()
         {
             InitializeComponent();
-
-            ValueAxis.Minimum = 0;
-            ValueAxis.Maximum = 100;
-            ValueAxis.Interval = 10;
-
-            SelectionComboBox.ItemsSource = ComboBoxValues;
-            SelectionComboBox.SelectedItem = ComboBoxValues[0];
-
-            SelectionComboBox.SelectionChanged += (sender, args) => UpdateChart();
         }
 
         private async void UpdateChart()
         {
-            //TODO: cache data somewhere
-            //TODO: cancel running updating tasks
-            if (_initialized)
-            {
-                ForecastChart.Series.Clear();
-            }
             var parkingLot = DataContext as ParkingLot;
-            var timeSpanSelection = SelectionComboBox.SelectedItem as ParkingLotForecastTimespanSelection;
-            var timeSpan = timeSpanSelection?.TimeSpan;
-            if (parkingLot != null && parkingLot.HasForecast && timeSpan.HasValue)
+            if (parkingLot != null && parkingLot.HasForecast)
             {
-                ForecastChart.Opacity = 0.2;
-                LoadingProgressRing.Visibility = Visibility.Visible;
-                //TODO: play some fancy animation!
-                await Task.Run(async () =>
+                //TODO: cache data somewhere
+                //TODO: cancel running updating tasks
+                if (_initialized)
                 {
-                    var api = ServiceLocator.Current.GetInstance<IParkenDdClient>();
-                    var mainVm = ServiceLocator.Current.GetInstance<MainViewModel>();
-                    var forecast = await
-                        api.GetForecastAsync(mainVm.SelectedCity.Id, parkingLot.Id, DateTime.Now,
-                            DateTime.Now.Add(timeSpan.Value));
-                    var points =
-                        forecast.Data.Select(
-                            item => new ParkingLotForecastDataPoint(item.Value, item.Key)).ToList();
-                    DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                    ForecastChart.Series.Clear();
+                }
+                var timeSpanSelection = SelectionComboBox.SelectedItem as ParkingLotForecastTimespanSelection;
+                var timeSpan = timeSpanSelection?.TimeSpan;
+                if (timeSpan.HasValue)
+                {
+                    ForecastChart.Opacity = 0.2;
+                    LoadingProgressRing.Visibility = Visibility.Visible;
+                    //TODO: play some fancy animation!
+                    await Task.Run(async () =>
                     {
-                        var series = new AreaSeries
+                        var api = ServiceLocator.Current.GetInstance<IParkenDdClient>();
+                        var mainVm = ServiceLocator.Current.GetInstance<MainViewModel>();
+                        var forecast = await
+                            api.GetForecastAsync(mainVm.SelectedCity.Id, parkingLot.Id, DateTime.Now,
+                                DateTime.Now.Add(timeSpan.Value));
+                        var points =
+                            forecast.Data.Select(
+                                item => new ParkingLotForecastDataPoint(item.Value, item.Key)).ToList();
+                        DispatcherHelper.CheckBeginInvokeOnUI(() =>
                         {
-                            ItemsSource = points,
-                            IndependentValuePath = "Time",
-                            DependentValuePath = "Value",
-                            Style = Application.Current.Resources["ParkingLotForecastChartAreaSeriesStyle"] as Style
-                        };
-                        ForecastChart.Series.Add(series);
-                        ForecastChart.Opacity = 1;
-                        LoadingProgressRing.Visibility = Visibility.Collapsed;
+                            var series = new AreaSeries
+                            {
+                                ItemsSource = points,
+                                IndependentValuePath = "Time",
+                                DependentValuePath = "Value",
+                                Style = Application.Current.Resources["ParkingLotForecastChartAreaSeriesStyle"] as Style
+                            };
+                            ForecastChart.Series.Add(series);
+                            ForecastChart.Opacity = 1;
+                            LoadingProgressRing.Visibility = Visibility.Collapsed;
+                        });
+                        if (!_initialized)
+                        {
+                            ServiceLocator.Current.GetInstance<TrackingService>()?
+                                .TrackForecastRangeEvent(parkingLot, timeSpanSelection?.Mode);
+                        }
+                        _initialized = true;
                     });
-                    if (_initialized)
-                    {
-                        ServiceLocator.Current.GetInstance<TrackingService>()?
-                            .TrackForecastRangeEvent(parkingLot, timeSpanSelection?.Mode);
-                    }
-                    _initialized = false;
-                });
+                }
             }
         }
 
         public void InitForecast()
         {
-            UpdateChart();
+            if (!_initialized)
+            {
+                FindName(nameof(ForecastContainer));
+
+                ValueAxis.Minimum = 0;
+                ValueAxis.Maximum = 100;
+                ValueAxis.Interval = 10;
+
+                SelectionComboBox.ItemsSource = ComboBoxValues;
+                SelectionComboBox.SelectedItem = ComboBoxValues[0];
+
+                SelectionComboBox.SelectionChanged += (sender, args) => UpdateChart();
+
+                UpdateChart();
+            }
         }
     }
 }
