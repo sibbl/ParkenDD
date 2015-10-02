@@ -34,6 +34,8 @@ namespace ParkenDD.ViewModels
         private readonly Dictionary<string, City> _cities = new Dictionary<string, City>();
         private readonly Dictionary<string, bool> _cityHasOnlineData = new Dictionary<string, bool>();
         private bool _metaDataIsOnlineData;
+        private int _loadCityCount;
+        private int _loadMetaCount;
         #endregion
 
         #region PUBLIC PROPERTIES
@@ -112,6 +114,7 @@ namespace ParkenDD.ViewModels
         #endregion
 
         #region LoadingCity
+
         private bool _loadingCity;
         public bool LoadingCity
         {
@@ -417,10 +420,10 @@ namespace ParkenDD.ViewModels
             Debug.WriteLine("[MainVm] LoadCityAndSelectCity");
             Debug.WriteLine("[MainVm] LoadCityAndSelectCity: found selected city, reset selection");
             SelectedCityData = null;
-            LoadingCity = true;
+            SetLoadingCity();
             Debug.WriteLine("[MainVm] LoadCityAndSelectCity: load selected city");
             SelectedCityData = await LoadCity(SelectedCity.Id);
-            LoadingCity = false;
+            SetLoadingCity(false);
             SelectedParkingLot = null;
             UpdateMapBounds();
         }
@@ -516,7 +519,7 @@ namespace ParkenDD.ViewModels
             }
             else
             {
-                LoadingCity = true;
+                SetLoadingCity();
                 var selectedParkingLot = SelectedParkingLot;
                 if (ParkingLotFilterIsGrouped)
                 {
@@ -533,7 +536,7 @@ namespace ParkenDD.ViewModels
                 {
                     SelectedParkingLot.IsSelected = true;
                 }
-                LoadingCity = false;
+                SetLoadingCity(false);
             }
         }
 
@@ -687,9 +690,9 @@ namespace ParkenDD.ViewModels
             if (SelectedCity != null)
             {
                 _tracking.TrackReloadCityEvent(SelectedCity);
-                LoadingCity = true;
+                SetLoadingCity();
                 await LoadCity(SelectedCity.Id, true);
-                LoadingCity = false;
+                SetLoadingCity(false);
             }
         }
         #endregion
@@ -773,9 +776,9 @@ namespace ParkenDD.ViewModels
         private async Task InitMetaData()
         {
             Debug.WriteLine("[MainVm] InitMetaData started"); 
-            LoadingMetaData = true;
+            SetLoadingMetaData();
             MetaData = await GetMetaData();
-            LoadingMetaData = false;
+            SetLoadingMetaData(false);
             SelectedCity = FindCityByName(MetaData, "Dresden"); //default to dresden. maybe we should use location already?
         }
 
@@ -801,6 +804,39 @@ namespace ParkenDD.ViewModels
             TryLoadOnlineMetaData();
             TryLoadOnlineCityData();
             TryGetUserPosition();
+        }
+
+        private void SetLoadingCity(bool value = true)
+        {
+            if (value)
+            {
+                _loadCityCount++;
+            }else
+            {
+                _loadCityCount--;
+            }
+            if (_loadCityCount < 0)
+            {
+                _loadCityCount = 0;
+            }
+            LoadingCity = _loadCityCount != 0;
+        }
+
+        private void SetLoadingMetaData(bool value = true)
+        {
+            if (value)
+            {
+                _loadMetaCount++;
+            }
+            else
+            {
+                _loadMetaCount--;
+            }
+            if (_loadMetaCount < 0)
+            {
+                _loadMetaCount = 0;
+            }
+            LoadingMetaData = _loadMetaCount != 0;
         }
 
         #endregion
