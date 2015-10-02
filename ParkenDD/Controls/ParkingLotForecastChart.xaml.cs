@@ -25,6 +25,8 @@ namespace ParkenDD.Controls
         };
 
         private bool _initialized;
+        private DateTime? _cachedForecastEndDate;
+        private List<ParkingLotForecastDataPoint> _cachedForecast = new List<ParkingLotForecastDataPoint>();
 
         public ParkingLotForecastChart()
         {
@@ -53,12 +55,28 @@ namespace ParkenDD.Controls
                     {
                         var api = ServiceLocator.Current.GetInstance<IParkenDdClient>();
                         var mainVm = ServiceLocator.Current.GetInstance<MainViewModel>();
-                        var forecast = await
-                            api.GetForecastAsync(mainVm.SelectedCity.Id, parkingLot.Id, DateTime.Now,
-                                DateTime.Now.Add(timeSpan.Value));
-                        var points =
-                            forecast.Data.Select(
-                                item => new ParkingLotForecastDataPoint(item.Value, item.Key)).ToList();
+                        var now = DateTime.Now;
+                        var startDate = _cachedForecastEndDate?.AddMinutes(30) ?? now;
+                        var endDate = now.Add(timeSpan.Value);
+                        if (endDate > startDate)
+                        {
+                            var forecast = await
+                                api.GetForecastAsync(mainVm.SelectedCity.Id, parkingLot.Id, startDate, endDate);
+                            _cachedForecast.AddRange(forecast.Data.Select(
+                                    item => new ParkingLotForecastDataPoint(item.Value, item.Key)));
+                            if (_cachedForecastEndDate.HasValue)
+                            {
+                                if (_cachedForecastEndDate.Value < endDate)
+                                {
+                                    _cachedForecastEndDate = endDate;
+                                }
+                            }
+                            else
+                            {
+                                _cachedForecastEndDate = endDate;
+                            }
+                        }
+                        var points = _cachedForecast.Where(x => x.Time >= now && x.Time <= now.Add(timeSpan.Value));
                         DispatcherHelper.CheckBeginInvokeOnUI(() =>
                         {
                             var series = new AreaSeries
