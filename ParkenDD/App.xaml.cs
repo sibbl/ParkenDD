@@ -61,11 +61,11 @@ namespace ParkenDD
                 e.SplashScreen.Dismissed += (sender, args) =>
                 {
                     var loadState = (e.PreviousExecutionState != ApplicationExecutionState.Terminated);
-                    Task.Run(() =>
+                    Task.Factory.StartNew(() =>
                     {
                         ServiceLocator.Current
                             .GetInstance<MainViewModel>().Initialize(loadState);
-                    });
+                    }, TaskCreationOptions.LongRunning);
                 };
                 Window.Current.Content = rootFrame;
             }

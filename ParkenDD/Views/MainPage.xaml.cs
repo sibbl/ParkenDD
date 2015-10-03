@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -32,7 +33,17 @@ namespace ParkenDD.Views
         private GeoboundingBox _initialMapBbox;
         private Geopoint _initialCoordinates;
         private bool _infoDialogVisible;
-        private bool _mapAnimationInProgress;
+
+        private int __mapAnimationInProgress;
+        private int _mapAnimationInProgress
+        {
+            get { return __mapAnimationInProgress; }
+            set
+            {
+                __mapAnimationInProgress = value;
+                Debug.WriteLine("Map animations in progress: {0}", __mapAnimationInProgress);
+            }
+        }
 
         public MainPage()
         {
@@ -46,15 +57,14 @@ namespace ParkenDD.Views
             {
                 if (_initialMapBbox != null)
                 {
-                    _mapAnimationInProgress = true;
+                    _mapAnimationInProgress++;
                     await Map.TrySetViewBoundsAsync(_initialMapBbox, null, MapAnimationKind.None);
-                    _mapAnimationInProgress = false;
-                }
-                if (_initialCoordinates != null)
+                    _mapAnimationInProgress--;
+                }else if(_initialCoordinates != null)
                 {
-                    _mapAnimationInProgress = true;
+                    _mapAnimationInProgress++;
                     await Map.TrySetViewAsync(_initialCoordinates, null, null, null, MapAnimationKind.None);
-                    _mapAnimationInProgress = false;
+                    _mapAnimationInProgress--;
                 }
                 UpdateParkingLotFilter();
             };
@@ -64,10 +74,10 @@ namespace ParkenDD.Views
                 DispatcherHelper.CheckBeginInvokeOnUI(async () =>
                 {
                     _initialMapBbox = msg.BoundingBox; //set initial bbox as the following won't work while splash screen is still visible
-                    _mapAnimationInProgress = true;
+                    _mapAnimationInProgress++;
                     await Map.TrySetViewBoundsAsync(msg.BoundingBox, null,
                             MapAnimationKind.Bow);
-                    _mapAnimationInProgress = false;
+                    _mapAnimationInProgress--;
                 });
             });
 
@@ -76,9 +86,9 @@ namespace ParkenDD.Views
                 DispatcherHelper.CheckBeginInvokeOnUI(async () => 
                 {
                     _initialCoordinates = msg.Point; //set initial coordinates as the following won't work while splash screen is still visible
-                    _mapAnimationInProgress = true;
+                    _mapAnimationInProgress++;
                     await Map.TrySetViewAsync(msg.Point, null, null, null, MapAnimationKind.Bow);
-                    _mapAnimationInProgress = false;
+                    _mapAnimationInProgress--;
                 });
             });
 
@@ -88,9 +98,11 @@ namespace ParkenDD.Views
                 {
                     DrawingService.DrawSearchResult(Map, msg.Result);
                 });
-                await WaitUntilMapAnimationFinished();
                 DispatcherHelper.CheckBeginInvokeOnUI(async () =>
                 {
+                    Debug.WriteLine("Map: begin show search result");
+                    await WaitUntilMapAnimationFinished();
+                    Debug.WriteLine("Map: trigger show search result");
                     await Map.TrySetViewAsync(msg.Result.Point, null, null, null, MapAnimationKind.Bow);
                 });
             });
@@ -168,10 +180,9 @@ namespace ParkenDD.Views
                     Map.IsLocationInView(selectedParkingLotPoint, out isParkingLotInView);
                     if (!isParkingLotInView)
                     {
-                        await Task.Factory.StartNew(async () =>
-                        {
-                            await WaitUntilMapAnimationFinished();
-                        });
+                        Debug.WriteLine("Map: begin zoom to selected parking lot");
+                        await WaitUntilMapAnimationFinished();
+                        Debug.WriteLine("Map: trigger zoom to selected parking lot");
                         await Map.TrySetViewAsync(selectedParkingLotPoint);
                     }
                 }
@@ -245,10 +256,12 @@ namespace ParkenDD.Views
 
         private async Task WaitUntilMapAnimationFinished()
         {
-            while (_mapAnimationInProgress)
+            while (_mapAnimationInProgress > 0)
             {
+                Debug.WriteLine("Wait for map animations...");
                 await Task.Delay(100);
             }
+            Debug.WriteLine("Finished waiting for map animations!");
         }
     }
 }
