@@ -8,6 +8,7 @@ using GalaSoft.MvvmLight.Threading;
 using Microsoft.Practices.ServiceLocation;
 using ParkenDD.Api.Interfaces;
 using ParkenDD.Api.Models;
+using ParkenDD.Api.Models.Exceptions;
 using ParkenDD.Models;
 using ParkenDD.Services;
 using ParkenDD.ViewModels;
@@ -71,7 +72,7 @@ namespace ParkenDD.Controls
                     ForecastChart.Opacity = 0.2;
                     LoadingProgressRing.Visibility = Visibility.Visible;
                     //TODO: play some fancy animation!
-                    await Task.Run(async () =>
+                    await Task.Factory.StartNew(async () =>
                     {
                         var api = ServiceLocator.Current.GetInstance<IParkenDdClient>();
                         var mainVm = ServiceLocator.Current.GetInstance<MainViewModel>();
@@ -80,8 +81,17 @@ namespace ParkenDD.Controls
                         var endDate = now.Add(timeSpan.Value);
                         if (endDate > startDate)
                         {
-                            var forecast = await
-                                api.GetForecastAsync(mainVm.SelectedCity.Id, parkingLot.Id, startDate, endDate);
+                            Forecast forecast;
+                            try
+                            {
+                                forecast = await
+                                    api.GetForecastAsync(mainVm.SelectedCity.Id, parkingLot.Id, startDate, endDate);
+                            }
+                            catch (ApiException e)
+                            {
+                                ServiceLocator.Current.GetInstance<ExceptionService>().HandleApiExceptionForForecastData(e, mainVm.SelectedCity, parkingLot);
+                                return;
+                            }
                             _cachedForecast.AddRange(forecast.Data.Select(
                                     item => new ParkingLotForecastDataPoint(item.Value, item.Key)));
                             if (_cachedForecastEndDate.HasValue)

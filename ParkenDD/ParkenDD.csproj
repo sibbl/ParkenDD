@@ -168,6 +168,7 @@
     <Compile Include="Models\ParkingLotForecastTimespanEnum.cs" />
     <Compile Include="Models\ParkingLotForecastTimespanSelection.cs" />
     <Compile Include="Models\SelectableParkingLot.cs" />
+    <Compile Include="Services\ExceptionService.cs" />
     <Compile Include="Services\GeolocationService.cs" />
     <Compile Include="Services\MapDrawingService.cs" />
     <Compile Include="Messages\ZoomMapToBoundsMessage.cs" />

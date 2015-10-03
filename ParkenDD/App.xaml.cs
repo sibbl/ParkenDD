@@ -32,8 +32,9 @@ namespace ParkenDD
 
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
         {
-            //TODO: catch and handle unhandled exceptions here
-            unhandledExceptionEventArgs.Handled = true;
+            var handled = false;
+            ServiceLocator.Current.GetInstance<ExceptionService>().HandleException(unhandledExceptionEventArgs.Exception, ref handled);
+            unhandledExceptionEventArgs.Handled = handled;
         }
 
         /// <summary>

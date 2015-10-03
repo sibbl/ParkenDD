@@ -19,6 +19,7 @@ using ParkenDD.Messages;
 using ParkenDD.Services;
 using ParkenDD.Api.Models;
 using ParkenDD.Api.Interfaces;
+using ParkenDD.Api.Models.Exceptions;
 using ParkenDD.Models;
 using ParkenDD.Utils;
 
@@ -34,6 +35,7 @@ namespace ParkenDD.ViewModels
         private readonly StorageService _storage;
         private readonly GeolocationService _geo;
         private readonly TrackingService _tracking;
+        private readonly ExceptionService _exceptionService;
         private readonly Dictionary<string, City> _cities = new Dictionary<string, City>();
         private readonly Dictionary<string, bool> _cityHasOnlineData = new Dictionary<string, bool>();
         private bool _metaDataIsOnlineData;
@@ -274,7 +276,8 @@ namespace ParkenDD.ViewModels
             SettingsService settings,
             StorageService storage,
             GeolocationService geo,
-            TrackingService tracking)
+            TrackingService tracking,
+            ExceptionService exceptionService)
         {
             _client = client;
             _voiceCommands = voiceCommandService;
@@ -283,6 +286,7 @@ namespace ParkenDD.ViewModels
             _storage = storage;
             _geo = geo;
             _tracking = tracking;
+            _exceptionService = exceptionService;
         }
 
         #endregion
@@ -314,7 +318,16 @@ namespace ParkenDD.ViewModels
                 }
             }
             Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): perform request", forceServerRefresh);
-            var metaData = await _client.GetMetaDataAsync();
+            MetaData metaData;
+            try
+            {
+                metaData = await _client.GetMetaDataAsync();
+            }
+            catch (ApiException e)
+            {
+                _exceptionService.HandleApiExceptionForMetaData(e);
+                return null;
+            }
             Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): got response", forceServerRefresh);
             _metaDataIsOnlineData = true;
             _storage.SaveMetaData(metaData);
@@ -335,7 +348,16 @@ namespace ParkenDD.ViewModels
                 }
             }
             Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1}): perform request", cityId, forceServerRefresh);
-            var city = await _client.GetCityAsync(cityId);
+            City city = null;
+            try
+            {
+                city = await _client.GetCityAsync(cityId);
+            }
+            catch (ApiException e)
+            {
+                _exceptionService.HandleApiExceptionForCityData(e, MetaData.Cities[cityId]);
+                return null;
+            }
             Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1}): got response", cityId, forceServerRefresh);
             _cityHasOnlineData[cityId] = true;
             Task.Factory.StartNew(async () =>
