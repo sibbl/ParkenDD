@@ -431,7 +431,10 @@ namespace ParkenDD.ViewModels
         private void UpdateMapBounds()
         {
             if (SelectedCityData == null)
+            {
+                Debug.WriteLine("UpdateMapBounds: SelectedCityData is null");
                 return;
+            }
             var maxLat = Double.NaN;
             var minLat = Double.NaN;
             var maxLng = Double.NaN;
@@ -460,10 +463,12 @@ namespace ParkenDD.ViewModels
                 var cityPoint = SelectedCity.Coordinates?.Point;
                 if (cityPoint != null)
                 {
+                    Debug.WriteLine("UpdateMapBounds: zoom to coordinate {0}, {1}", SelectedCity.Coordinates.Point.Position.Latitude, SelectedCity.Coordinates.Point.Position.Longitude);
                     Messenger.Default.Send(new ZoomMapToCoordinateMessage(SelectedCity.Coordinates.Point));
                 }
                 return;
             }
+            Debug.WriteLine("UpdateMapBounds: zoom to bounds {0}, {1} / {2}, {3}", maxLat, minLng, minLat, maxLng);
             Messenger.Default.Send(
                 new ZoomMapToBoundsMessage(
                     new GeoboundingBox(
