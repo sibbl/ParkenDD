@@ -394,7 +394,7 @@
                                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
                                             <controls:ParkingLotLoadDonut
-                                                x:Phase="3"
+                                                x:Phase="20"
                                                 Grid.Row="0"
                                                 Grid.RowSpan="3"
                                                 Grid.Column="0"
@@ -486,14 +486,8 @@
                                                 HorizontalAlignment="Stretch"
                                                 x:Phase="7"
                                                 DataContext="{x:Bind ParkingLot, Mode=OneWay}"
-                                                >
-
-                                                <interactivity:Interaction.Behaviors>
-                                                    <core:DataTriggerBehavior Binding="{x:Bind IsSelected, Mode=OneWay}" Value="True">
-                                                        <core:CallMethodAction MethodName="InitForecast" TargetObject="{Binding ElementName=ForecastChart}" />
-                                                    </core:DataTriggerBehavior>
-                                                </interactivity:Interaction.Behaviors>
-                                            </controls:ParkingLotForecastChart>
+                                                IsSelected="{x:Bind IsSelected, Mode=OneWay}"
+                                                />
 
                                             <Button Content="Wegbeschreibung"
                                                     Tag="&#xE816;"

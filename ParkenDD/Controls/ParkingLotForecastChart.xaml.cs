@@ -26,7 +26,27 @@ namespace ParkenDD.Controls
 
         private bool _initialized;
         private DateTime? _cachedForecastEndDate;
-        private List<ParkingLotForecastDataPoint> _cachedForecast = new List<ParkingLotForecastDataPoint>();
+        private readonly List<ParkingLotForecastDataPoint> _cachedForecast = new List<ParkingLotForecastDataPoint>();
+
+
+        public bool IsSelected
+        {
+            get { return (bool) GetValue(IsSelectedProperty); }
+            set
+            {
+                SetValue(IsSelectedProperty, value);
+                if (value)
+                {
+                    InitForecast();
+                }
+            }
+        }
+
+        public static readonly DependencyProperty IsSelectedProperty =
+            DependencyProperty.Register("IsSelected",
+                typeof (bool),
+                typeof (ParkingLotForecastChart),
+                new PropertyMetadata(false));
 
         public ParkingLotForecastChart()
         {
@@ -101,7 +121,7 @@ namespace ParkenDD.Controls
             }
         }
 
-        public void InitForecast()
+        private void InitForecast()
         {
             if (!_initialized)
             {

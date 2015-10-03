@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Devices.Geolocation;
+using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -10,6 +13,7 @@ using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Threading;
 using ParkenDD.Messages;
 using ParkenDD.ViewModels;
 using Microsoft.Practices.ServiceLocation;
@@ -28,6 +32,7 @@ namespace ParkenDD.Views
         private GeoboundingBox _initialMapBbox;
         private Geopoint _initialCoordinates;
         private bool _infoDialogVisible;
+        private bool _mapAnimationInProgress;
 
         public MainPage()
         {
@@ -41,38 +46,51 @@ namespace ParkenDD.Views
             {
                 if (_initialMapBbox != null)
                 {
+                    _mapAnimationInProgress = true;
                     await Map.TrySetViewBoundsAsync(_initialMapBbox, null, MapAnimationKind.None);
+                    _mapAnimationInProgress = false;
                 }
                 if (_initialCoordinates != null)
                 {
+                    _mapAnimationInProgress = true;
                     await Map.TrySetViewAsync(_initialCoordinates, null, null, null, MapAnimationKind.None);
+                    _mapAnimationInProgress = false;
                 }
                 UpdateParkingLotFilter();
             };
 
-            Messenger.Default.Register(this, async (ZoomMapToBoundsMessage msg) =>
+            Messenger.Default.Register(this, (ZoomMapToBoundsMessage msg) =>
             {
-                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                DispatcherHelper.CheckBeginInvokeOnUI(async () =>
                 {
                     _initialMapBbox = msg.BoundingBox; //set initial bbox as the following won't work while splash screen is still visible
-                    await Map.TrySetViewBoundsAsync(msg.BoundingBox, null, MapAnimationKind.Bow);
+                    _mapAnimationInProgress = true;
+                    await Map.TrySetViewBoundsAsync(msg.BoundingBox, null,
+                            MapAnimationKind.Bow);
+                    _mapAnimationInProgress = false;
                 });
             });
 
-            Messenger.Default.Register(this, async (ZoomMapToCoordinateMessage msg) =>
+            Messenger.Default.Register(this, (ZoomMapToCoordinateMessage msg) =>
             {
-                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                DispatcherHelper.CheckBeginInvokeOnUI(async () => 
                 {
                     _initialCoordinates = msg.Point; //set initial coordinates as the following won't work while splash screen is still visible
+                    _mapAnimationInProgress = true;
                     await Map.TrySetViewAsync(msg.Point, null, null, null, MapAnimationKind.Bow);
+                    _mapAnimationInProgress = false;
                 });
             });
 
             Messenger.Default.Register(this, async (ShowSearchResultOnMapMessage msg) =>
             {
-                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                DispatcherHelper.CheckBeginInvokeOnUI(() =>
                 {
                     DrawingService.DrawSearchResult(Map, msg.Result);
+                });
+                await WaitUntilMapAnimationFinished();
+                DispatcherHelper.CheckBeginInvokeOnUI(async () =>
+                {
                     await Map.TrySetViewAsync(msg.Result.Point, null, null, null, MapAnimationKind.Bow);
                 });
             });
@@ -150,6 +168,10 @@ namespace ParkenDD.Views
                     Map.IsLocationInView(selectedParkingLotPoint, out isParkingLotInView);
                     if (!isParkingLotInView)
                     {
+                        await Task.Factory.StartNew(async () =>
+                        {
+                            await WaitUntilMapAnimationFinished();
+                        });
                         await Map.TrySetViewAsync(selectedParkingLotPoint);
                     }
                 }
@@ -219,6 +241,14 @@ namespace ParkenDD.Views
         private void ShowInfoDialogButtonClick(object sender, RoutedEventArgs e)
         {
             HideSplitViewPaneIfNotInline();
+        }
+
+        private async Task WaitUntilMapAnimationFinished()
+        {
+            while (_mapAnimationInProgress)
+            {
+                await Task.Delay(100);
+            }
         }
     }
 }

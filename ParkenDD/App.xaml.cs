@@ -1,5 +1,6 @@
 ﻿using ParkenDD.Views;
 using System;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Globalization;
@@ -59,8 +60,8 @@ namespace ParkenDD
 
                 e.SplashScreen.Dismissed += (sender, args) =>
                 {
-                    var loadState = (e.PreviousExecutionState == ApplicationExecutionState.Terminated);
-                    DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                    var loadState = (e.PreviousExecutionState != ApplicationExecutionState.Terminated);
+                    Task.Run(() =>
                     {
                         ServiceLocator.Current
                             .GetInstance<MainViewModel>().Initialize(loadState);
