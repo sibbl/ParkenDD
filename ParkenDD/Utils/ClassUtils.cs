@@ -35,6 +35,10 @@ namespace ParkenDD.Utils
 
         public static void Merge(this City city, City newData, ObservableCollection<SelectableParkingLot> parkingLotCollection)
         {
+            if (newData == null || parkingLotCollection == null)
+            {
+                return;
+            }
             city.DataSource = newData.DataSource;
             city.LastDownloaded = newData.LastDownloaded;
             city.LastUpdated = newData.LastUpdated;

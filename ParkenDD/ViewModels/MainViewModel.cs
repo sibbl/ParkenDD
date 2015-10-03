@@ -485,20 +485,31 @@ namespace ParkenDD.ViewModels
         private async Task<City> LoadCity(string cityId, bool forceRefresh = false)
         {
             Debug.WriteLine("[MainVm] LoadCity: {0} (forceRefresh={1})", cityId, forceRefresh);
-            if (_cities.ContainsKey(cityId))
+            if (_cities.ContainsKey(cityId) && !forceRefresh)
             {
-                if (forceRefresh)
-                {
-                    var newCityData = await GetCity(cityId, true);
-                    _cities[cityId].Merge(newCityData, ParkingLots);
-                    UpdateParkingLotListFilter();
-                    return _cities[cityId];
-                }
+                Debug.WriteLine("[MainVm] LoadCity: {0} in dict and no force refresh. Return cached data.", cityId, null);
                 return _cities[cityId];
             }
-            Debug.WriteLine("[MainVm] LoadCity: {0} not in dict", cityId, null);
-            _cities[cityId] = await GetCity(cityId, forceRefresh);
-            Debug.WriteLine("[MainVm] LoadCity: loaded {0}", cityId, null);
+
+            var newCityData = await GetCity(cityId, forceRefresh);
+            if (_cities.ContainsKey(cityId))
+            {
+                Debug.WriteLine("[MainVm] LoadCity: {0} already in dict, merge", cityId, null);
+                _cities[cityId].Merge(newCityData, ParkingLots);
+                UpdateParkingLotListFilter();
+            }
+            else
+            {
+                if (newCityData != null)
+                {
+                    Debug.WriteLine("[MainVm] LoadCity: {0} not in dict, set new value", cityId, null);
+                    _cities[cityId] = newCityData;
+                }
+                else
+                {
+                    Debug.WriteLine("[MainVm] LoadCity: {0} not in dict, but new value is null", cityId, null);
+                }
+            }
             return _cities[cityId];
         }
 
