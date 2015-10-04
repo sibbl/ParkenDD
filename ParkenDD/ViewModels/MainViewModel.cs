@@ -650,10 +650,19 @@ namespace ParkenDD.ViewModels
 
         private void TryGetUserPosition()
         {
-            DispatcherHelper.CheckBeginInvokeOnUI(async () => {
+            DispatcherHelper.CheckBeginInvokeOnUI(async () =>
+            {
                 Debug.WriteLine("[MainVm] TryGetUserPosition: request location");
-                await _geo.GetUserLocation();
-                Debug.WriteLine("[MainVm] TryGetUserPosition: got answer");
+                try
+                {
+                    await _geo.GetUserLocation();
+                    Debug.WriteLine("[MainVm] TryGetUserPosition: got answer");
+                }
+                catch (Exception e)
+                {
+                    _exceptionService.HandleException(e, "getUserPosition");
+                    Debug.WriteLine("[MainVm] TryGetUserPosition: something happened: ", e.Message);
+                }
             });
         }
 

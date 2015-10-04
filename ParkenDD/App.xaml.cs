@@ -33,7 +33,7 @@ namespace ParkenDD
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
         {
             var handled = false;
-            ServiceLocator.Current.GetInstance<ExceptionService>().HandleException(unhandledExceptionEventArgs.Exception, ref handled);
+            ServiceLocator.Current.GetInstance<ExceptionService>().OnUnhandledException(unhandledExceptionEventArgs.Exception, ref handled);
             unhandledExceptionEventArgs.Handled = handled;
         }
 

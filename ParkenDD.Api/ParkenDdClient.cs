@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using ParkenDD.Api.Converters;
 using ParkenDD.Api.Models;
 using ParkenDD.Api.Models.Exceptions;
@@ -82,9 +83,13 @@ namespace ParkenDD.Api
             {
                 throw new ApiException(exc.Message, exc);
             }
-            catch (ApiException exc)
+            catch (TaskCanceledException e)
             {
-                throw exc;
+                if (!e.CancellationToken.IsCancellationRequested)
+                {
+                    throw new ApiException("The server took too long to response :(", e);
+                }
+                return null;
             }
             finally
             {
@@ -114,23 +119,31 @@ namespace ParkenDD.Api
 
         protected T DeserializeJson<T>(string json) where T : class, new()
         {
-            return JsonConvert.DeserializeObject<T>(
-                json,
-                new JsonSerializerSettings
-                {
-                    Error = (sender, args) =>
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(
+                    json,
+                    new JsonSerializerSettings
                     {
-                        throw new ApiException($"Parse error: {args.ErrorContext.Error.Message}", args.ErrorContext.Error);
-                    },
-                    Converters =
-                    {
-                        new JsonMetaDataCitiesConverter(),
-                        new JsonForecastConverter(),
-                        new JsonUriConverter(),
-                        new JsonUtcDateTimeConverter()
+                        /*Error = delegate(object sender, ErrorEventArgs args)
+                        {
+                            args.ErrorContext.Handled = true;
+                            throw new ApiException($"Parse error: {args.ErrorContext.Error.Message}", args.ErrorContext.Error);
+                        },
+                        */Converters =
+                        {
+                            new JsonMetaDataCitiesConverter(),
+                            new JsonForecastConverter(),
+                            new JsonUriConverter(),
+                            new JsonUtcDateTimeConverter()
+                        }
                     }
-                }
-            );
+                    );
+            }
+            catch (Exception e)
+            {
+                throw new ApiException($"Parse error: {e.Message}", e);
+            }
         }
 
         /// <summary>

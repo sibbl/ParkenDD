@@ -9,6 +9,10 @@ namespace ParkenDD.Utils
     {
         public static void Merge(this MetaData metaData, MetaData newData)
         {
+            if (newData == null)
+            {
+                return;
+            }
             metaData.ApiVersion = newData.ApiVersion;
             metaData.Reference = newData.Reference;
             metaData.ServerVersion = newData.ServerVersion;

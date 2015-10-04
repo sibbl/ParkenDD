@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Notifications;
+using Windows.UI.Xaml;
 using NotificationsExtensions.Toasts;
 using ParkenDD.Api.Models;
 using ParkenDD.Api.Models.Exceptions;
@@ -13,11 +14,26 @@ namespace ParkenDD.Services
     public class ExceptionService
     {
         private readonly TrackingService _tracking;
+        private DateTime? _lastException;
 
         public ExceptionService(TrackingService tracking)
         {
             _tracking = tracking;
         }
+
+        private void ShowToast(ToastContent content)
+        {
+            var now = DateTime.Now;
+            //show only one exception every 5 sec (minimum value for toast notifications to be visible)
+            if (_lastException == null || now - _lastException.Value > TimeSpan.FromSeconds(5))
+            {
+                _lastException = DateTime.Now;
+                var notifier = ToastNotificationManager.CreateToastNotifier();
+                var notification = new ToastNotification(content.GetXml());
+                notifier.Show(notification);
+            }
+        }
+
         public void HandleApiExceptionForMetaData(ApiException e)
         {
             _tracking.TrackException(e, new Dictionary<string, string>()
@@ -27,11 +43,11 @@ namespace ParkenDD.Services
             });
             //TODO: localization
             var mailSubject = "ParkenDD: cities could not be loaded";
-            var mailBody = "Unfortunately I couldn't load cities and I though I might tell you about this.";
-            var mailAdress = "me@sibbl.net";
+            var mailBody = "Unfortunately I couldn't load cities and I thought I might tell you about this.\r\nThe error was:\r\n{0}";
+            var mailAddress = "me@sibbl.net";
             var mailStr = String.Format("mailto:{0}?body={1}&subject={2}",
-                mailAdress,
-                Uri.EscapeDataString(mailBody),
+                mailAddress,
+                Uri.EscapeDataString(String.Format(mailBody, e.Message)),
                 Uri.EscapeDataString(mailSubject)
                 );
             var content = new ToastContent
@@ -64,9 +80,7 @@ namespace ParkenDD.Services
                     }
                 }
             };
-            var notifier = ToastNotificationManager.CreateToastNotifier();
-            var notification = new ToastNotification(content.GetXml());
-            notifier.Show(notification);
+            ShowToast(content);
         }
         public void HandleApiExceptionForCityData(ApiException e, MetaDataCityRow city)
         {
@@ -78,11 +92,11 @@ namespace ParkenDD.Services
             });
             //TODO: localization
             var mailSubject = "ParkenDD: {0} could not be loaded";
-            var mailBody = "Unfortunately I couldn't load the data of {0} and I though I might tell you about this.";
-            var mailAdress = "me@sibbl.net";
+            var mailBody = "Unfortunately I couldn't load the data of {0} and I thought I might tell you about this.\r\n\r\nThe error was:\r\n{1}";
+            var mailAddress = "me@sibbl.net";
             var mailStr = String.Format("mailto:{0}?body={1}&subject={2}",
-                mailAdress,
-                Uri.EscapeDataString(String.Format(mailBody, city?.Name)),
+                mailAddress,
+                Uri.EscapeDataString(String.Format(mailBody, city?.Name, e.Message)),
                 Uri.EscapeDataString(String.Format(mailSubject, city?.Name))
                 );
             var content = new ToastContent
@@ -115,9 +129,7 @@ namespace ParkenDD.Services
                     }
                 }
             };
-            var notifier = ToastNotificationManager.CreateToastNotifier();
-            var notification = new ToastNotification(content.GetXml());
-            notifier.Show(notification);
+            ShowToast(content);
         }
         public void HandleApiExceptionForForecastData(ApiException e, MetaDataCityRow city, ParkingLot lot)
         {
@@ -130,11 +142,11 @@ namespace ParkenDD.Services
             });
             //TODO: localization
             var mailSubject = "ParkenDD: forecast data of {0} in {1} could not be loaded";
-            var mailBody = "Unfortunately I couldn't load the forecast for {0} in {1} and I though I might tell you about this.";
-            var mailAdress = "me@sibbl.net";
+            var mailBody = "Unfortunately I couldn't load the forecast for {0} in {1} and I thought I might tell you about this.\r\n\r\nThe error was:\r\n{2}";
+            var mailAddress = "me@sibbl.net";
             var mailStr = String.Format("mailto:{0}?body={1}&subject={2}",
-                mailAdress,
-                Uri.EscapeDataString(String.Format(mailBody, lot?.Name, city?.Name)),
+                mailAddress,
+                Uri.EscapeDataString(String.Format(mailBody, lot?.Name, city?.Name, e.Message)),
                 Uri.EscapeDataString(String.Format(mailSubject, lot?.Name, city?.Name))
                 );
             var content = new ToastContent
@@ -167,12 +179,19 @@ namespace ParkenDD.Services
                     }
                 }
             };
-            var notifier = ToastNotificationManager.CreateToastNotifier();
-            var notification = new ToastNotification(content.GetXml());
-            notifier.Show(notification);
+            ShowToast(content);
         }
 
-        public void HandleException(Exception e, ref bool handled)
+        public void HandleException(Exception e, string type = "unknown")
+        {
+            _tracking.TrackException(e, new Dictionary<string, string>()
+            {
+                { "handled", "true"},
+                { "type", type},
+            });
+        }
+
+        public void OnUnhandledException(Exception e, ref bool handled)
         {
             _tracking.TrackException(e, new Dictionary<string, string>()
             {
