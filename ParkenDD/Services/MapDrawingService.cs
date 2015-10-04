@@ -28,7 +28,7 @@ namespace ParkenDD.Services
         private const int ZindexUserPosition = 100003;
 
         private readonly MainViewModel _mainVm;
-        private Dictionary<SelectableParkingLot, MapIcon> _mapIconParkingLotDict;
+        private Dictionary<string, MapIcon> _mapIconParkingLotDict;
         private MapIcon _searchResultIcon;
         private MapIcon _userPositionIcon;
         public MapDrawingService(MainViewModel mainVm)
@@ -38,9 +38,9 @@ namespace ParkenDD.Services
 
         public async void RedrawParkingLot(Grid drawingContainer, SelectableParkingLot lot)
         {
-            if (lot != null && _mapIconParkingLotDict != null && _mapIconParkingLotDict.ContainsKey(lot))
+            if (lot != null && _mapIconParkingLotDict != null && _mapIconParkingLotDict.ContainsKey(lot.ParkingLot.Id))
             {
-                var icon = _mapIconParkingLotDict[lot];
+                var icon = _mapIconParkingLotDict[lot.ParkingLot.Id];
                 icon.Image = await GetMapIconDonutImage(drawingContainer, lot.ParkingLot);
                 icon.ZIndex = GetZIndexForParkingLot(lot.ParkingLot);
             }
@@ -77,13 +77,13 @@ namespace ParkenDD.Services
                     Image = await GetMapIconDonutImage(drawingContainer, lot.ParkingLot),
                     ZIndex = GetZIndexForParkingLot(lot.ParkingLot),
                 };
-                if (_mapIconParkingLotDict.ContainsKey(lot))
+                if (_mapIconParkingLotDict.ContainsKey(lot.ParkingLot.Id))
                 {
                     //TODO: optimize this code. Don't redraw the whole icon if maybe only location or title changed
-                    map.MapElements.Remove(_mapIconParkingLotDict[lot]);
-                    _mapIconParkingLotDict.Remove(lot);
+                    map.MapElements.Remove(_mapIconParkingLotDict[lot.ParkingLot.Id]);
+                    _mapIconParkingLotDict.Remove(lot.ParkingLot.Id);
                 }
-                _mapIconParkingLotDict.Add(lot, icon);
+                _mapIconParkingLotDict.Add(lot.ParkingLot.Id, icon);
                 map.MapElements.Add(icon);
             }
         }
@@ -137,7 +137,7 @@ namespace ParkenDD.Services
                     map.MapElements.Remove(icon.Value);
                 }
             }
-            _mapIconParkingLotDict = new Dictionary<SelectableParkingLot, MapIcon>();
+            _mapIconParkingLotDict = new Dictionary<string, MapIcon>();
             if (lots != null)
             {
                 foreach (var lot in lots)
@@ -182,7 +182,8 @@ namespace ParkenDD.Services
         {
             if (icon != null && _mapIconParkingLotDict != null && _mapIconParkingLotDict.ContainsValue(icon))
             {
-                return _mapIconParkingLotDict.FirstOrDefault(x => x.Value == icon).Key;
+                var id = _mapIconParkingLotDict.FirstOrDefault(x => x.Value == icon).Key;
+                return _mainVm.ParkingLots.FirstOrDefault(x => x.ParkingLot.Id == id);
             }
             return null;
         }
