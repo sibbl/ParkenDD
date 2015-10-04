@@ -138,10 +138,7 @@ namespace ParkenDD.ViewModels
             set
             {
                 Set(() => ParkingLots, ref _parkingLots, value);
-                if (_initialized)
-                {
-                    UpdateParkingLotListFilter();
-                }
+                UpdateParkingLotListFilter();
             }
         }
         #endregion
@@ -180,10 +177,7 @@ namespace ParkenDD.ViewModels
             {
                 if (Set(() => ParkingLotFilterMode, ref _parkingLotFilterMode, value))
                 {
-                    if (_initialized)
-                    {
-                        UpdateParkingLotListFilter();
-                    }
+                    UpdateParkingLotListFilter();
                     _tracking.TrackParkingLotFilterEvent(ParkingLotFilterMode, ParkingLotFilterAscending,
                         ParkingLotFilterIsGrouped);
                     _settings.ParkingLotFilterMode = value;
@@ -201,10 +195,7 @@ namespace ParkenDD.ViewModels
             {
                 if (Set(() => ParkingLotFilterIsGrouped, ref _parkingLotFilterIsGrouped, value))
                 {
-                    if (_initialized)
-                    {
-                        UpdateParkingLotListFilter();
-                    }
+                    UpdateParkingLotListFilter();
                     _tracking.TrackParkingLotFilterEvent(ParkingLotFilterMode, ParkingLotFilterAscending,
                         ParkingLotFilterIsGrouped);
                     _settings.ParkingLotFilterIsGrouped = value;
@@ -222,10 +213,7 @@ namespace ParkenDD.ViewModels
             {
                 if (Set(() => ParkingLotFilterAscending, ref _parkingLotFilterAscending, value))
                 {
-                    if (_initialized)
-                    {
-                        UpdateParkingLotListFilter();
-                    }
+                    UpdateParkingLotListFilter();
                     _tracking.TrackParkingLotFilterEvent(ParkingLotFilterMode, ParkingLotFilterAscending,
                         ParkingLotFilterIsGrouped);
                     _settings.ParkingLotFilterAscending = value;
