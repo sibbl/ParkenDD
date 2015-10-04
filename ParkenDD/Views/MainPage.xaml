@@ -364,6 +364,7 @@
                             Header="{Binding SelectedCityData.LastUpdated, Mode=OneWay, Converter={StaticResource DateTimeToStringConverter}}"
                             RelativePanel.AlignLeftWithPanel="True"
                             RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.Below="OfflineHint"
                             >
                             <ListView.GroupStyle>
                                 <GroupStyle
@@ -501,6 +502,17 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
+                        <Border 
+                            RelativePanel.AlignTopWithPanel="True"
+                            RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.AlignLeftWithPanel="True"
+                            Style="{StaticResource OfflineHintBorderStyle}"
+                            Visibility="{Binding InternetAvailable, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
+                            x:Name="OfflineHint">
+                            <TextBlock
+                                Style="{StaticResource OfflineHintTextStyle}"
+                                Text="Du bist offline"/>
+                        </Border>
                     </RelativePanel>
                     <!-- #endregion -->
                     <!-- #region Map -->

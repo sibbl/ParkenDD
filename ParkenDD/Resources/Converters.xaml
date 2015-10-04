@@ -11,10 +11,12 @@
     <converters:ParkingLotStateToVisibilityConverter x:Key="ParkingLotStateToVisibilityConverter" />
     <converters:ParkingLotStateStringConverter x:Key="ParkingLotStateStringConverter" />
     <converters:IntGreaterZeroToVisibilityConverter x:Key="IntGreaterZeroToVisibilityConverter" />
-    
+
     <cimbalinoConverters:NegativeBooleanConverter x:Key="NegativeBooleanConverter" />
     <cimbalinoConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <cimbalinoConverters:BooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter" InvertValue="True" />
     <cimbalinoConverters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
     <cimbalinoConverters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+
 
 </ResourceDictionary>

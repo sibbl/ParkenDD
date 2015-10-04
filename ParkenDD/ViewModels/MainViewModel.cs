@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
+using Windows.Networking.Connectivity;
 using Windows.Services.Maps;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
@@ -266,6 +267,17 @@ namespace ParkenDD.ViewModels
 
         #endregion
 
+        #region InternetAvailable
+
+        private bool _internetAvailable;
+
+        public bool InternetAvailable
+        {
+            get { return _internetAvailable; }
+            set { Set(() => InternetAvailable, ref _internetAvailable, value); }
+        }
+        #endregion
+
         #endregion
 
         #region CONSTRUCTOR
@@ -287,11 +299,35 @@ namespace ParkenDD.ViewModels
             _geo = geo;
             _tracking = tracking;
             _exceptionService = exceptionService;
+
+            NetworkInformation.NetworkStatusChanged += sender =>
+            {
+                UpdateInternetAvailability();
+            };
+            UpdateInternetAvailability();
         }
 
         #endregion
 
         #region LOGIC
+
+        private void UpdateInternetAvailability()
+        {
+            var profile = NetworkInformation.GetInternetConnectionProfile();
+
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            {
+                if (profile?.GetNetworkConnectivityLevel() >=
+                    NetworkConnectivityLevel.InternetAccess)
+                {
+                    InternetAvailable = true;
+                }
+                else
+                {
+                    InternetAvailable = false;
+                }
+            });
+        }
 
         private async Task<MetaData> GetOfflineMetaData()
         {
@@ -316,6 +352,12 @@ namespace ParkenDD.ViewModels
                     Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): found offline data", forceServerRefresh);
                     return offlineMetaData;
                 }
+            }
+
+            if (!InternetAvailable)
+            {
+                Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): internet not available, returning null", forceServerRefresh);
+                return null;
             }
             Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): perform request", forceServerRefresh);
             MetaData metaData;
@@ -346,6 +388,11 @@ namespace ParkenDD.ViewModels
                     Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1}): found offline data", cityId, forceServerRefresh);
                     return offlineCity;
                 }
+            }
+            if (!InternetAvailable)
+            {
+                Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1}): internet not available, returning null", cityId, forceServerRefresh);
+                return null;
             }
             Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1}): perform request", cityId, forceServerRefresh);
             City city = null;
@@ -548,9 +595,8 @@ namespace ParkenDD.ViewModels
                 Debug.WriteLine("[MainVm] LoadCity: {0} in dict and no force refresh. Return cached data.", cityId, null);
                 return _cities[cityId];
             }
-
             var newCityData = await GetCity(cityId, forceRefresh);
-            if (_cities.ContainsKey(cityId))
+            if (_cities.ContainsKey(cityId) && newCityData != null)
             {
                 Debug.WriteLine("[MainVm] LoadCity: {0} already in dict, merge", cityId, null);
                 await DispatcherHelper.RunAsync(() =>
@@ -559,17 +605,14 @@ namespace ParkenDD.ViewModels
                     UpdateParkingLotListFilter();
                 });
             }
+            else if(newCityData != null)
+            {
+                Debug.WriteLine("[MainVm] LoadCity: {0} not in dict, set new value", cityId, null);
+                _cities[cityId] = newCityData;
+            }
             else
             {
-                if (newCityData != null)
-                {
-                    Debug.WriteLine("[MainVm] LoadCity: {0} not in dict, set new value", cityId, null);
-                    _cities[cityId] = newCityData;
-                }
-                else
-                {
-                    Debug.WriteLine("[MainVm] LoadCity: {0} not in dict, but new value is null", cityId, null);
-                }
+                Debug.WriteLine("[MainVm] LoadCity: {0} new value is null", cityId, null);
             }
             return newCityData;
         }
@@ -639,7 +682,7 @@ namespace ParkenDD.ViewModels
                         Debug.WriteLine("[MainVm] TryLoadOnlineMetaData: set new MetaData");
                         MetaData = newData;
                     }
-                    else
+                    else if(newData != null)
                     {
                         Debug.WriteLine("[MainVm] TryLoadOnlineMetaData: merge with MetaData");
                         MetaData.Merge(newData);

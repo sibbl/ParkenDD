@@ -56,6 +56,11 @@ namespace ParkenDD.Controls
 
         private async void UpdateChart()
         {
+            var vm = ServiceLocator.Current.GetInstance<MainViewModel>();
+            if (!vm.InternetAvailable)
+            {
+                return;
+            }
             var parkingLot = DataContext as ParkingLot;
             if (parkingLot != null && parkingLot.HasForecast)
             {

@@ -435,6 +435,18 @@
         <Setter Property="Foreground" Value="{StaticResource LightBlueColor}" />
     </Style>
 
+    <Style x:Key="OfflineHintBorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="#d00000" />
+        <Setter Property="Padding" Value="12,5" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="BorderBrush" Value="#ae0000" />
+    </Style>
+
+    <Style x:Key="OfflineHintTextStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontSize" Value="12" />
+    </Style>
+
     <!-- #endregion -->
 
     <!-- #region Map -->
