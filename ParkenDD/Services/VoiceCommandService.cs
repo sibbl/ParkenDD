@@ -64,16 +64,26 @@ namespace ParkenDD.Services
             }
             if (metaData?.Cities != null)
             {
-                //TODO: catch exceptions and log them
-                Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinition commandSet;
-
-                if (
-                    Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstalledCommandDefinitions
-                        .TryGetValue("ParkenDdCommands_de", out commandSet))
+                try
                 {
-                    _phrases.UpdateCities(metaData);
-                    await commandSet.SetPhraseListAsync("city", _phrases.GetCityPhraseList());
-                    _storage.SaveVoiceCommandPhrases(_phrases);
+                    Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinition commandSet;
+
+                    if (
+                        Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstalledCommandDefinitions
+                            .TryGetValue("ParkenDdCommands_de", out commandSet))
+                    {
+                        _phrases.UpdateCities(metaData);
+                        await commandSet.SetPhraseListAsync("city", _phrases.GetCityPhraseList());
+                        _storage.SaveVoiceCommandPhrases(_phrases);
+                    }
+                }
+                catch (Exception e)
+                {
+                    _tracking.TrackException(e, new Dictionary<string, string>
+                    {
+                        {"type", "update_city_list"},
+                        {"handled", "true"}
+                    });
                 }
             }
         }
@@ -91,16 +101,25 @@ namespace ParkenDD.Services
             }
             if (data?.Lots != null)
             {
-                //TODO: catch exceptions and log them
-                Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinition commandSet;
-
-                if (
-                    Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstalledCommandDefinitions
-                        .TryGetValue("ParkenDdCommands_de", out commandSet))
+                try
                 {
-                    _phrases.UpdateParkingLots(city, data.Lots);
-                    await commandSet.SetPhraseListAsync("parking_lot", _phrases.GetParkingLotPhraseList());
-                    _storage.SaveVoiceCommandPhrases(_phrases);
+                    Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinition commandSet;
+
+                    if (Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstalledCommandDefinitions
+                            .TryGetValue("ParkenDdCommands_de", out commandSet))
+                    {
+                        _phrases.UpdateParkingLots(city, data.Lots);
+                        await commandSet.SetPhraseListAsync("parking_lot", _phrases.GetParkingLotPhraseList());
+                        _storage.SaveVoiceCommandPhrases(_phrases);
+                    }
+                }
+                catch (Exception e)
+                {
+                    _tracking.TrackException(e, new Dictionary<string, string>
+                    {
+                        {"type", "update_parkinglot_list"},
+                        {"handled", "true"}
+                    });
                 }
             }
         }

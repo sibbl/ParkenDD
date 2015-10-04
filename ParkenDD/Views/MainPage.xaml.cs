@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Devices.Geolocation;
-using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,7 +16,6 @@ using GalaSoft.MvvmLight.Threading;
 using ParkenDD.Messages;
 using ParkenDD.ViewModels;
 using Microsoft.Practices.ServiceLocation;
-using ParkenDD.Controls;
 using ParkenDD.Models;
 using ParkenDD.Services;
 using ParkenDD.Utils;
@@ -33,6 +30,7 @@ namespace ParkenDD.Views
         private GeoboundingBox _initialMapBbox;
         private Geopoint _initialCoordinates;
         private bool _infoDialogVisible;
+        private bool _zoomedToInitialView;
 
         public MainPage()
         {
@@ -46,12 +44,15 @@ namespace ParkenDD.Views
             {
                 if (_initialMapBbox != null)
                 {
+                    Debug.WriteLine("Mainpage map: map loaded, set initial bounds");
                     await Map.TrySetViewBoundsAsync(_initialMapBbox, null, MapAnimationKind.None);
-                }else if(_initialCoordinates != null)
+                }
+                else if(_initialCoordinates != null)
                 {
+                    Debug.WriteLine("Mainpage map: map loaded, set initial coords");
                     await Map.TrySetViewAsync(_initialCoordinates, null, null, null, MapAnimationKind.None);
                 }
-                UpdateParkingLotFilter();
+                _zoomedToInitialView = true;
             };
 
             Messenger.Default.Register(this, (ZoomMapToBoundsMessage msg) =>
@@ -59,6 +60,7 @@ namespace ParkenDD.Views
                 DispatcherHelper.CheckBeginInvokeOnUI(async () =>
                 {
                     _initialMapBbox = msg.BoundingBox; //set initial bbox as the following won't work while splash screen is still visible
+                    Debug.WriteLine("Mainpage map: zoom map to bounds msg");
                     await Map.TrySetViewBoundsAsync(msg.BoundingBox, null, MapAnimationKind.Bow);
                 });
             });
@@ -68,7 +70,9 @@ namespace ParkenDD.Views
                 DispatcherHelper.CheckBeginInvokeOnUI(async () => 
                 {
                     _initialCoordinates = msg.Point; //set initial coordinates as the following won't work while splash screen is still visible
-                    await Map.TrySetViewAsync(msg.Point, null, null, null, MapAnimationKind.Bow);
+                    var zoomLevel = Map.ZoomLevel;
+                    Debug.WriteLine("Mainpage map: zoom map to coordinates msg");
+                    await Map.TrySetViewAsync(msg.Point, zoomLevel < 12 ? 12 : (double?)null, null, null, MapAnimationKind.Bow);
                 });
             });
 
@@ -77,6 +81,7 @@ namespace ParkenDD.Views
                 DispatcherHelper.CheckBeginInvokeOnUI(async () =>
                 {
                     DrawingService.DrawSearchResult(Map, msg.Result);
+                    Debug.WriteLine("Mainpage map: show search result");
                     await Map.TrySetViewAsync(msg.Result.Point, null, null, null, MapAnimationKind.Bow);
                 });
             });
@@ -150,14 +155,21 @@ namespace ParkenDD.Views
                 var selectedParkingLotPoint = _selectedLot?.ParkingLot?.Coordinates?.Point;
                 if (selectedParkingLotPoint != null)
                 {
+                    while (!_zoomedToInitialView)
+                    {
+                        Debug.WriteLine("Mainpage map: wait until initial view was zoomed to");
+                        await Task.Delay(200);
+                    }
                     bool isParkingLotInView;
                     Map.IsLocationInView(selectedParkingLotPoint, out isParkingLotInView);
                     if (Map.ZoomLevel < 14)
                     {
+                        Debug.WriteLine("Mainpage map: selected parking lot, zoom level too high");
                         await Map.TrySetViewAsync(selectedParkingLotPoint, 14);
                     }
                     else if (!isParkingLotInView)
                     {
+                        Debug.WriteLine("Mainpage map: selected parking lot, parking lot not in view");
                         await Map.TrySetViewAsync(selectedParkingLotPoint);
                     }
                 }
