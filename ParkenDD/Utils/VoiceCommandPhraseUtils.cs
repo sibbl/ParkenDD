@@ -16,7 +16,7 @@ namespace ParkenDD.Utils
             }
             foreach (var city in cities.Cities)
             {
-                dict.UpdateCity(city.Value);
+                dict.UpdateCity(city);
             }
         }
 

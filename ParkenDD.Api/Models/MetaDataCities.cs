@@ -1,19 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace ParkenDD.Api.Models
 {
-    public sealed class MetaDataCities : Dictionary<string, MetaDataCityRow>
+    public sealed class MetaDataCities : ObservableCollection<MetaDataCityRow>
     {
-        public ObservableCollection<MetaDataCityRow> List => new ObservableCollection<MetaDataCityRow>(this.Select(x => x.Value).ToList());
-
-        public MetaDataCities()
+        public MetaDataCityRow Get(string cityId)
         {
-        }
-
-        public MetaDataCities(IDictionary<string, MetaDataCityRow> data) : base(data)
-        {
+            return this.FirstOrDefault(x => x.Id == cityId);
         }
     }
 }

@@ -39,6 +39,8 @@ namespace ParkenDD.ViewModels
         private readonly ExceptionService _exceptionService;
         private readonly Dictionary<string, City> _cities = new Dictionary<string, City>();
         private readonly Dictionary<string, bool> _cityHasOnlineData = new Dictionary<string, bool>();
+        private bool _metaLoading;
+        private readonly Dictionary<string, bool> _cityLoading = new Dictionary<string, bool>();
         private bool _metaDataIsOnlineData;
         private int _loadCityCount;
         private int _loadMetaCount;
@@ -344,6 +346,11 @@ namespace ParkenDD.ViewModels
 
         private async Task<MetaData> GetMetaData(bool forceServerRefresh = false)
         {
+            if (_metaLoading)
+            {
+                return null;
+            }
+            _metaLoading = true;
             Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0})", forceServerRefresh);
             if (!forceServerRefresh)
             {
@@ -351,6 +358,7 @@ namespace ParkenDD.ViewModels
                 if (offlineMetaData != null)
                 {
                     Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): found offline data", forceServerRefresh);
+                    _metaLoading = false;
                     return offlineMetaData;
                 }
             }
@@ -358,6 +366,7 @@ namespace ParkenDD.ViewModels
             if (!InternetAvailable)
             {
                 Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): internet not available, returning null", forceServerRefresh);
+                _metaLoading = false;
                 return null;
             }
             Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): perform request", forceServerRefresh);
@@ -369,17 +378,24 @@ namespace ParkenDD.ViewModels
             catch (ApiException e)
             {
                 _exceptionService.HandleApiExceptionForMetaData(e);
+                _metaLoading = false;
                 return null;
             }
             Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): got response", forceServerRefresh);
             _metaDataIsOnlineData = true;
             _storage.SaveMetaData(metaData);
             _voiceCommands.UpdateCityList(metaData);
+            _metaLoading = false;
             return metaData;
         }
 
         private async Task<City> GetCity(string cityId, bool forceServerRefresh = false, MetaDataCityRow cityMetaData = null)
         {
+            if (_cityLoading.ContainsKey(cityId) && _cityLoading[cityId])
+            {
+                return null;
+            }
+            _cityLoading[cityId] = true;
             Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1})", cityId, forceServerRefresh);
             if (!forceServerRefresh)
             {
@@ -387,35 +403,39 @@ namespace ParkenDD.ViewModels
                 if (offlineCity != null)
                 {
                     Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1}): found offline data", cityId, forceServerRefresh);
+                    _cityLoading[cityId] = false;
                     return offlineCity;
                 }
             }
             if (!InternetAvailable)
             {
                 Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1}): internet not available, returning null", cityId, forceServerRefresh);
+                _cityLoading[cityId] = false;
                 return null;
             }
             Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1}): perform request", cityId, forceServerRefresh);
-            City city = null;
+            City city;
             try
             {
                 city = await _client.GetCityAsync(cityId);
             }
             catch (ApiException e)
             {
-                _exceptionService.HandleApiExceptionForCityData(e, MetaData.Cities[cityId]);
+                _exceptionService.HandleApiExceptionForCityData(e, MetaData.Cities.Get(cityId));
+                _cityLoading[cityId] = false;
                 return null;
             }
             Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1}): got response", cityId, forceServerRefresh);
             _cityHasOnlineData[cityId] = true;
+            _cityLoading[cityId] = false;
             Task.Factory.StartNew(async () =>
             {
-                await Task.Delay(15000);
+                await Task.Delay(4000);
                 _storage.SaveCityData(cityId, city);
             });
             Task.Factory.StartNew(async () =>
             {
-                await Task.Delay(10000);
+                await Task.Delay(2000);
                 _voiceCommands.UpdateParkingLotList(cityMetaData ?? SelectedCity, city);
             });
             return city;
@@ -423,21 +443,12 @@ namespace ParkenDD.ViewModels
 
         private MetaDataCityRow FindCityByName(MetaData metaData, string name)
         {
-            return metaData?.Cities?.Select(x => x.Value).FirstOrDefault(x => x.Name.ToLower().Equals(name.ToLower()));
+            return metaData?.Cities?.FirstOrDefault(x => x.Name.ToLower().Equals(name.ToLower()));
         }
 
         private MetaDataCityRow FindCityById(MetaData metaData, string id)
         {
-            if (metaData?.Cities == null || !metaData.Cities.ContainsKey(id))
-            {
-                return null;
-            }
-            return metaData.Cities[id];
-        }
-
-        private ParkingLot FindParkingLotByName(City city, string name)
-        {
-            return city?.Lots?.FirstOrDefault(x => x.Name.ToLower().Equals(name.ToLower()));
+            return metaData?.Cities?.Get(id);
         }
 
         private ParkingLot FindParkingLotById(City city, string id)
@@ -453,10 +464,13 @@ namespace ParkenDD.ViewModels
             {
                 Debug.WriteLine("[MainVm] TrySelectCityById for {0}: needs loading meta data", id, null);
                 meta = await GetMetaData() ?? await GetMetaData(true);
-                await DispatcherHelper.RunAsync(() =>
+                if (meta != null)
                 {
-                    MetaData = meta;
-                });
+                    await DispatcherHelper.RunAsync(() =>
+                    {
+                        MetaData = meta;
+                    });
+                }
             }
             var city = FindCityById(meta, id);
             if (city != null)
@@ -602,8 +616,12 @@ namespace ParkenDD.ViewModels
                 Debug.WriteLine("[MainVm] LoadCity: {0} already in dict, merge", cityId, null);
                 await DispatcherHelper.RunAsync(() =>
                 {
-                    _cities[cityId].Merge(newCityData, ParkingLots);
-                    UpdateParkingLotListFilter();
+                    //merge only when newer data is available
+                    if (newCityData.LastUpdated > _cities[cityId].LastUpdated)
+                    {
+                        _cities[cityId].Merge(newCityData, ParkingLots);
+                        UpdateParkingLotListFilter();
+                    }
                 });
             }
             else if(newCityData != null)
@@ -951,8 +969,7 @@ namespace ParkenDD.ViewModels
 
             Task.Factory.StartNew(async () =>
             {
-                //if not already present, load new online data and refresh local data after 5s
-                await Task.Delay(5000);
+                //if not already present, load new online data and refresh local data
                 while (!_initialized)
                 {
                     await Task.Delay(1000);

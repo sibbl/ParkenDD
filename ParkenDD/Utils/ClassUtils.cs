@@ -18,22 +18,22 @@ namespace ParkenDD.Utils
             metaData.ServerVersion = newData.ServerVersion;
             foreach (var city in newData.Cities)
             {
-                var existingCity = metaData.Cities.Where(x => x.Key == city.Key).Select(x => x.Value).FirstOrDefault();
+                var existingCity = metaData.Cities.FirstOrDefault(x => x.Id == city.Id);
                 if (existingCity == null)
                 {
-                    metaData.Cities.Add(city.Key, city.Value);
+                    metaData.Cities.Add(city);
                 }
                 else
                 {
-                    existingCity.Coordinates = city.Value.Coordinates;
-                    existingCity.Name = city.Value.Name;
-                    existingCity.Source = city.Value.Source;
-                    existingCity.Url = city.Value.Url;
+                    existingCity.Coordinates = city.Coordinates;
+                    existingCity.Name = city.Name;
+                    existingCity.Source = city.Source;
+                    existingCity.Url = city.Url;
                 }
             }
-            foreach (var existingLot in metaData.Cities.ToList().Where(existingCity => newData.Cities.Where(x => x.Key == existingCity.Key).Select(x => x.Value).FirstOrDefault() == null))
+            foreach (var existingLot in metaData.Cities.ToList().Where(existingCity => newData.Cities.FirstOrDefault(x => x.Id == existingCity.Id) == null))
             {
-                metaData.Cities.Remove(existingLot.Key);
+                metaData.Cities.Remove(existingLot);
             }
         }
 

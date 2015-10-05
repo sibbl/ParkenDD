@@ -17,7 +17,7 @@ namespace ParkenDD.Api.Converters
                 foreach (var i in dict)
                 {
                     i.Value.Id = i.Key;
-                    result.Add(i.Key, i.Value);
+                    result.Add(i.Value);
                 }
                 return result;
             }
@@ -33,7 +33,7 @@ namespace ParkenDD.Api.Converters
             }
             else
             {
-                serializer.Serialize(writer, cities.Select(x => x.Value).ToDictionary(x => x.Name, x => x.Id));
+                serializer.Serialize(writer, cities.ToDictionary(x => x.Name, x => x.Id));
             }
         }
 

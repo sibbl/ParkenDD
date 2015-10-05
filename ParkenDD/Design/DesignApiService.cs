@@ -18,29 +18,20 @@ namespace ParkenDD.Design
                 ServerVersion = "0.0.1",
                 Cities = new MetaDataCities
                 {
+                    new MetaDataCityRow
                     {
-                        "dresden-id", 
-                        new MetaDataCityRow
-                        {
-                            Id = "dresden-id",
-                            Name = "Dresden"
-                        }
+                        Id = "dresden-id",
+                        Name = "Dresden"
                     },
+                    new MetaDataCityRow
                     {
-                        "ingolstadt_id",
-                        new MetaDataCityRow
-                        {
-                            Id = "ingolstadt_id",
-                            Name = "Ingolstadt"
-                        }
+                        Id = "ingolstadt_id",
+                        Name = "Ingolstadt"
                     },
+                    new MetaDataCityRow
                     {
-                        "bla",
-                        new MetaDataCityRow
-                        {
-                            Id = "bla",
-                            Name = "Eine Test-Stadt mit äüö und ganz viel Text"
-                        }
+                        Id = "bla",
+                        Name = "Eine Test-Stadt mit äüö und ganz viel Text"
                     }
                 }
             };

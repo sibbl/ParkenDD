@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:ParkenDD.Models"
+    xmlns:apiModels="using:ParkenDD.Api.Models"
     xmlns:windowsStateTriggers="using:WindowsStateTriggers"
     xmlns:triggers="using:ParkenDD.Triggers"
     xmlns:controls="using:ParkenDD.Controls"
@@ -202,15 +203,15 @@
                     <ListView
                         Grid.Row="1"
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                        ItemsSource="{x:Bind Vm.MetaData.Cities.List, Mode=OneWay}"
+                        ItemsSource="{x:Bind Vm.MetaData.Cities, Mode=OneWay}"
                         SelectedItem="{Binding SelectedCity, Mode=TwoWay}"
                         ItemContainerStyle="{StaticResource SelectCityListContainerStyle}"
                         SelectionChanged="SplitViewItemSelectionChanged"
                         >
                         <ListView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="apiModels:MetaDataCityRow">
                                 <TextBlock
-                                    Text="{Binding}"
+                                    Text="{x:Bind Name, Mode=OneWay}"
                                     Style="{ThemeResource SplitViewCityItemTextStyle}"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
