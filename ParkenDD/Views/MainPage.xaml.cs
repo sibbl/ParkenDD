@@ -31,6 +31,7 @@ namespace ParkenDD.Views
         private Geopoint _initialCoordinates;
         private bool _infoDialogVisible;
         private bool _zoomedToInitialView;
+        private bool _mapLoaded;
 
         public MainPage()
         {
@@ -42,38 +43,59 @@ namespace ParkenDD.Views
 
             Map.Loaded += async (sender, args) =>
             {
+                Debug.WriteLine("Mainpage map: map loaded");
                 if (_initialMapBbox != null)
                 {
                     Debug.WriteLine("Mainpage map: map loaded, set initial bounds");
                     await Map.TrySetViewBoundsAsync(_initialMapBbox, null, MapAnimationKind.None);
+                    _zoomedToInitialView = true;
                 }
                 else if(_initialCoordinates != null)
                 {
                     Debug.WriteLine("Mainpage map: map loaded, set initial coords");
                     await Map.TrySetViewAsync(_initialCoordinates, null, null, null, MapAnimationKind.None);
+                    _zoomedToInitialView = true;
                 }
-                _zoomedToInitialView = true;
+                _mapLoaded = true;
             };
 
             Messenger.Default.Register(this, (ZoomMapToBoundsMessage msg) =>
             {
-                DispatcherHelper.CheckBeginInvokeOnUI(async () =>
+                if (!_mapLoaded)
                 {
-                    _initialMapBbox = msg.BoundingBox; //set initial bbox as the following won't work while splash screen is still visible
-                    Debug.WriteLine("Mainpage map: zoom map to bounds msg");
-                    await Map.TrySetViewBoundsAsync(msg.BoundingBox, null, MapAnimationKind.Bow);
-                });
+                    _initialMapBbox = msg.BoundingBox;
+                        //set initial bbox as the following won't work while splash screen is still visible
+                }
+                else
+                {
+                    DispatcherHelper.CheckBeginInvokeOnUI(async () =>
+                    {
+                        Debug.WriteLine("Mainpage map: zoom map to bounds msg");
+                        await Map.TrySetViewBoundsAsync(msg.BoundingBox, null, MapAnimationKind.Bow);
+                        _zoomedToInitialView = _mapLoaded;
+                    });
+                }
             });
 
             Messenger.Default.Register(this, (ZoomMapToCoordinateMessage msg) =>
             {
-                DispatcherHelper.CheckBeginInvokeOnUI(async () => 
+                if (!_mapLoaded)
                 {
-                    _initialCoordinates = msg.Point; //set initial coordinates as the following won't work while splash screen is still visible
-                    var zoomLevel = Map.ZoomLevel;
-                    Debug.WriteLine("Mainpage map: zoom map to coordinates msg");
-                    await Map.TrySetViewAsync(msg.Point, zoomLevel < 12 ? 12 : (double?)null, null, null, MapAnimationKind.Bow);
-                });
+                    _initialCoordinates = msg.Point;
+                        //set initial coordinates as the following won't work while splash screen is still visible
+                }
+                else
+                {
+                    DispatcherHelper.CheckBeginInvokeOnUI(async () =>
+                    {
+                        var zoomLevel = Map.ZoomLevel;
+                        Debug.WriteLine("Mainpage map: zoom map to coordinates msg");
+                        await
+                            Map.TrySetViewAsync(msg.Point, zoomLevel < 12 ? 12 : (double?) null, null, null,
+                                MapAnimationKind.Bow);
+                        _zoomedToInitialView = _mapLoaded;
+                    });
+                }
             });
 
             Messenger.Default.Register(this, (ShowSearchResultOnMapMessage msg) =>
@@ -81,6 +103,8 @@ namespace ParkenDD.Views
                 DispatcherHelper.CheckBeginInvokeOnUI(async () =>
                 {
                     DrawingService.DrawSearchResult(Map, msg.Result);
+                    Debug.WriteLine("Mainpage map: show search result - wait until initial view was zoomed to");
+                    await WaitForInitialMapZoom();
                     Debug.WriteLine("Mainpage map: show search result");
                     await Map.TrySetViewAsync(msg.Result.Point, null, null, null, MapAnimationKind.Bow);
                 });
@@ -155,13 +179,11 @@ namespace ParkenDD.Views
                 var selectedParkingLotPoint = _selectedLot?.ParkingLot?.Coordinates?.Point;
                 if (selectedParkingLotPoint != null)
                 {
-                    while (!_zoomedToInitialView)
-                    {
-                        Debug.WriteLine("Mainpage map: wait until initial view was zoomed to");
-                        await Task.Delay(200);
-                    }
+                    Debug.WriteLine("Mainpage map: selected parking lot - wait until initial view was zoomed to");
+                    await WaitForInitialMapZoom();
                     bool isParkingLotInView;
                     Map.IsLocationInView(selectedParkingLotPoint, out isParkingLotInView);
+                    Debug.WriteLine("Mainpage map: selected parking lot - check");
                     if (Map.ZoomLevel < 14)
                     {
                         Debug.WriteLine("Mainpage map: selected parking lot, zoom level too high");
@@ -239,6 +261,15 @@ namespace ParkenDD.Views
         private void ShowInfoDialogButtonClick(object sender, RoutedEventArgs e)
         {
             HideSplitViewPaneIfNotInline();
+        }
+
+        private async Task WaitForInitialMapZoom()
+        {
+            while (!_zoomedToInitialView)
+            {
+                Debug.WriteLine("Mainpage map: wait...");
+                await Task.Delay(200);
+            }
         }
     }
 }

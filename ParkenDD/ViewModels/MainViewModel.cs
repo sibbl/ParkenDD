@@ -39,8 +39,8 @@ namespace ParkenDD.ViewModels
         private readonly ExceptionService _exceptionService;
         private readonly Dictionary<string, City> _cities = new Dictionary<string, City>();
         private readonly Dictionary<string, bool> _cityHasOnlineData = new Dictionary<string, bool>();
-        private bool _metaLoading;
-        private readonly Dictionary<string, bool> _cityLoading = new Dictionary<string, bool>();
+        private Task<MetaData> _metaLoadingTask;
+        private readonly Dictionary<string, Task<City>> _cityLoading = new Dictionary<string, Task<City>>();
         private bool _metaDataIsOnlineData;
         private int _loadCityCount;
         private int _loadMetaCount;
@@ -346,99 +346,103 @@ namespace ParkenDD.ViewModels
 
         private async Task<MetaData> GetMetaData(bool forceServerRefresh = false)
         {
-            if (_metaLoading)
+            if (forceServerRefresh && _metaLoadingTask != null && !_metaLoadingTask.IsCompleted && !_metaLoadingTask.IsFaulted && !_metaLoadingTask.IsCanceled)
             {
-                return null;
+                return await _metaLoadingTask;
             }
-            _metaLoading = true;
-            Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0})", forceServerRefresh);
-            if (!forceServerRefresh)
+            _metaLoadingTask = Task.Run(async () =>
             {
-                var offlineMetaData = await GetOfflineMetaData();
-                if (offlineMetaData != null)
+                Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0})", forceServerRefresh);
+                if (!forceServerRefresh)
                 {
-                    Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): found offline data", forceServerRefresh);
-                    _metaLoading = false;
-                    return offlineMetaData;
+                    var offlineMetaData = await GetOfflineMetaData();
+                    if (offlineMetaData != null)
+                    {
+                        Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): found offline data",
+                            forceServerRefresh);
+                        return offlineMetaData;
+                    }
                 }
-            }
 
-            if (!InternetAvailable)
-            {
-                Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): internet not available, returning null", forceServerRefresh);
-                _metaLoading = false;
-                return null;
-            }
-            Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): perform request", forceServerRefresh);
-            MetaData metaData;
-            try
-            {
-                metaData = await _client.GetMetaDataAsync();
-            }
-            catch (ApiException e)
-            {
-                _exceptionService.HandleApiExceptionForMetaData(e);
-                _metaLoading = false;
-                return null;
-            }
-            Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): got response", forceServerRefresh);
-            _metaDataIsOnlineData = true;
-            _storage.SaveMetaData(metaData);
-            _voiceCommands.UpdateCityList(metaData);
-            _metaLoading = false;
-            return metaData;
+                if (!InternetAvailable)
+                {
+                    Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): internet not available, returning null",
+                        forceServerRefresh);
+                    return null;
+                }
+                Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): perform request", forceServerRefresh);
+                MetaData metaData;
+                try
+                {
+                    metaData = await _client.GetMetaDataAsync();
+                }
+                catch (ApiException e)
+                {
+                    _exceptionService.HandleApiExceptionForMetaData(e);
+                    return null;
+                }
+                Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): got response", forceServerRefresh);
+                _metaDataIsOnlineData = true;
+                _storage.SaveMetaData(metaData);
+                _voiceCommands.UpdateCityList(metaData);
+                return metaData;
+            });
+            return await _metaLoadingTask;
         }
 
         private async Task<City> GetCity(string cityId, bool forceServerRefresh = false, MetaDataCityRow cityMetaData = null)
         {
-            if (_cityLoading.ContainsKey(cityId) && _cityLoading[cityId])
+            if (forceServerRefresh && _cityLoading.ContainsKey(cityId) && _cityLoading[cityId] != null && !_cityLoading[cityId].IsFaulted && !_cityLoading[cityId].IsCompleted && !_cityLoading[cityId].IsCanceled)
             {
-                return null;
+                return await _cityLoading[cityId];
             }
-            _cityLoading[cityId] = true;
-            Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1})", cityId, forceServerRefresh);
-            if (!forceServerRefresh)
+            _cityLoading[cityId] = Task.Run(async () =>
             {
-                var offlineCity = await GetOfflineCityData(cityId);
-                if (offlineCity != null)
+                Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1})", cityId, forceServerRefresh);
+                if (!forceServerRefresh)
                 {
-                    Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1}): found offline data", cityId, forceServerRefresh);
-                    _cityLoading[cityId] = false;
-                    return offlineCity;
+                    var offlineCity = await GetOfflineCityData(cityId);
+                    if (offlineCity != null)
+                    {
+                        Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1}): found offline data", cityId,
+                            forceServerRefresh);
+                        return offlineCity;
+                    }
                 }
-            }
-            if (!InternetAvailable)
-            {
-                Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1}): internet not available, returning null", cityId, forceServerRefresh);
-                _cityLoading[cityId] = false;
-                return null;
-            }
-            Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1}): perform request", cityId, forceServerRefresh);
-            City city;
-            try
-            {
-                city = await _client.GetCityAsync(cityId);
-            }
-            catch (ApiException e)
-            {
-                _exceptionService.HandleApiExceptionForCityData(e, MetaData.Cities.Get(cityId));
-                _cityLoading[cityId] = false;
-                return null;
-            }
-            Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1}): got response", cityId, forceServerRefresh);
-            _cityHasOnlineData[cityId] = true;
-            _cityLoading[cityId] = false;
-            Task.Factory.StartNew(async () =>
-            {
-                await Task.Delay(4000);
-                _storage.SaveCityData(cityId, city);
+                if (!InternetAvailable)
+                {
+                    Debug.WriteLine(
+                        "[MainVm] GetCity for {0} (forcerefresh={1}): internet not available, returning null", cityId,
+                        forceServerRefresh);
+                    return null;
+                }
+                Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1}): perform request", cityId,
+                    forceServerRefresh);
+                City city;
+                try
+                {
+                    city = await _client.GetCityAsync(cityId);
+                }
+                catch (ApiException e)
+                {
+                    _exceptionService.HandleApiExceptionForCityData(e, MetaData.Cities.Get(cityId));
+                    return null;
+                }
+                Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1}): got response", cityId, forceServerRefresh);
+                _cityHasOnlineData[cityId] = true;
+                Task.Factory.StartNew(async () =>
+                {
+                    await Task.Delay(4000);
+                    _storage.SaveCityData(cityId, city);
+                });
+                Task.Factory.StartNew(async () =>
+                {
+                    await Task.Delay(2000);
+                    _voiceCommands.UpdateParkingLotList(cityMetaData ?? SelectedCity, city);
+                });
+                return city;
             });
-            Task.Factory.StartNew(async () =>
-            {
-                await Task.Delay(2000);
-                _voiceCommands.UpdateParkingLotList(cityMetaData ?? SelectedCity, city);
-            });
-            return city;
+            return await _cityLoading[cityId];
         }
 
         private MetaDataCityRow FindCityByName(MetaData metaData, string name)
@@ -511,16 +515,15 @@ namespace ParkenDD.ViewModels
             }
             if (parkingLot != null)
             {
-                Debug.WriteLine("[MainVm] TrySelectParkingLotById for {0} / {1}: success", cityId, parkingLotId);
-                var selectableParkingLot = ParkingLots.FirstOrDefault(x => x.ParkingLot == parkingLot);
-                if (selectableParkingLot != null)
+                await DispatcherHelper.RunAsync(() =>
                 {
-                    await DispatcherHelper.RunAsync(() =>
+                    Debug.WriteLine("[MainVm] TrySelectParkingLotById for {0} / {1}: success", cityId, parkingLotId);
+                    var selectableParkingLot = ParkingLots.FirstOrDefault(x => x.ParkingLot == parkingLot);
+                    if (selectableParkingLot != null)
                     {
                         SelectedParkingLot = selectableParkingLot;
-                    });
-
-                }
+                    }
+                });
                 return true;
             }
             return false;
