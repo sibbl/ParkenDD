@@ -20,6 +20,9 @@
     <PackageCertificateKeyFile>ParkenDD_StoreKey.pfx</PackageCertificateKeyFile>
     <ApplicationInsightsResourceId>/subscriptions/2cf58628-7209-4038-a710-984c3fa17773/resourcegroups/Default-ApplicationInsights-CentralUS/providers/microsoft.insights/components/ParkenDD</ApplicationInsightsResourceId>
     <PackageCertificateThumbprint>DC7126F5DFC1642BFA718F64EB93493B3EB0A33C</PackageCertificateThumbprint>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
