@@ -26,7 +26,19 @@ namespace ParkenDD.Services
         public string ParkingLotListGroupHeaderAll => _resLoader.GetString(nameof(ParkingLotListGroupHeaderAll));
         public string ParkingLotListGroupHeaderOther => _resLoader.GetString(nameof(ParkingLotListGroupHeaderOther));
         public string DirectionsParkingLotLabel => _resLoader.GetString(nameof(DirectionsParkingLotLabel));
-
+        public string ExceptionMailMetaDataSubject => _resLoader.GetString(nameof(ExceptionMailMetaDataSubject));
+        public string ExceptionMailMetaDataBody => _resLoader.GetString(nameof(ExceptionMailMetaDataBody));
+        public string ExceptionToastTitle => _resLoader.GetString(nameof(ExceptionToastTitle));
+        public string ExceptionToastVisitParkenDdButton => _resLoader.GetString(nameof(ExceptionToastVisitParkenDdButton));
+        public string ExceptionToastContactDevButton => _resLoader.GetString(nameof(ExceptionToastContactDevButton));
+        public string ExceptionToastShowInBrowserButton => _resLoader.GetString(nameof(ExceptionToastShowInBrowserButton));
+        public string ExceptionToastMetaDataContent => _resLoader.GetString(nameof(ExceptionToastMetaDataContent));
+        public string ExceptionMailCitySubject => _resLoader.GetString(nameof(ExceptionMailCitySubject));
+        public string ExceptionMailCityBody => _resLoader.GetString(nameof(ExceptionMailCityBody));
+        public string ExceptionToastCityContent => _resLoader.GetString(nameof(ExceptionToastCityContent));
+        public string ExceptionMailForecastSubject => _resLoader.GetString(nameof(ExceptionMailForecastSubject));
+        public string ExceptionMailForecastBody => _resLoader.GetString(nameof(ExceptionMailForecastBody));
+        public string ExceptionToastForecastContent => _resLoader.GetString(nameof(ExceptionToastForecastContent));
 
     }
 }

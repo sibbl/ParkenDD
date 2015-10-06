@@ -512,6 +512,7 @@
                             x:Name="OfflineHint">
                             <TextBlock
                                 Style="{StaticResource OfflineHintTextStyle}"
+                                x:Uid="OfflineHintLabel"
                                 Text="Du bist offline"/>
                         </Border>
                     </RelativePanel>
