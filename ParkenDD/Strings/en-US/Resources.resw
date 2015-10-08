@@ -334,5 +334,63 @@
   <data name="DirectionsParkingLotLabel" xml:space="preserve">
     <value>Parking lot {0}</value>
   </data>
+  <data name="OfflineHintLabel.Text" xml:space="preserve">
+    <value>No internet connection</value>
+  </data>
+  <data name="ExceptionMailMetaDataSubject" xml:space="preserve">
+    <value>ParkenDD: cities could not be loaded</value>
+  </data>
+  <data name="ExceptionMailMetaDataBody" xml:space="preserve">
+    <value>Unfortunately the cities couldn&apos;t be loaded and I thought I might tell you about this.
+
+The error was:
+{0}</value>
+    <comment>{0} = the error</comment>
+  </data>
+  <data name="ExceptionToastTitle" xml:space="preserve">
+    <value>Oh no!</value>
+  </data>
+  <data name="ExceptionToastMetaDataContent" xml:space="preserve">
+    <value>Unfortunately the server is not reachable and the cities cannot be loaded.</value>
+  </data>
+  <data name="ExceptionMailCitySubject" xml:space="preserve">
+    <value>ParkenDD: {0} could not be loaded</value>
+    <comment>{0} = city name</comment>
+  </data>
+  <data name="ExceptionMailCityBody" xml:space="preserve">
+    <value>Unfortunately the data of {0} couldn&apos;t be loaded and I thought I might tell you about this.
+
+The error was:
+{1}</value>
+    <comment>{0} = city name, {1} = error message</comment>
+  </data>
+  <data name="ExceptionToastCityContent" xml:space="preserve">
+    <value>Unfortunately the server is not reachable and real time parking lot data for {0} cannot be loaded.</value>
+    <comment>{0} = city name</comment>
+  </data>
+  <data name="ExceptionToastVisitParkenDdButton" xml:space="preserve">
+    <value>visit ParkenDD.de</value>
+  </data>
+  <data name="ExceptionToastContactDevButton" xml:space="preserve">
+    <value>contact developer</value>
+  </data>
+  <data name="ExceptionToastShowInBrowserButton" xml:space="preserve">
+    <value>view in browser</value>
+  </data>
+  <data name="ExceptionMailForecastSubject" xml:space="preserve">
+    <value>ParkenDD: forecast data of {0} in {1} could not be loaded</value>
+    <comment>{0} = parking lot name, {1} = city name</comment>
+  </data>
+  <data name="ExceptionMailForecastBody" xml:space="preserve">
+    <value>Unfortunately the forecast for {0} in {1} couldn&apos;t be loaded and I thought I might tell you about this.
+
+The error was:
+{2}</value>
+    <comment>{0} = parking lot name, {1} = city name, {2} = error message</comment>
+  </data>
+  <data name="ExceptionToastForecastContent" xml:space="preserve">
+    <value>Unfortunately the server is not reachable and forecast data for {0} in {1} cannot be loaded.</value>
+    <comment>{0} = parking lot name, {1} = city name</comment>
+  </data>
 
 </root>

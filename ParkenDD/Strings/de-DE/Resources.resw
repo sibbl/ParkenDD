@@ -334,5 +334,63 @@
   <data name="DirectionsParkingLotLabel" xml:space="preserve">
     <value>Parkplatz {0}</value>
   </data>
+  <data name="OfflineHintLabel.Text" xml:space="preserve">
+    <value>Keine Internetverbindung</value>
+  </data>
+  <data name="ExceptionMailMetaDataSubject" xml:space="preserve">
+    <value>ParkenDD: Städte konnten nicht geladen werden</value>
+  </data>
+  <data name="ExceptionMailMetaDataBody" xml:space="preserve">
+    <value>Leider konnten die Städte nicht geladen werden und ich dachte mir, ich teile Dir das besser mit.
+
+Der Fehler war:
+{0}</value>
+    <comment>{0} = the error</comment>
+  </data>
+  <data name="ExceptionToastTitle" xml:space="preserve">
+    <value>Oh nein!</value>
+  </data>
+  <data name="ExceptionToastMetaDataContent" xml:space="preserve">
+    <value>Leider ist der Server nicht erreichbar und die Städte konnten nicht geladen werden.</value>
+  </data>
+  <data name="ExceptionMailCitySubject" xml:space="preserve">
+    <value>ParkenDD: {0} konnte nicht geladen werden</value>
+    <comment>{0} = city name</comment>
+  </data>
+  <data name="ExceptionMailCityBody" xml:space="preserve">
+    <value>Leider konnten die Daten für {0} nicht geladen werden und ich dachte mir, ich teile Dir das besser mit.
+
+Der Fehler war:
+{1}</value>
+    <comment>{0} = city name, {1} = error message</comment>
+  </data>
+  <data name="ExceptionToastCityContent" xml:space="preserve">
+    <value>Leider ist der Server nicht erreichbar und die Parkplatzdaten von {0} konnten nicht geladen werden.</value>
+    <comment>{0} = city name</comment>
+  </data>
+  <data name="ExceptionToastVisitParkenDdButton" xml:space="preserve">
+    <value>ParkenDD.de besuchen</value>
+  </data>
+  <data name="ExceptionToastContactDevButton" xml:space="preserve">
+    <value>Entwickler schreiben</value>
+  </data>
+  <data name="ExceptionToastShowInBrowserButton" xml:space="preserve">
+    <value>im Browser ansehen</value>
+  </data>
+  <data name="ExceptionMailForecastSubject" xml:space="preserve">
+    <value>ParkenDD: Vorhersage für {0} in {1} konnte nicht geladen werden</value>
+    <comment>{0} = parking lot name, {1} = city name</comment>
+  </data>
+  <data name="ExceptionMailForecastBody" xml:space="preserve">
+    <value>Leider konnten die Vorhersagen für {0} in {1} nicht geladen werden und ich dachte mir, ich teile Dir das besser mit.
+
+Der Fehler war:
+{2}</value>
+    <comment>{0} = parking lot name, {1} = city name, {2} = error message</comment>
+  </data>
+  <data name="ExceptionToastForecastContent" xml:space="preserve">
+    <value>Leider ist der Server nicht erreichbar und die Vorhersagen für {0} in {1} konnten nicht geladen werden.</value>
+    <comment>{0} = parking lot name, {1} = city name</comment>
+  </data>
 
 </root>
