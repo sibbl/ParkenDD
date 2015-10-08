@@ -2,10 +2,11 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsStateTriggers;
+using WinRTXamlToolkit.Controls;
 
 namespace ParkenDD.Triggers
 {
-    public class ItemFocusStateTrigger : StateTriggerBase, ITriggerValue
+    public class AutoSuggestBoxFocusNotEmptyStateTrigger : StateTriggerBase, ITriggerValue
     {
         /// <summary>
         /// Gets or sets the ItemsControl to check the focus state of
@@ -20,19 +21,23 @@ namespace ParkenDD.Triggers
         /// Identifies the <see cref="Value"/> DependencyProperty
         /// </summary>
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register("Value", typeof (object), typeof (ItemFocusStateTrigger),
+            DependencyProperty.Register("Value", typeof (object), typeof (AutoSuggestBoxFocusNotEmptyStateTrigger),
                 new PropertyMetadata(true, OnValuePropertyChanged));
 
         private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var obj = (ItemFocusStateTrigger) d;
+            var obj = (AutoSuggestBoxFocusNotEmptyStateTrigger) d;
             var val = e.NewValue;
-            var uiElement = val as ItemsControl;
+            var uiElement = val as AutoSuggestBox;
             if (uiElement != null)
             {
+                uiElement.TextChanged += (sender, args) =>
+                {
+                    obj.IsActive = uiElement.Text.Trim().Length > 0;
+                };
                 uiElement.GotFocus += (sender, args) =>
                 {
-                    obj.IsActive = true;
+                    obj.IsActive = uiElement.Text.Trim().Length > 0;
                 };
                 uiElement.LostFocus += (sender, args) =>
                 {

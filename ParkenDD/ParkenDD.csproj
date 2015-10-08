@@ -190,7 +190,7 @@
     <Compile Include="Services\TrackingService.cs" />
     <Compile Include="Services\ViewModelLocatorService.cs" />
     <Compile Include="Services\VoiceCommandService.cs" />
-    <Compile Include="Triggers\ItemFocusStateTrigger.cs" />
+    <Compile Include="Triggers\AutoSuggestBoxFocusNotEmptyStateTrigger.cs" />
     <Compile Include="Utils\ClassUtils.cs" />
     <Compile Include="Utils\GeoUtils.cs" />
     <Compile Include="Utils\MapElementUtils.cs" />

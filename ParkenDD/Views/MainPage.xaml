@@ -95,7 +95,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="searchFocussed">
                     <VisualState.StateTriggers>
-                        <triggers:ItemFocusStateTrigger Value="{Binding ElementName=SearchBox}"  />
+                        <triggers:AutoSuggestBoxFocusNotEmptyStateTrigger Value="{Binding ElementName=SearchBox}"  />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ParkingLotListRefreshBtn.Visibility" Value="Collapsed" />
