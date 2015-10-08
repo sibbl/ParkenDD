@@ -248,7 +248,7 @@
                                 Style="{StaticResource InfoDialogPivotContentTextBlockStyle}">
                                 Folgende Verlinkungen führen Sie zu den Webseiten, deren Quellen wir beziehen:
                             </TextBlock>
-                            <ItemsControl ItemsSource="{Binding Main.MetaData.Cities.List, Source={StaticResource Locator}}">
+                            <ItemsControl ItemsSource="{Binding Main.MetaData.Cities, Source={StaticResource Locator}}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="apiModels:MetaDataCityRow">
                                         <StackPanel Style="{StaticResource InfoDialogPivotDataSourceItemContainerStyle}">
@@ -258,8 +258,8 @@
                                                     />
                                                 <HyperlinkButton
                                                     Style="{StaticResource InfoDialogPivotDataSourceItemHyperlinkStyle}"
-                                                    NavigateUri="{x:Bind Url}"
-                                                    Content="{x:Bind Name}" />
+                                                    NavigateUri="{x:Bind Url, Mode=OneWay}"
+                                                    Content="{x:Bind Name, Mode=OneWay}" />
                                             </StackPanel>
                                         </StackPanel>
                                     </DataTemplate>
