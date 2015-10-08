@@ -388,7 +388,6 @@
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*" />
                                                 <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="*" />
                                             </Grid.RowDefinitions>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -398,7 +397,7 @@
                                             <controls:ParkingLotLoadDonut
                                                 x:Phase="20"
                                                 Grid.Row="0"
-                                                Grid.RowSpan="3"
+                                                Grid.RowSpan="2"
                                                 Grid.Column="0"
                                                 Style="{ThemeResource ParkingLotListDonutStyle}"
                                                 ParkingLot="{x:Bind ParkingLot, Mode=OneWay}"/>
@@ -416,35 +415,9 @@
                                                 Text="VORHERSAGE"
                                                 x:Phase="0"
                                                 Visibility="{x:Bind ParkingLot.HasForecast, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                            <StackPanel
-                                                Orientation="Horizontal"
-                                                Grid.Row="2"
-                                                Grid.Column="1"
-                                                >
-                                                <TextBlock
-                                                    Style="{ThemeResource ParkingLotListDetailStyle}"
-                                                    Text="{x:Bind ParkingLot.FreeLots, Mode=OneWay}"
-                                                    x:Phase="2"
-                                                    FontWeight="SemiBold" />
-                                                <TextBlock
-                                                    Style="{ThemeResource ParkingLotListDetailStyle}"
-                                                    Padding="3,0,3,0"
-                                                    Text="/"
-                                                    Visibility="{x:Bind ParkingLot.TotalLots, Mode=OneWay, Converter={StaticResource IntGreaterZeroToVisibilityConverter}}"
-                                                    />
-                                                <TextBlock
-                                                    Style="{ThemeResource ParkingLotListDetailStyle}"
-                                                    Text="{x:Bind ParkingLot.TotalLots, Mode=OneWay}"
-                                                    Visibility="{x:Bind ParkingLot.TotalLots, Mode=OneWay, Converter={StaticResource IntGreaterZeroToVisibilityConverter}}"
-                                                    x:Phase="2" />
-                                                <TextBlock
-                                                    x:Uid="ParkingLotListDetailFree"
-                                                    Style="{ThemeResource ParkingLotListDetailStyle}"
-                                                    Text="frei"
-                                                    />
-                                            </StackPanel>
+                                            
                                             <TextBlock
-                                                Grid.Row="2"
+                                                Grid.Row="1"
                                                 Grid.Column="2"
                                                 Style="{ThemeResource ParkingLotListDistanceStyle}"
                                                 x:Phase="6"
@@ -452,36 +425,59 @@
                                                 />
                                             <StackPanel
                                                 Grid.Row="1"
-                                                Grid.Column="1"
-                                                Grid.ColumnSpan="2"
-                                                Padding="0,0,0,3"
-                                                x:Phase="0"
-                                                Visibility="{x:Bind IsSelected, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                >
-                                                <TextBlock
-                                                    Visibility="{x:Bind ParkingLot.Address, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}"
-                                                    Text="{x:Bind ParkingLot.Address, Mode=OneWay, Converter={StaticResource TrimTextConverter}}"
-                                                    Style="{ThemeResource ParkingLotListAdditionalDetailsStyle}"
-                                                    x:Phase="6"
-                                                    />
-                                                <TextBlock
-                                                    Visibility="{x:Bind ParkingLot.LotType, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}"
-                                                    Text="{x:Bind ParkingLot.LotType, Mode=OneWay, Converter={StaticResource TrimTextConverter}}"
-                                                    Style="{ThemeResource ParkingLotListAdditionalDetailsStyle}"
-                                                    x:Phase="6"
-                                                    />
-                                                <TextBlock
-                                                    Visibility="{x:Bind ParkingLot.State, Mode=OneWay, Converter={StaticResource ParkingLotStateToVisibilityConverter}}"
-                                                    Text="{x:Bind ParkingLot.State, Mode=OneWay, Converter={StaticResource ParkingLotStateStringConverter}}"
-                                                    Style="{ThemeResource ParkingLotListAdditionalDetailsStyle}"
-                                                    x:Phase="6"
-                                                    />
+                                                Grid.Column="1">
+                                                <StackPanel
+                                                    Padding="0,0,0,3"
+                                                    x:Phase="0"
+                                                    Visibility="{x:Bind IsSelected, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                    >
+                                                    <TextBlock
+                                                        Visibility="{x:Bind ParkingLot.Address, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}"
+                                                        Text="{x:Bind ParkingLot.Address, Mode=OneWay, Converter={StaticResource TrimTextConverter}}"
+                                                        Style="{ThemeResource ParkingLotListAdditionalDetailsStyle}"
+                                                        x:Phase="6"
+                                                        />
+                                                    <TextBlock
+                                                        Visibility="{x:Bind ParkingLot.LotType, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}"
+                                                        Text="{x:Bind ParkingLot.LotType, Mode=OneWay, Converter={StaticResource TrimTextConverter}}"
+                                                        Style="{ThemeResource ParkingLotListAdditionalDetailsStyle}"
+                                                        x:Phase="6"
+                                                        />
+                                                    <TextBlock
+                                                        Visibility="{x:Bind ParkingLot.State, Mode=OneWay, Converter={StaticResource ParkingLotStateToVisibilityConverter}}"
+                                                        Text="{x:Bind ParkingLot.State, Mode=OneWay, Converter={StaticResource ParkingLotStateStringConverter}}"
+                                                        Style="{ThemeResource ParkingLotListAdditionalDetailsStyle}"
+                                                        x:Phase="6"
+                                                        />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock
+                                                            Style="{ThemeResource ParkingLotListDetailStyle}"
+                                                            Text="{x:Bind ParkingLot.FreeLots, Mode=OneWay}"
+                                                            x:Phase="2"
+                                                            FontWeight="SemiBold" />
+                                                    <TextBlock
+                                                            Style="{ThemeResource ParkingLotListDetailStyle}"
+                                                            Padding="3,0,3,0"
+                                                            Text="/"
+                                                            Visibility="{x:Bind ParkingLot.TotalLots, Mode=OneWay, Converter={StaticResource IntGreaterZeroToVisibilityConverter}}"
+                                                            />
+                                                    <TextBlock
+                                                            Style="{ThemeResource ParkingLotListDetailStyle}"
+                                                            Text="{x:Bind ParkingLot.TotalLots, Mode=OneWay}"
+                                                            Visibility="{x:Bind ParkingLot.TotalLots, Mode=OneWay, Converter={StaticResource IntGreaterZeroToVisibilityConverter}}"
+                                                            x:Phase="2" />
+                                                    <TextBlock
+                                                            x:Uid="ParkingLotListDetailFree"
+                                                            Style="{ThemeResource ParkingLotListDetailStyle}"
+                                                            Text="frei"
+                                                            />
+                                                </StackPanel>
                                             </StackPanel>
                                         </Grid>
                                         <StackPanel
                                             x:Phase="0"
                                             Visibility="{x:Bind IsSelected, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
-
                                             <controls:ParkingLotForecastChart
                                                 x:Name="ForecastChart"
                                                 Visibility="{x:Bind ParkingLot.HasForecast, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -490,14 +486,14 @@
                                                 DataContext="{x:Bind ParkingLot, Mode=OneWay}"
                                                 IsSelected="{x:Bind IsSelected, Mode=OneWay}"
                                                 />
-
-                                            <Button Content="Wegbeschreibung"
-                                                    Tag="&#xE816;"
-                                                    x:Uid="ParkingLotListNavigationBtn"
-                                                    Style="{ThemeResource ParkingLotListNavigationButton}"
-                                                    Command="{Binding Main.NavigateToParkingLotCommand, Source={StaticResource Locator}}"
-                                                    x:Phase="6"
-                                                    CommandParameter="{x:Bind ParkingLot, Mode=OneWay}"/>
+                                            <Button
+                                                Content="Wegbeschreibung"
+                                                Tag="&#xE816;"
+                                                x:Uid="ParkingLotListNavigationBtn"
+                                                Style="{ThemeResource ParkingLotListNavigationButton}"
+                                                Command="{Binding Main.NavigateToParkingLotCommand, Source={StaticResource Locator}}"
+                                                x:Phase="6"
+                                                CommandParameter="{x:Bind ParkingLot, Mode=OneWay}"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </DataTemplate>
