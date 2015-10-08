@@ -52,7 +52,7 @@
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
         <Setter Property="TabNavigation" Value="Local"/>
         <Setter Property="IsHoldingEnabled" Value="True"/>
-        <Setter Property="Padding" Value="12,0,12,0"/>
+        <Setter Property="Padding" Value="14,0,14,0"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
@@ -246,7 +246,7 @@
         <Setter Property="TextAlignment" Value="Right" />
         <Setter Property="FontSize" Value="9" />
         <Setter Property="Foreground" Value="#999999" />
-        <Setter Property="Padding" Value="12,4,12,0" />
+        <Setter Property="Padding" Value="14,4,14,0" />
     </Style>
 
     <Style x:Key="ParkingLotLoadLabelStyle" TargetType="TextBlock">
