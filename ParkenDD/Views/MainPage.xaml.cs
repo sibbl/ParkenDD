@@ -88,11 +88,9 @@ namespace ParkenDD.Views
                 {
                     DispatcherHelper.CheckBeginInvokeOnUI(async () =>
                     {
-                        var zoomLevel = Map.ZoomLevel;
                         Debug.WriteLine("Mainpage map: zoom map to coordinates msg");
                         await
-                            Map.TrySetViewAsync(msg.Point, zoomLevel < 12 ? 12 : (double?) null, null, null,
-                                MapAnimationKind.Bow);
+                            Map.TrySetViewAsync(msg.Point, null, null, null, MapAnimationKind.Bow);
                         _zoomedToInitialView = _mapLoaded;
                     });
                 }
