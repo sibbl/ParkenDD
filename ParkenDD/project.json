@@ -9,6 +9,7 @@
     "MvvmLightLibs": "5.2.0",
     "Newtonsoft.Json": "7.0.1",
     "NotificationsExtensions.Win10": "10240.0.7",
+    "PlatformSpecific.Analyzer": "1.0.5",
     "WindowsStateTriggers": "1.0.2",
     "WinRTXamlToolkit.Controls.DataVisualization.UWP": "1.9.1"
   },

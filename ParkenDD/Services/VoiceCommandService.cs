@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.VoiceCommands;
+using Windows.Globalization;
 using Microsoft.Practices.ServiceLocation;
 using ParkenDD.Api.Models;
 using ParkenDD.Background.Models;
@@ -13,6 +16,7 @@ namespace ParkenDD.Services
     public class VoiceCommandService
     {
         private const string VoiceCommandPath = "VoiceCommands.xml";
+        private const string VoiceCommandSetNameFormat = "ParkenDdCommands_{0}";
 
         private readonly TrackingService _tracking;
         private readonly StorageService _storage;
@@ -51,6 +55,31 @@ namespace ParkenDD.Services
             }
         }
 
+        private VoiceCommandDefinition GetCurrentCommandSet()
+        {
+            VoiceCommandDefinition commandSet;
+            var languages = ApplicationLanguages.Languages;
+            var lang = languages.FirstOrDefault();
+            if (string.IsNullOrEmpty(lang))
+            {
+                lang = "en"; //fallback to english as default
+            }
+            if (VoiceCommandDefinitionManager.InstalledCommandDefinitions.TryGetValue(string.Format(VoiceCommandSetNameFormat, lang), out commandSet))
+            {
+                return commandSet;
+            }
+            var langParts = lang.Split('-');
+            if (langParts.Length > 1)
+            {
+                if (VoiceCommandDefinitionManager.InstalledCommandDefinitions.TryGetValue(
+                        string.Format(VoiceCommandSetNameFormat, langParts[0]), out commandSet))
+                {
+                    return commandSet;
+                }
+            }
+            return null;
+        }
+
         public async void UpdateCityList(MetaData metaData)
         {
             await UpdateCityListAsync(metaData);
@@ -66,11 +95,8 @@ namespace ParkenDD.Services
             {
                 try
                 {
-                    Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinition commandSet;
-
-                    if (
-                        Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstalledCommandDefinitions
-                            .TryGetValue("ParkenDdCommands_de", out commandSet))
+                    var commandSet = GetCurrentCommandSet();
+                    if (commandSet != null)
                     {
                         _phrases.UpdateCities(metaData);
                         await commandSet.SetPhraseListAsync("city", _phrases.GetCityPhraseList());
@@ -103,10 +129,8 @@ namespace ParkenDD.Services
             {
                 try
                 {
-                    Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinition commandSet;
-
-                    if (Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstalledCommandDefinitions
-                            .TryGetValue("ParkenDdCommands_de", out commandSet))
+                    var commandSet = GetCurrentCommandSet();
+                    if (commandSet != null)
                     {
                         _phrases.UpdateParkingLots(city, data.Lots);
                         await commandSet.SetPhraseListAsync("parking_lot", _phrases.GetParkingLotPhraseList());
@@ -132,7 +156,7 @@ namespace ParkenDD.Services
 
             _tracking.TrackVoiceCommandEvent(voiceCommandName);
             
-            if (voiceCommandName == "selectCity")
+            if (voiceCommandName == "SelectCity")
             {
                 var cityName = speechRecognitionResult.SemanticInterpretation.Properties["city"][0];
                 var cityId = _phrases.FindCityIdByName(cityName);
@@ -141,7 +165,7 @@ namespace ParkenDD.Services
                     await ServiceLocator.Current.GetInstance<MainViewModel>().TrySelectCityById(cityId);
                 }
             }
-            else if(voiceCommandName == "selectParkingLot")
+            else if(voiceCommandName == "SelectParkingLot")
             {
                 var cityName = speechRecognitionResult.SemanticInterpretation.Properties["city"][0];
                 var cityId = _phrases.FindCityIdByName(cityName);

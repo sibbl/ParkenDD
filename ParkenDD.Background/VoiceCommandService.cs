@@ -43,7 +43,7 @@ namespace ParkenDD.Background
 
             switch (voiceCommand.CommandName)
             {
-                case "getParkingLotData":
+                case "GetParkingLotData":
                     var waitMsg = new VoiceCommandUserMessage
                     {
                         DisplayMessage = res.GetString("VoiceCommandParkingStateWaitDisplayMsg"),

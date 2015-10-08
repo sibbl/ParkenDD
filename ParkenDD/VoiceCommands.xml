@@ -1,41 +1,75 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.2">
-  <CommandSet xml:lang="de" Name="ParkenDdCommands_de">
-    <AppName> ParkenDD </AppName>
-    <Example> Wo kann ich in Dresden parken? </Example>
-
-    <Command Name="getParkingLotData">
-      <Example> wie viele Plätze sind in Dresden in der Centrum Galerie frei?  </Example>
-      <ListenFor RequireAppName="BeforePhrase"> wie viele Plätze sind in {city} [in] [im] [am] [an] [dem] [der] {parking_lot} [frei] [voll] [verfügbar] [belegt] [übrig]? </ListenFor>
-      <ListenFor RequireAppName="BeforePhrase"> wie viel [Platz] ist in {city} [in] [im] [am] [an] [dem] [der] {parking_lot} [frei] [belegt] [übrig] [verfügbar]? </ListenFor>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase"> [zeig] [zeige] Infos [für] [von] [vom] [der] [dem] {parking_lot} in {city} </ListenFor>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase"> [zeig] [zeige] Informationen [für] [von] [vom] [der] [dem] {parking_lot} in {city} </ListenFor>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase"> [zeig] [zeige] Details [für] [von] [vom] [der] [dem] {parking_lot} in {city} </ListenFor>
-      <VoiceCommandService Target="VoiceCommandServiceEndpoint" />
+  <CommandSet xml:lang="en" Name="ParkenDdCommands_en">
+    <AppName>ParkenDD</AppName>
+    <Example>Where can I park in Dresden?</Example>
+    <Command Name="GetParkingLotData">
+      <Example>How many parking spaces are currently available in Dresden in the Centrum Galerie?</Example>
+      <ListenFor RequireAppName="BeforePhrase">how many parking [spots] [places] [lots] are [available] [free] in {city} [at] [by] [in] [the] {parking_lot}?</ListenFor>
+      <ListenFor RequireAppName="BeforePhrase">how much space is [available] [free] in {city} [at] [by] [in] [the] {parking_lot}?</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[show] [open] details for [the] {parking_lot} in {city}</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[show] [open] the situation for [the] {parking_lot} in {city}</ListenFor>
+      <VoiceCommandService Target="VoiceCommandServiceEndpoint"/>
     </Command>
-
-    <Command Name="selectCity">
-      <Example> wo kann ich in Dresden parken? </Example>
-      <ListenFor RequireAppName="BeforePhrase"> wo kann [ich] [man] in {city} parken? </ListenFor>
-      <ListenFor RequireAppName="BeforePhrase"> wo sind in {city} Parkplätze? </ListenFor>
-      <ListenFor RequireAppName="BeforePhrase"> wo ist in {city} ein Parkplatz? </ListenFor>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase"> [zeige] [zeig] die Parkplätze [in] [von] {city} </ListenFor>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase"> [zeige] [zeig] den Parkplatz [in] [von] {city} </ListenFor>
-      <Feedback> die Parkplätze in {city} werden geladen... </Feedback>
+    <Command Name="SelectCity">
+      <Example>where can I park in Dresden?</Example>
+      <ListenFor RequireAppName="BeforePhrase">where in {city} can [I] [one] park?</ListenFor>
+      <ListenFor RequireAppName="BeforePhrase">where can [I] [one] park in {city}?</ListenFor>
+      <ListenFor RequireAppName="BeforePhrase">where is a parking lot in {city}?</ListenFor>
+      <ListenFor RequireAppName="BeforePhrase">where are parking lots in {city}?</ListenFor>
+      <ListenFor RequireAppName="BeforePhrase">where in {city} is a parking lot in?</ListenFor>
+      <ListenFor RequireAppName="BeforePhrase">where in {city} are parking lots in?</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">show the parking lots [in] [of] {city}</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">show the parking spaces [in] [of] {city}</ListenFor>
+      <Feedback>the parking lots in {city} are loading...</Feedback>
       <Navigate/>
     </Command>
-    
-    <Command Name="selectParkingLot">
-      <Example> zeige den Parkplatz Centrum Galerie in Dresden  </Example>
-      <ListenFor RequireAppName="BeforePhrase"> [zeige] [öffne] [mir] [den Parkplatz] [am] [im] [in] [beim] [bei] [neben] [dem] [der] {parking_lot} in {city} </ListenFor>
-      <Feedback> {parking_lot} in {city} wird geladen... </Feedback>
+    <Command Name="SelectParkingLot">
+      <Example>show the parking lot Centrum Galerie in Dresden</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[show] [open] [me] the parking space [at] [near] [by] {parking_lot} in {city}</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[show] [me] the parking lot [at] [near] [by] {parking_lot} in {city}</ListenFor>
+      <Feedback>{parking_lot} in {city} is loading...</Feedback>
       <Navigate/>
     </Command>
-
     <PhraseList Label="city">
       <Item>Dresden</Item>
     </PhraseList>
-    
+    <PhraseList Label="parking_lot">
+      <Item>Altmark</Item>
+      <Item>Centrum Galerie</Item>
+    </PhraseList>
+  </CommandSet>
+  <CommandSet xml:lang="de" Name="ParkenDdCommands_de">
+    <AppName>ParkenDD</AppName>
+    <Example>Wo kann ich in Dresden parken?</Example>
+    <Command Name="GetParkingLotData">
+      <Example>Wie viele Plätze sind in Dresden in der Centrum Galerie frei?</Example>
+      <ListenFor RequireAppName="BeforePhrase">wie viele Plätze sind in {city} [in] [im] [am] [an] [dem] [der] {parking_lot} [frei] [voll] [verfügbar] [belegt] [übrig]?</ListenFor>
+      <ListenFor RequireAppName="BeforePhrase">wie viel [Platz] ist in {city} [in] [im] [am] [an] [dem] [der] {parking_lot} [frei] [belegt] [übrig] [verfügbar]?</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[zeig] [zeige] Infos [für] [von] [vom] [der] [dem] {parking_lot} in {city}</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[zeig] [zeige] Informationen [für] [von] [vom] [der] [dem] {parking_lot} in {city}</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[zeig] [zeige] Details [für] [von] [vom] [der] [dem] {parking_lot} in {city}</ListenFor>
+      <VoiceCommandService Target="VoiceCommandServiceEndpoint"/>
+    </Command>
+    <Command Name="SelectCity">
+      <Example>wo kann ich in Dresden parken?</Example>
+      <ListenFor RequireAppName="BeforePhrase">wo kann [ich] [man] in {city} parken?</ListenFor>
+      <ListenFor RequireAppName="BeforePhrase">wo sind in {city} Parkplätze?</ListenFor>
+      <ListenFor RequireAppName="BeforePhrase">wo ist in {city} ein Parkplatz?</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[zeige] [zeig] die Parkplätze [in] [von] {city}</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[zeige] [zeig] den Parkplatz [in] [von] {city}</ListenFor>
+      <Feedback>die Parkplätze in  {city} werden geladen...</Feedback>
+      <Navigate/>
+    </Command>
+    <Command Name="SelectParkingLot">
+      <Example>zeige den Parkplatz Centrum Galerie in Dresden</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[zeige] [öffne] [mir] [den Parkplatz] [am] [im] [in] [beim] [bei] [neben] [dem] [der] {parking_lot} in {city}</ListenFor>
+      <Feedback>{parking_lot} in {city} wird geladen...</Feedback>
+      <Navigate/>
+    </Command>
+    <PhraseList Label="city">
+      <Item>Dresden</Item>
+    </PhraseList>
     <PhraseList Label="parking_lot">
       <Item>Altmarkt</Item>
       <Item>Centrum Galerie</Item>
