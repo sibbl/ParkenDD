@@ -106,10 +106,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="loadingCity">
                     <VisualState.StateTriggers>
-                        <windowsStateTriggers:CompositeStateTrigger Operator="And">
-                            <windowsStateTriggers:EqualsStateTrigger Value="{Binding LoadingCity}" EqualTo="True" />
-                            <windowsStateTriggers:EqualsStateTrigger Value="{Binding Path=Visibility, ElementName=SelectCityProgressBar2}" EqualTo="Collapsed" />
-                        </windowsStateTriggers:CompositeStateTrigger>
+                        <windowsStateTriggers:EqualsStateTrigger Value="{Binding LoadingCity}" EqualTo="True" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ParkingLotListProgressBar.Visibility" Value="Visible" />
@@ -126,29 +123,15 @@
             </VisualStateGroup>
 
             <VisualStateGroup>
-                <VisualState x:Name="loadingCitiesWithSplitView">
+                <VisualState x:Name="loadingMetaData">
                     <VisualState.StateTriggers>
-                        <windowsStateTriggers:CompositeStateTrigger Operator="And">
-                            <windowsStateTriggers:EqualsStateTrigger Value="{Binding LoadingMetaData}" EqualTo="True" />
-                            <windowsStateTriggers:EqualsStateTrigger Value="{Binding Path=IsPaneOpen, ElementName=SplitView}" EqualTo="True" />
-                        </windowsStateTriggers:CompositeStateTrigger>
+                        <windowsStateTriggers:EqualsStateTrigger Value="{Binding LoadingMetaData}" EqualTo="True" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="SelectCityProgressBar.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="loadingCitiesWithoutSplitView">
-                    <VisualState.StateTriggers>
-                        <windowsStateTriggers:CompositeStateTrigger Operator="And">
-                            <windowsStateTriggers:EqualsStateTrigger Value="{Binding LoadingMetaData}" EqualTo="True" />
-                            <windowsStateTriggers:EqualsStateTrigger Value="{Binding Path=IsPaneOpen, ElementName=SplitView}" EqualTo="False" />
-                        </windowsStateTriggers:CompositeStateTrigger>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="SelectCityProgressBar2.Visibility" Value="Visible" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="notLoadingCities">
+                <VisualState x:Name="notLoadingMetaData">
                     <VisualState.StateTriggers>
                         <windowsStateTriggers:EqualsStateTrigger Value="{Binding LoadingMetaData}" EqualTo="False" />
                     </VisualState.StateTriggers>
@@ -367,12 +350,6 @@
                         RelativePanel.AlignLeftWithPanel="True"
                         RelativePanel.AlignBottomWithPanel="True"
                         Style="{ThemeResource ParkingLotListPanelStyle}">
-                        <ProgressBar
-                            x:Name="SelectCityProgressBar2"
-                            Style="{ThemeResource ParkingLotListProgressBarStyle}"
-                            RelativePanel.AlignLeftWithPanel="True"
-                            RelativePanel.AlignRightWithPanel="True"
-                            />
                         <ProgressBar
                             x:Name="ParkingLotListProgressBar"
                             Style="{ThemeResource ParkingLotListProgressBarStyle}"

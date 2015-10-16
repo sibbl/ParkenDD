@@ -432,7 +432,7 @@
         <Setter Property="IsIndeterminate" Value="True" />
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{StaticResource LightBlueColor}" />
+        <Setter Property="Foreground" Value="{StaticResource BlueColor}" />
     </Style>
 
     <Style x:Key="OfflineHintBorderStyle" TargetType="Border">

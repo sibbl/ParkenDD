@@ -263,10 +263,12 @@ namespace ParkenDD.Views
 
         private async Task WaitForInitialMapZoom()
         {
-            while (!_zoomedToInitialView)
+            var counter = 0;
+            while (!_zoomedToInitialView && counter < 10) //stop waiting when done or after 10 * 200ms = 2sec
             {
                 Debug.WriteLine("Mainpage map: wait...");
                 await Task.Delay(200);
+                counter++;
             }
         }
     }

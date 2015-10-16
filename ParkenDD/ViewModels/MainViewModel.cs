@@ -64,7 +64,11 @@ namespace ParkenDD.ViewModels
         public bool LoadingMetaData
         {
             get { return _loadingMetaData; }
-            set { Set(() => LoadingMetaData, ref _loadingMetaData, value); }
+            set
+            {
+                Set(() => LoadingMetaData, ref _loadingMetaData, value);
+                RaisePropertyChanged(() => LoadingCity);
+            }
         }
         #endregion
 
@@ -128,7 +132,7 @@ namespace ParkenDD.ViewModels
         private bool _loadingCity;
         public bool LoadingCity
         {
-            get { return _loadingCity; }
+            get { return _loadingCity || _loadingMetaData; } //visible when either this or meta data is loading
             set { Set(() => LoadingCity, ref _loadingCity, value); }
         }
         #endregion
@@ -937,7 +941,7 @@ namespace ParkenDD.ViewModels
             SetLoadingMetaData();
             var newMetaData = await GetMetaData();
             SetLoadingMetaData(false);
-            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            await DispatcherHelper.RunAsync(() =>
             {
                 MetaData = newMetaData;
                 SelectedCity = FindCityByName(MetaData, "Dresden"); //default to dresden. maybe we should use location already?
@@ -947,7 +951,7 @@ namespace ParkenDD.ViewModels
         public void Initialize(bool loadState)
         {
             Debug.WriteLine("[MainVm] Initialize");
-            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            DispatcherHelper.RunAsync(() =>
             {
                 ParkingLotFilterMode = _settings.ParkingLotFilterMode;
                 ParkingLotFilterIsGrouped = _settings.ParkingLotFilterIsGrouped;
@@ -987,7 +991,7 @@ namespace ParkenDD.ViewModels
             }, TaskCreationOptions.PreferFairness);
         }
 
-        private void SetLoadingCity(bool value = true)
+        private async void SetLoadingCity(bool value = true)
         {
             if (value)
             {
@@ -1000,12 +1004,12 @@ namespace ParkenDD.ViewModels
             {
                 _loadCityCount = 0;
             }
-            DispatcherHelper.CheckBeginInvokeOnUI(() => {
+            await DispatcherHelper.RunAsync(() => {
                 LoadingCity = _loadCityCount != 0;
             });
         }
 
-        private void SetLoadingMetaData(bool value = true)
+        private async void SetLoadingMetaData(bool value = true)
         {
             if (value)
             {
@@ -1019,7 +1023,7 @@ namespace ParkenDD.ViewModels
             {
                 _loadMetaCount = 0;
             }
-            DispatcherHelper.CheckBeginInvokeOnUI(() => {
+            await DispatcherHelper.RunAsync(() => {
                 LoadingMetaData = _loadMetaCount != 0;
             });
         }
