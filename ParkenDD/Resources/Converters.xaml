@@ -5,7 +5,6 @@
     xmlns:cimbalinoConverters="using:Cimbalino.Toolkit.Converters">
 
     <converters:TrimTextConverter x:Key="TrimTextConverter" />
-    <converters:DistanceToParkingLotConverter x:Key="DistanceToParkingLotConverter" />
     <converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter" />
     <converters:TimeSpanToDateTimeAxisLabelFormatConverter x:Key="TimeSpanToDateTimeAxisLabelFormatConverter" />
     <converters:ParkingLotStateToVisibilityConverter x:Key="ParkingLotStateToVisibilityConverter" />

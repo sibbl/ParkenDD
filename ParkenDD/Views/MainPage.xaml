@@ -415,13 +415,10 @@
                                                 Text="VORHERSAGE"
                                                 x:Phase="0"
                                                 Visibility="{x:Bind ParkingLot.HasForecast, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                            
-                                            <TextBlock
+                                            <controls:DistanceTextBlock
                                                 Grid.Row="1"
                                                 Grid.Column="2"
-                                                Style="{ThemeResource ParkingLotListDistanceStyle}"
-                                                x:Phase="6"
-                                                Text="{x:Bind ParkingLot, Mode=OneWay, Converter={StaticResource DistanceToParkingLotConverter}}"
+                                                DataContext="{x:Bind ParkingLot.Coordinates, Mode=OneWay}"
                                                 />
                                             <StackPanel
                                                 Grid.Row="1"
