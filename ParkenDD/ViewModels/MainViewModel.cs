@@ -31,6 +31,7 @@ namespace ParkenDD.ViewModels
         #region PRIVATE PROPERTIES
         private readonly IParkenDdClient _client;
         private readonly VoiceCommandService _voiceCommands;
+        private readonly JumpListService _jumpList;
         private readonly ParkingLotListFilterService _filterService;
         private readonly SettingsService _settings;
         private readonly StorageService _storage;
@@ -287,6 +288,7 @@ namespace ParkenDD.ViewModels
 
         public MainViewModel(IParkenDdClient client,
             VoiceCommandService voiceCommandService,
+            JumpListService jumpList,
             ParkingLotListFilterService filterService,
             SettingsService settings,
             StorageService storage,
@@ -296,6 +298,7 @@ namespace ParkenDD.ViewModels
         {
             _client = client;
             _voiceCommands = voiceCommandService;
+            _jumpList = jumpList;
             _filterService = filterService;
             _settings = settings;
             _storage = storage;
@@ -385,6 +388,7 @@ namespace ParkenDD.ViewModels
                 _metaDataIsOnlineData = true;
                 _storage.SaveMetaData(metaData);
                 _voiceCommands.UpdateCityList(metaData);
+                _jumpList.UpdateCityList(metaData);
                 return metaData;
             });
             return await _metaLoadingTask;
@@ -835,7 +839,7 @@ namespace ParkenDD.ViewModels
         private RelayCommand _refreshCityDetailsCommand;
         public RelayCommand RefreshCityDetailsCommand => _refreshCityDetailsCommand ?? (_refreshCityDetailsCommand = new RelayCommand(RefreshCityDetails));
 
-        private async void RefreshCityDetails()
+        public async void RefreshCityDetails()
         {
             TryGetUserPosition();
             if (SelectedCity != null)

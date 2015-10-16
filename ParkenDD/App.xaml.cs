@@ -28,6 +28,10 @@ namespace ParkenDD
         {
             InitializeComponent();
             UnhandledException += OnUnhandledException;
+            Resuming += (sender, o) =>
+            {
+                ServiceLocator.Current.GetInstance<MainViewModel>().RefreshCityDetails();
+            };
         }
 
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)

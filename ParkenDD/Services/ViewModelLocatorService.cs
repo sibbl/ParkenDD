@@ -25,6 +25,7 @@ namespace ParkenDD.Services
             SimpleIoc.Default.Register<TrackingService>();
             SimpleIoc.Default.Register<ResourceService>();
             SimpleIoc.Default.Register<ExceptionService>();
+            SimpleIoc.Default.Register<JumpListService>();
 
             if (ViewModelBase.IsInDesignModeStatic)
             {
