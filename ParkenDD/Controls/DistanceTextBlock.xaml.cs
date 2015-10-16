@@ -42,7 +42,7 @@ namespace ParkenDD.Controls
             else
             {
                 var dist = pos.Coordinate.Point.GetDistanceTo(coord.Point);
-                DistanceText.Text = dist > 1 ? string.Format("{0:0.#} km", dist) : string.Format("{0} m", dist*1000);
+                DistanceText.Text = dist > 1 ? string.Format("{0:0.#} km", dist) : string.Format("{0:0} m", dist*1000);
             }
         }
     }
