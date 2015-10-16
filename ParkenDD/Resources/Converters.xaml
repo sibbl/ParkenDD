@@ -17,5 +17,4 @@
     <cimbalinoConverters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
     <cimbalinoConverters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 
-
 </ResourceDictionary>
