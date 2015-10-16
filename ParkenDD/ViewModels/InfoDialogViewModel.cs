@@ -28,6 +28,13 @@ namespace ParkenDD.ViewModels
             },
             new LicenseInformationItem
             {
+                Name = "Google Analytics SDK for Windows and Windows Phone",
+                Copyright = "Tim Greenfield",
+                License = "Microsoft Public License",
+                Link = new Uri("https://googleanalyticssdk.codeplex.com/license")
+            },
+            new LicenseInformationItem
+            {
                 Name = "Json.NET",
                 Copyright = "2007 James Newton-King",
                 License = "MIT",
