@@ -323,6 +323,13 @@ namespace ParkenDD.ViewModels
 
         private void UpdateInternetAvailability()
         {
+#if DEBUG
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            {
+                InternetAvailable = true;
+            });
+            return;
+#endif
             var profile = NetworkInformation.GetInternetConnectionProfile();
 
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
