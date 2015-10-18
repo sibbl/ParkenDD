@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:ParkenDD.Controls"
     xmlns:charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
-    xmlns:dataVisualization="using:WinRTXamlToolkit.Controls.DataVisualization">
+    xmlns:dataVisualization="using:WinRTXamlToolkit.Controls.DataVisualization"
+    xmlns:maps="using:Windows.UI.Xaml.Controls.Maps">
     
     <!-- #region Base -->
 
@@ -203,6 +204,8 @@
     <Style x:Key="ParkingLotListPanelStyle" TargetType="RelativePanel">
         <Setter Property="Background" Value="#FFF" />
         <Setter Property="Width" Value="300" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="#dddddd" />
     </Style>
 
     <Style x:Key="ParkingLotListDonutStyle" TargetType="controls:ParkingLotLoadDonut">

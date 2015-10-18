@@ -83,7 +83,8 @@
                         <Setter Target="ParkingLotListPanel.(RelativePanel.Below)" Value="ParkingLotMap" />
                         <Setter Target="ParkingLotMap.(RelativePanel.RightOf)" Value="" />
                         <Setter Target="MapTopBar.Visibility" Value="Collapsed" />
-                        <Setter Target="ParkingLotMap.(RelativePanel.BorderThickness)" Value="0,0,0,1"/>
+                        <Setter Target="ParkingLotListPanel.BorderThickness" Value="0,1,0,0"/>
+                        <Setter Target="ParkingLotMap.BorderThickness" Value="0" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="desktop">
@@ -527,12 +528,13 @@
                             RelativePanel.AlignRightWithPanel="True"
                             />
                         <maps:MapControl
-                            x:Name="Map"
-                            Center="{Binding MapCenter, Mode=TwoWay}"
                             RelativePanel.AlignLeftWithPanel="True"
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignBottomWithPanel="True"
                             RelativePanel.AlignTopWithPanel="True"
+                            Margin="0,0,-1,0"
+                            x:Name="Map"
+                            Center="{Binding MapCenter, Mode=TwoWay}"
                             MapServiceToken="ODfhhm4fu4fI3bK7netn~Fld-dSJIU1C5srIK9bLJWA~AhmDa72RljmI6HW5OV0kEFt0sN_eRk-JF_Eu03jpeiigdHuK6fQ70zEBy5QaOoYq"
                             />
                     </RelativePanel>
