@@ -392,5 +392,11 @@ Der Fehler war:
     <value>Leider ist der Server nicht erreichbar und die Vorhersagen für {0} in {1} konnten nicht geladen werden.</value>
     <comment>{0} = parking lot name, {1} = city name</comment>
   </data>
+  <data name="VoiceCommandParkingStateWaitDisplayMsg" xml:space="preserve">
+    <value>Einen Moment, ich fahre kurz vorbei...</value>
+  </data>
+  <data name="VoiceCommandParkingStateWaitSpokenMsg" xml:space="preserve">
+    <value>Moment, ich fahre kurz vorbei...</value>
+  </data>
 
 </root>

@@ -392,5 +392,11 @@ The error was:
     <value>Unfortunately the server is not reachable and forecast data for {0} in {1} cannot be loaded.</value>
     <comment>{0} = parking lot name, {1} = city name</comment>
   </data>
+  <data name="VoiceCommandParkingStateWaitDisplayMsg" xml:space="preserve">
+    <value>One second, I drive there quickly...</value>
+  </data>
+  <data name="VoiceCommandParkingStateWaitSpokenMsg" xml:space="preserve">
+    <value>One second, I drive there quickly...</value>
+  </data>
 
 </root>
