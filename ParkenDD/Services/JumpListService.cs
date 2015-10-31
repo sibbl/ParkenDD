@@ -15,7 +15,6 @@ namespace ParkenDD.Services
         }
         public async Task UpdateCityListAsync(MetaData metaData)
         {
-            /*
             if (JumpList.IsSupported())
             {
                 var jl = await JumpList.LoadCurrentAsync();
@@ -29,13 +28,12 @@ namespace ParkenDD.Services
                 foreach (var city in metaData.Cities)
                 {
                     var item = JumpListItem.CreateWithArguments(string.Format(ArgumentFormat, city.Id), city.Name);
-                    //item.GroupName = "Städte";  //localize...
-                    //item.Logo = new Uri("ms-appx:///Assets/Square71x71Logo.png");
+                    item.GroupName = "Städte";  //localize...
+                    item.Logo = new Uri("ms-appx:///Assets/ParkingIcon.png");
                     jl.Items.Add(item);
                 }
                 await jl.SaveAsync();
             }
-            */
         }
     }
 }
