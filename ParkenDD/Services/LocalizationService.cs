@@ -28,8 +28,6 @@ namespace ParkenDD.Services
             var primaryLanguage = Windows.Globalization.ApplicationLanguages.Languages[0];
             if (primaryLanguage.StartsWith("de"))
                 return SupportedLocale.German;
-            if (primaryLanguage.ToLower().Equals("en-gb"))
-                return SupportedLocale.English;
             return SupportedLocale.English;
         }
 
