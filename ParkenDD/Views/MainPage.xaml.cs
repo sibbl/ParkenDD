@@ -17,6 +17,7 @@ using GalaSoft.MvvmLight.Threading;
 using ParkenDD.Messages;
 using ParkenDD.ViewModels;
 using Microsoft.Practices.ServiceLocation;
+using ParkenDD.Api.Models;
 using ParkenDD.Models;
 using ParkenDD.Services;
 using ParkenDD.Utils;
@@ -155,7 +156,8 @@ namespace ParkenDD.Views
                 {
                     foreach (var selectableParkingLot in Vm.ParkingLots)
                     {
-                        selectableParkingLot.ParkingLot.PropertyChanged += (sender1, changedEventArgs) => { DrawingService.RedrawParkingLot(BackgroundDrawingContainer, selectableParkingLot); };
+                        var lot = selectableParkingLot;
+                        lot.ParkingLot.PropertyChanged += (sender1, changedEventArgs) => RedrawOnPropertyChanged(lot, changedEventArgs);
                     }
                     Vm.ParkingLots.CollectionChanged += (o, eventArgs) =>
                     {
@@ -164,7 +166,8 @@ namespace ParkenDD.Views
                         {
                             foreach (var selectableParkingLot in eventArgs.NewItems.OfType<SelectableParkingLot>())
                             {
-                                selectableParkingLot.ParkingLot.PropertyChanged += (sender1, changedEventArgs) => { DrawingService.RedrawParkingLot(BackgroundDrawingContainer, selectableParkingLot); };
+                                var lot = selectableParkingLot;
+                                lot.ParkingLot.PropertyChanged += (sender1, changedEventArgs) => RedrawOnPropertyChanged(lot, changedEventArgs);
                             }
                         }
                     };
@@ -214,6 +217,18 @@ namespace ParkenDD.Views
             else if (args.PropertyName == nameof(Vm.UserLocation))
             {
                 DrawingService.DrawUserPosition(Map, Vm.UserLocation);
+            }
+        }
+
+        private void RedrawOnPropertyChanged(SelectableParkingLot lot, PropertyChangedEventArgs args)
+        {
+            if (lot != null)
+            {
+                if (args.PropertyName == nameof(lot.ParkingLot.FreeLots) ||
+                    args.PropertyName == nameof(lot.ParkingLot.TotalLots))
+                {
+                    DrawingService.RedrawParkingLot(BackgroundDrawingContainer, lot);
+                }
             }
         }
 

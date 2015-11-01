@@ -92,7 +92,7 @@ namespace ParkenDD.Api.Models
         public string Name
         {
             get { return _name; }
-            set { Set(ref _name, value); }
+            set { Set(() => Name, ref _name, value); }
         }
         private string _name;
 
