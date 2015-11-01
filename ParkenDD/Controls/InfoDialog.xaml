@@ -146,15 +146,16 @@
                                     OffContent="Nein"
                                     IsOn="{Binding ShowExperimentalCities, Mode=TwoWay}"
                                     />
-                                <!-- TODO: add style -->
                                 <TextBlock
                                     Style="{StaticResource SettingHintTextBlockStyle}"
+                                    x:Uid="SettingsExperimentalCitiesHint"
                                     >
                                     Hinweis: Daten von experimentellen Städten können stark fehlerbehaftet oder unvollständig sein.
                                 </TextBlock>
                             </StackPanel>
                             <StackPanel Style="{StaticResource SettingContainerStyle}">
                                 <ComboBox
+                                    x:Uid="SettingsLanguageComboBox"
                                     Header="Sprache"
                                     Style="{StaticResource SettingComboBoxStyle}"
                                     ItemsSource="{Binding LocaleValues, Mode=OneTime}"
@@ -169,6 +170,7 @@
                             </StackPanel>
                             <StackPanel Style="{StaticResource SettingContainerStyle}">
                                 <ComboBox
+                                    x:Uid="SettingsDistanceUnitComboBox"
                                     Header="Einheit für Entfernung"
                                     Style="{StaticResource SettingComboBoxStyle}"
                                     ItemsSource="{Binding DistanceUnitValues, Mode=OneTime}"

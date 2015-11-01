@@ -17,9 +17,11 @@ namespace ParkenDD.Services
     public class LocalizationService
     {
         private readonly SettingsService _settings;
-        public LocalizationService(SettingsService settings)
+        private readonly ResourceService _resources;
+        public LocalizationService(SettingsService settings, ResourceService resources)
         {
             _settings = settings;
+            _resources = resources;
             UpdateCulture();
         }
         public static SupportedLocale GetDeviceLocalization()
@@ -69,11 +71,10 @@ namespace ParkenDD.Services
         {
             switch (distanceUnit)
             {
-                //TODO: use resource manager
                 case DistanceUnitEnum.Kilometers:
-                    return "Kilometer";
+                    return _resources.DistanceUnitKilometers;
                 case DistanceUnitEnum.Miles:
-                    return "Meilen";
+                    return _resources.DistanceUnitMiles;
             }
             return string.Empty;
         }
