@@ -1040,6 +1040,7 @@ namespace ParkenDD.ViewModels
             {
                 MetaData = newMetaData;
                 SelectedCity = FindCityByName(MetaData, "Dresden"); //default to dresden. maybe we should use location already?
+                LoadCityAndSelectCity();
             });
         }
 
@@ -1067,22 +1068,23 @@ namespace ParkenDD.ViewModels
                         Debug.WriteLine("[MainVm] Initialize - load state");
                         lastStateLoaded = await LoadLastState(selectedCityId);
                     }
+                    if (lastStateLoaded)
+                    {
+                        _initialized = true;
+                    }
+                }
+                else
+                {
+                    _initialized = true;
                 }
                 if (!lastStateLoaded)
                 {
                     Debug.WriteLine("[MainVm] Initialize - init meta data");
                     await InitMetaData();
+                    _initialized = true;
                 }
-                _initialized = true;
-                await DispatcherHelper.RunAsync(() => {
-                    UpdateParkingLotListFilter();
-                });
+                await DispatcherHelper.RunAsync(UpdateParkingLotListFilter);
 
-                //if not already present, load new online data and refresh local data
-                while (!_initialized)
-                {
-                    await Task.Delay(500);
-                }
                 await Task.Run(() =>
                 {
                     Task.Factory.StartNew(TryLoadOnlineMetaData);
