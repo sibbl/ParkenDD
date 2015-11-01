@@ -428,5 +428,8 @@ Der Fehler war:
   <data name="SettingsLanguageRestartRequiredMessage" xml:space="preserve">
     <value>Du musst die App neu starten, damit die Änderung der Sprache sichtbar wird.</value>
   </data>
+  <data name="JumpListCitiesHeader" xml:space="preserve">
+    <value>Städte</value>
+  </data>
 
 </root>
