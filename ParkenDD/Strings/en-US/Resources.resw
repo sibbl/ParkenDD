@@ -199,7 +199,7 @@
     <value>mailto:me@sibbl.net?subject=ParkenDD%20Feedback</value>
   </data>
   <data name="InfoTextLabel.Text" xml:space="preserve">
-    <value>more...</value>
+    <value>More...</value>
   </data>
   <data name="ParkingLotFilterAscending.Text" xml:space="preserve">
     <value>Ascending</value>
