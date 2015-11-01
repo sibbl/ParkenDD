@@ -124,8 +124,13 @@ namespace ParkenDD.ViewModels
             _localization = localization;
 
             _distanceUnit = settings.DistanceUnit;
-            _displayedLocale = _locale = settings.CurrentLocale;
+            _displayedLocale = settings.CurrentLocale;
+            _locale = settings.CurrentLocale;
             _showExperimentalCities = settings.ShowExperimentalCities;
+            RaisePropertyChanged(() => Locale);
+            RaisePropertyChanged(() => LocaleDefaultIndex);
+            RaisePropertyChanged(() => LanguageChanged);
+            RaisePropertyChanged(() => ChangeLanguageString);
         }
     }
 }
