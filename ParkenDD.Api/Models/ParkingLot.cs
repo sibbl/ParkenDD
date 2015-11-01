@@ -15,7 +15,7 @@ namespace ParkenDD.Api.Models
         public string Address
         {
             get { return _address; }
-            set { Set(() => Address, ref _address, value); }
+            set { Set(ref _address, value); }
         }
         private string _address;
 
@@ -26,7 +26,7 @@ namespace ParkenDD.Api.Models
         public Coordinate Coordinates
         {
             get { return _coordinates; }
-            set { Set(() => Coordinates, ref _coordinates, value); }
+            set { Set(ref _coordinates, value); }
         }
         private Coordinate _coordinates;
 
@@ -37,7 +37,7 @@ namespace ParkenDD.Api.Models
         public int FreeLots
         {
             get { return _freeLots; }
-            set { Set(() => FreeLots, ref _freeLots, value); }
+            set { Set(ref _freeLots, value); }
         }
         private int _freeLots;
 
@@ -48,7 +48,7 @@ namespace ParkenDD.Api.Models
         public int TotalLots
         {
             get { return _totalLots >= _freeLots ? _totalLots : _freeLots; }
-            set { Set(() => TotalLots, ref _totalLots, value); }
+            set { Set(ref _totalLots, value); }
         }
         private int _totalLots;
 
@@ -59,7 +59,7 @@ namespace ParkenDD.Api.Models
         public string Id
         {
             get { return _id; }
-            set { Set(() => Id, ref _id, value); }
+            set { Set(ref _id, value); }
         }
         private string _id;
 
@@ -70,7 +70,7 @@ namespace ParkenDD.Api.Models
         public string LotType
         {
             get { return _lotType; }
-            set { Set(() => LotType, ref _lotType, value); }
+            set { Set(ref _lotType, value); }
         }
         private string _lotType;
 
@@ -81,7 +81,7 @@ namespace ParkenDD.Api.Models
         public ParkingLotState State
         {
             get { return _state; }
-            set { Set(() => State, ref _state, value); }
+            set { Set(ref _state, value); }
         }
         private ParkingLotState _state;
 
@@ -92,7 +92,7 @@ namespace ParkenDD.Api.Models
         public string Name
         {
             get { return _name; }
-            set { Set(() => Name, ref _name, value); }
+            set { Set(ref _name, value); }
         }
         private string _name;
 
@@ -103,7 +103,7 @@ namespace ParkenDD.Api.Models
         public bool HasForecast
         {
             get { return _hasForecast; }
-            set { Set(() => HasForecast, ref _hasForecast, value); }
+            set { Set(ref _hasForecast, value); }
         }
         private bool _hasForecast;
 
@@ -114,7 +114,7 @@ namespace ParkenDD.Api.Models
         public ForecastBase Forecast
         {
             get { return _forecast; }
-            set { Set(() => Forecast, ref _forecast, value); }
+            set { Set(ref _forecast, value); }
         }
         private ForecastBase _forecast;
 
@@ -125,7 +125,7 @@ namespace ParkenDD.Api.Models
         public bool HasLongForecast
         {
             get { return _hasLongForecast; }
-            set { Set(() => HasLongForecast, ref _hasLongForecast, value); }
+            set { Set(ref _hasLongForecast, value); }
         }
         private bool _hasLongForecast;
 
@@ -136,7 +136,7 @@ namespace ParkenDD.Api.Models
         public string Region
         {
             get { return _region; }
-            set { Set(() => Region, ref _region, value); }
+            set { Set(ref _region, value); }
         }
         private string _region;
     }

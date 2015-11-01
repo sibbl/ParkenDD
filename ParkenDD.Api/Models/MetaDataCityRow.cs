@@ -13,7 +13,7 @@ namespace ParkenDD.Api.Models
         public string Id
         {
             get { return _id; }
-            set { Set(() => Id, ref _id, value); }
+            set { Set(ref _id, value); }
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace ParkenDD.Api.Models
         public string Name
         {
             get { return _name; }
-            set { Set(() => Name, ref _name, value); }
+            set { Set(ref _name, value); }
         }
         private string _name;
 
@@ -34,7 +34,7 @@ namespace ParkenDD.Api.Models
         public Uri Source
         {
             get { return _source; }
-            set { Set(() => Source, ref _source, value); }
+            set { Set(ref _source, value); }
         }
         private Uri _source;
 
@@ -45,7 +45,7 @@ namespace ParkenDD.Api.Models
         public Uri Url
         {
             get { return _url; }
-            set { Set(() => Url, ref _url, value); }
+            set { Set(ref _url, value); }
         }
         private Uri _url;
 
@@ -56,9 +56,22 @@ namespace ParkenDD.Api.Models
         public Coordinate Coordinates
         {
             get { return _coordinates; }
-            set { Set(() => Coordinates, ref _coordinates, value); }
+            set { Set(ref _coordinates, value); }
         }
         private Coordinate _coordinates;
+
+        /// <summary>
+        ///     Is parking lot under active support?
+        /// </summary>
+        [JsonProperty("active_support")]
+        public bool ActiveSupport
+        {
+            get { return _activeSupport; }
+            set { Set(ref _activeSupport, value); }
+        }
+        private bool _activeSupport;
+
+
 
         public override string ToString()
         {

@@ -129,6 +129,44 @@ namespace ParkenDD.Services
             set { AddOrUpdateValue(nameof(ParkingLotFilterAscending), value); }
         }
 
+        public bool ShowExperimentalCities
+        {
+            get
+            {
+                if (ViewModelBase.IsInDesignModeStatic) return true;
+                return GetValueOrDefault(nameof(ShowExperimentalCities), false);
+            }
+            set { AddOrUpdateValue(nameof(ShowExperimentalCities), value); }
+        }
+
+        public SupportedLocale CurrentLocale
+        {
+            get
+            {
+                if (ViewModelBase.IsInDesignModeStatic) return LocalizationService.GetDeviceLocalization();
+                var enumStr = GetValueOrDefault(nameof(CurrentLocale), string.Empty);
+                SupportedLocale result;
+                if (Enum.TryParse(enumStr, true, out result))
+                    return result;
+                return LocalizationService.GetDeviceLocalization();
+            }
+            set { AddOrUpdateValue(nameof(CurrentLocale), value.ToString()); }
+        }
+
+        public DistanceUnitEnum DistanceUnit
+        {
+            get
+            {
+                if (ViewModelBase.IsInDesignModeStatic) return DistanceUnitEnum.Kilometers;
+                var enumStr = GetValueOrDefault(nameof(DistanceUnit), string.Empty);
+                DistanceUnitEnum result;
+                if (Enum.TryParse(enumStr, true, out result))
+                    return result;
+                return DistanceUnitEnum.Kilometers;
+            }
+            set { AddOrUpdateValue(nameof(DistanceUnit), value.ToString()); }
+        }
+        
         #endregion
     }
 }

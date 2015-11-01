@@ -14,7 +14,7 @@ namespace ParkenDD.Api.Models
         public Uri DataSource
         {
             get { return _dataSource; }
-            set { Set(() => DataSource, ref _dataSource, value); }
+            set { Set(ref _dataSource, value); }
         }
         private Uri _dataSource;
 
@@ -25,7 +25,7 @@ namespace ParkenDD.Api.Models
         public DateTime LastDownloaded
         {
             get { return _lastDownloaded; }
-            set { Set(() => LastDownloaded, ref _lastDownloaded, value); }
+            set { Set(ref _lastDownloaded, value); }
         }
         private DateTime _lastDownloaded;
 
@@ -36,7 +36,7 @@ namespace ParkenDD.Api.Models
         public DateTime LastUpdated
         {
             get { return _lastUpdated; }
-            set { Set(() => LastUpdated, ref _lastUpdated, value); }
+            set { Set(ref _lastUpdated, value); }
         }
         private DateTime _lastUpdated;
 
@@ -47,7 +47,7 @@ namespace ParkenDD.Api.Models
         public ObservableCollection<ParkingLot> Lots
         {
             get { return _lots; }
-            set { Set(() => Lots, ref _lots, value); }
+            set { Set(ref _lots, value); }
         }
         private ObservableCollection<ParkingLot> _lots;
     }

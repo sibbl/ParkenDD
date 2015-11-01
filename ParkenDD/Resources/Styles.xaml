@@ -44,6 +44,7 @@
         <Setter Property="Foreground" Value="#FFFFFF" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="14,0,14,0" />
     </Style>
 
     <Style x:Key="SelectCityListContainerStyle" TargetType="ListViewItem">
@@ -53,7 +54,7 @@
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
         <Setter Property="TabNavigation" Value="Local"/>
         <Setter Property="IsHoldingEnabled" Value="True"/>
-        <Setter Property="Padding" Value="14,0,14,0"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
@@ -62,6 +63,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ListViewItem">
                     <ListViewItemPresenter
+                        Padding="0"
+                        Margin="0"
                         CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
                         ContentMargin="{TemplateBinding Padding}"
                         CheckMode="Inline"
@@ -116,6 +119,13 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="CityListStyle" TargetType="ListView">
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="IsMultiSelectCheckBoxEnabled" Value="False" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource SelectCityListContainerStyle}" />
     </Style>
 
     <Style x:Key="AboutButtonStyle" TargetType="Button">
@@ -277,7 +287,7 @@
     </Style>
 
     <Style x:Key="ParkingLotListItemStyle" TargetType="StackPanel">
-        <Setter Property="Padding" Value="0,8,0,8" />
+        <Setter Property="Padding" Value="14,8,14,8" />
     </Style>
 
     <Style x:Key="ParkingLotListNavigationButton" TargetType="Button">
@@ -1180,6 +1190,27 @@
 
     <Style x:Key="InfoDialogPivotLicenseHyperlinkButtonBaseStyle" TargetType="HyperlinkButton" BasedOn="{StaticResource InfoDialogPivotContentHyperlinkButtonBaseStyle}">
         <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <!-- #endregion -->
+    
+    <!-- #region -->
+
+    <Style x:Key="SettingHintTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource InfoDialogPivotContentTextBaseStyle}">
+        <Setter Property="Foreground" Value="#666" />
+    </Style>
+
+    <Style x:Key="SettingContainerStyle" TargetType="StackPanel">
+        <Setter Property="Margin" Value="0,0,0,30" />
+    </Style>
+
+    <Style x:Key="SettingToggleSwitchStyle" TargetType="ToggleSwitch">
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+
+    <Style x:Key="SettingComboBoxStyle" TargetType="ComboBox">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="FontSize" Value="13" />
     </Style>
 
     <!-- #endregion -->

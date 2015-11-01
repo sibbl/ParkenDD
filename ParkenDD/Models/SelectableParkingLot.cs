@@ -9,14 +9,14 @@ namespace ParkenDD.Models
         public bool IsSelected
         {
             get { return _isSelected; }
-            set { Set(() => IsSelected, ref _isSelected, value); }
+            set { Set(ref _isSelected, value); }
         }
 
         private ParkingLot _parkingLot;
         public ParkingLot ParkingLot
         {
             get { return _parkingLot; }
-            set { Set(() => ParkingLot, ref _parkingLot, value); }
+            set { Set(ref _parkingLot, value); }
         }
 
         public SelectableParkingLot(ParkingLot lot)

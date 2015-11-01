@@ -133,6 +133,54 @@
                     </ScrollViewer>
                 </PivotItem>
                 <!-- #endregion -->
+                <!-- #region Pivot item: settings -->
+                <PivotItem x:Uid="InfoDialogPivotSettings" Header="Einstellungen" DataContext="{Binding Settings, Source={StaticResource Locator}}">
+                    <ScrollViewer>
+                        <StackPanel>
+                            <StackPanel Style="{StaticResource SettingContainerStyle}">
+                                <ToggleSwitch
+                                    x:Uid="SettingsExperimentalCitiesToggleSwitch"
+                                    Header="Experimentelle Städte anzeigen"
+                                    Style="{StaticResource SettingToggleSwitchStyle}"
+                                    OnContent="Ja"
+                                    OffContent="Nein"
+                                    IsOn="{Binding ShowExperimentalCities, Mode=TwoWay}"
+                                    />
+                                <!-- TODO: add style -->
+                                <TextBlock
+                                    Style="{StaticResource SettingHintTextBlockStyle}"
+                                    >
+                                    Hinweis: Daten von experimentellen Städten können stark fehlerbehaftet oder unvollständig sein.
+                                </TextBlock>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource SettingContainerStyle}">
+                                <ComboBox
+                                    Header="Sprache"
+                                    Style="{StaticResource SettingComboBoxStyle}"
+                                    ItemsSource="{Binding LocaleValues, Mode=OneTime}"
+                                    DisplayMemberPath="Value"
+                                    SelectedValue="{Binding Locale, Mode=TwoWay}"
+                                    SelectedIndex="{Binding LocaleDefaultIndex}"
+                                    SelectedValuePath="Key"/>
+                                <TextBlock
+                                    Style="{StaticResource SettingHintTextBlockStyle}"
+                                    Visibility="{Binding LanguageChanged, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    Text="{Binding ChangeLanguageString}" />
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource SettingContainerStyle}">
+                                <ComboBox
+                                    Header="Einheit für Entfernung"
+                                    Style="{StaticResource SettingComboBoxStyle}"
+                                    ItemsSource="{Binding DistanceUnitValues, Mode=OneTime}"
+                                    DisplayMemberPath="Value"
+                                    SelectedValue="{Binding DistanceUnit, Mode=TwoWay}"
+                                    SelectedIndex="{Binding DistanceUnitDefaultIndex}"
+                                    SelectedValuePath="Key"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </PivotItem>
+                <!-- #endregion -->
                 <!-- #region Pivot item: functions -->
                 <PivotItem x:Uid="InfoDialogPivotFeatures" Header="Funktionen">
                     <ScrollViewer>
