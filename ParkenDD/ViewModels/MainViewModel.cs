@@ -55,7 +55,38 @@ namespace ParkenDD.ViewModels
         public MetaData MetaData
         {
             get { return _metaData; }
-            set { Set(() => MetaData, ref _metaData, value); }
+            set
+            {
+                Set(ref _metaData, value);
+                RaisePropertyChanged(() => MetaDataCities);
+                _metaData.Cities.CollectionChanged += (sender, args) =>
+                {
+                    if (_initialized)
+                    {
+                        var temp = SelectedCity;
+                        _selectedCity = null;
+                        RaisePropertyChanged(() => SelectedCity);
+                        RaisePropertyChanged(() => MetaDataCities);
+                        _selectedCity = temp;
+                        RaisePropertyChanged(() => SelectedCity);
+                    }
+                };
+            }
+        }
+
+        public IEnumerable<MetaDataCityRow> MetaDataCities
+        {
+            get
+            {
+                if (_settings.ShowExperimentalCities)
+                {
+                    return MetaData?.Cities;
+                }
+                else
+                {
+                    return MetaData?.Cities?.Where(x => x.ActiveSupport == !_settings.ShowExperimentalCities);
+                }
+            }
         }
         #endregion
 
@@ -66,7 +97,7 @@ namespace ParkenDD.ViewModels
             get { return _loadingMetaData; }
             set
             {
-                Set(() => LoadingMetaData, ref _loadingMetaData, value);
+                Set(ref _loadingMetaData, value);
                 RaisePropertyChanged(() => LoadingCity);
             }
         }
@@ -79,15 +110,19 @@ namespace ParkenDD.ViewModels
             get { return _selectedCity; }
             set
             {
-                if (Set(() => SelectedCity, ref _selectedCity, value))
+                if (Set(ref _selectedCity, value))
                 {
-                    LoadCityAndSelectCity();
-                    TryLoadOnlineCityData();
-                    _tracking.TrackSelectCityEvent(SelectedCity);
-                    _settings.SelectedCityId = value?.Id;
+                    if (_initialized)
+                    {
+                        LoadCityAndSelectCity();
+                        TryLoadOnlineCityData();
+                        _tracking.TrackSelectCityEvent(SelectedCity);
+                        _settings.SelectedCityId = value?.Id;
+                    }
                 }
             }
         }
+
         #endregion
 
         #region SelectedCityData
@@ -97,8 +132,16 @@ namespace ParkenDD.ViewModels
             get { return _selectedCityData; }
             set
             {
-                Set(() => SelectedCityData, ref _selectedCityData, value);
-                ParkingLots = value == null ? null :  new ObservableCollection<SelectableParkingLot>(value.Lots.Select(x => new SelectableParkingLot(x)));
+                var changed = Set(ref _selectedCityData, value);
+                ParkingLots = value == null ? null : new ObservableCollection<SelectableParkingLot>(value.Lots.Select(x => new SelectableParkingLot(x)));
+                if(changed)
+                {
+                    if (SelectedParkingLot == null)
+                    {
+                        var firstParkingLot = ParkingLots?.FirstOrDefault();
+                        SelectedParkingLot = firstParkingLot;
+                    }
+                }
             }
         }
         #endregion
@@ -114,11 +157,11 @@ namespace ParkenDD.ViewModels
                 {
                     value.IsSelected = true;
                 }
-                if (_selectedParkingLot != null)
+                if (_selectedParkingLot != null && _selectedParkingLot != value)
                 {
                     _selectedParkingLot.IsSelected = false;
                 }
-                if (Set(() => SelectedParkingLot, ref _selectedParkingLot, value))
+                if (Set(ref _selectedParkingLot, value))
                 {
                     _tracking.TrackSelectParkingLotEvent(SelectedCity, SelectedParkingLot?.ParkingLot);
                     _settings.SelectedParkingLotId = value?.ParkingLot?.Id;
@@ -133,7 +176,7 @@ namespace ParkenDD.ViewModels
         public bool LoadingCity
         {
             get { return _loadingCity || _loadingMetaData; } //visible when either this or meta data is loading
-            set { Set(() => LoadingCity, ref _loadingCity, value); }
+            set { Set(ref _loadingCity, value); }
         }
         #endregion
 
@@ -144,7 +187,7 @@ namespace ParkenDD.ViewModels
             get { return _parkingLots; }
             set
             {
-                Set(() => ParkingLots, ref _parkingLots, value);
+                Set(ref _parkingLots, value);
                 UpdateParkingLotListFilter();
             }
         }
@@ -157,7 +200,7 @@ namespace ParkenDD.ViewModels
             get { return _parkingLotsGroupedCollectionViewSource; }
             set
             {
-                Set(() => ParkingLotsGroupedCollectionViewSource, ref _parkingLotsGroupedCollectionViewSource, value);
+                Set(ref _parkingLotsGroupedCollectionViewSource, value);
             }
         }
         #endregion
@@ -169,7 +212,7 @@ namespace ParkenDD.ViewModels
             get { return _parkingLotsListCollectionViewSource; }
             set
             {
-                Set(() => ParkingLotsListCollectionViewSource, ref _parkingLotsListCollectionViewSource, value);
+                Set(ref _parkingLotsListCollectionViewSource, value);
             }
         }
         #endregion
@@ -182,7 +225,7 @@ namespace ParkenDD.ViewModels
             get { return _parkingLotFilterMode; }
             set
             {
-                if (Set(() => ParkingLotFilterMode, ref _parkingLotFilterMode, value))
+                if (Set(ref _parkingLotFilterMode, value))
                 {
                     UpdateParkingLotListFilter();
                     _tracking.TrackParkingLotFilterEvent(ParkingLotFilterMode, ParkingLotFilterAscending,
@@ -200,7 +243,7 @@ namespace ParkenDD.ViewModels
             get { return _parkingLotFilterIsGrouped; }
             set
             {
-                if (Set(() => ParkingLotFilterIsGrouped, ref _parkingLotFilterIsGrouped, value))
+                if (Set(ref _parkingLotFilterIsGrouped, value))
                 {
                     UpdateParkingLotListFilter();
                     _tracking.TrackParkingLotFilterEvent(ParkingLotFilterMode, ParkingLotFilterAscending,
@@ -218,7 +261,7 @@ namespace ParkenDD.ViewModels
             get { return _parkingLotFilterAscending; }
             set
             {
-                if (Set(() => ParkingLotFilterAscending, ref _parkingLotFilterAscending, value))
+                if (Set(ref _parkingLotFilterAscending, value))
                 {
                     UpdateParkingLotListFilter();
                     _tracking.TrackParkingLotFilterEvent(ParkingLotFilterMode, ParkingLotFilterAscending,
@@ -234,7 +277,7 @@ namespace ParkenDD.ViewModels
         public Geoposition UserLocation
         {
             get { return _userLocation; }
-            set { Set(() => UserLocation, ref _userLocation, value); }
+            set { Set(ref _userLocation, value); }
         }
         #endregion
 
@@ -247,7 +290,7 @@ namespace ParkenDD.ViewModels
             get { return _searchText; }
             set
             {
-                Set(() => SearchText, ref _searchText, value);
+                Set(ref _searchText, value);
             }
         }
         #endregion
@@ -258,7 +301,7 @@ namespace ParkenDD.ViewModels
         public List<AddressSearchSuggestionItem> SearchSuggestions
         {
             get { return _searchSuggestions; }
-            set { Set(() => SearchSuggestions, ref _searchSuggestions, value); }
+            set { Set(ref _searchSuggestions, value); }
         }
 
         #endregion
@@ -270,7 +313,7 @@ namespace ParkenDD.ViewModels
         public Geopoint MapCenter
         {
             get { return _mapCenter; }
-            set { Set(() => MapCenter, ref _mapCenter, value); }
+            set { Set(ref _mapCenter, value); }
         }
 
         #endregion
@@ -282,7 +325,7 @@ namespace ParkenDD.ViewModels
         public bool InternetAvailable
         {
             get { return _internetAvailable; }
-            set { Set(() => InternetAvailable, ref _internetAvailable, value); }
+            set { Set(ref _internetAvailable, value); }
         }
         #endregion
 
@@ -309,6 +352,19 @@ namespace ParkenDD.ViewModels
             _geo = geo;
             _tracking = tracking;
             _exceptionService = exceptionService;
+
+            Messenger.Default.Register(this, (SettingChangedMessage msg) =>
+            {
+                if (msg.IsSetting(nameof(_settings.ShowExperimentalCities)))
+                {
+                    var temp = SelectedCity;
+                    _selectedCity = null;
+                    RaisePropertyChanged(() => SelectedCity);
+                    RaisePropertyChanged(() => MetaDataCities);
+                    _selectedCity = temp;
+                    RaisePropertyChanged(() => SelectedCity);
+                }
+            });
 
             NetworkInformation.NetworkStatusChanged += sender =>
             {
@@ -445,15 +501,18 @@ namespace ParkenDD.ViewModels
                 }
                 Debug.WriteLine("[MainVm] GetCity for {0} (forcerefresh={1}): got response", cityId, forceServerRefresh);
                 _cityHasOnlineData[cityId] = true;
-                Task.Factory.StartNew(async () =>
+                await Task.Run(() =>
                 {
-                    await Task.Delay(4000);
-                    _storage.SaveCityData(cityId, city);
-                });
-                Task.Factory.StartNew(async () =>
-                {
-                    await Task.Delay(2000);
-                    _voiceCommands.UpdateParkingLotList(cityMetaData ?? SelectedCity, city);
+                    Task.Factory.StartNew(async () =>
+                    {
+                        await Task.Delay(4000);
+                        _storage.SaveCityData(cityId, city);
+                    });
+                    Task.Factory.StartNew(async () =>
+                    {
+                        await Task.Delay(2000);
+                        _voiceCommands.UpdateParkingLotList(cityMetaData ?? SelectedCity, city);
+                    });
                 });
                 return city;
             });
@@ -549,11 +608,11 @@ namespace ParkenDD.ViewModels
             Debug.WriteLine("[MainVm] LoadCityAndSelectCity");
             Debug.WriteLine("[MainVm] LoadCityAndSelectCity: found selected city, reset selection");
             SelectedCityData = null;
+            SelectedParkingLot = null;
             SetLoadingCity();
             Debug.WriteLine("[MainVm] LoadCityAndSelectCity: load selected city");
             SelectedCityData = await LoadCity(SelectedCity?.Id);
             SetLoadingCity(false);
-            SelectedParkingLot = null;
             UpdateMapBounds();
         }
 
@@ -631,16 +690,20 @@ namespace ParkenDD.ViewModels
             var newCityData = await GetCity(cityId, forceRefresh);
             if (_cities.ContainsKey(cityId) && newCityData != null)
             {
-                Debug.WriteLine("[MainVm] LoadCity: {0} already in dict, merge", cityId, null);
-                await DispatcherHelper.RunAsync(() =>
+                //merge only when newer data is available
+                if (newCityData.LastUpdated > _cities[cityId].LastUpdated)
                 {
-                    //merge only when newer data is available
-                    if (newCityData.LastUpdated > _cities[cityId].LastUpdated)
+                    Debug.WriteLine("[MainVm] LoadCity: {0} already in dict, merge", cityId, null);
+                    await DispatcherHelper.RunAsync(() =>
                     {
                         _cities[cityId].Merge(newCityData, ParkingLots);
                         UpdateParkingLotListFilter();
-                    }
-                });
+                    });
+                }
+                else
+                {
+                    Debug.WriteLine("[MainVm] LoadCity: {0} already in dict, but not merging because last updated is not higher", cityId, null);
+                }
             }
             else if(newCityData != null)
             {
@@ -656,6 +719,10 @@ namespace ParkenDD.ViewModels
 
         private async void UpdateParkingLotListFilter()
         {
+            if (!_initialized)
+            {
+                return;
+            }
             Debug.WriteLine("[MainVm] UpdateParkingLotListFilter");
             if (ParkingLots == null)
             {
@@ -922,6 +989,16 @@ namespace ParkenDD.ViewModels
 
         #endregion
 
+        #region CityChosenCommand
+        private RelayCommand<MetaDataCityRow> _cityChosenCommand;
+        public RelayCommand<MetaDataCityRow> CityChosenCommand => _cityChosenCommand ?? (_cityChosenCommand = new RelayCommand<MetaDataCityRow>(CityChosen));
+
+        private void CityChosen(MetaDataCityRow city)
+        {
+            SelectedCity = city;
+        }
+        #endregion
+
         #endregion
 
         #region INITIALIZATION
@@ -952,17 +1029,21 @@ namespace ParkenDD.ViewModels
             {
                 MetaData = newMetaData;
                 SelectedCity = FindCityByName(MetaData, "Dresden"); //default to dresden. maybe we should use location already?
+                LoadCityAndSelectCity();
             });
         }
 
         public void Initialize(bool loadState)
         {
             Debug.WriteLine("[MainVm] Initialize");
-            DispatcherHelper.RunAsync(() =>
+            Task.Run(async () =>
             {
-                ParkingLotFilterMode = _settings.ParkingLotFilterMode;
-                ParkingLotFilterIsGrouped = _settings.ParkingLotFilterIsGrouped;
-                ParkingLotFilterAscending = _settings.ParkingLotFilterAscending;
+                await DispatcherHelper.RunAsync(() =>
+                {
+                    ParkingLotFilterMode = _settings.ParkingLotFilterMode;
+                    ParkingLotFilterIsGrouped = _settings.ParkingLotFilterIsGrouped;
+                    ParkingLotFilterAscending = _settings.ParkingLotFilterAscending;
+                });
             });
 
             Task.Factory.StartNew(async () =>
@@ -976,27 +1057,32 @@ namespace ParkenDD.ViewModels
                         Debug.WriteLine("[MainVm] Initialize - load state");
                         lastStateLoaded = await LoadLastState(selectedCityId);
                     }
+                    if (lastStateLoaded)
+                    {
+                        _initialized = true;
+                    }
+                }
+                else
+                {
+                    _initialized = true;
                 }
                 if (!lastStateLoaded)
                 {
                     Debug.WriteLine("[MainVm] Initialize - init meta data");
                     await InitMetaData();
+                    _initialized = true;
                 }
-                _initialized = true;
-            }, TaskCreationOptions.PreferFairness);
+                await DispatcherHelper.RunAsync(UpdateParkingLotListFilter);
 
-            Task.Factory.StartNew(async () =>
-            {
-                //if not already present, load new online data and refresh local data
-                while (!_initialized)
+                await Task.Run(() =>
                 {
-                    await Task.Delay(1000);
-                }
-                Task.Factory.StartNew(TryLoadOnlineMetaData);
-                Task.Factory.StartNew(TryLoadOnlineCityData);
-                Task.Factory.StartNew(TryGetUserPosition);
+                    Task.Factory.StartNew(TryLoadOnlineMetaData);
+                    Task.Factory.StartNew(TryLoadOnlineCityData);
+                    Task.Factory.StartNew(TryGetUserPosition);
+                });
             }, TaskCreationOptions.PreferFairness);
         }
+       
 
         private async void SetLoadingCity(bool value = true)
         {

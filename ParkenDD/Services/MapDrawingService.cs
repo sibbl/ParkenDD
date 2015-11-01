@@ -38,8 +38,15 @@ namespace ParkenDD.Services
 
         public async void RedrawParkingLot(Grid drawingContainer, SelectableParkingLot lot)
         {
-            if (lot != null && _mapIconParkingLotDict != null && _mapIconParkingLotDict.ContainsKey(lot.ParkingLot.Id))
+            if (lot != null && _mapIconParkingLotDict != null)
             {
+                await Task.Run(async () =>
+                {
+                    while (!_mapIconParkingLotDict.ContainsKey(lot.ParkingLot.Id))
+                    {
+                        await Task.Delay(500);
+                    }
+                });
                 var icon = _mapIconParkingLotDict[lot.ParkingLot.Id];
                 icon.Image = await GetMapIconDonutImage(drawingContainer, lot.ParkingLot);
                 icon.ZIndex = GetZIndexForParkingLot(lot.ParkingLot);

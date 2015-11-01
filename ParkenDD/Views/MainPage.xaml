@@ -203,12 +203,21 @@
                         />
                     <ListView
                         Grid.Row="1"
+                        x:Name="MetaDataCityListView"
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                        ItemsSource="{x:Bind Vm.MetaData.Cities, Mode=OneWay}"
-                        SelectedItem="{Binding SelectedCity, Mode=TwoWay}"
-                        ItemContainerStyle="{StaticResource SelectCityListContainerStyle}"
+                        ItemsSource="{x:Bind Vm.MetaDataCities, Mode=OneWay}"
+                        SelectedItem="{Binding SelectedCity}"
+                        Style="{StaticResource CityListStyle}"
+                        Tapped="UIElement_OnTapped"
                         SelectionChanged="SplitViewItemSelectionChanged"
                         >
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Tapped">
+                                <core:InvokeCommandAction
+                                    Command="{Binding Main.CityChosenCommand, Source={StaticResource Locator}}"
+                                    CommandParameter="{Binding Path=SelectedItem, ElementName=MetaDataCityListView}" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="apiModels:MetaDataCityRow">
                                 <TextBlock

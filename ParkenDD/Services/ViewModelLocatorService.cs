@@ -26,6 +26,7 @@ namespace ParkenDD.Services
             SimpleIoc.Default.Register<ResourceService>();
             SimpleIoc.Default.Register<ExceptionService>();
             SimpleIoc.Default.Register<JumpListService>();
+            SimpleIoc.Default.Register<LocalizationService>();
 
             if (ViewModelBase.IsInDesignModeStatic)
             {
@@ -38,8 +39,10 @@ namespace ParkenDD.Services
 
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<InfoDialogViewModel>();
+            SimpleIoc.Default.Register<SettingsViewModel>();
         }
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
         public InfoDialogViewModel InfoDialog => ServiceLocator.Current.GetInstance<InfoDialogViewModel>();
+        public SettingsViewModel Settings => ServiceLocator.Current.GetInstance<SettingsViewModel>();
     }
 }

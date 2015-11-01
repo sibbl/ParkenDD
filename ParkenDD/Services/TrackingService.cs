@@ -34,11 +34,11 @@ namespace ParkenDD.Services
         {
             var properties = new Dictionary<string, string>
             {
-                { "city", city.Id },
+                { "city", city?.Id },
                 { "parkingLot", parkingLot?.Id }
             };
             _client.TrackEvent("Select parking lot", properties);
-            _tracker.SendEvent("ui_action", "select_parking_lot", city.Id + " > " + parkingLot?.Id, 0);
+            _tracker.SendEvent("ui_action", "select_parking_lot", city?.Id + " > " + parkingLot?.Id, 0);
         }
 
         public void TrackSelectCityEvent(MetaDataCityRow city)

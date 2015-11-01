@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 using ParkenDD.Api.Models;
 using Microsoft.Practices.ServiceLocation;
+using ParkenDD.Models;
 using ParkenDD.ViewModels;
 
 namespace ParkenDD.Controls
@@ -28,6 +29,19 @@ namespace ParkenDD.Controls
                 UpdateIsSelected();
                 Draw();
             };
+
+            var pl = DataContext as SelectableParkingLot;
+            if (pl != null)
+            {
+                pl.PropertyChanged += (sender, args) =>
+                {
+                    if (args.PropertyName == nameof(pl.ParkingLot.FreeLots) ||
+                        args.PropertyName == nameof(pl.ParkingLot.TotalLots))
+                    {
+                        Draw();
+                    }
+                };
+            }
 
             MainVm.PropertyChanged += (sender, args) =>
             {

@@ -13,7 +13,7 @@ namespace ParkenDD.Api.Models
         public string ApiVersion
         {
             get { return _apiVersion; }
-            set { Set(() => ApiVersion, ref _apiVersion, value); }
+            set { Set(ref _apiVersion, value); }
         }
         private string _apiVersion;
 
@@ -25,7 +25,7 @@ namespace ParkenDD.Api.Models
         public string ServerVersion
         {
             get { return _serverVersion; }
-            set { Set(() => ServerVersion, ref _serverVersion, value); }
+            set { Set(ref _serverVersion, value); }
         }
         private string _serverVersion;
 
@@ -36,7 +36,7 @@ namespace ParkenDD.Api.Models
         public Uri Reference
         {
             get { return _reference; }
-            set { Set(() => Reference, ref _reference, value); }
+            set { Set(ref _reference, value); }
         }
         private Uri _reference;
 
@@ -47,7 +47,7 @@ namespace ParkenDD.Api.Models
         public MetaDataCities Cities
         {
             get { return _cities; }
-            set { Set(() => Cities, ref _cities, value); }
+            set { Set(ref _cities, value); }
         }
         private MetaDataCities _cities;
     }

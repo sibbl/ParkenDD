@@ -170,9 +170,11 @@
     <Compile Include="Converters\TrimTextConverter.cs" />
     <Compile Include="Messages\HideSearchResultOnMapMessage.cs" />
     <Compile Include="Messages\InfoDialogToggleVisibilityMessage.cs" />
+    <Compile Include="Messages\SettingChangedMessage.cs" />
     <Compile Include="Messages\ShowSearchResultOnMapMessage.cs" />
     <Compile Include="Messages\ZoomMapToCoordinateMessage.cs" />
     <Compile Include="Models\AddressSearchSuggestionItem.cs" />
+    <Compile Include="Models\DistanceUnitEnum.cs" />
     <Compile Include="Models\LicenseInformationItem.cs" />
     <Compile Include="Models\ParkingLotForecastDataPoint.cs" />
     <Compile Include="Models\ParkingLotForecastTimespanEnum.cs" />
@@ -182,6 +184,7 @@
     <Compile Include="Services\GeolocationService.cs" />
     <Compile Include="Services\JumpListService.cs" />
     <Compile Include="Services\LauncherService.cs" />
+    <Compile Include="Services\LocalizationService.cs" />
     <Compile Include="Services\MapDrawingService.cs" />
     <Compile Include="Messages\ZoomMapToBoundsMessage.cs" />
     <Compile Include="Models\ParkingLotFilterMode.cs" />
@@ -202,6 +205,7 @@
     <Compile Include="Utils\VoiceCommandPhraseUtils.cs" />
     <Compile Include="ViewModels\InfoDialogViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

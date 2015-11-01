@@ -199,7 +199,7 @@
     <value>mailto:me@sibbl.net?subject=ParkenDD%20Feedback</value>
   </data>
   <data name="InfoTextLabel.Text" xml:space="preserve">
-    <value>Informationen</value>
+    <value>Mehr...</value>
   </data>
   <data name="ParkingLotFilterAscending.Text" xml:space="preserve">
     <value>Aufsteigend</value>
@@ -397,6 +397,36 @@ Der Fehler war:
   </data>
   <data name="VoiceCommandParkingStateWaitSpokenMsg" xml:space="preserve">
     <value>Moment, ich fahre kurz vorbei...</value>
+  </data>
+  <data name="InfoDialogPivotSettings.Header" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="SettingsExperimentalCitiesToggleSwitch.Header" xml:space="preserve">
+    <value>Experimentelle Städte anzeigen</value>
+  </data>
+  <data name="SettingsExperimentalCitiesToggleSwitch.OnContent" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="SettingsExperimentalCitiesToggleSwitch.OffContent" xml:space="preserve">
+    <value>Nein</value>
+  </data>
+  <data name="SettingsExperimentalCitiesHint.Text" xml:space="preserve">
+    <value>Hinweis: Daten von experimentellen Städten können stark fehlerbehaftet oder unvollständig sein.</value>
+  </data>
+  <data name="SettingsLanguageComboBox.Header" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="SettingsDistanceUnitComboBox.Header" xml:space="preserve">
+    <value>Einheit für Entfernungen</value>
+  </data>
+  <data name="DistanceUnitKilometers" xml:space="preserve">
+    <value>Kilometer</value>
+  </data>
+  <data name="DistanceUnitMiles" xml:space="preserve">
+    <value>Meilen</value>
+  </data>
+  <data name="SettingsLanguageRestartRequiredMessage" xml:space="preserve">
+    <value>Du musst die App neu starten, damit die Änderung der Sprache sichtbar wird.</value>
   </data>
 
 </root>

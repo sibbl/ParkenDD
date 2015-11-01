@@ -88,7 +88,7 @@
                             <TextBlock
                                 Style="{StaticResource InfoDialogPivotVersionTextBlockStyle}">
                                 <Run x:Uid="InfoDialogVersion">Version</Run>
-                                <Run>0.9 BETA</Run>
+                                <Run>1.0</Run>
                             </TextBlock>
                             <TextBlock
                                 x:Uid="InfoDialogAuthor"
@@ -129,6 +129,56 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
+                        </StackPanel>
+                    </ScrollViewer>
+                </PivotItem>
+                <!-- #endregion -->
+                <!-- #region Pivot item: settings -->
+                <PivotItem x:Uid="InfoDialogPivotSettings" Header="Einstellungen" DataContext="{Binding Settings, Source={StaticResource Locator}}">
+                    <ScrollViewer>
+                        <StackPanel>
+                            <StackPanel Style="{StaticResource SettingContainerStyle}">
+                                <ToggleSwitch
+                                    x:Uid="SettingsExperimentalCitiesToggleSwitch"
+                                    Header="Experimentelle Städte anzeigen"
+                                    Style="{StaticResource SettingToggleSwitchStyle}"
+                                    OnContent="Ja"
+                                    OffContent="Nein"
+                                    IsOn="{Binding ShowExperimentalCities, Mode=TwoWay}"
+                                    />
+                                <TextBlock
+                                    Style="{StaticResource SettingHintTextBlockStyle}"
+                                    x:Uid="SettingsExperimentalCitiesHint"
+                                    >
+                                    Hinweis: Daten von experimentellen Städten können stark fehlerbehaftet oder unvollständig sein.
+                                </TextBlock>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource SettingContainerStyle}">
+                                <ComboBox
+                                    x:Uid="SettingsLanguageComboBox"
+                                    Header="Sprache"
+                                    Style="{StaticResource SettingComboBoxStyle}"
+                                    ItemsSource="{Binding LocaleValues, Mode=OneTime}"
+                                    DisplayMemberPath="Value"
+                                    SelectedValue="{Binding Locale, Mode=TwoWay}"
+                                    SelectedIndex="{Binding LocaleDefaultIndex}"
+                                    SelectedValuePath="Key"/>
+                                <TextBlock
+                                    Style="{StaticResource SettingHintTextBlockStyle}"
+                                    Visibility="{Binding LanguageChanged, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    Text="{Binding ChangeLanguageString}" />
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource SettingContainerStyle}">
+                                <ComboBox
+                                    x:Uid="SettingsDistanceUnitComboBox"
+                                    Header="Einheit für Entfernung"
+                                    Style="{StaticResource SettingComboBoxStyle}"
+                                    ItemsSource="{Binding DistanceUnitValues, Mode=OneTime}"
+                                    DisplayMemberPath="Value"
+                                    SelectedValue="{Binding DistanceUnit, Mode=TwoWay}"
+                                    SelectedIndex="{Binding DistanceUnitDefaultIndex}"
+                                    SelectedValuePath="Key"/>
+                            </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>
@@ -248,7 +298,7 @@
                                 Style="{StaticResource InfoDialogPivotContentTextBlockStyle}">
                                 Folgende Verlinkungen führen Sie zu den Webseiten, deren Quellen wir beziehen:
                             </TextBlock>
-                            <ItemsControl ItemsSource="{Binding Main.MetaData.Cities, Source={StaticResource Locator}}">
+                            <ItemsControl ItemsSource="{Binding Main.MetaDataCities, Source={StaticResource Locator}}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="apiModels:MetaDataCityRow">
                                         <StackPanel Style="{StaticResource InfoDialogPivotDataSourceItemContainerStyle}">

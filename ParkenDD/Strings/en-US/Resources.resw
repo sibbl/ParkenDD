@@ -178,13 +178,13 @@
     <value>Licenses</value>
   </data>
   <data name="InfoDialogPivotData.Header" xml:space="preserve">
-    <value>Data</value>
+    <value>data</value>
   </data>
   <data name="InfoDialogPivotFeatures.Header" xml:space="preserve">
-    <value>Features</value>
+    <value>features</value>
   </data>
   <data name="InfoDialogPivotInfo.Header" xml:space="preserve">
-    <value>Information</value>
+    <value>information</value>
   </data>
   <data name="InfoDialogThanks.Text" xml:space="preserve">
     <value>Thanks to Rob Tranquillo (@robtranquillo), Johannes Kliemann (@JK70523), Kilian Költzsch (@kiliankoe) and Constantin Müller (@ubahnverleih) for developing the API as well as iOS and Android apps. Thanks to Paul Balzer (@balzer82) for calculating and providing the forecast data. Thanks to Matthias Altermann for designing and providing the app logo. </value>
@@ -199,7 +199,7 @@
     <value>mailto:me@sibbl.net?subject=ParkenDD%20Feedback</value>
   </data>
   <data name="InfoTextLabel.Text" xml:space="preserve">
-    <value>information</value>
+    <value>More...</value>
   </data>
   <data name="ParkingLotFilterAscending.Text" xml:space="preserve">
     <value>Ascending</value>
@@ -397,6 +397,36 @@ The error was:
   </data>
   <data name="VoiceCommandParkingStateWaitSpokenMsg" xml:space="preserve">
     <value>One second, I drive there quickly...</value>
+  </data>
+  <data name="InfoDialogPivotSettings.Header" xml:space="preserve">
+    <value>settings</value>
+  </data>
+  <data name="SettingsExperimentalCitiesToggleSwitch.Header" xml:space="preserve">
+    <value>Show experimental cities</value>
+  </data>
+  <data name="SettingsExperimentalCitiesToggleSwitch.OnContent" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="SettingsExperimentalCitiesToggleSwitch.OffContent" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="SettingsExperimentalCitiesHint.Text" xml:space="preserve">
+    <value>Hint: data of experimental cities can be highly wrong or incomplete.</value>
+  </data>
+  <data name="SettingsLanguageComboBox.Header" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="SettingsDistanceUnitComboBox.Header" xml:space="preserve">
+    <value>Distance unit</value>
+  </data>
+  <data name="DistanceUnitKilometers" xml:space="preserve">
+    <value>Kilometers</value>
+  </data>
+  <data name="DistanceUnitMiles" xml:space="preserve">
+    <value>Miles</value>
+  </data>
+  <data name="SettingsLanguageRestartRequiredMessage" xml:space="preserve">
+    <value>You have to restart the app in order to see the language changes.</value>
   </data>
 
 </root>

@@ -1,15 +1,14 @@
 ﻿using System;
 using Windows.Devices.Geolocation;
+using ParkenDD.Models;
 
 namespace ParkenDD.Utils
 {
     public static class GeoUtils 
     {
-        public enum DistanceType { Miles, Kilometers };
-
-        public static double GetDistanceTo(this BasicGeoposition pos1, BasicGeoposition pos2, DistanceType type = DistanceType.Kilometers)
+        public static double GetDistanceTo(this BasicGeoposition pos1, BasicGeoposition pos2, DistanceUnitEnum type = DistanceUnitEnum.Kilometers)
         {
-            var r = (type == DistanceType.Miles) ? 3960 : 6371;
+            var r = (type == DistanceUnitEnum.Miles) ? 3960 : 6371;
             var dLat = ToRadian(pos2.Latitude - pos1.Latitude);
             var dLon = ToRadian(pos2.Longitude - pos1.Longitude);
             var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
@@ -20,7 +19,7 @@ namespace ParkenDD.Utils
             return d;
         }
 
-        public static double GetDistanceTo(this Geopoint pos1, Geopoint pos2, DistanceType type = DistanceType.Kilometers)
+        public static double GetDistanceTo(this Geopoint pos1, Geopoint pos2, DistanceUnitEnum type = DistanceUnitEnum.Kilometers)
         {
             return pos1.Position.GetDistanceTo(pos2.Position, type);
         }

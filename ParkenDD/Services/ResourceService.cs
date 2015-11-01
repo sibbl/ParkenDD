@@ -39,6 +39,9 @@ namespace ParkenDD.Services
         public string ExceptionMailForecastSubject => _resLoader.GetString(nameof(ExceptionMailForecastSubject));
         public string ExceptionMailForecastBody => _resLoader.GetString(nameof(ExceptionMailForecastBody));
         public string ExceptionToastForecastContent => _resLoader.GetString(nameof(ExceptionToastForecastContent));
-
+        public string DistanceUnitKilometers => _resLoader.GetString(nameof(DistanceUnitKilometers));
+        public string DistanceUnitMiles => _resLoader.GetString(nameof(DistanceUnitMiles));
+        public string SettingsLanguageRestartRequiredMessage => _resLoader.GetString(nameof(SettingsLanguageRestartRequiredMessage));
+        public string LanguageTitle => _resLoader.GetString(nameof(LanguageTitle));
     }
 }
