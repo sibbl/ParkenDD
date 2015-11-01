@@ -80,18 +80,18 @@ namespace ParkenDD.Services
             return null;
         }
 
-        public async void UpdateCityList(MetaData metaData)
+        public async void UpdateCityList(IEnumerable<MetaDataCityRow> metaData)
         {
             await UpdateCityListAsync(metaData);
         }
 
-        public async Task UpdateCityListAsync(MetaData metaData)
+        public async Task UpdateCityListAsync(IEnumerable<MetaDataCityRow> metaData)
         {
             if (_phrases == null)
             {
                 _phrases = await _loadPhrasesTask;
             }
-            if (metaData?.Cities != null)
+            if (metaData != null)
             {
                 try
                 {

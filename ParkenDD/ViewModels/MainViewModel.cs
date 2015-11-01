@@ -366,6 +366,14 @@ namespace ParkenDD.ViewModels
                 }
             });
 
+            PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == nameof(MetaDataCities))
+                {
+                    UpdateServiceData();
+                }
+            };
+
             NetworkInformation.NetworkStatusChanged += sender =>
             {
                 UpdateInternetAvailability();
@@ -454,8 +462,7 @@ namespace ParkenDD.ViewModels
                 Debug.WriteLine("[MainVm] GetMetaData (forcerefresh={0}): got response", forceServerRefresh);
                 _metaDataIsOnlineData = true;
                 _storage.SaveMetaData(metaData);
-                _voiceCommands.UpdateCityList(metaData);
-                _jumpList.UpdateCityList(metaData);
+                UpdateServiceData();
                 return metaData;
             });
             return await _metaLoadingTask;
@@ -1119,6 +1126,12 @@ namespace ParkenDD.ViewModels
             await DispatcherHelper.RunAsync(() => {
                 LoadingMetaData = _loadMetaCount != 0;
             });
+        }
+
+        private void UpdateServiceData()
+        {
+            _voiceCommands.UpdateCityList(MetaDataCities);
+            _jumpList.UpdateCityList(MetaDataCities);
         }
 
         #endregion

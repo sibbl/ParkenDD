@@ -8,13 +8,13 @@ namespace ParkenDD.Utils
 {
     public static class VoiceCommandPhraseUtils
     {
-        public static void UpdateCities(this VoiceCommandPhrases dict, MetaData cities)
+        public static void UpdateCities(this VoiceCommandPhrases dict, IEnumerable<MetaDataCityRow> cities)
         {
-            if (cities?.Cities == null)
+            if (cities == null)
             {
                 return;
             }
-            foreach (var city in cities.Cities)
+            foreach (var city in cities)
             {
                 dict.UpdateCity(city);
             }

@@ -43,5 +43,6 @@ namespace ParkenDD.Services
         public string DistanceUnitMiles => _resLoader.GetString(nameof(DistanceUnitMiles));
         public string SettingsLanguageRestartRequiredMessage => _resLoader.GetString(nameof(SettingsLanguageRestartRequiredMessage));
         public string LanguageTitle => _resLoader.GetString(nameof(LanguageTitle));
+        public string JumpListCitiesHeader => _resLoader.GetString(nameof(JumpListCitiesHeader));
     }
 }
