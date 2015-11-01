@@ -11,8 +11,7 @@ namespace ParkenDD.Services
     public enum SupportedLocale
     {
         German,
-        EnglishGB,
-        EnglishUS
+        English
     }
     public class LocalizationService
     {
@@ -30,8 +29,8 @@ namespace ParkenDD.Services
             if (primaryLanguage.StartsWith("de"))
                 return SupportedLocale.German;
             if (primaryLanguage.ToLower().Equals("en-gb"))
-                return SupportedLocale.EnglishGB;
-            return SupportedLocale.EnglishUS;
+                return SupportedLocale.English;
+            return SupportedLocale.English;
         }
 
         public List<SupportedLocale> GetSupportedLocales()
@@ -39,8 +38,7 @@ namespace ParkenDD.Services
             return new List<SupportedLocale>
             {
                 SupportedLocale.German,
-                SupportedLocale.EnglishGB,
-                SupportedLocale.EnglishUS,
+                SupportedLocale.English
             };
         }
 
@@ -59,10 +57,8 @@ namespace ParkenDD.Services
             {
                 case SupportedLocale.German:
                     return "Deutsch";
-                case SupportedLocale.EnglishGB:
-                    return "English (GB)";
-                case SupportedLocale.EnglishUS:
-                    return "English (US)";
+                case SupportedLocale.English:
+                    return "English";
             }
             return string.Empty;
         }
@@ -112,9 +108,7 @@ namespace ParkenDD.Services
             {
                 case SupportedLocale.German:
                     return "de-DE";
-                case SupportedLocale.EnglishGB:
-                    return "en-GB";
-                case SupportedLocale.EnglishUS:
+                case SupportedLocale.English:
                     return "en-US";
             }
             return Windows.System.UserProfile.GlobalizationPreferences.Languages[0];
