@@ -428,5 +428,8 @@ The error was:
   <data name="SettingsLanguageRestartRequiredMessage" xml:space="preserve">
     <value>You have to restart the app in order to see the language changes.</value>
   </data>
+  <data name="JumpListCitiesHeader" xml:space="preserve">
+    <value>Cities</value>
+  </data>
 
 </root>
