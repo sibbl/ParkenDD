@@ -999,17 +999,6 @@ namespace ParkenDD.ViewModels
         }
         #endregion
 
-        #region ParkingLotChosenCommand
-
-        private RelayCommand<SelectableParkingLot> _parkingLotChosenCommand;
-        public RelayCommand<SelectableParkingLot> ParkingLotChosenCommand => _parkingLotChosenCommand ?? (_parkingLotChosenCommand = new RelayCommand<SelectableParkingLot>(ParkingLotChosen));
-
-        private void ParkingLotChosen(SelectableParkingLot parkingLot)
-        {
-            SelectedParkingLot = parkingLot;
-        }
-        #endregion
-
         #endregion
 
         #region INITIALIZATION
