@@ -453,7 +453,7 @@ Der Fehler war:
     <value>Nerve mich nicht</value>
   </data>
   <data name="ReviewAppDialog2Content" xml:space="preserve">
-    <value>Wir freuen uns immer sehr über Feedback, Meinungen sowie Wünsche rund um ParkenDD und würden uns sehr freuen, wenn Du uns mitteilen kannst, warum Du die App nicht bewerten magst.</value>
+    <value>Wir freuen uns immer sehr über Feedback, Meinungen sowie Wünsche rund um ParkenDD und würden uns sehr freuen, wenn Du uns mitteilst, warum Du die App nicht bewerten magst.</value>
   </data>
   <data name="ReviewAppFeedbackMailTitle" xml:space="preserve">
     <value>ParkenDD Feedback</value>
