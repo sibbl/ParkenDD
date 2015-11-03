@@ -553,6 +553,7 @@ namespace ParkenDD.ViewModels
                 Debug.WriteLine("[MainVm] TrySelectCityById for {0}: success", id, null);
                 await DispatcherHelper.RunAsync(() => {
                     SelectedCity = city;
+                    LoadCityAndSelectCity();
                 });
                 return true;
             }
