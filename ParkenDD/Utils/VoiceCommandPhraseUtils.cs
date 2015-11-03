@@ -2,7 +2,6 @@
 using System.Linq;
 using ParkenDD.Api.Models;
 using ParkenDD.Background.Models;
-using ParkenDD.Models;
 
 namespace ParkenDD.Utils
 {

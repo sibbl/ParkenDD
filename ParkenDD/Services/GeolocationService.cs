@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
-using GalaSoft.MvvmLight.Threading;
 using Microsoft.Practices.ServiceLocation;
 using ParkenDD.ViewModels;
 

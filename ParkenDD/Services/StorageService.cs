@@ -6,7 +6,6 @@ using Windows.Storage;
 using Newtonsoft.Json;
 using ParkenDD.Api.Models;
 using ParkenDD.Background.Models;
-using ParkenDD.Models;
 
 namespace ParkenDD.Services
 {

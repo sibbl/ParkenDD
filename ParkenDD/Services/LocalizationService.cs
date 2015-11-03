@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Windows.Globalization;
+using Windows.System.UserProfile;
 using ParkenDD.Models;
 
 namespace ParkenDD.Services
@@ -25,7 +23,7 @@ namespace ParkenDD.Services
         }
         public static SupportedLocale GetDeviceLocalization()
         {
-            var primaryLanguage = Windows.Globalization.ApplicationLanguages.Languages[0];
+            var primaryLanguage = ApplicationLanguages.Languages[0];
             if (primaryLanguage.StartsWith("de"))
                 return SupportedLocale.German;
             return SupportedLocale.English;
@@ -92,7 +90,7 @@ namespace ParkenDD.Services
         public void UpdateCulture(SupportedLocale locale)
         {
             var loc = GetCultureString(locale);
-            Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = loc;
+            ApplicationLanguages.PrimaryLanguageOverride = loc;
         }
 
         public CultureInfo GetCulture(SupportedLocale locale)
@@ -109,7 +107,7 @@ namespace ParkenDD.Services
                 case SupportedLocale.English:
                     return "en-US";
             }
-            return Windows.System.UserProfile.GlobalizationPreferences.Languages[0];
+            return GlobalizationPreferences.Languages[0];
         }
     }
 }

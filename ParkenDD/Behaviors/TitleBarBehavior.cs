@@ -1,6 +1,7 @@
 ﻿using Windows.UI;
-using Microsoft.Xaml.Interactivity;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+using Microsoft.Xaml.Interactivity;
 
 namespace ParkenDD.Behaviors
 {
@@ -31,7 +32,7 @@ namespace ParkenDD.Behaviors
 
         private static void OnBackgroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar.BackgroundColor = (Color)e.NewValue;
+            ApplicationView.GetForCurrentView().TitleBar.BackgroundColor = (Color)e.NewValue;
         }
         #endregion
         #region ButtonBackgroundColor
@@ -49,7 +50,7 @@ namespace ParkenDD.Behaviors
 
         private static void OnButtonBackgroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = (Color)e.NewValue;
+            ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = (Color)e.NewValue;
         }
         #endregion
         #region ButtonForegroundColor
@@ -67,7 +68,7 @@ namespace ParkenDD.Behaviors
 
         private static void OnButtonForegroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = (Color)e.NewValue;
+            ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = (Color)e.NewValue;
         }
         #endregion
         #region ButtonHoverBackgroundColor
@@ -85,7 +86,7 @@ namespace ParkenDD.Behaviors
 
         private static void OnButtonHoverBackgroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar.ButtonHoverBackgroundColor = (Color)e.NewValue;
+            ApplicationView.GetForCurrentView().TitleBar.ButtonHoverBackgroundColor = (Color)e.NewValue;
         }
         #endregion
         #region ButtonHoverForegroundColor
@@ -103,7 +104,7 @@ namespace ParkenDD.Behaviors
 
         private static void OnButtonHoverForegroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar.ButtonHoverForegroundColor = (Color)e.NewValue;
+            ApplicationView.GetForCurrentView().TitleBar.ButtonHoverForegroundColor = (Color)e.NewValue;
         }
         #endregion
         #region ButtonInactiveBackgroundColor
@@ -121,7 +122,7 @@ namespace ParkenDD.Behaviors
 
         private static void OnButtonInactiveBackgroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar.ButtonInactiveBackgroundColor = (Color)e.NewValue;
+            ApplicationView.GetForCurrentView().TitleBar.ButtonInactiveBackgroundColor = (Color)e.NewValue;
         }
         #endregion
         #region ButtonInactiveForegroundColor
@@ -139,7 +140,7 @@ namespace ParkenDD.Behaviors
 
         private static void OnButtonInactiveForegroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar.ButtonInactiveForegroundColor = (Color)e.NewValue;
+            ApplicationView.GetForCurrentView().TitleBar.ButtonInactiveForegroundColor = (Color)e.NewValue;
         }
         #endregion
         #region ButtonPressedBackgroundColor
@@ -157,7 +158,7 @@ namespace ParkenDD.Behaviors
 
         private static void OnButtonPressedBackgroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar.ButtonPressedBackgroundColor = (Color)e.NewValue;
+            ApplicationView.GetForCurrentView().TitleBar.ButtonPressedBackgroundColor = (Color)e.NewValue;
         }
         #endregion
         #region ButtonPressedForegroundColor
@@ -175,7 +176,7 @@ namespace ParkenDD.Behaviors
 
         private static void OnButtonPressedForegroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar.ButtonPressedForegroundColor = (Color)e.NewValue;
+            ApplicationView.GetForCurrentView().TitleBar.ButtonPressedForegroundColor = (Color)e.NewValue;
         }
         #endregion
         #region ForegroundColor
@@ -193,7 +194,7 @@ namespace ParkenDD.Behaviors
 
         private static void OnForegroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar.ForegroundColor = (Color)e.NewValue;
+            ApplicationView.GetForCurrentView().TitleBar.ForegroundColor = (Color)e.NewValue;
         }
         #endregion
         #region InactiveBackgroundColor
@@ -211,7 +212,7 @@ namespace ParkenDD.Behaviors
 
         private static void OnInactiveBackgroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar.InactiveBackgroundColor = (Color)e.NewValue;
+            ApplicationView.GetForCurrentView().TitleBar.InactiveBackgroundColor = (Color)e.NewValue;
         }
         #endregion
         #region InactiveForegroundColor
@@ -229,7 +230,7 @@ namespace ParkenDD.Behaviors
 
         private static void OnInactiveForegroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar.InactiveForegroundColor = (Color)e.NewValue;
+            ApplicationView.GetForCurrentView().TitleBar.InactiveForegroundColor = (Color)e.NewValue;
         }
         #endregion
     }

@@ -1,5 +1,7 @@
 ﻿using System;
+using Windows.Foundation.Metadata;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Microsoft.Xaml.Interactivity;
 
@@ -31,9 +33,9 @@ namespace ParkenDD.Behaviors
 
         private static void OnBackgroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
-                Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundColor = (Color) e.NewValue;
+                StatusBar.GetForCurrentView().BackgroundColor = (Color) e.NewValue;
             }
         }
         #endregion
@@ -54,9 +56,9 @@ namespace ParkenDD.Behaviors
 
         private static void OnForegroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
-                Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ForegroundColor = (Color) e.NewValue;
+                StatusBar.GetForCurrentView().ForegroundColor = (Color) e.NewValue;
             }
         }
         #endregion
@@ -77,9 +79,9 @@ namespace ParkenDD.Behaviors
 
         private static void OnBackgroundOpacityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
-                Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundOpacity = (double) e.NewValue;
+                StatusBar.GetForCurrentView().BackgroundOpacity = (double) e.NewValue;
             }
         }
         #endregion
@@ -100,15 +102,15 @@ namespace ParkenDD.Behaviors
 
         private static async void OnProgressIndicatorVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
                 if ((bool) e.NewValue)
                 {
-                    await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.ShowAsync();
+                    await StatusBar.GetForCurrentView().ProgressIndicator.ShowAsync();
                 }
                 else
                 {
-                    await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.HideAsync();
+                    await StatusBar.GetForCurrentView().ProgressIndicator.HideAsync();
                 }
             }
         }
@@ -130,10 +132,10 @@ namespace ParkenDD.Behaviors
 
         private static async void OnProgressIndicatorTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
-                Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.Text = (string) e.NewValue;
-                await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.ShowAsync();
+                StatusBar.GetForCurrentView().ProgressIndicator.Text = (string) e.NewValue;
+                await StatusBar.GetForCurrentView().ProgressIndicator.ShowAsync();
             }
         }
         #endregion
@@ -154,11 +156,11 @@ namespace ParkenDD.Behaviors
 
         private static async void OnProgressIndicatorValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
-                Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.ProgressValue =
+                StatusBar.GetForCurrentView().ProgressIndicator.ProgressValue =
                     (double) e.NewValue;
-                await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.ShowAsync();
+                await StatusBar.GetForCurrentView().ProgressIndicator.ShowAsync();
             }
         }
         #endregion

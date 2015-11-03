@@ -2,16 +2,16 @@
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
-using ParkenDD.Api.Models;
 using ParkenDD.Api.Interfaces;
+using ParkenDD.Api.Models;
 
 namespace ParkenDD.Design
 {
     public class DesignParkenDdClient : IParkenDdClient
     {
-        public async Task<MetaData> GetMetaDataAsync(CancellationToken? ct = null)
+        public Task<MetaData> GetMetaDataAsync(CancellationToken? ct = null)
         {
-            return new MetaData
+            return Task.Run(() => new MetaData
             {
                 ApiVersion = "0.0.1",
                 Reference = new Uri("https://github.com/offenesdresden/ParkAPI"),
@@ -34,12 +34,12 @@ namespace ParkenDD.Design
                         Name = "Eine Test-Stadt mit äüö und ganz viel Text"
                     }
                 }
-            };
+            });
         }
 
-        public async Task<City> GetCityAsync(string cityId, CancellationToken? ct = null)
+        public Task<City> GetCityAsync(string cityId, CancellationToken? ct = null)
         {
-            return new City
+            return Task.Run(() => new City
             {
                 DataSource = new Uri("https://www.dresden.de/parken"),
                 LastDownloaded = DateTime.Now.AddMinutes(-29),
@@ -92,12 +92,12 @@ namespace ParkenDD.Design
                         State = ParkingLotState.Closed
                     },
                 }
-            };
+            });
         }
 
-        public async Task<Forecast> GetForecastAsync(string cityId, string parkingLotId, DateTime @from, DateTime to, CancellationToken? ct = null)
+        public Task<Forecast> GetForecastAsync(string cityId, string parkingLotId, DateTime @from, DateTime to, CancellationToken? ct = null)
         {
-            return new Forecast();
+            return Task.Run(() => new Forecast());
         }
     }
 }

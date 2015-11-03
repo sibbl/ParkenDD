@@ -10,18 +10,16 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
-using ParkenDD.Messages;
-using ParkenDD.ViewModels;
 using Microsoft.Practices.ServiceLocation;
 using ParkenDD.Api.Models;
+using ParkenDD.Messages;
 using ParkenDD.Models;
 using ParkenDD.Services;
 using ParkenDD.Utils;
+using ParkenDD.ViewModels;
 
 namespace ParkenDD.Views
 {

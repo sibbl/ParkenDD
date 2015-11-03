@@ -4,8 +4,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
-using ParkenDD.Api.Models;
 using Microsoft.Practices.ServiceLocation;
+using ParkenDD.Api.Models;
 using ParkenDD.ViewModels;
 
 namespace ParkenDD.Controls

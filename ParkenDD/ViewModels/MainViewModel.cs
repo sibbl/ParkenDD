@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
 using Windows.Networking.Connectivity;
@@ -16,12 +14,12 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
-using ParkenDD.Messages;
-using ParkenDD.Services;
-using ParkenDD.Api.Models;
 using ParkenDD.Api.Interfaces;
+using ParkenDD.Api.Models;
 using ParkenDD.Api.Models.Exceptions;
+using ParkenDD.Messages;
 using ParkenDD.Models;
+using ParkenDD.Services;
 using ParkenDD.Utils;
 
 namespace ParkenDD.ViewModels
@@ -380,8 +378,7 @@ namespace ParkenDD.ViewModels
             {
                 InternetAvailable = true;
             });
-            return;
-#endif
+#else
             var profile = NetworkInformation.GetInternetConnectionProfile();
 
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
@@ -396,6 +393,7 @@ namespace ParkenDD.ViewModels
                     InternetAvailable = false;
                 }
             });
+#endif
         }
 
         private async Task<MetaData> GetOfflineMetaData()
@@ -805,11 +803,11 @@ namespace ParkenDD.ViewModels
             });
         }
 
-        #endregion
+#endregion
 
-        #region COMMANDS
+#region COMMANDS
 
-        #region SetParkingLotFilterToAlphabeticallyCommand
+#region SetParkingLotFilterToAlphabeticallyCommand
         private RelayCommand _setParkingLotFilterToAlphabeticallyCommand;
         public RelayCommand SetParkingLotFilterToAlphabeticallyCommand => _setParkingLotFilterToAlphabeticallyCommand ?? (_setParkingLotFilterToAlphabeticallyCommand = new RelayCommand(SetParkingLotFilterToAlphabetically));
 
@@ -818,9 +816,9 @@ namespace ParkenDD.ViewModels
             ParkingLotFilterMode = ParkingLotFilterMode.Alphabetically;
             UpdateParkingLotListFilter();
         }
-        #endregion
+#endregion
 
-        #region SetParkingLotFilterToAlphabeticallyCommand
+#region SetParkingLotFilterToAlphabeticallyCommand
         private RelayCommand _setParkingLotFilterToDistanceCommand;
         public RelayCommand SetParkingLotFilterToDistanceCommand => _setParkingLotFilterToDistanceCommand ?? (_setParkingLotFilterToDistanceCommand = new RelayCommand(SetParkingLotFilterToDistance));
 
@@ -829,9 +827,9 @@ namespace ParkenDD.ViewModels
             ParkingLotFilterMode = ParkingLotFilterMode.Distance;
             UpdateParkingLotListFilter();
         }
-        #endregion
+#endregion
 
-        #region SetParkingLotFilterToAvailabilityCommand
+#region SetParkingLotFilterToAvailabilityCommand
         private RelayCommand _setParkingLotFilterToAvailabilityCommand;
         public RelayCommand SetParkingLotFilterToAvailabilityCommand => _setParkingLotFilterToAvailabilityCommand ?? (_setParkingLotFilterToAvailabilityCommand = new RelayCommand(SetParkingLotFilterToAvailability));
 
@@ -840,9 +838,9 @@ namespace ParkenDD.ViewModels
             ParkingLotFilterMode = ParkingLotFilterMode.Availability;
             UpdateParkingLotListFilter();
         }
-        #endregion
+#endregion
 
-        #region NavigateToParkingLotCommand
+#region NavigateToParkingLotCommand
         private RelayCommand<ParkingLot> _navigateToParkingLotCommand;
         public RelayCommand<ParkingLot> NavigateToParkingLotCommand => _navigateToParkingLotCommand ?? (_navigateToParkingLotCommand = new RelayCommand<ParkingLot>(NavigateToParkingLot));
 
@@ -903,9 +901,9 @@ namespace ParkenDD.ViewModels
                 await Launcher.LaunchUriAsync(launcherUri, launcherOptions);
             }
         }
-        #endregion
+#endregion
 
-        #region RefreshCityDetailsCommand
+#region RefreshCityDetailsCommand
         private RelayCommand _refreshCityDetailsCommand;
         public RelayCommand RefreshCityDetailsCommand => _refreshCityDetailsCommand ?? (_refreshCityDetailsCommand = new RelayCommand(RefreshCityDetails));
 
@@ -920,9 +918,9 @@ namespace ParkenDD.ViewModels
                 SetLoadingCity(false);
             }
         }
-        #endregion
+#endregion
 
-        #region SearchTextChangedCommand
+#region SearchTextChangedCommand
 
         private RelayCommand<AutoSuggestBoxTextChangedEventArgs> _searchTextChangedCommand;
         public RelayCommand<AutoSuggestBoxTextChangedEventArgs> SearchTextChangedCommand => _searchTextChangedCommand ?? (_searchTextChangedCommand = new RelayCommand<AutoSuggestBoxTextChangedEventArgs>(SearchTextChanged));
@@ -950,9 +948,9 @@ namespace ParkenDD.ViewModels
             }
         }
 
-        #endregion
+#endregion
 
-        #region SearchResultChosenCommand
+#region SearchResultChosenCommand
 
         private RelayCommand<AutoSuggestBoxQuerySubmittedEventArgs> _searchResultChosenCommand;
         public RelayCommand<AutoSuggestBoxQuerySubmittedEventArgs> SearchResultChosenCommand => _searchResultChosenCommand ?? (_searchResultChosenCommand = new RelayCommand<AutoSuggestBoxQuerySubmittedEventArgs>(SearchResultChosen));
@@ -967,9 +965,9 @@ namespace ParkenDD.ViewModels
             }
         }
 
-        #endregion
+#endregion
 
-        #region ShowInfoDialogCommand
+#region ShowInfoDialogCommand
 
         private RelayCommand _showInfoDialogCommand;
         public RelayCommand ShowInfoDialogCommand => _showInfoDialogCommand ?? (_showInfoDialogCommand = new RelayCommand(ShowInfoDialog));
@@ -979,9 +977,9 @@ namespace ParkenDD.ViewModels
             Messenger.Default.Send(new InfoDialogToggleVisibilityMessage(true));
         }
 
-        #endregion
+#endregion
 
-        #region CityChosenCommand
+#region CityChosenCommand
         private RelayCommand<MetaDataCityRow> _cityChosenCommand;
         public RelayCommand<MetaDataCityRow> CityChosenCommand => _cityChosenCommand ?? (_cityChosenCommand = new RelayCommand<MetaDataCityRow>(CityChosen));
 
@@ -989,11 +987,11 @@ namespace ParkenDD.ViewModels
         {
             SelectedCity = city;
         }
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region INITIALIZATION
+#region INITIALIZATION
 
         private async Task<bool> LoadLastState(string selectedCityId)
         {
@@ -1119,6 +1117,6 @@ namespace ParkenDD.ViewModels
             _jumpList.UpdateCityList(MetaDataCities);
         }
 
-        #endregion
+#endregion
     }
 }

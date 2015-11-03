@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Windows.Graphics.Display;
+using Windows.System.Profile;
 using Windows.UI.ViewManagement;
 using GoogleAnalytics;
 using GoogleAnalytics.Core;
@@ -23,9 +24,9 @@ namespace ParkenDD.Services
             var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
             var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
             _tracker.AppScreen = new Dimensions((int)(bounds.Width * scaleFactor), (int)(bounds.Height * scaleFactor));
-            _tracker.UserAgentOverride = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily;
+            _tracker.UserAgentOverride = AnalyticsInfo.VersionInfo.DeviceFamily;
             _tracker.SendEvent("device_information", "resolution", (bounds.Width * scaleFactor) + "x" + (bounds.Height * scaleFactor), 0);
-            _tracker.SendEvent("device_information", "platform", Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily, 0);
+            _tracker.SendEvent("device_information", "platform", AnalyticsInfo.VersionInfo.DeviceFamily, 0);
 
             _client = new TelemetryClient();
         }

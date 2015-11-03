@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.VoiceCommands;
 using Windows.Globalization;
+using Windows.Storage;
 using Microsoft.Practices.ServiceLocation;
 using ParkenDD.Api.Models;
 using ParkenDD.Background.Models;
@@ -43,10 +44,10 @@ namespace ParkenDD.Services
             {
                 var storageFile =
                     await
-                        Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(
+                        StorageFile.GetFileFromApplicationUriAsync(
                             new Uri("ms-appx:///" + VoiceCommandPath));
                 await
-                    Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager
+                    VoiceCommandDefinitionManager
                         .InstallCommandDefinitionsFromStorageFileAsync(storageFile);
             }
             catch (Exception e)

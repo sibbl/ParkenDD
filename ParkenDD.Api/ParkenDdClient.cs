@@ -4,11 +4,10 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using ParkenDD.Api.Converters;
+using ParkenDD.Api.Interfaces;
 using ParkenDD.Api.Models;
 using ParkenDD.Api.Models.Exceptions;
-using ParkenDD.Api.Interfaces;
 
 namespace ParkenDD.Api
 {

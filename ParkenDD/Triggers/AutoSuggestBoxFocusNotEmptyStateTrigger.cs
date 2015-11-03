@@ -2,7 +2,6 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsStateTriggers;
-using WinRTXamlToolkit.Controls;
 
 namespace ParkenDD.Triggers
 {

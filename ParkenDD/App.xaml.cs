@@ -1,10 +1,6 @@
-﻿using ParkenDD.Views;
-using System;
+﻿using System;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Globalization;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -12,6 +8,7 @@ using GalaSoft.MvvmLight.Threading;
 using Microsoft.Practices.ServiceLocation;
 using ParkenDD.Services;
 using ParkenDD.ViewModels;
+using ParkenDD.Views;
 
 namespace ParkenDD
 {
