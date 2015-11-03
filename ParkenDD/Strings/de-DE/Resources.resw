@@ -431,5 +431,38 @@ Der Fehler war:
   <data name="JumpListCitiesHeader" xml:space="preserve">
     <value>Städte</value>
   </data>
+  <data name="ReviewAppDialog1Title" xml:space="preserve">
+    <value>Dir gefällt ParkenDD?</value>
+  </data>
+  <data name="ReviewAppDialog1YesButton" xml:space="preserve">
+    <value>Ja, klar!</value>
+  </data>
+  <data name="ReviewAppDialog1NoButton" xml:space="preserve">
+    <value>Nein, danke</value>
+  </data>
+  <data name="ReviewAppDialog1Content" xml:space="preserve">
+    <value>Wenn Dir ParkenDD gefällt, würden wir uns über eine positive Bewertung im Store freuen! Nur so können wir die Anwendung weiterhin kostenlos anbieten und auch immer weitere Städte unterstützen, sodass wir gemeinsam immer die besten Parkplätze finden.</value>
+  </data>
+  <data name="ReviewAppDialog2Title" xml:space="preserve">
+    <value>Dir gefällt etwas nicht?</value>
+  </data>
+  <data name="ReviewAppDialog2FeedbackButton" xml:space="preserve">
+    <value>Feedback senden</value>
+  </data>
+  <data name="ReviewAppDialog2NoButton" xml:space="preserve">
+    <value>Nerve mich nicht</value>
+  </data>
+  <data name="ReviewAppDialog2Content" xml:space="preserve">
+    <value>Wir freuen uns immer sehr über Feedback, Meinungen sowie Wünsche rund um ParkenDD und würden uns sehr freuen, wenn Du uns mitteilen kannst, warum Du die App nicht bewerten magst.</value>
+  </data>
+  <data name="ReviewAppFeedbackMailTitle" xml:space="preserve">
+    <value>ParkenDD Feedback</value>
+  </data>
+  <data name="ReviewAppFeedbackMailBody" xml:space="preserve">
+    <value>Hallo Sebastian! 
+
+Bevor ich dir eine 5-Sterne-Bewertung geben möchte, setze doch bitte noch Folgendes um:
+</value>
+  </data>
 
 </root>
