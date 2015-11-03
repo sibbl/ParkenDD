@@ -166,7 +166,27 @@ namespace ParkenDD.Services
             }
             set { AddOrUpdateValue(nameof(DistanceUnit), value.ToString()); }
         }
-        
+
+        public long AppLaunchCount
+        {
+            get
+            {
+                if (ViewModelBase.IsInDesignModeStatic) return 0;
+                return GetValueOrDefault(nameof(AppLaunchCount), 0);
+            }
+            set { AddOrUpdateValue(nameof(AppLaunchCount), value); }
+        }
+
+        public bool UserReviewedApp
+        {
+            get
+            {
+                if (ViewModelBase.IsInDesignModeStatic) return false;
+                return GetValueOrDefault(nameof(UserReviewedApp), false);
+            }
+            set { AddOrUpdateValue(nameof(UserReviewedApp), value); }
+        }
+
         #endregion
     }
 }

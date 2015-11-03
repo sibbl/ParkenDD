@@ -23,6 +23,8 @@ namespace ParkenDD.Services
             SimpleIoc.Default.Register<ExceptionService>();
             SimpleIoc.Default.Register<JumpListService>();
             SimpleIoc.Default.Register<LocalizationService>();
+            SimpleIoc.Default.Register<ReviewAppService>();
+
             SimpleIoc.Default.Register<IParkenDdClient, ParkenDdClient>();
 
             SimpleIoc.Default.Register<MainViewModel>();

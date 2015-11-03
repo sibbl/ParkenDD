@@ -82,6 +82,11 @@ namespace ParkenDD
 
             // Ensure the current window is active
             Window.Current.Activate();
+
+            if (e.PreviousExecutionState == ApplicationExecutionState.NotRunning)
+            {
+                ServiceLocator.Current.GetInstance<ReviewAppService>().AppLaunched();
+            }
         }
 
         protected override void OnActivated(IActivatedEventArgs e)

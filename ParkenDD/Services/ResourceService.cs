@@ -44,5 +44,15 @@ namespace ParkenDD.Services
         public string SettingsLanguageRestartRequiredMessage => _resLoader.GetString(nameof(SettingsLanguageRestartRequiredMessage));
         public string LanguageTitle => _resLoader.GetString(nameof(LanguageTitle));
         public string JumpListCitiesHeader => _resLoader.GetString(nameof(JumpListCitiesHeader));
+        public string ReviewAppDialog1Title => _resLoader.GetString(nameof(ReviewAppDialog1Title));
+        public string ReviewAppDialog1YesButton => _resLoader.GetString(nameof(ReviewAppDialog1YesButton));
+        public string ReviewAppDialog1NoButton => _resLoader.GetString(nameof(ReviewAppDialog1NoButton));
+        public string ReviewAppDialog1Content => _resLoader.GetString(nameof(ReviewAppDialog1Content));
+        public string ReviewAppDialog2Title => _resLoader.GetString(nameof(ReviewAppDialog2Title));
+        public string ReviewAppDialog2FeedbackButton => _resLoader.GetString(nameof(ReviewAppDialog2FeedbackButton));
+        public string ReviewAppDialog2NoButton => _resLoader.GetString(nameof(ReviewAppDialog2NoButton));
+        public string ReviewAppDialog2Content => _resLoader.GetString(nameof(ReviewAppDialog2Content));
+        public string ReviewAppFeedbackMailTitle => _resLoader.GetString(nameof(ReviewAppFeedbackMailTitle));
+        public string ReviewAppFeedbackMailBody => _resLoader.GetString(nameof(ReviewAppFeedbackMailBody));
     }
 }
