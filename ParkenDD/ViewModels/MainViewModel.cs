@@ -294,7 +294,11 @@ namespace ParkenDD.ViewModels
 
         #region MapCenter
 
-        private Geopoint _mapCenter;
+        private Geopoint _mapCenter = new Geopoint(new BasicGeoposition()
+        {
+            Latitude = 50.216,
+            Longitude = 10.537
+        });
 
         public Geopoint MapCenter
         {

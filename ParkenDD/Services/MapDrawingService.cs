@@ -46,9 +46,17 @@ namespace ParkenDD.Services
                         await Task.Delay(500);
                     }
                 });
-                var icon = _mapIconParkingLotDict[lot.Id];
-                icon.Image = await GetMapIconDonutImage(drawingContainer, lot);
-                icon.ZIndex = GetZIndexForParkingLot(lot);
+                //catch errors because key can be not there anymore if user changed city meanwhile
+                try
+                {
+                    var icon = _mapIconParkingLotDict[lot.Id];
+                    icon.Image = await GetMapIconDonutImage(drawingContainer, lot);
+                    icon.ZIndex = GetZIndexForParkingLot(lot);
+                }
+                catch (Exception)
+                {
+                    //ignore
+                }
             }
         }
 

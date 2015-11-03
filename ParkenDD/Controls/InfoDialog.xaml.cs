@@ -1,4 +1,5 @@
 ﻿using Windows.UI.Xaml.Controls;
+using ParkenDD.ViewModels;
 
 namespace ParkenDD.Controls
 {
@@ -8,5 +9,9 @@ namespace ParkenDD.Controls
         {
             InitializeComponent();
         }
+
+        public InfoDialogViewModel Vm => (InfoDialogViewModel) DataContext;
+        public SettingsViewModel SettingsVm => (SettingsViewModel) SettingsPivotItem.DataContext;
+        public MainViewModel MainVm => (MainViewModel) DataPivotItem.DataContext;
     }
 }

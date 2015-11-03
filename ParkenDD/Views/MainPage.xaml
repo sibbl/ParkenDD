@@ -108,7 +108,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="loadingCity">
                     <VisualState.StateTriggers>
-                        <windowsStateTriggers:EqualsStateTrigger Value="{Binding LoadingCity}" EqualTo="True" />
+                        <windowsStateTriggers:EqualsStateTrigger Value="{x:Bind Vm.LoadingCity, Mode=OneWay}" EqualTo="True" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ParkingLotListProgressBar.Visibility" Value="Visible" />
@@ -116,7 +116,7 @@
                 </VisualState>
                 <VisualState x:Name="notLoadingCity">
                     <VisualState.StateTriggers>
-                        <windowsStateTriggers:EqualsStateTrigger Value="{Binding LoadingCity}" EqualTo="False" />
+                        <windowsStateTriggers:EqualsStateTrigger Value="{x:Bind Vm.LoadingCity, Mode=OneWay}" EqualTo="False" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ParkingLotListProgressBar.Visibility" Value="Collapsed" />
@@ -127,7 +127,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="loadingMetaData">
                     <VisualState.StateTriggers>
-                        <windowsStateTriggers:EqualsStateTrigger Value="{Binding LoadingMetaData}" EqualTo="True" />
+                        <windowsStateTriggers:EqualsStateTrigger Value="{x:Bind Vm.LoadingMetaData, Mode=OneWay}" EqualTo="True" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="SelectCityProgressBar.Visibility" Value="Visible" />
@@ -135,7 +135,7 @@
                 </VisualState>
                 <VisualState x:Name="notLoadingMetaData">
                     <VisualState.StateTriggers>
-                        <windowsStateTriggers:EqualsStateTrigger Value="{Binding LoadingMetaData}" EqualTo="False" />
+                        <windowsStateTriggers:EqualsStateTrigger Value="{x:Bind Vm.LoadingMetaData, Mode=OneWay}" EqualTo="False" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="SelectCityProgressBar.Visibility" Value="Collapsed" />
@@ -153,7 +153,7 @@
                         <Setter Target="SplitViewTopBar.Padding" Value="0" />
                         <Setter Target="ParkingLotListTopBar.Height" Value="48" />
                         <Setter Target="ParkingLotListTopBar.Padding" Value="0" />
-                        <Setter Target="MapTopBar.(UIElement.Visibility)" Value="Collapsed"/>
+                        <Setter Target="MapTopBar.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -207,7 +207,7 @@
                         x:Name="MetaDataCityListView"
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                         ItemsSource="{x:Bind Vm.MetaDataCities, Mode=OneWay}"
-                        SelectedItem="{Binding SelectedCity}"
+                        SelectedItem="{x:Bind Vm.SelectedCity, Mode=OneWay}"
                         Style="{StaticResource CityListStyle}"
                         SelectionChanged="SplitViewItemSelectionChanged"
                         >
@@ -266,8 +266,8 @@
                             RelativePanel.AlignTopWithPanel="True"
                             RelativePanel.AlignBottomWithPanel="True"
                             PlaceholderText="~Adresse suchen..."
-                            ItemsSource="{Binding SearchSuggestions}"
-                            Text="{Binding SearchText, Mode=TwoWay}"
+                            ItemsSource="{x:Bind Vm.SearchSuggestions, Mode=OneWay}"
+                            Text="{x:Bind Vm.SearchText, Mode=TwoWay}"
                             Style="{StaticResource ParkingLotAutoSuggestBoxStyle}"
                             TextBoxStyle="{StaticResource ParkingLotSearchTextBoxStyle}"
                             ItemContainerStyle="{StaticResource ParkingLotAutoSuggestBoxSuggestionItemContainerStyle}"
@@ -277,18 +277,22 @@
                                     <StackPanel Style="{ThemeResource ParkingLotAutoSuggestBoxSuggestionItemStyle}">
                                         <TextBlock
                                             Style="{ThemeResource ParkingLotAutoSuggestBoxSuggestionItemStreetStyle}"
+                                            x:Phase="1"
                                             Text="{x:Bind Street, Mode=OneTime}"
                                             Visibility="{x:Bind Street, Mode=OneTime, Converter={StaticResource StringToVisibilityConverter}}" />
                                         <TextBlock
                                             Style="{ThemeResource ParkingLotAutoSuggestBoxSuggestionItemNeighborhoodStyle}"
+                                            x:Phase="2"
                                             Text="{x:Bind Neighborhood, Mode=OneTime}"
                                             Visibility="{x:Bind Neighborhood, Mode=OneTime, Converter={StaticResource StringToVisibilityConverter}}" />
                                         <TextBlock
                                             Style="{ThemeResource ParkingLotAutoSuggestBoxSuggestionItemDistrictStyle}"
+                                            x:Phase="3"
                                             Text="{x:Bind District, Mode=OneTime}"
                                             Visibility="{x:Bind District, Mode=OneTime, Converter={StaticResource StringToVisibilityConverter}}" />
                                         <TextBlock
                                             Style="{ThemeResource ParkingLotAutoSuggestBoxSuggestionItemTownStyle}"
+                                            x:Phase="4"
                                             Text="{x:Bind Town, Mode=OneTime}"
                                             Visibility="{x:Bind Town, Mode=OneTime, Converter={StaticResource StringToVisibilityConverter}}" />
                                     </StackPanel>
@@ -296,10 +300,10 @@
                             </AutoSuggestBox.ItemTemplate>
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="TextChanged">
-                                    <core:InvokeCommandAction Command="{Binding SearchTextChangedCommand}" />
+                                    <core:InvokeCommandAction Command="{x:Bind Vm.SearchTextChangedCommand}" />
                                 </core:EventTriggerBehavior>
                                 <core:EventTriggerBehavior EventName="QuerySubmitted">
-                                    <core:InvokeCommandAction Command="{Binding SearchResultChosenCommand}" />
+                                    <core:InvokeCommandAction Command="{x:Bind Vm.SearchResultChosenCommand}" />
                                 </core:EventTriggerBehavior>
                             </interactivity:Interaction.Behaviors>
                         </AutoSuggestBox>
@@ -314,32 +318,32 @@
                                     <ToggleMenuFlyoutItem
                                         x:Uid="ParkingLotFilterMenuItemAlphabetically"
                                         x:Name="ParkingLotFilterMenuItemAlphabetically"
-                                        Command="{Binding SetParkingLotFilterToAlphabeticallyCommand}"
+                                        Command="{x:Bind Vm.SetParkingLotFilterToAlphabeticallyCommand}"
                                         Text="Alphabetisch" />
                                     <ToggleMenuFlyoutItem
                                         x:Uid="ParkingLotFilterMenuItemAvailability"
                                         x:Name="ParkingLotFilterMenuItemAvailability"
-                                        Command="{Binding SetParkingLotFilterToAvailabilityCommand}"
+                                        Command="{x:Bind Vm.SetParkingLotFilterToAvailabilityCommand}"
                                         Text="Belegung" />
                                     <ToggleMenuFlyoutItem
                                         x:Uid="ParkingLotFilterMenuItemDistance"
                                         x:Name="ParkingLotFilterMenuItemDistance"
-                                        Command="{Binding SetParkingLotFilterToDistanceCommand}"
+                                        Command="{x:Bind Vm.SetParkingLotFilterToDistanceCommand}"
                                         Text="Entfernung" />
                                     <MenuFlyoutSeparator />
                                     <ToggleMenuFlyoutItem
                                         x:Uid="ParkingLotFilterAscending"
-                                        IsChecked="{Binding ParkingLotFilterAscending, Mode=TwoWay}"
+                                        IsChecked="{x:Bind Vm.ParkingLotFilterAscending, Mode=TwoWay}"
                                         Text="Aufsteigend" />
                                     <ToggleMenuFlyoutItem
                                         x:Uid="ParkingLotFilterDescending"
-                                        IsChecked="{Binding ParkingLotFilterAscending, Mode=TwoWay, Converter={StaticResource NegativeBooleanConverter}}"
+                                        IsChecked="{x:Bind Vm.ParkingLotFilterAscending, Mode=TwoWay, Converter={StaticResource NegativeBooleanConverter}}"
                                         Text="Absteigend" />
                                     <MenuFlyoutSeparator />
                                     <ToggleMenuFlyoutItem
                                         x:Uid="ParkingLotFilterMenuItemGrouping"
                                         x:Name="ParkingLotFilterMenuItemGrouping"
-                                        IsChecked="{Binding ParkingLotFilterIsGrouped, Mode=TwoWay}"
+                                        IsChecked="{x:Bind Vm.ParkingLotFilterIsGrouped, Mode=TwoWay}"
                                         Text="Gruppierung" />
                                 </MenuFlyout>
                             </Button.Flyout>
@@ -348,7 +352,7 @@
                             x:Name="ParkingLotListRefreshBtn"
                             x:Uid="ParkingLotListRefreshBtn"
                             RelativePanel.AlignRightWithPanel="True"
-                            Command="{Binding RefreshCityDetailsCommand}"
+                            Command="{x:Bind Vm.RefreshCityDetailsCommand}"
                             Tag=""
                             Style="{StaticResource NavIconButtonStyle}" />
                     </RelativePanel>
@@ -370,7 +374,7 @@
                             x:Name="ParkingLotList"
                             Grid.Row="1"
                             ItemsSource="{Binding Source={StaticResource SelectedCityData}}"
-                            SelectedItem="{Binding SelectedParkingLot, Mode=TwoWay}"
+                            SelectedItem="{x:Bind Vm.SelectedParkingLot, Mode=TwoWay, Converter={StaticResource NoopConverter}}"
                             Style="{ThemeResource ParkingLotListStyle}"
                             Header="{Binding SelectedCityData.LastUpdated, Mode=OneWay, Converter={StaticResource DateTimeToStringConverter}}"
                             RelativePanel.AlignLeftWithPanel="True"
@@ -384,9 +388,9 @@
                                     HeaderContainerStyle="{StaticResource ParkingLotListHeaderContainerStyle}"
                                     >
                                     <GroupStyle.HeaderTemplate>
-                                        <DataTemplate>
+                                        <DataTemplate x:DataType="models:ParkingLotListGroup">
                                             <TextBlock
-                                                Text="{Binding Header, Converter={StaticResource TrimTextConverter}}"
+                                                Text="{x:Bind Header, Mode=OneWay, Converter={StaticResource TrimTextConverter}}"
                                                 Style="{ThemeResource ParkingLotListHeaderStyle}"/>
                                         </DataTemplate>
                                     </GroupStyle.HeaderTemplate>
@@ -395,9 +399,9 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="apiModels:ParkingLot">
                                   <UserControl>
-                                    <StackPanel Style="{ThemeResource ParkingLotListItemStyle}" x:Name="Test">
+                                    <StackPanel Style="{ThemeResource ParkingLotListItemStyle}">
                                         <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroup x:Name="TestStates">
+                                            <VisualStateGroup x:Name="SelectionStates">
                                               <VisualState x:Name="Selected">
                                                     <VisualState.Setters>
                                                         <Setter Target="AdditionalDetailsContainer.Visibility" Value="Visible"/>
@@ -528,7 +532,7 @@
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignLeftWithPanel="True"
                             Style="{StaticResource OfflineHintBorderStyle}"
-                            Visibility="{Binding InternetAvailable, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
+                            Visibility="{x:Bind Vm.InternetAvailable, Mode=OneWay, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
                             x:Name="OfflineHint">
                             <TextBlock
                                 Style="{StaticResource OfflineHintTextStyle}"
@@ -560,7 +564,7 @@
                             RelativePanel.AlignTopWithPanel="True"
                             Margin="0,0,-1,0"
                             x:Name="Map"
-                            Center="{Binding MapCenter, Mode=TwoWay}"
+                            Center="{x:Bind Vm.MapCenter, Mode=TwoWay}"
                             MapServiceToken="ODfhhm4fu4fI3bK7netn~Fld-dSJIU1C5srIK9bLJWA~AhmDa72RljmI6HW5OV0kEFt0sN_eRk-JF_Eu03jpeiigdHuK6fQ70zEBy5QaOoYq"
                             />
                     </RelativePanel>

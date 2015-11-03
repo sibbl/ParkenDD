@@ -134,7 +134,11 @@
                 </PivotItem>
                 <!-- #endregion -->
                 <!-- #region Pivot item: settings -->
-                <PivotItem x:Uid="InfoDialogPivotSettings" Header="Einstellungen" DataContext="{Binding Settings, Source={StaticResource Locator}}">
+                <PivotItem
+                    x:Name="SettingsPivotItem"
+                    x:Uid="InfoDialogPivotSettings"
+                    Header="Einstellungen"
+                    DataContext="{Binding Settings, Source={StaticResource Locator}}">
                     <ScrollViewer>
                         <StackPanel>
                             <StackPanel Style="{StaticResource SettingContainerStyle}">
@@ -144,7 +148,7 @@
                                     Style="{StaticResource SettingToggleSwitchStyle}"
                                     OnContent="Ja"
                                     OffContent="Nein"
-                                    IsOn="{Binding ShowExperimentalCities, Mode=TwoWay}"
+                                    IsOn="{x:Bind SettingsVm.ShowExperimentalCities, Mode=TwoWay}"
                                     />
                                 <TextBlock
                                     Style="{StaticResource SettingHintTextBlockStyle}"
@@ -158,25 +162,25 @@
                                     x:Uid="SettingsLanguageComboBox"
                                     Header="Sprache"
                                     Style="{StaticResource SettingComboBoxStyle}"
-                                    ItemsSource="{Binding LocaleValues, Mode=OneTime}"
+                                    ItemsSource="{x:Bind SettingsVm.LocaleValues, Mode=OneTime}"
                                     DisplayMemberPath="Value"
-                                    SelectedValue="{Binding Locale, Mode=TwoWay}"
-                                    SelectedIndex="{Binding LocaleDefaultIndex}"
+                                    SelectedValue="{x:Bind SettingsVm.Locale, Converter={StaticResource NoopConverter}, Mode=TwoWay}"
+                                    SelectedIndex="{x:Bind SettingsVm.LocaleDefaultIndex, Mode=OneWay}"
                                     SelectedValuePath="Key"/>
                                 <TextBlock
                                     Style="{StaticResource SettingHintTextBlockStyle}"
-                                    Visibility="{Binding LanguageChanged, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                    Text="{Binding ChangeLanguageString}" />
+                                    Visibility="{x:Bind SettingsVm.LanguageChanged, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    Text="{x:Bind SettingsVm.ChangeLanguageString, Mode=OneWay}" />
                             </StackPanel>
                             <StackPanel Style="{StaticResource SettingContainerStyle}">
                                 <ComboBox
                                     x:Uid="SettingsDistanceUnitComboBox"
                                     Header="Einheit für Entfernung"
                                     Style="{StaticResource SettingComboBoxStyle}"
-                                    ItemsSource="{Binding DistanceUnitValues, Mode=OneTime}"
+                                    ItemsSource="{x:Bind SettingsVm.DistanceUnitValues, Mode=OneTime}"
                                     DisplayMemberPath="Value"
-                                    SelectedValue="{Binding DistanceUnit, Mode=TwoWay}"
-                                    SelectedIndex="{Binding DistanceUnitDefaultIndex}"
+                                    SelectedValue="{x:Bind SettingsVm.DistanceUnit, Converter={StaticResource NoopConverter}, Mode=TwoWay}"
+                                    SelectedIndex="{x:Bind SettingsVm.DistanceUnitDefaultIndex, Mode=OneWay}"
                                     SelectedValuePath="Key"/>
                             </StackPanel>
                         </StackPanel>
@@ -275,7 +279,11 @@
                 </PivotItem>
                 <!-- #endregion -->
                 <!-- #region Pivot item: data -->
-                <PivotItem x:Uid="InfoDialogPivotData" Header="Daten">
+                <PivotItem
+                    x:Name="DataPivotItem"
+                    x:Uid="InfoDialogPivotData"
+                    Header="Daten"
+                    DataContext="{Binding Main, Source={StaticResource Locator}}">
                     <ScrollViewer>
                         <StackPanel>
                             <TextBlock
@@ -298,14 +306,12 @@
                                 Style="{StaticResource InfoDialogPivotContentTextBlockStyle}">
                                 Folgende Verlinkungen führen Sie zu den Webseiten, deren Quellen wir beziehen:
                             </TextBlock>
-                            <ItemsControl ItemsSource="{Binding Main.MetaDataCities, Source={StaticResource Locator}}">
+                            <ItemsControl ItemsSource="{x:Bind MainVm.MetaDataCities, Mode=OneWay}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="apiModels:MetaDataCityRow">
                                         <StackPanel Style="{StaticResource InfoDialogPivotDataSourceItemContainerStyle}">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock
-                                                    Style="{StaticResource InfoDialogPivotContentBulletStyle}"
-                                                    />
+                                                <TextBlock Style="{StaticResource InfoDialogPivotContentBulletStyle}" />
                                                 <HyperlinkButton
                                                     Style="{StaticResource InfoDialogPivotDataSourceItemHyperlinkStyle}"
                                                     NavigateUri="{x:Bind Url, Mode=OneWay}"
@@ -326,7 +332,7 @@
                 Grid.Row="2"
                 Content="Zurück"
                 x:Uid="InfoDialogBackBtn"
-                Command="{Binding HideDialogCommand}"
+                Command="{x:Bind Vm.HideDialogCommand, Mode=OneTime}"
                 Style="{StaticResource InfoDialogBackButtonStyle}"/>
             <!-- #endregion -->
         </Grid>

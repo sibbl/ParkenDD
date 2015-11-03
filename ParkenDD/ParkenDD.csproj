@@ -164,6 +164,7 @@
     </Compile>
     <Compile Include="Converters\DateTimeToStringConverter.cs" />
     <Compile Include="Converters\IntGreaterZeroToVisibilityConverter.cs" />
+    <Compile Include="Converters\NoopConverter.cs" />
     <Compile Include="Converters\ParkingLotStateStringConverter.cs" />
     <Compile Include="Converters\ParkingLotStateToVisibilityConverter.cs" />
     <Compile Include="Converters\TimeSpanToDateTimeAxisLabelFormatConverter.cs" />

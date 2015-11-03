@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsStateTriggers;
@@ -32,18 +33,18 @@ namespace ParkenDD.Triggers
             {
                 uiElement.TextChanged += (sender, args) =>
                 {
-                    obj.IsActive = uiElement.Text.Trim().Length > 0;
+                    obj.IsActive = obj.HasFocus && uiElement.Text.Trim().Length > 0;
                 };
                 uiElement.GotFocus += (sender, args) =>
                 {
+                    obj.HasFocus = true;
                     obj.IsActive = uiElement.Text.Trim().Length > 0;
                 };
-                uiElement.LostFocus += (sender, args) =>
-                {
-                    obj.IsActive = false;
-                };
+                uiElement.LostFocus += (sender, args) => obj.HasFocus = obj.IsActive = false;
             }
         }
+
+        public bool HasFocus;
 
         #region ITriggerValue
 
