@@ -1,10 +1,7 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Views;
+﻿using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using ParkenDD.Api;
 using ParkenDD.Api.Interfaces;
-using ParkenDD.Design;
 using ParkenDD.ViewModels;
 
 namespace ParkenDD.Services
@@ -15,7 +12,6 @@ namespace ParkenDD.Services
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            SimpleIoc.Default.Register<INavigationService, NavigationService>();
             SimpleIoc.Default.Register<VoiceCommandService>();
             SimpleIoc.Default.Register<MapDrawingService>();
             SimpleIoc.Default.Register<GeolocationService>();
@@ -27,15 +23,7 @@ namespace ParkenDD.Services
             SimpleIoc.Default.Register<ExceptionService>();
             SimpleIoc.Default.Register<JumpListService>();
             SimpleIoc.Default.Register<LocalizationService>();
-
-            if (ViewModelBase.IsInDesignModeStatic)
-            {
-                SimpleIoc.Default.Register<IParkenDdClient, DesignParkenDdClient>();
-            }
-            else
-            {
-                SimpleIoc.Default.Register<IParkenDdClient, ParkenDdClient>();
-            }
+            SimpleIoc.Default.Register<IParkenDdClient, ParkenDdClient>();
 
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<InfoDialogViewModel>();
