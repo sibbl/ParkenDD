@@ -133,38 +133,26 @@ namespace ParkenDD.ViewModels
             set
             {
                 var changed = Set(ref _selectedCityData, value);
-                ParkingLots = value == null ? null : new ObservableCollection<SelectableParkingLot>(value.Lots.Select(x => new SelectableParkingLot(x)));
-                if(changed)
+                if (changed)
                 {
-                    if (SelectedParkingLot == null)
-                    {
-                        var firstParkingLot = ParkingLots?.FirstOrDefault();
-                        SelectedParkingLot = firstParkingLot;
-                    }
+                    ParkingLots = value == null ? null : new ObservableCollection<ParkingLot>(value.Lots);
+                    Messenger.Default.Send(new UpdateParkingLotListSelectionMessage());
                 }
             }
         }
         #endregion
 
         #region SelectedParkingLot
-        private SelectableParkingLot _selectedParkingLot;
-        public SelectableParkingLot SelectedParkingLot
+        private ParkingLot _selectedParkingLot;
+        public ParkingLot SelectedParkingLot
         {
             get { return _selectedParkingLot; }
             set
             {
-                if (value != null)
-                {
-                    value.IsSelected = true;
-                }
-                if (_selectedParkingLot != null && _selectedParkingLot != value)
-                {
-                    _selectedParkingLot.IsSelected = false;
-                }
                 if (Set(ref _selectedParkingLot, value))
                 {
-                    _tracking.TrackSelectParkingLotEvent(SelectedCity, SelectedParkingLot?.ParkingLot);
-                    _settings.SelectedParkingLotId = value?.ParkingLot?.Id;
+                    _tracking.TrackSelectParkingLotEvent(SelectedCity, SelectedParkingLot);
+                    _settings.SelectedParkingLotId = value?.Id;
                 }
             }
         }
@@ -181,8 +169,8 @@ namespace ParkenDD.ViewModels
         #endregion
 
         #region ParkingLots
-        private ObservableCollection<SelectableParkingLot> _parkingLots;
-        public ObservableCollection<SelectableParkingLot> ParkingLots
+        private ObservableCollection<ParkingLot> _parkingLots;
+        public ObservableCollection<ParkingLot> ParkingLots
         {
             get { return _parkingLots; }
             set
@@ -206,8 +194,8 @@ namespace ParkenDD.ViewModels
         #endregion
 
         #region ParkingLotsListCollectionViewSource
-        private IEnumerable<SelectableParkingLot> _parkingLotsListCollectionViewSource;
-        public IEnumerable<SelectableParkingLot> ParkingLotsListCollectionViewSource
+        private IEnumerable<ParkingLot> _parkingLotsListCollectionViewSource;
+        public IEnumerable<ParkingLot> ParkingLotsListCollectionViewSource
         {
             get { return _parkingLotsListCollectionViewSource; }
             set
@@ -599,10 +587,10 @@ namespace ParkenDD.ViewModels
                 await DispatcherHelper.RunAsync(() =>
                 {
                     Debug.WriteLine("[MainVm] TrySelectParkingLotById for {0} / {1}: success", cityId, parkingLotId);
-                    var selectableParkingLot = ParkingLots.FirstOrDefault(x => x.ParkingLot == parkingLot);
-                    if (selectableParkingLot != null)
+                    var plot = ParkingLots.FirstOrDefault(x => x.Id == parkingLot.Id);
+                    if (plot != null)
                     {
-                        SelectedParkingLot = selectableParkingLot;
+                        SelectedParkingLot = plot;
                     }
                 });
                 return true;
@@ -758,12 +746,9 @@ namespace ParkenDD.ViewModels
                     ParkingLotsListCollectionViewSource = await _filterService.CreateList(ParkingLots);
                 }
                 SelectedParkingLot = selectedParkingLot; //need to do this as the CVS uses the first one again...
-                if (SelectedParkingLot != null)
-                {
-                    SelectedParkingLot.IsSelected = true;
-                }
                 SetLoadingCity(false);
             }
+            Messenger.Default.Send(new UpdateParkingLotListSelectionMessage());
         }
 
         private async void TryLoadOnlineCityData()

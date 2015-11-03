@@ -6,7 +6,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 using ParkenDD.Api.Models;
 using Microsoft.Practices.ServiceLocation;
-using ParkenDD.Models;
 using ParkenDD.ViewModels;
 
 namespace ParkenDD.Controls
@@ -30,13 +29,13 @@ namespace ParkenDD.Controls
                 Draw();
             };
 
-            var pl = DataContext as SelectableParkingLot;
+            var pl = DataContext as ParkingLot;
             if (pl != null)
             {
                 pl.PropertyChanged += (sender, args) =>
                 {
-                    if (args.PropertyName == nameof(pl.ParkingLot.FreeLots) ||
-                        args.PropertyName == nameof(pl.ParkingLot.TotalLots))
+                    if (args.PropertyName == nameof(pl.FreeLots) ||
+                        args.PropertyName == nameof(pl.TotalLots))
                     {
                         Draw();
                     }
@@ -54,23 +53,36 @@ namespace ParkenDD.Controls
 
         private void UpdateIsSelected()
         {
-            VisualStateManager.GoToState(this, ParkingLot == MainVm?.SelectedParkingLot?.ParkingLot ? "Selected" : "Unselected", true);
+            VisualStateManager.GoToState(this, ParkingLot == MainVm?.SelectedParkingLot ? "Selected" : "Unselected", true);
         }
 
-        public static readonly DependencyProperty ParkingLotProperty = DependencyProperty.Register("ParkingLot", typeof(ParkingLot), typeof(ParkingLotLoadDonut), null);
+        public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(ParkingLotLoadDonut), new PropertyMetadata(false, IsSelectedPropertyChanged));
+
+        private static void IsSelectedPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            var control = dependencyObject as ParkingLotLoadDonut;
+            control?.UpdateIsSelected();
+        }
+
+        public bool IsSelected
+        {
+            get { return (bool) GetValue(IsSelectedProperty); }
+            set { SetValue(IsSelectedProperty, value); }
+        }
+
+        public static readonly DependencyProperty ParkingLotProperty = DependencyProperty.Register("ParkingLot", typeof(ParkingLot), typeof(ParkingLotLoadDonut), new PropertyMetadata(null, ParkingLotPropertyChanged));
+
+        private static void ParkingLotPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            var control = dependencyObject as ParkingLotLoadDonut;
+            control?.UpdateIsSelected();
+            control?.Draw();
+        }
+
         public ParkingLot ParkingLot
         {
-            get
-            {
-                return (ParkingLot)GetValue(ParkingLotProperty);
-            }
-
-            set
-            {
-                SetValue(ParkingLotProperty, value);
-                UpdateIsSelected();
-                Draw();
-            }
+            get { return (ParkingLot) GetValue(ParkingLotProperty); }
+            set { SetValue(ParkingLotProperty, value); }
         }
 
         private void Draw()

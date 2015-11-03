@@ -33,29 +33,59 @@ namespace ParkenDD.Controls
         public bool IsSelected
         {
             get { return (bool) GetValue(IsSelectedProperty); }
-            set
-            {
-                SetValue(IsSelectedProperty, value);
-                if (value)
-                {
-                    InitForecast();
-                }
-            }
+            set { SetValue(IsSelectedProperty, value); }
         }
 
         public static readonly DependencyProperty IsSelectedProperty =
             DependencyProperty.Register("IsSelected",
                 typeof (bool),
                 typeof (ParkingLotForecastChart),
-                new PropertyMetadata(false));
+                new PropertyMetadata(false, IsSelectedPropertyChanged));
+
+        private static void IsSelectedPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            var control = dependencyObject as ParkingLotForecastChart;
+            if (control != null && control.IsSelected)
+            {
+                control.UpdateChart();
+            }
+        }
+
+        public static readonly DependencyProperty ParkingLotProperty = DependencyProperty.Register("ParkingLot", typeof(ParkingLot), typeof(ParkingLotForecastChart), new PropertyMetadata(null, ParkingLotPropertyChanged));
+
+        private static void ParkingLotPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            var control = dependencyObject as ParkingLotForecastChart;
+            control?.UpdateChart();
+        }
+
+        public ParkingLot ParkingLot
+        {
+            get { return (ParkingLot)GetValue(ParkingLotProperty); }
+            set { SetValue(ParkingLotProperty, value); }
+        }
 
         public ParkingLotForecastChart()
         {
             InitializeComponent();
         }
 
-        private async void UpdateChart()
+        public async void UpdateChart()
         {
+            if (!_initialized)
+            {
+                FindName(nameof(ForecastContainer));
+
+                ValueAxis.Minimum = 0;
+                ValueAxis.Maximum = 100;
+                ValueAxis.Interval = 10;
+
+                SelectionComboBox.ItemsSource = ComboBoxValues;
+                SelectionComboBox.SelectedItem = ComboBoxValues[0];
+
+                SelectionComboBox.SelectionChanged += (sender, args) => UpdateChart();
+            }
+
             var vm = ServiceLocator.Current.GetInstance<MainViewModel>();
             if (!vm.InternetAvailable)
             {
@@ -64,8 +94,6 @@ namespace ParkenDD.Controls
             var parkingLot = DataContext as ParkingLot;
             if (parkingLot != null && parkingLot.HasForecast)
             {
-                //TODO: cache data somewhere
-                //TODO: cancel running updating tasks
                 if (_initialized)
                 {
                     ForecastChart.Series.Clear();
@@ -133,25 +161,6 @@ namespace ParkenDD.Controls
                         _initialized = true;
                     });
                 }
-            }
-        }
-
-        private void InitForecast()
-        {
-            if (!_initialized)
-            {
-                FindName(nameof(ForecastContainer));
-
-                ValueAxis.Minimum = 0;
-                ValueAxis.Maximum = 100;
-                ValueAxis.Interval = 10;
-
-                SelectionComboBox.ItemsSource = ComboBoxValues;
-                SelectionComboBox.SelectedItem = ComboBoxValues[0];
-
-                SelectionComboBox.SelectionChanged += (sender, args) => UpdateChart();
-
-                UpdateChart();
             }
         }
     }

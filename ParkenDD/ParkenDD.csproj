@@ -170,6 +170,7 @@
     <Compile Include="Converters\TrimTextConverter.cs" />
     <Compile Include="Messages\HideSearchResultOnMapMessage.cs" />
     <Compile Include="Messages\InfoDialogToggleVisibilityMessage.cs" />
+    <Compile Include="Messages\UpdateParkingLotListSelectionMessage.cs" />
     <Compile Include="Messages\SettingChangedMessage.cs" />
     <Compile Include="Messages\ShowSearchResultOnMapMessage.cs" />
     <Compile Include="Messages\ZoomMapToCoordinateMessage.cs" />
@@ -179,7 +180,6 @@
     <Compile Include="Models\ParkingLotForecastDataPoint.cs" />
     <Compile Include="Models\ParkingLotForecastTimespanEnum.cs" />
     <Compile Include="Models\ParkingLotForecastTimespanSelection.cs" />
-    <Compile Include="Models\SelectableParkingLot.cs" />
     <Compile Include="Services\ExceptionService.cs" />
     <Compile Include="Services\GeolocationService.cs" />
     <Compile Include="Services\JumpListService.cs" />

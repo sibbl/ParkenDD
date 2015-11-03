@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using ParkenDD.Api.Models;
-using ParkenDD.Models;
 
 namespace ParkenDD.Utils
 {
@@ -37,7 +36,7 @@ namespace ParkenDD.Utils
             }
         }
 
-        public static void Merge(this City city, City newData, ObservableCollection<SelectableParkingLot> parkingLotCollection)
+        public static void Merge(this City city, City newData, ObservableCollection<ParkingLot> parkingLotCollection)
         {
             if (newData == null || parkingLotCollection == null)
             {
@@ -52,7 +51,7 @@ namespace ParkenDD.Utils
                 if (existingLot == null)
                 {
                     city.Lots.Add(newLot);
-                    parkingLotCollection.Add(new SelectableParkingLot(newLot));
+                    parkingLotCollection.Add(newLot);
                 }
                 else
                 {
@@ -67,15 +66,12 @@ namespace ParkenDD.Utils
                     existingLot.Name = newLot.Name;
                     existingLot.Region = newLot.Region;
                     existingLot.State = newLot.State;
-
-                    var selectableParkingLot = parkingLotCollection.FirstOrDefault(x => x.ParkingLot.Id == existingLot.Id);
-                    selectableParkingLot?.RaiseParkingLotPropertyChanged();
                 }
             }
             foreach (var existingLot in city.Lots.ToList().Where(existingLot => newData.Lots.FirstOrDefault(newLot => newLot.Id == existingLot.Id) == null))
             {
                 city.Lots.Remove(existingLot);
-                var selectableParkingLot = parkingLotCollection.FirstOrDefault(x => x.ParkingLot.Id == existingLot.Id);
+                var selectableParkingLot = parkingLotCollection.FirstOrDefault(x => x.Id == existingLot.Id);
                 if (selectableParkingLot != null)
                 {
                     parkingLotCollection.Remove(selectableParkingLot);

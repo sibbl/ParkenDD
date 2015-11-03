@@ -8,7 +8,6 @@ using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
@@ -36,26 +35,26 @@ namespace ParkenDD.Services
             _mainVm = mainVm;
         }
 
-        public async void RedrawParkingLot(Grid drawingContainer, SelectableParkingLot lot)
+        public async void RedrawParkingLot(Grid drawingContainer, ParkingLot lot)
         {
             if (lot != null && _mapIconParkingLotDict != null)
             {
                 await Task.Run(async () =>
                 {
-                    while (!_mapIconParkingLotDict.ContainsKey(lot.ParkingLot.Id))
+                    while (!_mapIconParkingLotDict.ContainsKey(lot.Id))
                     {
                         await Task.Delay(500);
                     }
                 });
-                var icon = _mapIconParkingLotDict[lot.ParkingLot.Id];
-                icon.Image = await GetMapIconDonutImage(drawingContainer, lot.ParkingLot);
-                icon.ZIndex = GetZIndexForParkingLot(lot.ParkingLot);
+                var icon = _mapIconParkingLotDict[lot.Id];
+                icon.Image = await GetMapIconDonutImage(drawingContainer, lot);
+                icon.ZIndex = GetZIndexForParkingLot(lot);
             }
         }
 
         private int GetZIndexForParkingLot(ParkingLot lot)
         {
-            if (_mainVm.SelectedParkingLot?.ParkingLot == lot)
+            if (_mainVm.SelectedParkingLot == lot)
             {
                 return ZindexTopmostParkingLot; //100% * 1000 + 1 to be on top
             }
@@ -71,26 +70,25 @@ namespace ParkenDD.Services
             return (int)Math.Round(zIndex * 1000);
         }
 
-        private async void DrawParkingLot(MapControl map, Grid drawingContainer, SelectableParkingLot lot)
+        private async void DrawParkingLot(MapControl map, Grid drawingContainer, ParkingLot lot)
         {
-            if (lot?.ParkingLot?.Coordinates != null)
+            if (lot?.Coordinates != null)
             {
                 var icon = new MapIcon
                 {
-                    Location = lot.ParkingLot.Coordinates.Point,
+                    Location = lot.Coordinates.Point,
                     NormalizedAnchorPoint = new Point(0.5, 0.5),
-                    Title = lot.ParkingLot.Name,
+                    Title = lot.Name,
                     CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible,
-                    Image = await GetMapIconDonutImage(drawingContainer, lot.ParkingLot),
-                    ZIndex = GetZIndexForParkingLot(lot.ParkingLot),
+                    Image = await GetMapIconDonutImage(drawingContainer, lot),
+                    ZIndex = GetZIndexForParkingLot(lot),
                 };
-                if (_mapIconParkingLotDict.ContainsKey(lot.ParkingLot.Id))
+                if (_mapIconParkingLotDict.ContainsKey(lot.Id))
                 {
-                    //TODO: optimize this code. Don't redraw the whole icon if maybe only location or title changed
-                    map.MapElements.Remove(_mapIconParkingLotDict[lot.ParkingLot.Id]);
-                    _mapIconParkingLotDict.Remove(lot.ParkingLot.Id);
+                    map.MapElements.Remove(_mapIconParkingLotDict[lot.Id]);
+                    _mapIconParkingLotDict.Remove(lot.Id);
                 }
-                _mapIconParkingLotDict.Add(lot.ParkingLot.Id, icon);
+                _mapIconParkingLotDict.Add(lot.Id, icon);
                 map.MapElements.Add(icon);
             }
         }
@@ -185,12 +183,12 @@ namespace ParkenDD.Services
             return RandomAccessStreamReference.CreateFromStream(stream.AsStream().AsRandomAccessStream());
         }
 
-        public SelectableParkingLot GetParkingLotOfIcon(MapIcon icon)
+        public ParkingLot GetParkingLotOfIcon(MapIcon icon)
         {
             if (icon != null && _mapIconParkingLotDict != null && _mapIconParkingLotDict.ContainsValue(icon))
             {
                 var id = _mapIconParkingLotDict.FirstOrDefault(x => x.Value == icon).Key;
-                return _mainVm.ParkingLots.FirstOrDefault(x => x.ParkingLot.Id == id);
+                return _mainVm.ParkingLots.FirstOrDefault(x => x.Id == id);
             }
             return null;
         }

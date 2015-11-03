@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
@@ -28,7 +29,7 @@ namespace ParkenDD.Views
     {
         public MainViewModel Vm => (MainViewModel)DataContext;
         private static MapDrawingService DrawingService => ServiceLocator.Current.GetInstance<MapDrawingService>();
-        private SelectableParkingLot _selectedLot;
+        private ParkingLot _selectedLot;
         private GeoboundingBox _initialMapBbox;
         private Geopoint _initialCoordinates;
         private bool _infoDialogVisible;
@@ -122,6 +123,12 @@ namespace ParkenDD.Views
                 InfoDialog.Visibility = msg.Visibility;
             });
 
+            Messenger.Default.Register(this, (UpdateParkingLotListSelectionMessage msg) =>
+            {
+                Debug.WriteLine("[MainVm] parking lot list: message received");
+                SetParkingLotListSelectionVisualState();
+            });
+
             Vm.PropertyChanged += OnViewModelPropertyChanged;
 
             ParkingLotList.SelectionChanged += (sender, args) =>
@@ -157,17 +164,17 @@ namespace ParkenDD.Views
                     foreach (var selectableParkingLot in Vm.ParkingLots)
                     {
                         var lot = selectableParkingLot;
-                        lot.ParkingLot.PropertyChanged += (sender1, changedEventArgs) => RedrawOnPropertyChanged(lot, changedEventArgs);
+                        lot.PropertyChanged += (sender1, changedEventArgs) => RedrawOnPropertyChanged(lot, changedEventArgs);
                     }
                     Vm.ParkingLots.CollectionChanged += (o, eventArgs) =>
                     {
                         DrawingService.DrawParkingLots(Map, BackgroundDrawingContainer);
                         if (eventArgs.NewItems != null)
                         {
-                            foreach (var selectableParkingLot in eventArgs.NewItems.OfType<SelectableParkingLot>())
+                            foreach (var selectableParkingLot in eventArgs.NewItems.OfType<ParkingLot>())
                             {
                                 var lot = selectableParkingLot;
-                                lot.ParkingLot.PropertyChanged += (sender1, changedEventArgs) => RedrawOnPropertyChanged(lot, changedEventArgs);
+                                lot.PropertyChanged += (sender1, changedEventArgs) => RedrawOnPropertyChanged(lot, changedEventArgs);
                             }
                         }
                     };
@@ -178,7 +185,7 @@ namespace ParkenDD.Views
                 DrawingService.RedrawParkingLot(BackgroundDrawingContainer, Vm.SelectedParkingLot);
                 DrawingService.RedrawParkingLot(BackgroundDrawingContainer, _selectedLot);
                 _selectedLot = Vm.SelectedParkingLot;
-                var selectedParkingLotPoint = _selectedLot?.ParkingLot?.Coordinates?.Point;
+                var selectedParkingLotPoint = _selectedLot?.Coordinates?.Point;
                 if (selectedParkingLotPoint != null)
                 {
                     Debug.WriteLine("Mainpage map: selected parking lot - wait until initial view was zoomed to");
@@ -220,12 +227,12 @@ namespace ParkenDD.Views
             }
         }
 
-        private void RedrawOnPropertyChanged(SelectableParkingLot lot, PropertyChangedEventArgs args)
+        private void RedrawOnPropertyChanged(ParkingLot lot, PropertyChangedEventArgs args)
         {
             if (lot != null)
             {
-                if (args.PropertyName == nameof(lot.ParkingLot.FreeLots) ||
-                    args.PropertyName == nameof(lot.ParkingLot.TotalLots))
+                if (args.PropertyName == nameof(lot.FreeLots) ||
+                    args.PropertyName == nameof(lot.TotalLots))
                 {
                     DrawingService.RedrawParkingLot(BackgroundDrawingContainer, lot);
                 }
@@ -288,8 +295,65 @@ namespace ParkenDD.Views
             }
         }
 
-        private void UIElement_OnTapped(object sender, TappedRoutedEventArgs e)
+        private void ParkingLotListSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var oldItem = e.RemovedItems.FirstOrDefault();
+            if (oldItem != null)
+            {
+                var oldItemContainer = ParkingLotList.ContainerFromItem(oldItem);
+                var oldListViewItem = oldItemContainer as ListViewItem;
+                if (oldListViewItem != null)
+                {
+                    Debug.WriteLine("[MainVm] parking lot list: remove selected visual state for " + (oldItem as ParkingLot).Name);
+                    VisualStateManager.GoToState(oldListViewItem.ContentTemplateRoot as Control, "Unselected", false);
+                }
+            }
+            var newItem = e.AddedItems.FirstOrDefault();
+            if (newItem != null)
+            {
+                var newItemContainer = ParkingLotList.ContainerFromItem(newItem);
+                var newListViewItem = newItemContainer as ListViewItem;
+                if (newListViewItem != null)
+                {
+                    Debug.WriteLine("[MainVm] parking lot list: add selected visual state for " + (newItem as ParkingLot).Name);
+                    VisualStateManager.GoToState(newListViewItem.ContentTemplateRoot as Control, "Selected", false);
+                }
+            }
+        }
+
+        private async void SetParkingLotListSelectionVisualState(ParkingLot selectedItem = null)
+        {
+            if (selectedItem == null)
+            {
+                selectedItem = Vm.SelectedParkingLot;
+            }
+            if (selectedItem != null)
+            {
+                ListViewItem listViewItem = null;
+                var count = 0;
+                while (listViewItem == null && count < 10)
+                {
+                    var itemContainer = ParkingLotList.ContainerFromItem(selectedItem);
+                    listViewItem = itemContainer as ListViewItem;
+                    await Task.Delay(200);
+                    count++;
+                }
+
+                if (listViewItem != null)
+                {
+                    Debug.WriteLine("[MainVm] parking lot list: set selected visual state for " + selectedItem.Name);
+                    VisualStateManager.GoToState(listViewItem.ContentTemplateRoot as Control, "Selected", false);
+                }
+                else
+                {
+                    Debug.WriteLine("[MainVm] parking lot list: list view item is null :/");
+                }
+            }
+            else
+            {
+                Debug.WriteLine("[MainVm] parking lot list: set selected index to -1");
+                ParkingLotList.SelectedIndex = -1;
+            }
         }
     }
 }

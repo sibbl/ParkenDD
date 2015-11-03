@@ -81,6 +81,7 @@
                         PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
                         ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
                         SelectionCheckMarkVisualEnabled="True"
+                        Tag="{TemplateBinding IsSelected}"
                         SelectedForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                         SelectedPointerOverBackground="#59000000"
