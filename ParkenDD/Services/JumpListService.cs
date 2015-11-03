@@ -22,6 +22,10 @@ namespace ParkenDD.Services
         }
         public async Task UpdateCityListAsync(IEnumerable<MetaDataCityRow> cities)
         {
+            if (cities == null)
+            {
+                return;
+            }
             if (JumpList.IsSupported())
             {
                 var jl = await JumpList.LoadCurrentAsync();

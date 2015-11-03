@@ -83,7 +83,7 @@ namespace ParkenDD
             // Ensure the current window is active
             Window.Current.Activate();
 
-            if (e.PreviousExecutionState == ApplicationExecutionState.NotRunning)
+            if (e.PreviousExecutionState == ApplicationExecutionState.NotRunning || e.PreviousExecutionState == ApplicationExecutionState.ClosedByUser)
             {
                 ServiceLocator.Current.GetInstance<ReviewAppService>().AppLaunched();
             }
