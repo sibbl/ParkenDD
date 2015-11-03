@@ -431,5 +431,38 @@ The error was:
   <data name="JumpListCitiesHeader" xml:space="preserve">
     <value>Cities</value>
   </data>
+  <data name="ReviewAppDialog1Title" xml:space="preserve">
+    <value>You like ParkenDD?</value>
+  </data>
+  <data name="ReviewAppDialog1YesButton" xml:space="preserve">
+    <value>Yes, sure!</value>
+  </data>
+  <data name="ReviewAppDialog1NoButton" xml:space="preserve">
+    <value>No, thanks</value>
+  </data>
+  <data name="ReviewAppDialog1Content" xml:space="preserve">
+    <value>If you like ParkenDD, we&apos;d appreciate if you could rate our app in the Store! This way we can continue to offer this app for free and support even more cities in the future, so that we can find the best parking lots together.</value>
+  </data>
+  <data name="ReviewAppDialog2Title" xml:space="preserve">
+    <value>Is there something you don&apos;t like?</value>
+  </data>
+  <data name="ReviewAppDialog2FeedbackButton" xml:space="preserve">
+    <value>Send feedback</value>
+  </data>
+  <data name="ReviewAppDialog2NoButton" xml:space="preserve">
+    <value>Don&apos;t annoy me</value>
+  </data>
+  <data name="ReviewAppDialog2Content" xml:space="preserve">
+    <value>We&apos;d be happy if you could send us some feedback, explain your problems or tell us your wishes so we can improve ParkenDD and maybe get a rating from you in the future.</value>
+  </data>
+  <data name="ReviewAppFeedbackMailTitle" xml:space="preserve">
+    <value>ParkenDD Feedback</value>
+  </data>
+  <data name="ReviewAppFeedbackMailBody" xml:space="preserve">
+    <value>Hey Sebastian!
+
+To give your app a 5 star rating, please improve the following:
+</value>
+  </data>
 
 </root>
