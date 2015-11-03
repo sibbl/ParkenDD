@@ -167,7 +167,7 @@ namespace ParkenDD.Services
             set { AddOrUpdateValue(nameof(DistanceUnit), value.ToString()); }
         }
 
-        public long AppLaunchCount
+        public int AppLaunchCount
         {
             get
             {

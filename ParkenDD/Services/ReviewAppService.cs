@@ -9,7 +9,7 @@ namespace ParkenDD.Services
     {
         private readonly SettingsService _settings;
         private readonly ResourceService _res;
-        private readonly long[] _appRatingsThresholds = {3, 15, 25, 50};
+        private readonly int[] _appRatingsThresholds = {3, 15, 25, 50};
         public ReviewAppService(SettingsService settings, ResourceService res)
         {
             _settings = settings;
