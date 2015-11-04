@@ -44,12 +44,6 @@ namespace ParkenDD.Views
 
             Map.Loaded += async (sender, args) =>
             {
-                //Bottom margin is set to 32 via XAML and reset to 0 here. This is a 
-                //workaround for the map having a black border at the bottom when removing title bar on load
-                var mapMargin = Map.Margin;
-                mapMargin.Bottom = 0;
-                Map.Margin = mapMargin;
-
                 Debug.WriteLine("[MainView] map: map loaded");
                 if (_initialMapBbox != null)
                 {
