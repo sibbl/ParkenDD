@@ -753,10 +753,7 @@ namespace ParkenDD.ViewModels
                     Debug.WriteLine("[MainVm] UpdateParkingLotListFilter: create list");
                     ParkingLotsListCollectionViewSource = await _filterService.CreateList(ParkingLots);
                 }
-                if (selectedParkingLot != null)
-                {
-                    SelectedParkingLot = selectedParkingLot; //need to do this as the CVS uses the first one again...
-                }
+                SelectedParkingLot = selectedParkingLot; //need to do this as the CVS uses the first one again...
                 SetLoadingCity(false);
             }
             Messenger.Default.Send(new UpdateParkingLotListSelectionMessage());

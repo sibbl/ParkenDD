@@ -573,7 +573,7 @@
                                                     x:Name="ForecastChart"
                                                     Visibility="{x:Bind HasForecast, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                     HorizontalAlignment="Stretch"
-                                                    x:Phase="7"
+                                                    x:Phase="1"
                                                     ParkingLot="{x:Bind Mode=OneWay}"
                                                     IsSelected="False"
                                                     />
