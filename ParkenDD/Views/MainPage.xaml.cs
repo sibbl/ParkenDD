@@ -44,16 +44,16 @@ namespace ParkenDD.Views
 
             Map.Loaded += async (sender, args) =>
             {
-                Debug.WriteLine("Mainpage map: map loaded");
+                Debug.WriteLine("[MainView] map: map loaded");
                 if (_initialMapBbox != null)
                 {
-                    Debug.WriteLine("Mainpage map: map loaded, set initial bounds");
+                    Debug.WriteLine("[MainView] map: map loaded, set initial bounds");
                     await Map.TrySetViewBoundsAsync(_initialMapBbox, null, MapAnimationKind.None);
                     _zoomedToInitialView = true;
                 }
                 else if(_initialCoordinates != null)
                 {
-                    Debug.WriteLine("Mainpage map: map loaded, set initial coords");
+                    Debug.WriteLine("[MainView] map: map loaded, set initial coords");
                     await Map.TrySetViewAsync(_initialCoordinates, null, null, null, MapAnimationKind.None);
                     _zoomedToInitialView = true;
                 }
@@ -71,7 +71,7 @@ namespace ParkenDD.Views
                 {
                     DispatcherHelper.CheckBeginInvokeOnUI(async () =>
                     {
-                        Debug.WriteLine("Mainpage map: zoom map to bounds msg");
+                        Debug.WriteLine("[MainView] map: zoom map to bounds msg");
                         await Map.TrySetViewBoundsAsync(msg.BoundingBox, null, MapAnimationKind.Bow);
                         _zoomedToInitialView = _mapLoaded;
                     });
@@ -89,7 +89,7 @@ namespace ParkenDD.Views
                 {
                     DispatcherHelper.CheckBeginInvokeOnUI(async () =>
                     {
-                        Debug.WriteLine("Mainpage map: zoom map to coordinates msg");
+                        Debug.WriteLine("[MainView] map: zoom map to coordinates msg");
                         await
                             Map.TrySetViewAsync(msg.Point, null, null, null, MapAnimationKind.Bow);
                         _zoomedToInitialView = _mapLoaded;
@@ -102,9 +102,9 @@ namespace ParkenDD.Views
                 DispatcherHelper.CheckBeginInvokeOnUI(async () =>
                 {
                     DrawingService.DrawSearchResult(Map, msg.Result);
-                    Debug.WriteLine("Mainpage map: show search result - wait until initial view was zoomed to");
+                    Debug.WriteLine("[MainView] map: show search result - wait until initial view was zoomed to");
                     await WaitForInitialMapZoom();
-                    Debug.WriteLine("Mainpage map: show search result");
+                    Debug.WriteLine("[MainView] map: show search result");
                     await Map.TrySetViewAsync(msg.Result.Point, null, null, null, MapAnimationKind.Bow);
                 });
             });
@@ -123,7 +123,7 @@ namespace ParkenDD.Views
 
             Messenger.Default.Register(this, (UpdateParkingLotListSelectionMessage msg) =>
             {
-                Debug.WriteLine("[MainVm] parking lot list: message received");
+                Debug.WriteLine("[MainView] parking lot list: message received");
                 SetParkingLotListSelectionVisualState();
             });
 
@@ -186,19 +186,19 @@ namespace ParkenDD.Views
                 var selectedParkingLotPoint = _selectedLot?.Coordinates?.Point;
                 if (selectedParkingLotPoint != null)
                 {
-                    Debug.WriteLine("Mainpage map: selected parking lot - wait until initial view was zoomed to");
+                    Debug.WriteLine("[MainView] map: selected parking lot - wait until initial view was zoomed to (" + _selectedLot?.Id + ")");
                     await WaitForInitialMapZoom();
                     bool isParkingLotInView;
                     Map.IsLocationInView(selectedParkingLotPoint, out isParkingLotInView);
-                    Debug.WriteLine("Mainpage map: selected parking lot - check");
+                    Debug.WriteLine("[MainView] map: selected parking lot - check (" + _selectedLot?.Id + ")");
                     if (Map.ZoomLevel < 14)
                     {
-                        Debug.WriteLine("Mainpage map: selected parking lot, zoom level too high");
+                        Debug.WriteLine("[MainView] map: selected parking lot, zoom level too high (" + _selectedLot?.Id + ")");
                         await Map.TrySetViewAsync(selectedParkingLotPoint, 14);
                     }
                     else if (!isParkingLotInView)
                     {
-                        Debug.WriteLine("Mainpage map: selected parking lot, parking lot not in view");
+                        Debug.WriteLine("[MainView] map: selected parking lot, parking lot not in view (" + _selectedLot?.Id + ")");
                         await Map.TrySetViewAsync(selectedParkingLotPoint);
                     }
                 }
@@ -287,7 +287,7 @@ namespace ParkenDD.Views
             var counter = 0;
             while (!_zoomedToInitialView && counter < 10) //stop waiting when done or after 10 * 200ms = 2sec
             {
-                Debug.WriteLine("Mainpage map: wait...");
+                Debug.WriteLine("[MainView] map: wait...");
                 await Task.Delay(200);
                 counter++;
             }
@@ -302,7 +302,7 @@ namespace ParkenDD.Views
                 var oldListViewItem = oldItemContainer as ListViewItem;
                 if (oldListViewItem != null)
                 {
-                    Debug.WriteLine("[MainVm] parking lot list: remove selected visual state for " + (oldItem as ParkingLot).Name);
+                    Debug.WriteLine("[MainView] parking lot list: remove selected visual state for " + (oldItem as ParkingLot).Name);
                     VisualStateManager.GoToState(oldListViewItem.ContentTemplateRoot as Control, "Unselected", false);
                 }
             }
@@ -313,7 +313,7 @@ namespace ParkenDD.Views
                 var newListViewItem = newItemContainer as ListViewItem;
                 if (newListViewItem != null)
                 {
-                    Debug.WriteLine("[MainVm] parking lot list: add selected visual state for " + (newItem as ParkingLot).Name);
+                    Debug.WriteLine("[MainView] parking lot list: add selected visual state for " + (newItem as ParkingLot).Name);
                     VisualStateManager.GoToState(newListViewItem.ContentTemplateRoot as Control, "Selected", false);
                 }
             }
@@ -339,7 +339,7 @@ namespace ParkenDD.Views
 
                 if (listViewItem != null)
                 {
-                    Debug.WriteLine("[MainVm] parking lot list: set selected visual state for " + selectedItem.Name);
+                    Debug.WriteLine("[MainView] parking lot list: set selected visual state for " + selectedItem.Name);
                     VisualStateManager.GoToState(listViewItem.ContentTemplateRoot as Control, "Selected", false);
                 }
                 else
@@ -349,7 +349,7 @@ namespace ParkenDD.Views
             }
             else
             {
-                Debug.WriteLine("[MainVm] parking lot list: set selected index to -1");
+                Debug.WriteLine("[MainView] parking lot list: set selected index to -1");
                 ParkingLotList.SelectedIndex = -1;
             }
         }

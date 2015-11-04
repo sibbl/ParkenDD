@@ -147,6 +147,11 @@ namespace ParkenDD.ViewModels
             get { return _selectedParkingLot; }
             set
             {
+                if (!_initialized && value == null)
+                {
+                    return;
+                }
+                Debug.WriteLine("[MainVm] set selected parking lot: " + value?.Id);
                 if (Set(ref _selectedParkingLot, value))
                 {
                     _tracking.TrackSelectParkingLotEvent(SelectedCity, SelectedParkingLot);
@@ -748,7 +753,10 @@ namespace ParkenDD.ViewModels
                     Debug.WriteLine("[MainVm] UpdateParkingLotListFilter: create list");
                     ParkingLotsListCollectionViewSource = await _filterService.CreateList(ParkingLots);
                 }
-                SelectedParkingLot = selectedParkingLot; //need to do this as the CVS uses the first one again...
+                if (selectedParkingLot != null)
+                {
+                    SelectedParkingLot = selectedParkingLot; //need to do this as the CVS uses the first one again...
+                }
                 SetLoadingCity(false);
             }
             Messenger.Default.Send(new UpdateParkingLotListSelectionMessage());
@@ -810,7 +818,7 @@ namespace ParkenDD.ViewModels
 
 #endregion
 
-#region COMMANDS
+        #region COMMANDS
 
 #region SetParkingLotFilterToAlphabeticallyCommand
         private RelayCommand _setParkingLotFilterToAlphabeticallyCommand;
@@ -996,7 +1004,7 @@ namespace ParkenDD.ViewModels
 
 #endregion
 
-#region INITIALIZATION
+        #region INITIALIZATION
 
         private async Task<bool> LoadLastState(string selectedCityId)
         {
