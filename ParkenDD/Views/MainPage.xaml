@@ -626,7 +626,7 @@
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignBottomWithPanel="True"
                             RelativePanel.AlignTopWithPanel="True"
-                            Margin="0,0,-1,0"
+                            Margin="0,0,-1,-32"
                             x:Name="Map"
                             Center="{x:Bind Vm.MapCenter, Mode=TwoWay}"
                             MapServiceToken="ODfhhm4fu4fI3bK7netn~Fld-dSJIU1C5srIK9bLJWA~AhmDa72RljmI6HW5OV0kEFt0sN_eRk-JF_Eu03jpeiigdHuK6fQ70zEBy5QaOoYq"
