@@ -10,7 +10,10 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <StackPanel Style="{ThemeResource ParkingLotForecastChartContainerStyle}" x:Name="ForecastContainer" x:DeferLoadStrategy="Lazy">
+    <StackPanel
+        Style="{ThemeResource ParkingLotForecastChartContainerStyle}"
+        x:Name="ForecastContainer"
+        x:DeferLoadStrategy="Lazy">
         <ComboBox
             x:Name="SelectionComboBox"
             DisplayMemberPath="Title"

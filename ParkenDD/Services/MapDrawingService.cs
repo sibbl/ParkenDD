@@ -170,6 +170,7 @@ namespace ParkenDD.Services
         {
             var drawDonut = new ParkingLotLoadDonut
             {
+                Animate = false,
                 ParkingLot = lot,
                 Style = Application.Current.Resources["ParkingLotMapIconDonutStyle"] as Style
             };

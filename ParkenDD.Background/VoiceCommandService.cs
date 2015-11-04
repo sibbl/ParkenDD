@@ -70,7 +70,7 @@ namespace ParkenDD.Background
                                 var api = new ParkenDdClient();
 
                                 var city = await api.GetCityAsync(cityId);
-                                lastUpdated = city.LastUpdated;
+                                lastUpdated = city.LastUpdated ?? DateTime.MinValue;
                                 lot = city?.Lots?.FirstOrDefault(x => x.Id.Equals(parkingLotId));
                             }
                         }

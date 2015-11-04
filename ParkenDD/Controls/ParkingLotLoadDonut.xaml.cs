@@ -14,9 +14,12 @@ namespace ParkenDD.Controls
     {
         private static MainViewModel MainVm => ServiceLocator.Current.GetInstance<MainViewModel>();
 
+        private bool _isVisible;
+
         public ParkingLotLoadDonut()
         {
             InitializeComponent();
+
             ParkingLot = null;
             Loaded += (sender, args) =>
             {
@@ -85,6 +88,24 @@ namespace ParkenDD.Controls
             set { SetValue(ParkingLotProperty, value); }
         }
 
+        public bool Animate
+        {
+            get { return (bool)GetValue(AnimateProperty); }
+            set { SetValue(AnimateProperty, value); }
+        }
+
+        public static readonly DependencyProperty AnimateProperty =
+            DependencyProperty.Register("Animate",
+                typeof(bool),
+                typeof(ParkingLotForecastChart),
+                new PropertyMetadata(false, OnAnimatePropertyChanged));
+
+        private static void OnAnimatePropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            var control = dependencyObject as ParkingLotLoadDonut;
+            control?.UpdateAnimation();
+        }
+
         private void Draw()
         {
             if (ActualHeight > 0)
@@ -101,6 +122,10 @@ namespace ParkenDD.Controls
             {
                 ValueInvertedCircle.Visibility = ValuePath.Visibility = Visibility.Collapsed;
                 FreeLabel.Text = "?";
+                if (lot != null)
+                {
+                    PlayAnimation();
+                }
                 return;
             }
             if (value < 0)
@@ -178,6 +203,31 @@ namespace ParkenDD.Controls
             fig.Segments.Add(lastLine);
             pg.Figures.Add(fig);
             ValuePath.SetValue(Path.DataProperty, pg);
+            PlayAnimation();
+        }
+
+        private void PlayAnimation()
+        {
+            if (!_isVisible)
+            {
+                _isVisible = true;
+                if (Animate)
+                {
+                    PopoutAnimationStoryboard.Begin();
+                }
+            }
+        }
+
+        public void UpdateAnimation()
+        {
+            if (Animate)
+            {
+                ScaleTransform.ScaleX = ScaleTransform.ScaleY = 0;
+            }
+            else
+            {
+                ScaleTransform.ScaleX = ScaleTransform.ScaleY = 1;
+            }
         }
     }
 }

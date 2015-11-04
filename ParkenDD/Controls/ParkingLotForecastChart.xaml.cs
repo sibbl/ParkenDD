@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 using GalaSoft.MvvmLight.Threading;
 using Microsoft.Practices.ServiceLocation;
 using ParkenDD.Api.Interfaces;
@@ -26,9 +27,9 @@ namespace ParkenDD.Controls
         };
 
         private bool _initialized;
+        private double? _containerDesiredHeight;
         private DateTime? _cachedForecastEndDate;
         private readonly List<ParkingLotForecastDataPoint> _cachedForecast = new List<ParkingLotForecastDataPoint>();
-
 
         public bool IsSelected
         {
@@ -45,10 +46,7 @@ namespace ParkenDD.Controls
         private static void IsSelectedPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             var control = dependencyObject as ParkingLotForecastChart;
-            if (control != null && control.IsSelected)
-            {
-                control.UpdateChart();
-            }
+            control?.UpdateChart(true);
         }
 
         public static readonly DependencyProperty ParkingLotProperty = DependencyProperty.Register("ParkingLot", typeof(ParkingLot), typeof(ParkingLotForecastChart), new PropertyMetadata(null, ParkingLotPropertyChanged));
@@ -70,11 +68,39 @@ namespace ParkenDD.Controls
             InitializeComponent();
         }
 
-        public async void UpdateChart()
+        private void BeginSlideOutAnimation()
         {
+            if (_containerDesiredHeight.HasValue)
+            {
+                var animation = new DoubleAnimation
+                {
+                    From = 0,
+                    To = _containerDesiredHeight,
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new CubicEase
+                    {
+                        EasingMode = EasingMode.EaseOut
+                    },
+                    EnableDependentAnimation = true
+                };
+                var storyboard = new Storyboard();
+                storyboard.Children.Add(animation);
+                Storyboard.SetTarget(animation, ForecastContainer);
+                Storyboard.SetTargetProperty(animation, nameof(ForecastContainer.Height));
+                storyboard.Begin();
+            }
+        }
+
+        public async void UpdateChart(bool isSelectedChanged = false)
+        {
+            if (!IsSelected)
+            {
+                return;
+            }
             if (!_initialized)
             {
                 FindName(nameof(ForecastContainer));
+                ForecastContainer.Height = 0;
 
                 ValueAxis.Minimum = 0;
                 ValueAxis.Maximum = 100;
@@ -84,7 +110,22 @@ namespace ParkenDD.Controls
                 SelectionComboBox.SelectedItem = ComboBoxValues[0];
 
                 SelectionComboBox.SelectionChanged += (sender, args) => UpdateChart();
+
+                ForecastContainer.Loaded += (sender, args) =>
+                {
+                    if (!_containerDesiredHeight.HasValue)
+                    {
+                        _containerDesiredHeight = ForecastChart.DesiredSize.Height +
+                                                  SelectionComboBox.DesiredSize.Height;
+                        if (isSelectedChanged)
+                        {
+                            BeginSlideOutAnimation();
+                        }
+                    }
+                };
             }
+
+            BeginSlideOutAnimation();
 
             var vm = ServiceLocator.Current.GetInstance<MainViewModel>();
             if (!vm.InternetAvailable)

@@ -16,7 +16,7 @@ namespace ParkenDD.Services
         private const string VoiceCommandPhrasesFilename = "phrases.json";
         private readonly StorageFolder _tempFolder = ApplicationData.Current.TemporaryFolder;
         private readonly SemaphoreSlim _metaMutex = new SemaphoreSlim(1);
-        private Dictionary<string, SemaphoreSlim> _cityMutexes = new Dictionary<string, SemaphoreSlim>();
+        private readonly Dictionary<string, SemaphoreSlim> _cityMutexes = new Dictionary<string, SemaphoreSlim>();
         private readonly SemaphoreSlim _voiceCommandPhraseMutex = new SemaphoreSlim(1);
 
         private async Task SaveAsync<T>(string filename, T data, SemaphoreSlim mutex = null)

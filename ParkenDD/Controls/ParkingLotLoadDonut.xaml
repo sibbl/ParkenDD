@@ -10,7 +10,41 @@
     d:DesignHeight="200"
     d:DesignWidth="200">
 
-    <Grid Style="{ThemeResource ParkingLotLoadDonutContainerStyle}">
+    <UserControl.Resources>
+        <Storyboard x:Name="PopoutAnimationStoryboard">
+            <DoubleAnimation
+                From="0"
+                To="1"
+                Storyboard.TargetName="ScaleTransform"
+                Storyboard.TargetProperty="ScaleX"
+                Duration="0:0:0.5"
+                EnableDependentAnimation="True"
+                >
+                <DoubleAnimation.EasingFunction>
+                    <ElasticEase Oscillations="1" Springiness="5" EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation
+                From="0"
+                To="1"
+                Storyboard.TargetName="ScaleTransform"
+                Storyboard.TargetProperty="ScaleY"
+                Duration="0:0:0.5"
+                EnableDependentAnimation="True"
+                >
+                <DoubleAnimation.EasingFunction>
+                    <ElasticEase Oscillations="1" Springiness="5" EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Grid Style="{ThemeResource ParkingLotLoadDonutContainerStyle}"
+          x:Name="DonutContainer"
+          RenderTransformOrigin="0.5,0.5">
+        <Grid.RenderTransform>
+            <ScaleTransform x:Name="ScaleTransform" />
+        </Grid.RenderTransform>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Unselected">
