@@ -414,7 +414,7 @@
                                                     </DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
                                                 <DoubleAnimation
-                                                    Duration="0:0:1"
+                                                    Duration="0:0:0.5"
                                                     From="0"
                                                     To="1"
                                                     Storyboard.TargetProperty="Opacity"

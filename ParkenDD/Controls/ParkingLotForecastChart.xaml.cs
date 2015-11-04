@@ -27,6 +27,7 @@ namespace ParkenDD.Controls
         };
 
         private bool _initialized;
+        private bool _animationPlayed;
         private double? _containerDesiredHeight;
         private DateTime? _cachedForecastEndDate;
         private readonly List<ParkingLotForecastDataPoint> _cachedForecast = new List<ParkingLotForecastDataPoint>();
@@ -70,7 +71,7 @@ namespace ParkenDD.Controls
 
         private void BeginSlideOutAnimation()
         {
-            if (_containerDesiredHeight.HasValue)
+            if (_containerDesiredHeight.HasValue && !_animationPlayed)
             {
                 var animation = new DoubleAnimation
                 {
@@ -88,6 +89,7 @@ namespace ParkenDD.Controls
                 Storyboard.SetTarget(animation, ForecastContainer);
                 Storyboard.SetTargetProperty(animation, nameof(ForecastContainer.Height));
                 storyboard.Begin();
+                _animationPlayed = true;
             }
         }
 
@@ -95,6 +97,11 @@ namespace ParkenDD.Controls
         {
             if (!IsSelected)
             {
+                if (ForecastContainer != null)
+                {
+                    ForecastContainer.Height = 0;
+                }
+                _animationPlayed = false;
                 return;
             }
             if (!_initialized)
@@ -145,7 +152,6 @@ namespace ParkenDD.Controls
                 {
                     ForecastChart.Opacity = 0.2;
                     LoadingProgressRing.Visibility = Visibility.Visible;
-                    //TODO: play some fancy animation!
                     await Task.Factory.StartNew(async () =>
                     {
                         var api = ServiceLocator.Current.GetInstance<IParkenDdClient>();
