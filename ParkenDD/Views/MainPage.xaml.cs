@@ -38,12 +38,20 @@ namespace ParkenDD.Views
         {
             InitializeComponent();
 
+            if (ResponsiveStateGroup.CurrentState == desktopViewVisualState)
+            {
+                //this should use "-1 * CoreApplication.GetCurrentView().TitleBar.Height" but it returns 0 at this point :(
+                SetMapBottomMargin(-32);
+            }
+
             NavigationCacheMode = NavigationCacheMode.Required;
 
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
 
             Map.Loaded += async (sender, args) =>
             {
+                SetMapBottomMargin(0);
+
                 Debug.WriteLine("[MainView] map: map loaded");
                 if (_initialMapBbox != null)
                 {
@@ -149,6 +157,15 @@ namespace ParkenDD.Views
             };
 
             UpdateParkingLotFilter();
+        }
+
+        private void SetMapBottomMargin(double bottomMargin)
+        {
+            //Bottom margin is set to 32 via XAML and reset to 0 here. This is a 
+            //workaround for the map having a black border at the bottom when removing title bar on load
+            var mapMargin = Map.Margin;
+            mapMargin.Bottom = bottomMargin;
+            Map.Margin = mapMargin;
         }
 
         private async void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs args)
