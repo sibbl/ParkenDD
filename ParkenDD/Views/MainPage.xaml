@@ -399,7 +399,7 @@
                             </ListView.GroupStyle>
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="apiModels:ParkingLot">
-                                    <UserControl x:Name="ItemContainer">
+                                    <UserControl x:Name="ItemContainer" Background="#ffffff">
                                         <UserControl.Resources>
                                             <Storyboard x:Key="LoadedStoryboard">
                                                 <DoubleAnimation
@@ -444,6 +444,7 @@
                                                             <Setter Target="ForecastChartContainer.Visibility" Value="Visible"/>
                                                             <Setter Target="ForecastChart.IsSelected" Value="True"/>
                                                             <Setter Target="ParkingLotLoadDonut.IsSelected" Value="True"/>
+                                                            <Setter Target="ItemContainer.Background" Value="Transparent" />
                                                         </VisualState.Setters>
                                                         <Storyboard>
                                                             <DoubleAnimation

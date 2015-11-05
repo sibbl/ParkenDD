@@ -697,11 +697,7 @@ namespace ParkenDD.ViewModels
                 if (newCityData.LastUpdated > _cities[cityId].LastUpdated)
                 {
                     Debug.WriteLine("[MainVm] LoadCity: {0} already in dict, merge", cityId, null);
-                    await DispatcherHelper.RunAsync(() =>
-                    {
-                        _cities[cityId].Merge(newCityData, ParkingLots);
-                        UpdateParkingLotListFilter();
-                    });
+                    _cities[cityId].Merge(newCityData, ParkingLots);
                 }
                 else
                 {
@@ -779,19 +775,19 @@ namespace ParkenDD.ViewModels
             {
                 Debug.WriteLine("[MainVm] TryLoadOnlineMetaData: not loaded yet, do request");
                 var newData = await GetMetaData(true);
-                DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                if (MetaData == null)
                 {
-                    if (MetaData == null)
+                    DispatcherHelper.CheckBeginInvokeOnUI(() =>
                     {
                         Debug.WriteLine("[MainVm] TryLoadOnlineMetaData: set new MetaData");
                         MetaData = newData;
-                    }
-                    else if(newData != null)
-                    {
-                        Debug.WriteLine("[MainVm] TryLoadOnlineMetaData: merge with MetaData");
-                        MetaData.Merge(newData);
-                    }
-                });
+                    });
+                }
+                else if(newData != null)
+                {
+                    Debug.WriteLine("[MainVm] TryLoadOnlineMetaData: merge with MetaData");
+                    MetaData.Merge(newData);
+                }
             }
         }
 

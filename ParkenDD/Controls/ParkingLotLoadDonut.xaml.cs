@@ -30,8 +30,22 @@ namespace ParkenDD.Controls
             {
                 UpdateIsSelected();
                 Draw();
+                WatchParkingLotChanges();
             };
 
+            WatchParkingLotChanges();
+
+            MainVm.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == nameof(MainVm.SelectedParkingLot))
+                {
+                    UpdateIsSelected();
+                }
+            };
+        }
+
+        private void WatchParkingLotChanges()
+        {
             var pl = DataContext as ParkingLot;
             if (pl != null)
             {
@@ -44,14 +58,6 @@ namespace ParkenDD.Controls
                     }
                 };
             }
-
-            MainVm.PropertyChanged += (sender, args) =>
-            {
-                if (args.PropertyName == nameof(MainVm.SelectedParkingLot))
-                {
-                    UpdateIsSelected();
-                }
-            };
         }
 
         private void UpdateIsSelected()

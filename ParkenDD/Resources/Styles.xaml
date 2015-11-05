@@ -12,42 +12,8 @@
         <Setter Property="Height" Value="78" />
         <Setter Property="Padding" Value="0,30,0,0" />
     </Style>
-    
-    <!-- #endregion -->
-    
-    <!-- #region City selection / split view pane -->
 
-    <Style x:Key="SplitViewLogoStyle" TargetType="TextBlock">
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Foreground" Value="White" />
-        <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="Margin" Value="12,0,0,0" />
-    </Style>
-
-    <Style x:Key="SplitViewTopBarStyle" BasedOn="{StaticResource TopBarStyle}" TargetType="RelativePanel">
-        <Setter Property="Background" Value="{StaticResource BlueColor}" />
-        <Setter Property="BorderBrush" Value="{StaticResource DarkBlueColor}" />
-        <Setter Property="BorderThickness" Value="0,0,0,1" />
-    </Style>
-
-    <Style x:Key="SplitViewContainerStyle" TargetType="Grid">
-        <Setter Property="Background" Value="{StaticResource BlueColor}" />
-    </Style>
-    <Style x:Key="SelectCityProgressBarStyle" TargetType="ProgressBar">
-        <Setter Property="IsIndeterminate" Value="True" />
-        <Setter Property="VerticalAlignment" Value="Top" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="White" />
-    </Style>
-
-    <Style x:Key="SplitViewCityItemTextStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="#FFFFFF" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="TextWrapping" Value="Wrap" />
-        <Setter Property="Margin" Value="14,0,14,0" />
-    </Style>
-
-    <Style x:Key="SelectCityListContainerStyle" TargetType="ListViewItem">
+    <Style x:Key="ListContainerBaseStyle" TargetType="ListViewItem">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -88,7 +54,7 @@
                         PressedBackground="#4C000000"
                         PointerOverBackground="#26000000">
                         <ListViewItemPresenter.SelectedBackground>
-                            <SolidColorBrush Color="#99000000" Opacity="0.40000000596046448"/>
+                            <SolidColorBrush Color="#99000000" Opacity="0.35"/>
                         </ListViewItemPresenter.SelectedBackground>
                         <ListViewItemPresenter.SelectedPressedBackground>
                             <SolidColorBrush Color="#7F000000" Opacity="0.25"/>
@@ -121,12 +87,46 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <!-- #endregion -->
+    
+    <!-- #region City selection / split view pane -->
+
+    <Style x:Key="SplitViewLogoStyle" TargetType="TextBlock">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="12,0,0,0" />
+    </Style>
+
+    <Style x:Key="SplitViewTopBarStyle" BasedOn="{StaticResource TopBarStyle}" TargetType="RelativePanel">
+        <Setter Property="Background" Value="{StaticResource BlueColor}" />
+        <Setter Property="BorderBrush" Value="{StaticResource DarkBlueColor}" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+    </Style>
+
+    <Style x:Key="SplitViewContainerStyle" TargetType="Grid">
+        <Setter Property="Background" Value="{StaticResource BlueColor}" />
+    </Style>
+    <Style x:Key="SelectCityProgressBarStyle" TargetType="ProgressBar">
+        <Setter Property="IsIndeterminate" Value="True" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <Style x:Key="SplitViewCityItemTextStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#FFFFFF" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="14,0,14,0" />
+    </Style>
 
     <Style x:Key="CityListStyle" TargetType="ListView">
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="SelectionMode" Value="Single" />
         <Setter Property="IsMultiSelectCheckBoxEnabled" Value="False" />
-        <Setter Property="ItemContainerStyle" Value="{StaticResource SelectCityListContainerStyle}" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ListContainerBaseStyle}" />
     </Style>
 
     <Style x:Key="AboutButtonStyle" TargetType="Button">
@@ -272,7 +272,7 @@
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="SelectionMode" Value="Single" />
         <Setter Property="IsMultiSelectCheckBoxEnabled" Value="False" />
-        <Setter Property="ItemContainerStyle" Value="{StaticResource SelectCityListContainerStyle}" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ListContainerBaseStyle}" />
         <Setter Property="HeaderTemplate">
             <Setter.Value>
                 <DataTemplate>
