@@ -33,12 +33,12 @@ namespace ParkenDD.Api.Models
         ///     Time and date of the last update of the data source
         /// </summary>
         [JsonProperty("last_updated")]
-        public DateTime? LastUpdated
+        public DateTime LastUpdated
         {
             get { return _lastUpdated; }
             set { Set(ref _lastUpdated, value); }
         }
-        private DateTime? _lastUpdated;
+        private DateTime _lastUpdated;
 
         /// <summary>
         ///     Array of parking lots in the city.

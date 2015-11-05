@@ -694,7 +694,7 @@ namespace ParkenDD.ViewModels
             if (_cities.ContainsKey(cityId) && newCityData != null)
             {
                 //merge only when newer data is available
-                if (newCityData.LastUpdated > _cities[cityId].LastUpdated)
+                if (newCityData.LastUpdated.ToUniversalTime() > _cities[cityId].LastUpdated.ToUniversalTime())
                 {
                     Debug.WriteLine("[MainVm] LoadCity: {0} already in dict, merge", cityId, null);
                     _cities[cityId].Merge(newCityData, ParkingLots);

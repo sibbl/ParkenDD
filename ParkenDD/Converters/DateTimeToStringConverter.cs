@@ -25,7 +25,7 @@ namespace ParkenDD.Converters
             {
                 return string.Format(res.ParkingLotLastRefreshYesterdayAt, dt.ToString(res.ParkingLotLastRefreshHourFormat));
             }
-            return string.Format(res.ParkingLotLastRefreshDaysAgo , days);
+            return string.Format(res.ParkingLotLastRefreshDaysAgo, days);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

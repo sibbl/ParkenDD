@@ -377,7 +377,7 @@
                             ItemsSource="{Binding Source={StaticResource SelectedCityData}}"
                             SelectedItem="{x:Bind Vm.SelectedParkingLot, Mode=TwoWay, Converter={StaticResource NoopConverter}}"
                             Style="{ThemeResource ParkingLotListStyle}"
-                            Header="{Binding SelectedCityData.LastUpdated, Mode=OneWay, Converter={StaticResource DateTimeToStringConverter}}"
+                            Header="{x:Bind Vm.SelectedCityData.LastUpdated, Mode=OneWay, Converter={StaticResource DateTimeToStringConverter}}"
                             RelativePanel.AlignLeftWithPanel="True"
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.Below="OfflineHint"
