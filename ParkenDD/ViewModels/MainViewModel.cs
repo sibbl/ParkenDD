@@ -93,11 +93,7 @@ namespace ParkenDD.ViewModels
         public bool LoadingMetaData
         {
             get { return _loadingMetaData; }
-            set
-            {
-                Set(ref _loadingMetaData, value);
-                RaisePropertyChanged(() => LoadingCity);
-            }
+            set { Set(ref _loadingMetaData, value); }
         }
         #endregion
 
@@ -166,7 +162,7 @@ namespace ParkenDD.ViewModels
         private bool _loadingCity;
         public bool LoadingCity
         {
-            get { return _loadingCity || _loadingMetaData; } //visible when either this or meta data is loading
+            get { return _loadingCity; }
             set { Set(ref _loadingCity, value); }
         }
         #endregion

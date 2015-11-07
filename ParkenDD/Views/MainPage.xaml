@@ -109,7 +109,13 @@
             <VisualStateGroup>
                 <VisualState x:Name="loadingCityVisualState">
                     <VisualState.StateTriggers>
-                        <windowsStateTriggers:EqualsStateTrigger Value="{x:Bind Vm.LoadingCity, Mode=OneWay}" EqualTo="True" />
+                        <windowsStateTriggers:CompositeStateTrigger Operator="Or">
+                            <windowsStateTriggers:EqualsStateTrigger Value="{x:Bind Vm.LoadingCity, Mode=OneWay}" EqualTo="True" />
+                            <windowsStateTriggers:CompositeStateTrigger Operator="And">
+                                <windowsStateTriggers:EqualsStateTrigger Value="{x:Bind Vm.LoadingMetaData, Mode=OneWay}" EqualTo="True" />
+                                <windowsStateTriggers:EqualsStateTrigger Value="{Binding IsPaneOpen, ElementName=SplitView}" EqualTo="False" />
+                            </windowsStateTriggers:CompositeStateTrigger>
+                        </windowsStateTriggers:CompositeStateTrigger>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ParkingLotListProgressBar.Visibility" Value="Visible" />
