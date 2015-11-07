@@ -59,7 +59,8 @@ namespace ParkenDD.Background
                         var parkingLotName = voiceCommand.Properties["parking_lot"][0];
 
                         ParkingLot lot = null;
-                        var lastUpdated = DateTime.Now;
+                        var now = DateTime.Now;
+                        var lastUpdated = now;
 
                         var cityId = phrases.FindCityIdByName(cityName);
                         if (cityId != null)
@@ -87,7 +88,7 @@ namespace ParkenDD.Background
                         else
                         {
                             var percent = Math.Round((double)lot.FreeLots / (double)lot.TotalLots * 100);
-                            var age = DateTime.Now - lastUpdated;
+                            var age = now - lastUpdated;
                             var ageNumber = 0;
                             string spokenMessageFormat, displayMessageFormat;
                             if (age <= TimeSpan.FromMinutes(5))
