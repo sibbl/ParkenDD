@@ -170,13 +170,11 @@
         <Setter Property="Background" Value="#FFF" />
         <Setter Property="BorderBrush" Value="#DDD" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
-        <Setter Property="Width" Value="300" />
     </Style>
 
     <Style x:Key="ParkingLotListPanelStyle" TargetType="RelativePanel">
         <Setter Property="Background" Value="#FFF" />
-        <Setter Property="Width" Value="300" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderThickness" Value="0,1,0,0" />
         <Setter Property="BorderBrush" Value="#dddddd" />
     </Style>
 
@@ -445,7 +443,7 @@
     </Style>
 
     <Style x:Key="ParkingLotMap" TargetType="RelativePanel">
-        <Setter Property="BorderThickness" Value="1,0,0,0" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="BorderBrush" Value="#dddddd" />
     </Style>
 

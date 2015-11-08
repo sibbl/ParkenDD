@@ -67,32 +67,26 @@
                 </VisualState>
             </VisualStateGroup>
             <VisualStateGroup x:Name="ResponsiveStateGroup">
-                <VisualState x:Name="mobileViewVisualState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="ParkingLotMap.(RelativePanel.AlignTopWithPanel)" Value="False"/>
-                        <Setter Target="ParkingLotMap.(RelativePanel.AlignBottomWithPanel)" Value="False"/>
-                        <Setter Target="ParkingLotMap.(RelativePanel.AlignLeftWithPanel)" Value="True"/>
-                        <Setter Target="ParkingLotListPanel.(RelativePanel.AlignRightWithPanel)" Value="True"/>
-                        <Setter Target="ParkingLotListPanel.(RelativePanel.AlignTopWithPanel)" Value="False"/>
-                        <Setter Target="ParkingLotMap.(FrameworkElement.Height)" Value="150"/>
-                        <Setter Target="ParkingLotListPanel.(FrameworkElement.Width)" Value="Auto"/>
-                        <Setter Target="ParkingLotListTopBar.(FrameworkElement.Width)" Value="Auto"/>
-                        <Setter Target="ParkingLotListTopBar.(RelativePanel.AlignRightWithPanel)" Value="True"/>
-                        <Setter Target="ParkingLotMap.(RelativePanel.Below)" Value="ParkingLotListTopBar"/>
-                        <Setter Target="ParkingLotListPanel.(RelativePanel.Below)" Value="ParkingLotMap" />
-                        <Setter Target="ParkingLotMap.(RelativePanel.RightOf)" Value="" />
-                        <Setter Target="MapTopBar.Visibility" Value="Collapsed" />
-                        <Setter Target="ParkingLotListPanel.BorderThickness" Value="0,1,0,0"/>
-                        <Setter Target="ParkingLotMap.BorderThickness" Value="0" />
-                    </VisualState.Setters>
-                </VisualState>
                 <VisualState x:Name="desktopViewVisualState">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="600" />
                     </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ParkingLotMap.(RelativePanel.AlignTopWithPanel)" Value="True"/>
+                        <Setter Target="ParkingLotMap.(RelativePanel.AlignBottomWithPanel)" Value="True"/>
+                        <Setter Target="ParkingLotMap.(RelativePanel.AlignLeftWithPanel)" Value="False"/>
+                        <Setter Target="ParkingLotMap.Height" Value="Auto"/>
+                        <Setter Target="ParkingLotMap.(RelativePanel.Below)" Value=""/>
+                        <Setter Target="ParkingLotMap.(RelativePanel.RightOf)" Value="ParkingLotListPanel" />
+                        <Setter Target="ParkingLotMap.BorderThickness" Value="1,0,0,0" />
+                        <Setter Target="ParkingLotListPanel.(RelativePanel.AlignRightWithPanel)" Value="False"/>
+                        <Setter Target="ParkingLotListPanel.(RelativePanel.Below)" Value="ParkingLotListTopBar" />
+                        <Setter Target="ParkingLotListPanel.BorderThickness" Value="0"/>
+                        <Setter Target="ParkingLotListPanel.Width" Value="300"/>
+                        <Setter Target="ParkingLotListTopBar.Width" Value="300"/>
+                        <Setter Target="ParkingLotListTopBar.(RelativePanel.AlignRightWithPanel)" Value="False"/>
+                        <Setter Target="MapTopBar.Height" Value="Auto"/>
+                    </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
             <VisualStateGroup>
@@ -113,7 +107,7 @@
                             <windowsStateTriggers:EqualsStateTrigger Value="{x:Bind Vm.LoadingCity, Mode=OneWay}" EqualTo="True" />
                             <windowsStateTriggers:CompositeStateTrigger Operator="And">
                                 <windowsStateTriggers:EqualsStateTrigger Value="{x:Bind Vm.LoadingMetaData, Mode=OneWay}" EqualTo="True" />
-                                <windowsStateTriggers:EqualsStateTrigger Value="{Binding IsPaneOpen, ElementName=SplitView}" EqualTo="False" />
+                                <windowsStateTriggers:EqualsStateTrigger Value="{Binding CurrentState.Name, ElementName=ResponsiveStateGroup}" EqualTo="desktopViewVisualState" />
                             </windowsStateTriggers:CompositeStateTrigger>
                         </windowsStateTriggers:CompositeStateTrigger>
                     </VisualState.StateTriggers>
@@ -151,16 +145,21 @@
             </VisualStateGroup>
 
             <VisualStateGroup>
-                <VisualState x:Name="mobileSpecificVisualState">
+                <VisualState x:Name="desktopDeviceState">
+                    <VisualState.StateTriggers>
+                        <windowsStateTriggers:DeviceFamilyStateTrigger DeviceFamily="Desktop"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MapTopBar.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="mobileDeviceState">
                     <VisualState.StateTriggers>
                         <windowsStateTriggers:DeviceFamilyStateTrigger DeviceFamily="Mobile"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="SplitViewTopBar.Height" Value="48" />
-                        <Setter Target="SplitViewTopBar.Padding" Value="0" />
-                        <Setter Target="ParkingLotListTopBar.Height" Value="48" />
-                        <Setter Target="ParkingLotListTopBar.Padding" Value="0" />
-                        <Setter Target="MapTopBar.Visibility" Value="Collapsed"/>
+                        <Setter Target="ParkingLotListTopBar.Height" Value="48"/>
+                        <Setter Target="ParkingLotListTopBar.Padding" Value="0"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -257,6 +256,7 @@
                         x:Name="ParkingLotListTopBar"
                         RelativePanel.AlignTopWithPanel="True"
                         RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"
                         Style="{ThemeResource ParkingLotListTopBarStyle}">
                         <Button
                             x:Uid="ParkingLotListMenuBtn"
@@ -367,8 +367,9 @@
                     <!-- #region ParkingLot list -->
                     <RelativePanel
                         x:Name="ParkingLotListPanel"
-                        RelativePanel.Below="ParkingLotListTopBar"
+                        RelativePanel.Below="ParkingLotMap"
                         RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"
                         RelativePanel.AlignBottomWithPanel="True"
                         Style="{ThemeResource ParkingLotListPanelStyle}">
                         <ProgressBar
@@ -615,14 +616,16 @@
                     <!-- #region Map -->
                     <RelativePanel 
                         x:Name="ParkingLotMap"
-                        RelativePanel.RightOf="ParkingLotListPanel"
-                        RelativePanel.AlignTopWithPanel="True"
                         RelativePanel.AlignRightWithPanel="True"
-                        RelativePanel.AlignBottomWithPanel="True"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.Below="ParkingLotListTopBar"
                         Style="{StaticResource ParkingLotMap}"
+                        Height="150"
                         >
                         <RelativePanel
                             x:Name="MapTopBar"
+                            Visibility="Collapsed"
+                            Height="0"
                             Style="{ThemeResource MapTopBarStyle}"
                             RelativePanel.AlignTopWithPanel="True"
                             RelativePanel.AlignLeftWithPanel="True"
