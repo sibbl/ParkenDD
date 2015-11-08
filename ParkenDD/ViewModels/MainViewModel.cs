@@ -909,7 +909,11 @@ namespace ParkenDD.ViewModels
         private RelayCommand _refreshCityDetailsCommand;
         public RelayCommand RefreshCityDetailsCommand => _refreshCityDetailsCommand ?? (_refreshCityDetailsCommand = new RelayCommand(RefreshCityDetails));
 
-        public async void RefreshCityDetails()
+        public void RefreshCityDetails()
+        {
+            RefreshCityDetails(false);
+        }
+        public async void RefreshCityDetails(bool replaceData)
         {
             TryGetUserPosition();
             if (SelectedCity != null)
@@ -918,6 +922,10 @@ namespace ParkenDD.ViewModels
                 SetLoadingCity();
                 await LoadCity(SelectedCity.Id, true);
                 SetLoadingCity(false);
+                if (replaceData)
+                {
+                    UpdateParkingLotListFilter();
+                }
             }
         }
 #endregion
