@@ -115,14 +115,6 @@
                         <Setter Target="ParkingLotListProgressBar.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="notLoadingCityVisualState">
-                    <VisualState.StateTriggers>
-                        <windowsStateTriggers:EqualsStateTrigger Value="{x:Bind Vm.LoadingCity, Mode=OneWay}" EqualTo="False" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="ParkingLotListProgressBar.Visibility" Value="Collapsed" />
-                    </VisualState.Setters>
-                </VisualState>
             </VisualStateGroup>
 
             <VisualStateGroup>
@@ -132,14 +124,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="SelectCityProgressBar.Visibility" Value="Visible" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="notLoadingMetaDataVisualState">
-                    <VisualState.StateTriggers>
-                        <windowsStateTriggers:EqualsStateTrigger Value="{x:Bind Vm.LoadingMetaData, Mode=OneWay}" EqualTo="False" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="SelectCityProgressBar.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -205,6 +189,7 @@
                     </RelativePanel>
                     <ProgressBar
                         x:Name="SelectCityProgressBar"
+                        Visibility="Collapsed"
                         Grid.Row="1"
                         Style="{ThemeResource SelectCityProgressBarStyle}"
                         />
@@ -374,6 +359,7 @@
                         Style="{ThemeResource ParkingLotListPanelStyle}">
                         <ProgressBar
                             x:Name="ParkingLotListProgressBar"
+                            Visibility="Collapsed"
                             Style="{ThemeResource ParkingLotListProgressBarStyle}"
                             RelativePanel.AlignLeftWithPanel="True"
                             RelativePanel.AlignRightWithPanel="True"
