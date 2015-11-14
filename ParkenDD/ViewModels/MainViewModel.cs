@@ -689,16 +689,8 @@ namespace ParkenDD.ViewModels
             var newCityData = await GetCity(cityId, forceRefresh);
             if (_cities.ContainsKey(cityId) && newCityData != null)
             {
-                //merge only when newer data is available
-                if (newCityData.LastUpdated.ToUniversalTime() > _cities[cityId].LastUpdated.ToUniversalTime())
-                {
-                    Debug.WriteLine("[MainVm] LoadCity: {0} already in dict, merge", cityId, null);
-                    _cities[cityId].Merge(newCityData, ParkingLots);
-                }
-                else
-                {
-                    Debug.WriteLine("[MainVm] LoadCity: {0} already in dict, but not merging because last updated is not higher", cityId, null);
-                }
+                Debug.WriteLine("[MainVm] LoadCity: {0} already in dict, merge", cityId, null);
+                _cities[cityId].Merge(newCityData, ParkingLots);
             }
             else if(newCityData != null)
             {
