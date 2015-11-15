@@ -85,7 +85,7 @@
                         <Setter Target="ParkingLotListPanel.Width" Value="300"/>
                         <Setter Target="ParkingLotListTopBar.Width" Value="300"/>
                         <Setter Target="ParkingLotListTopBar.(RelativePanel.AlignRightWithPanel)" Value="False"/>
-                        <Setter Target="MapTopBar.Height" Value="Auto"/>
+                        <Setter Target="MapTopBar.Height" Value="42"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
