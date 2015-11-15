@@ -762,9 +762,9 @@ namespace ParkenDD.ViewModels
                 {
                     Debug.WriteLine("[MainVm] TryLoadOnlineCityData: not loaded yet, do request");
                     await LoadCity(SelectedCity.Id, true);
-                    DispatcherHelper.CheckBeginInvokeOnUI(UpdateParkingLotListFilter);
                 }
             }
+            DispatcherHelper.CheckBeginInvokeOnUI(UpdateParkingLotListFilter);
         }
 
         private async void TryLoadOnlineMetaData()
@@ -1082,7 +1082,9 @@ namespace ParkenDD.ViewModels
                     {
                         await Task.Delay(500);
                     } while (!_initialized);
+
                     Debug.WriteLine("[MainVm] Initialize - initial setup done, loading online things now");
+
                     await Task.Run(() =>
                     {
                         Task.Factory.StartNew(TryLoadOnlineMetaData);
