@@ -1077,7 +1077,7 @@ namespace ParkenDD.ViewModels
 
         public void Resume()
         {
-            Task.Factory.StartNew(TryLoadOnlineMetaData);
+            TryLoadOnlineMetaData();
             RefreshCityDetails(true);
             RaisePropertyChanged(() => MetaDataCities);
             RaisePropertyChanged(() => ParkingLots);
