@@ -1066,7 +1066,12 @@ namespace ParkenDD.ViewModels
                 }
                 await DispatcherHelper.RunAsync(UpdateParkingLotListFilter);
 
-                Resume();
+                await Task.Run(() =>
+                {
+                    TryLoadOnlineMetaData();
+                    TryLoadOnlineCityData();
+                    TryGetUserPosition();
+                });
             }, TaskCreationOptions.PreferFairness);
         }
 
@@ -1074,6 +1079,9 @@ namespace ParkenDD.ViewModels
         {
             Task.Factory.StartNew(TryLoadOnlineMetaData);
             RefreshCityDetails(true);
+            RaisePropertyChanged(() => MetaDataCities);
+            RaisePropertyChanged(() => ParkingLots);
+            UpdateParkingLotListFilter();
         }
        
 
