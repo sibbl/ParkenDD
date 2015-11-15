@@ -370,7 +370,7 @@
                             x:Name="ParkingLotList"
                             Grid.Row="1"
                             ItemsSource="{Binding Source={StaticResource SelectedCityData}}"
-                            SelectedItem="{x:Bind Vm.SelectedParkingLot, Mode=TwoWay, Converter={StaticResource NoopConverter}}"
+                            SelectedItem="{Binding SelectedParkingLot, Mode=TwoWay}"
                             Style="{ThemeResource ParkingLotListStyle}"
                             Header="{x:Bind Vm.SelectedCityData.LastUpdated, Mode=OneWay, Converter={StaticResource DateTimeToStringConverter}}"
                             RelativePanel.AlignLeftWithPanel="True"
