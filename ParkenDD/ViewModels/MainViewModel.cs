@@ -1072,7 +1072,7 @@ namespace ParkenDD.ViewModels
                     TryLoadOnlineCityData();
                     TryGetUserPosition();
                 });
-            }, TaskCreationOptions.PreferFairness);
+            }, TaskCreationOptions.LongRunning);
         }
 
         public void Resume()
