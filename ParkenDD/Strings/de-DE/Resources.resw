@@ -124,25 +124,25 @@
     <value>Zurück</value>
   </data>
   <data name="InfoDialogDataWhere2Content.Text" xml:space="preserve">
-    <value>Folgende Verlinkungen führen Sie zu den Webseiten unserer Quellen:</value>
+    <value>Folgende Verlinkungen führen Dich zu den Webseiten unserer Quellen:</value>
   </data>
   <data name="InfoDialogDataWhere2Title.Text" xml:space="preserve">
     <value>Okay, aber woher stammen nun die Daten?</value>
   </data>
   <data name="InfoDialogDataWhereContent.Text" xml:space="preserve">
-    <value>Die Daten, die Sie in dieser App sehen, stammen aus verschiedenen Quellen. Da so gut wie keine Städte maschinenlesbare Daten bereitstellen, wurde das Projekt ParkAPI (www.github.com/offenesdresden/ParkAPI) ins Leben gerufen. Mit diesem werden diese Tabellen und Listen der Webseiten in ein Format übersetzt, das Maschinen und eben auch Ihr Windows-Gerät verstehen.</value>
+    <value>Die Daten, die Du in dieser App siehst, stammen aus verschiedenen Quellen. Da nur sehr wenige Städte die Daten offen bereitstellen, wurde das Projekt ParkAPI (www.github.com/offenesdresden/ParkAPI) ins Leben gerufen. Mit diesem werden diese Tabellen und Listen der Webseiten in ein Format übersetzt, das Maschinen und eben auch Ihr Windows-Gerät verstehen.</value>
   </data>
   <data name="InfoDialogDataWhereTitle.Text" xml:space="preserve">
     <value>Woher stammen die Daten?</value>
   </data>
   <data name="InfoDialogFeaturesCitiesContent.Text" xml:space="preserve">
-    <value>Wählen Sie aus einer Liste von Städten aus und ParkenDD zeigt Ihnen die aktuelle Parksituation.</value>
+    <value>Wähle aus einer Liste von Städten aus und ParkenDD zeigt Dir die aktuelle Parksituation.</value>
   </data>
   <data name="InfoDialogFeaturesCitiesTitle.Text" xml:space="preserve">
     <value>Städte</value>
   </data>
   <data name="InfoDialogFeaturesCortanaContent.Text" xml:space="preserve">
-    <value>Haben Sie Cortana aktiviert, können Sie über Sprachsuchen die App starten oder auch ohne die App öffnen zu müssen, Informationen zur Parksituation erhalten. Verwenden Sie dazu zum Beispiel folgende Befehle:</value>
+    <value>Ist Cortana aktiviert, kannst Du über Sprachsuchen die App starten oder auch ohne die App öffnen zu müssen Informationen zur Parksituation erhalten. Verwende dazu zum Beispiel folgende Befehle:</value>
   </data>
   <data name="InfoDialogFeaturesCortanaSample1.Text" xml:space="preserve">
     <value>ParkenDD, wo kann ich in Dresden parken?</value>
@@ -157,7 +157,7 @@
     <value>Cortana</value>
   </data>
   <data name="InfoDialogFeaturesParkingLotContent.Text" xml:space="preserve">
-    <value>Nachdem eine Stadt ausgewählt wurde, werden die Parkplätze geladen, zu denen uns Daten vorliegen. Sie können diese in einer Listen- und einer Kartenansicht betrachten und auch anklicken, um zusätzliche Informationen sowie eine Wegbeschreibung zu erhalten.</value>
+    <value>Nachdem eine Stadt ausgewählt wurde, werden die Parkplätze geladen, zu denen uns Daten vorliegen. Du kannst diese in einer Listen- und einer Kartenansicht betrachten und auch anklicken, um zusätzliche Informationen sowie eine Wegbeschreibung zu erhalten.</value>
   </data>
   <data name="InfoDialogFeaturesParkingLotTitle.Text" xml:space="preserve">
     <value>Parkplätze</value>
