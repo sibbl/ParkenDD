@@ -17,4 +17,4 @@ If your city is missing, feel free to support us by integrating open data into o
 
 ParkenDD also exists for **Android** and **iOS**, have a look at the [project page](http://parkendd.de) if you're interested.
 
-Pull requests are very welcome and if you'd like to help with localization, you can easily help translating [the app itself](https://poeditor.com/projects/view?id=40160) and [the Cortana voice commands](https://poeditor.com/projects/view?id=40725).
+Pull requests are very welcome and if you'd like to have the app in your own language, you can easily help translating [the app itself](https://poeditor.com/projects/view?id=40160) and [the Cortana voice commands](https://poeditor.com/projects/view?id=40725).
