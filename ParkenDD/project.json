@@ -1,14 +1,15 @@
 ﻿{
   "dependencies": {
-    "Cimbalino.Toolkit": "2.0.0",
+    "Cimbalino.Toolkit": "2.1.0",
     "GoogleAnalyticsSDK": "1.3.0",
-    "Microsoft.ApplicationInsights": "1.2.0",
-    "Microsoft.ApplicationInsights.PersistenceChannel": "1.2.0",
+    "Microsoft.ApplicationInsights": "1.2.3",
+    "Microsoft.ApplicationInsights.PersistenceChannel": "1.2.3",
     "Microsoft.ApplicationInsights.WindowsApps": "1.1.0",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
+    "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.0.2",
     "MvvmLightLibs": "5.2.0",
     "Newtonsoft.Json": "7.0.1",
-    "NotificationsExtensions.Win10": "10240.0.7",
+    "NotificationsExtensions.Win10": "10586.0.0",
     "PlatformSpecific.Analyzer": "1.0.5",
     "WindowsStateTriggers": "1.0.2",
     "WinRTXamlToolkit.Controls.DataVisualization.UWP": "1.9.4"
