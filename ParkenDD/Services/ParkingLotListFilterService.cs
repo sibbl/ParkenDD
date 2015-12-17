@@ -30,11 +30,11 @@ namespace ParkenDD.Services
                     {
                         if (x.TotalLots == 0)
                         {
-                            return -1; //they're always last of the list
+                            return 2; //they're always last of the list
                         }
-                        return (double)x.FreeLots / (double) x.TotalLots;
+                        return 1 - ((double) x.FreeLots / (double)x.TotalLots); //something between 0 and 1
                     });
-                    return orderAsc ? items.OrderBy(availabilitySortingFunc) : items.OrderByDescending(availabilitySortingFunc);
+                    return orderAsc ? items.OrderBy(availabilitySortingFunc).ThenBy(alphabeticalSortingFunc) : items.OrderByDescending(availabilitySortingFunc).ThenBy(alphabeticalSortingFunc);
                 case ParkingLotFilterMode.Distance:
                     var userPos = await ServiceLocator.Current.GetInstance<GeolocationService>().GetUserLocation();
                     if (userPos == null)
