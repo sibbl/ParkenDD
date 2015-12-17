@@ -819,7 +819,6 @@ namespace ParkenDD.ViewModels
         private void SetParkingLotFilterToAlphabetically()
         {
             ParkingLotFilterMode = ParkingLotFilterMode.Alphabetically;
-            UpdateParkingLotListFilter();
         }
 #endregion
 
@@ -830,7 +829,6 @@ namespace ParkenDD.ViewModels
         private void SetParkingLotFilterToDistance()
         {
             ParkingLotFilterMode = ParkingLotFilterMode.Distance;
-            UpdateParkingLotListFilter();
         }
 #endregion
 
@@ -841,7 +839,6 @@ namespace ParkenDD.ViewModels
         private void SetParkingLotFilterToAvailability()
         {
             ParkingLotFilterMode = ParkingLotFilterMode.Availability;
-            UpdateParkingLotListFilter();
         }
 #endregion
 
