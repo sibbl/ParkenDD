@@ -21,7 +21,7 @@
 
     <!-- #region Behaviors -->
     <interactivity:Interaction.Behaviors>
-        <behaviors:WindowSizeBehavior 
+        <behaviors:WindowSizeBehavior
             PreferredMinSize="300,450"
             />
         <behaviors:TitleBarBehavior
@@ -32,7 +32,7 @@
             ButtonHoverBackgroundColor="{StaticResource BlueColor}"
             ButtonHoverForegroundColor="#FFFFFF"
             ButtonPressedBackgroundColor="{StaticResource DarkBlueColor}"
-            ButtonPressedForegroundColor="#FFFFFF"    
+            ButtonPressedForegroundColor="#FFFFFF"
             />
         <behaviors:StatusBarBehavior
             ForegroundColor="#666666"
@@ -159,7 +159,7 @@
             >
             <!-- #region Pane -->
             <SplitView.Pane>
-                <Grid 
+                <Grid
                     x:Name="SplitViewPane"
                     Style="{ThemeResource SplitViewContainerStyle}"
                     BorderThickness="0,0,1,0"
@@ -432,6 +432,17 @@
                                         </UserControl.RenderTransform>
                                         <StackPanel Style="{ThemeResource ParkingLotListItemStyle}">
                                             <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup>
+                                                    <VisualState x:Name="HasParkingLotSituation" />
+                                                    <VisualState x:Name="HasNoParkingLotSituation">
+                                                        <VisualState.StateTriggers>
+                                                            <windowsStateTriggers:EqualsStateTrigger Value="{x:Bind TotalLots, Mode=OneWay}" EqualTo="0" />
+                                                        </VisualState.StateTriggers>
+                                                        <VisualState.Setters>
+                                                            <Setter Target="ParkingLotSituationContainer.Visibility" Value="Collapsed" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                </VisualStateGroup>
                                                 <VisualStateGroup x:Name="SelectionStates">
                                                     <VisualState x:Name="Selected">
                                                         <VisualState.Setters>
@@ -537,7 +548,7 @@
                                                             x:Phase="6"
                                                             />
                                                     </StackPanel>
-                                                    <StackPanel Orientation="Horizontal">
+                                                    <StackPanel Orientation="Horizontal" x:Name="ParkingLotSituationContainer">
                                                         <TextBlock
                                                                 Style="{ThemeResource ParkingLotListDetailStyle}"
                                                                 Text="{x:Bind FreeLots, Mode=OneWay}"
@@ -587,7 +598,7 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                        <Border 
+                        <Border
                             RelativePanel.AlignTopWithPanel="True"
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignLeftWithPanel="True"
@@ -602,7 +613,7 @@
                     </RelativePanel>
                     <!-- #endregion -->
                     <!-- #region Map -->
-                    <RelativePanel 
+                    <RelativePanel
                         x:Name="ParkingLotMap"
                         RelativePanel.AlignRightWithPanel="True"
                         RelativePanel.AlignLeftWithPanel="True"
@@ -632,7 +643,7 @@
                     </RelativePanel>
                     <!-- #endregion -->
                     <!-- #region Container for background drawings -->
-                    <Grid 
+                    <Grid
                         x:DeferLoadStrategy="Lazy"
                         x:Name="BackgroundDrawingContainer"
                         Margin="-500,-500,0,0" />

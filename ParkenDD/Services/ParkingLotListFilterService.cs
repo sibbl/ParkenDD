@@ -23,7 +23,14 @@ namespace ParkenDD.Services
                 case ParkingLotFilterMode.Alphabetically:
                     return orderAsc ? items.OrderBy(alphabeticalSortingFunc) : items.OrderByDescending(alphabeticalSortingFunc);
                 case ParkingLotFilterMode.Availability:
-                    var availabilitySortingFunc = new Func<ParkingLot, double>(x => ((double)x.TotalLots / (double)x.FreeLots));
+                    var availabilitySortingFunc = new Func<ParkingLot, double>(x =>
+                    {
+                        if (x.TotalLots == 0)
+                        {
+                            return -1; //they're always last of the list
+                        }
+                        return (double)x.FreeLots / (double) x.TotalLots;
+                    });
                     return orderAsc ? items.OrderBy(availabilitySortingFunc) : items.OrderByDescending(availabilitySortingFunc);
                 case ParkingLotFilterMode.Distance:
                     var userPos = await ServiceLocator.Current.GetInstance<GeolocationService>().GetUserLocation();
