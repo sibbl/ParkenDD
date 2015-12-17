@@ -31,7 +31,8 @@ namespace ParkenDD.Utils
                     var existingCity = metaData.Cities.FirstOrDefault(x => x.Id == city.Id);
                     if (existingCity == null)
                     {
-                        metaData.Cities.Add(city);
+                        var index = newData.Cities.IndexOf(city);
+                        metaData.Cities.Insert(index, city);
                     }
                     else
                     {
