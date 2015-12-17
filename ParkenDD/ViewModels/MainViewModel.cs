@@ -751,6 +751,7 @@ namespace ParkenDD.ViewModels
                 SetLoadingCity(false);
             }
             Messenger.Default.Send(new UpdateParkingLotListSelectionMessage());
+            Debug.WriteLine("[MainVm] UpdateParkingLotListFilter finished");
         }
 
         private async void TryLoadOnlineCityData()

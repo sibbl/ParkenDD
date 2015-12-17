@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Devices.Geolocation;
+using GalaSoft.MvvmLight.Threading;
 using Microsoft.Practices.ServiceLocation;
 using ParkenDD.Api.Models;
 using ParkenDD.Models;
@@ -52,24 +55,29 @@ namespace ParkenDD.Services
             var result = new List<ParkingLotListGroup>();
             var res = ResourceService.Instance;
             //create groups in the order which the server returned
+            Debug.WriteLine("test");
             foreach (var i in items)
             {
+                Debug.WriteLine("header");
                 var header = i.Region ?? res.ParkingLotListGroupHeaderOther;
                 if (!result.Any(x => x.Header.Equals(header)))
                 {
                     result.Add(new ParkingLotListGroup(header));
                 }
             }
+            Debug.WriteLine("order them now");
             //then add ordered items
             foreach (var i in orderedItems)
             {
                 var header = i.Region ?? res.ParkingLotListGroupHeaderOther;
                 result.FirstOrDefault(x => x.Header.Equals(header)).ParkingLots.Add(i);
             }
+            Debug.WriteLine("blaa");
             if (result.Count == 1)
             {
                 result[0].Header = res.ParkingLotListGroupHeaderAll;
             }
+            Debug.WriteLine("return");
             return result;
         }
     }

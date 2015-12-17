@@ -378,6 +378,11 @@
                             RelativePanel.Below="OfflineHint"
                             SelectionChanged="ParkingLotListSelectionChanged"
                             >
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsStackPanel ItemsUpdatingScrollMode="KeepItemsInView" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
                             <ListView.GroupStyle>
                                 <GroupStyle
                                     HidesIfEmpty="True"

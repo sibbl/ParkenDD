@@ -129,9 +129,31 @@ namespace ParkenDD.Views
                 InfoDialog.Visibility = msg.Visibility;
             });
 
-            Messenger.Default.Register(this, (UpdateParkingLotListSelectionMessage msg) =>
+            Messenger.Default.Register(this, async (UpdateParkingLotListSelectionMessage msg) =>
             {
-                Debug.WriteLine("[MainView] parking lot list: message received");
+                Debug.WriteLine("[MainView] update parking lot list: message received");
+                DrawingService.RedrawParkingLot(BackgroundDrawingContainer, Vm.SelectedParkingLot);
+                DrawingService.RedrawParkingLot(BackgroundDrawingContainer, _selectedLot);
+                _selectedLot = Vm.SelectedParkingLot;
+                var selectedParkingLotPoint = _selectedLot?.Coordinates?.Point;
+                if (selectedParkingLotPoint != null)
+                {
+                    Debug.WriteLine("[MainView] map: selected parking lot - wait until initial view was zoomed to (" + _selectedLot?.Id + ")");
+                    await WaitForInitialMapZoom();
+                    bool isParkingLotInView;
+                    Map.IsLocationInView(selectedParkingLotPoint, out isParkingLotInView);
+                    Debug.WriteLine("[MainView] map: selected parking lot - check (" + _selectedLot?.Id + ")");
+                    if (Map.ZoomLevel < 14)
+                    {
+                        Debug.WriteLine("[MainView] map: selected parking lot, zoom level too high (" + _selectedLot?.Id + ")");
+                        await Map.TrySetViewAsync(selectedParkingLotPoint, 14);
+                    }
+                    else if (!isParkingLotInView)
+                    {
+                        Debug.WriteLine("[MainView] map: selected parking lot, parking lot not in view (" + _selectedLot?.Id + ")");
+                        await Map.TrySetViewAsync(selectedParkingLotPoint);
+                    }
+                }
                 SetParkingLotListSelectionVisualState();
             });
 
@@ -193,31 +215,6 @@ namespace ParkenDD.Views
                             }
                         }
                     };
-                }
-            }
-            else if (args.PropertyName == nameof(Vm.SelectedParkingLot))
-            {
-                DrawingService.RedrawParkingLot(BackgroundDrawingContainer, Vm.SelectedParkingLot);
-                DrawingService.RedrawParkingLot(BackgroundDrawingContainer, _selectedLot);
-                _selectedLot = Vm.SelectedParkingLot;
-                var selectedParkingLotPoint = _selectedLot?.Coordinates?.Point;
-                if (selectedParkingLotPoint != null)
-                {
-                    Debug.WriteLine("[MainView] map: selected parking lot - wait until initial view was zoomed to (" + _selectedLot?.Id + ")");
-                    await WaitForInitialMapZoom();
-                    bool isParkingLotInView;
-                    Map.IsLocationInView(selectedParkingLotPoint, out isParkingLotInView);
-                    Debug.WriteLine("[MainView] map: selected parking lot - check (" + _selectedLot?.Id + ")");
-                    if (Map.ZoomLevel < 14)
-                    {
-                        Debug.WriteLine("[MainView] map: selected parking lot, zoom level too high (" + _selectedLot?.Id + ")");
-                        await Map.TrySetViewAsync(selectedParkingLotPoint, 14);
-                    }
-                    else if (!isParkingLotInView)
-                    {
-                        Debug.WriteLine("[MainView] map: selected parking lot, parking lot not in view (" + _selectedLot?.Id + ")");
-                        await Map.TrySetViewAsync(selectedParkingLotPoint);
-                    }
                 }
             }
             else if (args.PropertyName == nameof(Vm.ParkingLotFilterMode))
@@ -312,8 +309,7 @@ namespace ParkenDD.Views
 
         private void ParkingLotListSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var oldItem = e.RemovedItems.FirstOrDefault();
-            if (oldItem != null)
+            foreach (var oldItem in e.RemovedItems)
             {
                 var oldItemContainer = ParkingLotList.ContainerFromItem(oldItem);
                 var oldListViewItem = oldItemContainer as ListViewItem;
@@ -323,8 +319,7 @@ namespace ParkenDD.Views
                     VisualStateManager.GoToState(oldListViewItem.ContentTemplateRoot as Control, "Unselected", false);
                 }
             }
-            var newItem = e.AddedItems.FirstOrDefault();
-            if (newItem != null)
+            foreach(var newItem in e.AddedItems)
             {
                 var newItemContainer = ParkingLotList.ContainerFromItem(newItem);
                 var newListViewItem = newItemContainer as ListViewItem;
@@ -363,6 +358,8 @@ namespace ParkenDD.Views
                 {
                     Debug.WriteLine("[MainVm] parking lot list: list view item is null :/");
                 }
+
+                ParkingLotList.ScrollIntoView(selectedItem);
             }
             else
             {
