@@ -132,28 +132,6 @@ namespace ParkenDD.Views
             Messenger.Default.Register(this, async (UpdateParkingLotListSelectionMessage msg) =>
             {
                 Debug.WriteLine("[MainView] update parking lot list: message received");
-                DrawingService.RedrawParkingLot(BackgroundDrawingContainer, Vm.SelectedParkingLot);
-                DrawingService.RedrawParkingLot(BackgroundDrawingContainer, _selectedLot);
-                _selectedLot = Vm.SelectedParkingLot;
-                var selectedParkingLotPoint = _selectedLot?.Coordinates?.Point;
-                if (selectedParkingLotPoint != null)
-                {
-                    Debug.WriteLine("[MainView] map: selected parking lot - wait until initial view was zoomed to (" + _selectedLot?.Id + ")");
-                    await WaitForInitialMapZoom();
-                    bool isParkingLotInView;
-                    Map.IsLocationInView(selectedParkingLotPoint, out isParkingLotInView);
-                    Debug.WriteLine("[MainView] map: selected parking lot - check (" + _selectedLot?.Id + ")");
-                    if (Map.ZoomLevel < 14)
-                    {
-                        Debug.WriteLine("[MainView] map: selected parking lot, zoom level too high (" + _selectedLot?.Id + ")");
-                        await Map.TrySetViewAsync(selectedParkingLotPoint, 14);
-                    }
-                    else if (!isParkingLotInView)
-                    {
-                        Debug.WriteLine("[MainView] map: selected parking lot, parking lot not in view (" + _selectedLot?.Id + ")");
-                        await Map.TrySetViewAsync(selectedParkingLotPoint);
-                    }
-                }
                 SetParkingLotListSelectionVisualState();
             });
 
@@ -215,6 +193,37 @@ namespace ParkenDD.Views
                             }
                         }
                     };
+                }
+            }
+            else if (args.PropertyName == nameof(Vm.SelectedParkingLot))
+            {
+                //don't change viewport or redraw something while the CVS is updated
+                //the selection remains unchanged, whatever the ListView does (especially auto-selecting items...)
+                if (Vm.UpdateFilterInProgress > 0)
+                {
+                    return;
+                }
+                DrawingService.RedrawParkingLot(BackgroundDrawingContainer, Vm.SelectedParkingLot);
+                DrawingService.RedrawParkingLot(BackgroundDrawingContainer, _selectedLot);
+                _selectedLot = Vm.SelectedParkingLot;
+                var selectedParkingLotPoint = Vm.SelectedParkingLot?.Coordinates?.Point;
+                if (selectedParkingLotPoint != null)
+                {
+                    Debug.WriteLine("[MainView] map: selected parking lot - wait until initial view was zoomed to (" + _selectedLot?.Id + ")");
+                    await WaitForInitialMapZoom();
+                    bool isParkingLotInView;
+                    Map.IsLocationInView(selectedParkingLotPoint, out isParkingLotInView);
+                    Debug.WriteLine("[MainView] map: selected parking lot - check (" + _selectedLot?.Id + ")");
+                    if (Map.ZoomLevel < 14)
+                    {
+                        Debug.WriteLine("[MainView] map: selected parking lot, zoom level too high (" + _selectedLot?.Id + ")");
+                        await Map.TrySetViewAsync(selectedParkingLotPoint, 14);
+                    }
+                    else if (!isParkingLotInView)
+                    {
+                        Debug.WriteLine("[MainView] map: selected parking lot, parking lot not in view (" + _selectedLot?.Id + ")");
+                        await Map.TrySetViewAsync(selectedParkingLotPoint);
+                    }
                 }
             }
             else if (args.PropertyName == nameof(Vm.ParkingLotFilterMode))

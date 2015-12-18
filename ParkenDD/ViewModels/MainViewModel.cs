@@ -48,6 +48,8 @@ namespace ParkenDD.ViewModels
 
         #region PUBLIC PROPERTIES
 
+        public int UpdateFilterInProgress { get; set; }
+
         #region MetaData
         private MetaData _metaData;
         public MetaData MetaData
@@ -720,6 +722,7 @@ namespace ParkenDD.ViewModels
             {
                 return;
             }
+            UpdateFilterInProgress++;
             Debug.WriteLine("[MainVm] UpdateParkingLotListFilter");
             if (ParkingLots == null)
             {
@@ -752,6 +755,7 @@ namespace ParkenDD.ViewModels
             }
             Messenger.Default.Send(new UpdateParkingLotListSelectionMessage());
             Debug.WriteLine("[MainVm] UpdateParkingLotListFilter finished");
+            UpdateFilterInProgress--;
         }
 
         private async void TryLoadOnlineCityData()
