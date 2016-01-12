@@ -214,3 +214,4 @@ ModelManifest.xml
 
 # custom
 BundleArtifacts
+!*_TemporaryKey.pfx
