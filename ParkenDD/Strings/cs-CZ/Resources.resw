@@ -224,7 +224,7 @@ Můžete použít následující příkazy:</value>
     <value>PŘEDPOVĚĎ</value>
   </data>
   <data name="ParkingLotListDetailFree.Text" xml:space="preserve">
-    <value> dostupné</value>
+    <value> dostupných</value>
   </data>
   <data name="ParkingLotListFilterBtn.ToolTipService.ToolTip" xml:space="preserve">
     <value>Filtr</value>
@@ -266,7 +266,7 @@ Můžete použít následující příkazy:</value>
     <value>Nemohl jsem najít parkoviště</value>
   </data>
   <data name="VoiceCommandParkingStateUpToDateSpokenMsg" xml:space="preserve">
-    <value>{0} z {1} parkovacích míst jsou momentálně dostupné</value>
+    <value>{0} z {1} parkovacích míst je momentálně dostupných</value>
     <comment>{0} = free lots, {1} = total lots</comment>
   </data>
   <data name="VoiceCommandParkingStateUpToDateDisplayMsg" xml:space="preserve">
@@ -298,7 +298,7 @@ Můžete použít následující příkazy:</value>
     <comment>{0} = name, {1} = free lots, {2} = total lots, {3} = percentage </comment>
   </data>
   <data name="ParkingLotForecastTimespan7Days" xml:space="preserve">
-    <value>Předpověď pro následujích 7 dní</value>
+    <value>Předpověď pro následujících 7 dní</value>
   </data>
   <data name="ParkingLotForecastTimespan24Hrs" xml:space="preserve">
     <value>Předpověď pro následujících 24 hodin</value>
