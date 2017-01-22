@@ -1038,10 +1038,10 @@ namespace ParkenDD.ViewModels
             });
         }
 
-        public void Initialize(bool loadState)
+        public async void Initialize(bool loadState)
         {
             Debug.WriteLine("[MainVm] Initialize");
-            Task.Run(async () =>
+            await Task.Run(async () =>
             {
                 await DispatcherHelper.RunAsync(() =>
                 {
@@ -1051,8 +1051,8 @@ namespace ParkenDD.ViewModels
                 });
             });
 
-            Task.Factory.StartNew(async () =>
-            {
+            //Task.Factory.StartNew(async () =>
+            //{
                 var lastStateLoaded = false;
                 if (loadState)
                 {
@@ -1094,7 +1094,7 @@ namespace ParkenDD.ViewModels
                         Task.Factory.StartNew(TryGetUserPosition);
                     });
                 });
-            }, TaskCreationOptions.PreferFairness);
+            //}, TaskCreationOptions.PreferFairness);
         }
 
         public void Resume()
@@ -1147,8 +1147,16 @@ namespace ParkenDD.ViewModels
 
         private void UpdateServiceData()
         {
-            _voiceCommands.UpdateCityList(MetaDataCities);
-            _jumpList.UpdateCityList(MetaDataCities);
+            Task.Run(() =>
+            {
+                Task.Delay(1000);
+                _jumpList.UpdateCityList(MetaDataCities);
+            });
+            Task.Run(() =>
+            {
+                Task.Delay(2000);
+                _voiceCommands.UpdateCityList(MetaDataCities);
+            });
         }
 
 #endregion

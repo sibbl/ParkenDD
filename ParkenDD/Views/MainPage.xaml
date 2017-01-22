@@ -402,7 +402,7 @@
                                     <UserControl x:Name="ItemContainer" Background="#ffffff">
                                         <UserControl.Resources>
                                             <Storyboard x:Key="LoadedStoryboard">
-                                                <DoubleAnimation
+                                                <!--<DoubleAnimation
                                                     Duration="0:0:0.500"
                                                     From="100"
                                                     To="0"
@@ -424,7 +424,7 @@
                                                     <DoubleAnimation.EasingFunction>
                                                         <CubicEase EasingMode="EaseOut" />
                                                     </DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
+                                                </DoubleAnimation>-->
                                             </Storyboard>
                                         </UserControl.Resources>
                                         <interactivity:Interaction.Behaviors>

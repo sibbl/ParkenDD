@@ -125,6 +125,7 @@
     <Compile Include="Models\ForecastBase.cs" />
     <Compile Include="Models\ForecastDataType.cs" />
     <Compile Include="Models\MetaData.cs" />
+    <Compile Include="Models\MetaDataAttribution.cs" />
     <Compile Include="Models\MetaDataCities.cs" />
     <Compile Include="Models\MetaDataCityRow.cs" />
     <Compile Include="Models\ParkingLot.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
@@ -58,25 +59,34 @@ namespace ParkenDD.Services
 
         private VoiceCommandDefinition GetCurrentCommandSet()
         {
-            VoiceCommandDefinition commandSet;
-            var languages = ApplicationLanguages.Languages;
-            var lang = languages.FirstOrDefault();
-            if (string.IsNullOrEmpty(lang))
+            try
             {
-                lang = "en"; //fallback to english as default
-            }
-            if (VoiceCommandDefinitionManager.InstalledCommandDefinitions.TryGetValue(string.Format(VoiceCommandSetNameFormat, lang), out commandSet))
-            {
-                return commandSet;
-            }
-            var langParts = lang.Split('-');
-            if (langParts.Length > 1)
-            {
-                if (VoiceCommandDefinitionManager.InstalledCommandDefinitions.TryGetValue(
-                        string.Format(VoiceCommandSetNameFormat, langParts[0]), out commandSet))
+                VoiceCommandDefinition commandSet;
+                var languages = ApplicationLanguages.Languages;
+                var lang = languages.FirstOrDefault();
+                if (string.IsNullOrEmpty(lang))
+                {
+                    lang = "en"; //fallback to english as default
+                }
+                if (
+                    VoiceCommandDefinitionManager.InstalledCommandDefinitions.TryGetValue(
+                        string.Format(VoiceCommandSetNameFormat, lang), out commandSet))
                 {
                     return commandSet;
                 }
+                var langParts = lang.Split('-');
+                if (langParts.Length > 1)
+                {
+                    if (VoiceCommandDefinitionManager.InstalledCommandDefinitions.TryGetValue(
+                        string.Format(VoiceCommandSetNameFormat, langParts[0]), out commandSet))
+                    {
+                        return commandSet;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Cannot initalize voice commands.");
             }
             return null;
         }
@@ -88,9 +98,13 @@ namespace ParkenDD.Services
 
         public async Task UpdateCityListAsync(IEnumerable<MetaDataCityRow> metaData)
         {
-            if (_phrases == null)
+            if (_phrases == null && _loadPhrasesTask != null)
             {
                 _phrases = await _loadPhrasesTask;
+            }
+            if (_phrases == null)
+            {
+                return;
             }
             if (metaData != null)
             {

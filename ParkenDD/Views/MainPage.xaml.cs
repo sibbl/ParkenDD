@@ -139,7 +139,14 @@ namespace ParkenDD.Views
 
             ParkingLotList.SelectionChanged += (sender, args) =>
             {
-                ParkingLotList.ScrollIntoView(ParkingLotList.SelectedItem);
+                try
+                {
+                    ParkingLotList.ScrollIntoView(ParkingLotList.SelectedItem);
+                }
+                catch (Exception)
+                {
+                    Debug.WriteLine("Cannot scroll currenct parking lot list item...");
+                }
             };
 
             Map.MapElementClick += (sender, args) =>
@@ -325,7 +332,11 @@ namespace ParkenDD.Views
                 if (oldListViewItem != null)
                 {
                     Debug.WriteLine("[MainView] parking lot list: remove selected visual state for " + (oldItem as ParkingLot).Name);
-                    VisualStateManager.GoToState(oldListViewItem.ContentTemplateRoot as Control, "Unselected", false);
+                    var element = oldListViewItem.ContentTemplateRoot as Control;
+                    if (element != null)
+                    {
+                        VisualStateManager.GoToState(element, "Unselected", false);
+                    }
                 }
             }
             foreach(var newItem in e.AddedItems)
@@ -335,7 +346,11 @@ namespace ParkenDD.Views
                 if (newListViewItem != null)
                 {
                     Debug.WriteLine("[MainView] parking lot list: add selected visual state for " + (newItem as ParkingLot).Name);
-                    VisualStateManager.GoToState(newListViewItem.ContentTemplateRoot as Control, "Selected", false);
+                    var element = newListViewItem.ContentTemplateRoot as Control;
+                    if (element != null)
+                    {
+                        VisualStateManager.GoToState(element, "Selected", false);
+                    }
                 }
             }
         }
