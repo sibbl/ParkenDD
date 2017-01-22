@@ -83,6 +83,8 @@ namespace ParkenDD.Services
             {
                 case SupportedLocale.German:
                     return "Du musst die App neu starten, damit die Änderung der Sprache sichtbar wird.";
+                case SupportedLocale.Czech:
+                    return "TODO";
                 default:
                     return "You have to restart the app in order to see the language changes.";
             }
@@ -110,6 +112,8 @@ namespace ParkenDD.Services
             {
                 case SupportedLocale.German:
                     return "de-DE";
+                case SupportedLocale.Czech:
+                    return "cs-CZ";
                 case SupportedLocale.English:
                     return "en-US";
             }
