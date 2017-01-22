@@ -152,7 +152,7 @@ namespace ParkenDD.Controls
                 {
                     ForecastChart.Opacity = 0.2;
                     LoadingProgressRing.Visibility = Visibility.Visible;
-                    await Task.Factory.StartNew(async () =>
+                    await Task.Run(async () =>
                     {
                         var api = ServiceLocator.Current.GetInstance<IParkenDdClient>();
                         var mainVm = ServiceLocator.Current.GetInstance<MainViewModel>();
