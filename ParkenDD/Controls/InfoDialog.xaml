@@ -310,13 +310,15 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="apiModels:MetaDataCityRow">
                                         <StackPanel Style="{StaticResource InfoDialogPivotDataSourceItemContainerStyle}">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Style="{StaticResource InfoDialogPivotContentBulletStyle}" />
-                                                <HyperlinkButton
-                                                    Style="{StaticResource InfoDialogPivotDataSourceItemHyperlinkStyle}"
-                                                    NavigateUri="{x:Bind Url, Mode=OneWay}"
-                                                    Content="{x:Bind Name, Mode=OneWay}" />
-                                            </StackPanel>
+                                            <TextBlock Style="{StaticResource InfoDialogPivotContentDataSourceTitleStyle}"
+                                                               >
+                                                        <Span xml:space="preserve"><Hyperlink NavigateUri="{x:Bind Url, Mode=OneWay}"><Underline><Run Text="{x:Bind Name, Mode=OneWay}"/></Underline></Hyperlink></Span>
+                                                    </TextBlock>
+                                            <TextBlock Style="{StaticResource InfoDialogPivotContentDataSourceBodyStyle}"
+                                                               Visibility="{Binding Attribution, Converter={StaticResource NullToVisibilityConverter}}"
+                                                               >
+                                                        <Span xml:space="preserve">(<Hyperlink NavigateUri="{x:Bind Attribution.Url}"><Underline><Run Text="{x:Bind Attribution, Mode=OneWay}"/></Underline></Hyperlink>)</Span>
+                                            </TextBlock>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>

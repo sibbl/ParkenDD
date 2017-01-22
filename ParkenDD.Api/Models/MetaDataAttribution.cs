@@ -39,5 +39,23 @@ namespace ParkenDD.Api.Models
             set { Set(ref _url, value); }
         }
         private Uri _url;
+
+        public override string ToString()
+        {
+            var result = string.Empty;
+            if (!string.IsNullOrEmpty(Contributor))
+            {
+                result += Contributor;
+            }
+            if (!string.IsNullOrEmpty(License))
+            {
+                if (!string.IsNullOrEmpty(result))
+                {
+                    result += ", ";
+                }
+                result += License;
+            }
+            return result;
+        }
     }
 }

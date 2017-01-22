@@ -1094,7 +1094,7 @@
     </Style>
 
     <Style x:Key="InfoDialogPivotContentBulletStyle" TargetType="TextBlock" BasedOn="{StaticResource InfoDialogPivotContentTextBaseStyle}">
-        <Setter Property="Text" Value="•" />
+        <Setter Property="TextWrapping" Value="WrapWholeWords" />
         <Setter Property="Margin" Value="0,0,5,5" />
     </Style>
 
@@ -1131,13 +1131,20 @@
     <Style x:Key="InfoDialogPivotContentTextHeaderStyle" TargetType="TextBlock" BasedOn="{StaticResource InfoDialogPivotContentTextBaseStyle}">
         <Setter Property="FontWeight" Value="Bold" />
     </Style>
-    
+
     <Style x:Key="InfoDialogPivotContentTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource InfoDialogPivotContentTextBaseStyle}">
         <Setter Property="Margin" Value="0,0,0,15" />
     </Style>
 
+    <Style x:Key="InfoDialogPivotContentDataSourceTitleStyle" TargetType="TextBlock" BasedOn="{StaticResource InfoDialogPivotContentTextBaseStyle}">
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <Style x:Key="InfoDialogPivotContentDataSourceBodyStyle" TargetType="TextBlock" BasedOn="{StaticResource InfoDialogPivotContentTextBaseStyle}">
+    </Style>
+
     <Style x:Key="InfoDialogPivotDataSourceItemContainerStyle" TargetType="StackPanel">
-        <Setter Property="Margin" Value="0,0,0,5" />
+        <Setter Property="Margin" Value="0,0,10,10" />
     </Style>
 
     <Style x:Key="InfoDialogPivotDataSourceItemHyperlinkStyle" TargetType="HyperlinkButton" BasedOn="{StaticResource InfoDialogPivotContentHyperlinkButtonBaseStyle}">
