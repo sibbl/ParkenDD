@@ -9,7 +9,8 @@ namespace ParkenDD.Services
     public enum SupportedLocale
     {
         German,
-        English
+        English,
+        Czech
     }
     public class LocalizationService
     {
@@ -26,6 +27,8 @@ namespace ParkenDD.Services
             var primaryLanguage = ApplicationLanguages.Languages[0];
             if (primaryLanguage.StartsWith("de"))
                 return SupportedLocale.German;
+            if(primaryLanguage.StartsWith("cs")) 
+                return SupportedLocale.Czech;
             return SupportedLocale.English;
         }
 
@@ -34,7 +37,8 @@ namespace ParkenDD.Services
             return new List<SupportedLocale>
             {
                 SupportedLocale.German,
-                SupportedLocale.English
+                SupportedLocale.English,
+                SupportedLocale.Czech
             };
         }
 
