@@ -90,10 +90,7 @@ namespace ParkenDD.Services
             }
         }
 
-        public void UpdateCulture()
-        {
-            UpdateCulture(_settings.CurrentLocale);
-        }
+        public void UpdateCulture() => UpdateCulture(_settings.CurrentLocale);
 
         public void UpdateCulture(SupportedLocale locale)
         {

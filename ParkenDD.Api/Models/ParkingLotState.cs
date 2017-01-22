@@ -4,6 +4,7 @@
     {
         Open,
         Closed,
-        NoData
+        NoData,
+        Unknown
     }
 }
