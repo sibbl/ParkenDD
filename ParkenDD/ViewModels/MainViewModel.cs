@@ -1078,7 +1078,7 @@ namespace ParkenDD.ViewModels
                     _initialized = true;
                 }
 
-                await Task.Factory.StartNew(async () =>
+                await Task.Run(async () =>
                 {
                     do
                     {
