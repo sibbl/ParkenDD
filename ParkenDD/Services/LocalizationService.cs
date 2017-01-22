@@ -119,5 +119,10 @@ namespace ParkenDD.Services
             }
             return GlobalizationPreferences.Languages[0];
         }
+
+        public bool HasVoiceCommands(SupportedLocale locale)
+        {
+            return locale == SupportedLocale.German || locale == SupportedLocale.English;
+        }
     }
 }

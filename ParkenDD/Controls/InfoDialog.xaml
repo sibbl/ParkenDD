@@ -218,62 +218,64 @@
                                 Style="{StaticResource InfoDialogPivotContentTextBlockStyle}"
                                 Text="Bei einigen Parkplätzen stehen experimentelle Vorhersagen zur Verfügung, die für einen auswählbaren Zeitraum in einem Diagramm dargestellt werden. Diese Daten wurden von Algorithmen erzeugt und fortlaufend von uns optimiert."/>
 
-                            <TextBlock
-                                x:Uid="InfoDialogFeaturesCortanaTitle"
-                                Style="{StaticResource InfoDialogPivotContentTextHeaderStyle}"
-                                Text="Cortana" />
-                            <TextBlock
-                                x:Uid="InfoDialogFeaturesCortanaContent"
-                                Style="{StaticResource InfoDialogPivotContentTextBlockStyle}"
-                                Text="Haben Sie Cortana aktiviert, können Sie über Sprachsuchen die App starten oder Informationen zur Parksituation erhalten, ohne die App zu starten. Verwenden Sie dazu zum Beispiel folgende Befehle:"/>
+                            <StackPanel Visibility="{Binding Settings.HasVoiceCommands, Source={StaticResource Locator}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <TextBlock
+                                    x:Uid="InfoDialogFeaturesCortanaTitle"
+                                    Style="{StaticResource InfoDialogPivotContentTextHeaderStyle}"
+                                    Text="Cortana" />
+                                <TextBlock
+                                    x:Uid="InfoDialogFeaturesCortanaContent"
+                                    Style="{StaticResource InfoDialogPivotContentTextBlockStyle}"
+                                    Text="Haben Sie Cortana aktiviert, können Sie über Sprachsuchen die App starten oder Informationen zur Parksituation erhalten, ohne die App zu starten. Verwenden Sie dazu zum Beispiel folgende Befehle:"/>
 
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Style="{StaticResource InfoDialogPivotContentBulletStyle}"
-                                    />
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Style="{StaticResource InfoDialogPivotContentBulletStyle}"
-                                    />
-                                <TextBlock
-                                    Grid.Row="2"
-                                    Grid.Column="0"
-                                    Style="{StaticResource InfoDialogPivotContentBulletStyle}"
-                                    />
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    x:Uid="InfoDialogFeaturesCortanaSample1"
-                                    Style="{StaticResource InfoDialogPivotContentTextBaseStyle}">
-                                    ParkenDD, wo kann ich in Dresden parken?
-                                </TextBlock>
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    x:Uid="InfoDialogFeaturesCortanaSample2"
-                                    Style="{StaticResource InfoDialogPivotContentTextBaseStyle}">
-                                    ParkenDD, zeige den Parkplatz der Centrum Galerie in Dresden
-                                </TextBlock>
-                                <TextBlock
-                                    Grid.Row="2"
-                                    Grid.Column="1"
-                                    x:Uid="InfoDialogFeaturesCortanaSample3"
-                                    Style="{StaticResource InfoDialogPivotContentTextBaseStyle}">
-                                    ParkenDD, wie viele Parkplätze sind in Dresden in der Centrum Galerie frei?
-                                </TextBlock>
-                            </Grid>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Style="{StaticResource InfoDialogPivotContentBulletStyle}"
+                                        />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Style="{StaticResource InfoDialogPivotContentBulletStyle}"
+                                        />
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Style="{StaticResource InfoDialogPivotContentBulletStyle}"
+                                        />
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        x:Uid="InfoDialogFeaturesCortanaSample1"
+                                        Style="{StaticResource InfoDialogPivotContentTextBaseStyle}">
+                                        ParkenDD, wo kann ich in Dresden parken?
+                                    </TextBlock>
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        x:Uid="InfoDialogFeaturesCortanaSample2"
+                                        Style="{StaticResource InfoDialogPivotContentTextBaseStyle}">
+                                        ParkenDD, zeige den Parkplatz der Centrum Galerie in Dresden
+                                    </TextBlock>
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        x:Uid="InfoDialogFeaturesCortanaSample3"
+                                        Style="{StaticResource InfoDialogPivotContentTextBaseStyle}">
+                                        ParkenDD, wie viele Parkplätze sind in Dresden in der Centrum Galerie frei?
+                                    </TextBlock>
+                                </Grid>
+                            </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>

@@ -112,6 +112,8 @@ namespace ParkenDD.ViewModels
 
         public bool LanguageChanged => !_displayedLocale.Equals(Locale);
 
+        public bool HasVoiceCommands => _localization.HasVoiceCommands(Locale);
+
         #endregion
 
 
@@ -128,6 +130,7 @@ namespace ParkenDD.ViewModels
             RaisePropertyChanged(() => LocaleDefaultIndex);
             RaisePropertyChanged(() => LanguageChanged);
             RaisePropertyChanged(() => ChangeLanguageString);
+            RaisePropertyChanged(() => HasVoiceCommands);
         }
     }
 }
