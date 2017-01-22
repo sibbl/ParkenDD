@@ -59,6 +59,8 @@ namespace ParkenDD.Services
                     return "Deutsch";
                 case SupportedLocale.English:
                     return "English";
+                case SupportedLocale.Czech:
+                    return "Čeština";
             }
             return string.Empty;
         }
