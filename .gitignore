@@ -211,3 +211,7 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+
+# custom
+BundleArtifacts
+!*_TemporaryKey.pfx

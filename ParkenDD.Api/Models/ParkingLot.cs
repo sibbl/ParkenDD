@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System;
+using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
 
 namespace ParkenDD.Api.Models
@@ -36,7 +37,7 @@ namespace ParkenDD.Api.Models
         [JsonProperty("free")]
         public int FreeLots
         {
-            get { return _freeLots; }
+            get { return Math.Min(_freeLots, _totalLots); }
             set { Set(ref _freeLots, value); }
         }
         private int _freeLots;
@@ -47,7 +48,7 @@ namespace ParkenDD.Api.Models
         [JsonProperty("total")] 
         public int TotalLots
         {
-            get { return _totalLots >= _freeLots ? _totalLots : _freeLots; }
+            get { return _totalLots; }
             set { Set(ref _totalLots, value); }
         }
         private int _totalLots;

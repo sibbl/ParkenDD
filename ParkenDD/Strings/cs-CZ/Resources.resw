@@ -118,350 +118,352 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="InfoDialogAuthor.Text" xml:space="preserve">
-    <value>von Sebastian Müller (@sibbl)</value>
+    <value>Vytvořil Sebastian Müller (@sibbl)</value>
   </data>
   <data name="InfoDialogBackBtn.Content" xml:space="preserve">
-    <value>Zurück</value>
+    <value>Zpět</value>
   </data>
   <data name="InfoDialogDataWhere2Content.Text" xml:space="preserve">
-    <value>Folgende Verlinkungen führen Dich zu den Webseiten unserer Quellen:</value>
+    <value>Použijte následující odkazy k otevření našich zdrojů v prohlížeči:</value>
   </data>
   <data name="InfoDialogDataWhere2Title.Text" xml:space="preserve">
-    <value>Okay, aber woher stammen nun die Daten?</value>
+    <value>Dobře, ale odkud ta data pocházejí?</value>
   </data>
   <data name="InfoDialogDataWhereContent.Text" xml:space="preserve">
-    <value>Die Daten, die Du in dieser App siehst, stammen aus verschiedenen Quellen. Da nur sehr wenige Städte die Daten offen bereitstellen, wurde das Projekt ParkAPI (www.github.com/offenesdresden/ParkAPI) ins Leben gerufen. Mit diesem werden diese Tabellen und Listen der Webseiten in ein Format übersetzt, das Maschinen und eben auch Ihr Windows-Gerät verstehen.</value>
+    <value>Data, použita v této aplikaci, jsou získávána z různých zdrojů. Téměř žádné město neposkytuje strojově čitelná data, proto vznikl projekt ParkAPI (www.github.com/offenesdresden/ParkAPI). Použitím scrapingu jsou aktuální data nahrávána z webových stránek a překládána do datového formátu, kterému počítač i vaše Windows zařízení rozumí.</value>
   </data>
   <data name="InfoDialogDataWhereTitle.Text" xml:space="preserve">
-    <value>Woher stammen die Daten?</value>
+    <value>Odkud pocházejí data?</value>
   </data>
   <data name="InfoDialogFeaturesCitiesContent.Text" xml:space="preserve">
-    <value>Wähle aus einer Liste von Städten aus und ParkenDD zeigt Dir die aktuelle Parksituation.</value>
+    <value>Vyberte město a získejte aktuální informace o parkování ve městě.</value>
   </data>
   <data name="InfoDialogFeaturesCitiesTitle.Text" xml:space="preserve">
-    <value>Städte</value>
+    <value>Města</value>
   </data>
   <data name="InfoDialogFeaturesCortanaContent.Text" xml:space="preserve">
-    <value>Ist Cortana aktiviert, kannst Du über Sprachsuchen die App starten oder auch ohne die App öffnen zu müssen Informationen zur Parksituation erhalten. Verwende dazu zum Beispiel folgende Befehle:</value>
+    <value>Pokud jste aktivovali Cortana, můžete aplikaci ovládat pomocí hlasu nebo dokonce získat detaily bez nutnosti aplikaci spustit.
+Můžete použít následující příkazy:</value>
   </data>
   <data name="InfoDialogFeaturesCortanaSample1.Text" xml:space="preserve">
-    <value>ParkenDD, wo kann ich in Dresden parken?</value>
+    <value>ParkenDD, kde můžu v Drážďanech zaparkovat?</value>
   </data>
   <data name="InfoDialogFeaturesCortanaSample2.Text" xml:space="preserve">
-    <value>ParkenDD, zeige den Parkplatz der Centrum Galerie in Dresden</value>
+    <value>ParkenDD, zobraz parkoviště Centrum Galerie v Drážďanech</value>
   </data>
   <data name="InfoDialogFeaturesCortanaSample3.Text" xml:space="preserve">
-    <value>ParkenDD, wie viele Parkplätze sind in Dresden in der Centrum Galerie frei?</value>
+    <value>ParkenDD, kolik je volných parkovacích míst v Centrum Galerie v Drážďanech?</value>
   </data>
   <data name="InfoDialogFeaturesCortanaTitle.Text" xml:space="preserve">
     <value>Cortana</value>
   </data>
   <data name="InfoDialogFeaturesParkingLotContent.Text" xml:space="preserve">
-    <value>Nachdem eine Stadt ausgewählt wurde, werden die Parkplätze geladen, zu denen uns Daten vorliegen. Du kannst diese in einer Listen- und einer Kartenansicht betrachten und auch anklicken, um zusätzliche Informationen sowie eine Wegbeschreibung zu erhalten.</value>
+    <value>Pokud je vybráno město, zobrazí se parkoviště (ke kterým jsou dostupná data) jak v seznamu, tak na mapě. Můžete je vybrat v obou zobrazeních pro získání více detailů a pro získání souřadnic.</value>
   </data>
   <data name="InfoDialogFeaturesParkingLotTitle.Text" xml:space="preserve">
-    <value>Parkplätze</value>
+    <value>Parkoviště</value>
   </data>
   <data name="InfoDialogFeaturesPredictionContent.Text" xml:space="preserve">
-    <value>Bei einigen Parkplätzen stehen experimentelle Vorhersagen zur Verfügung, die für einen auswählbaren Zeitraum in einem Diagramm dargestellt werden. Diese Daten wurden von Algorithmen erzeugt und fortlaufend von uns optimiert.</value>
+    <value>Na některých parkovištích je dostupná experimentální předpověď pro časové období, které si vyberete. Tato data jsou generována a optimalizována průběžně.</value>
   </data>
   <data name="InfoDialogFeaturesPredictionTitle.Text" xml:space="preserve">
-    <value>Vorhersage</value>
+    <value>Předpověď</value>
   </data>
   <data name="InfoDialogLicensesCopyright.Text" xml:space="preserve">
     <value>Copyright</value>
   </data>
   <data name="InfoDialogLicensesLabel.Text" xml:space="preserve">
-    <value>Lizenz: </value>
+    <value>Licence: </value>
   </data>
   <data name="InfoDialogLicensesTitle.Text" xml:space="preserve">
-    <value>Lizenzen</value>
+    <value>Licence</value>
   </data>
   <data name="InfoDialogPivotData.Header" xml:space="preserve">
-    <value>Daten</value>
+    <value>data</value>
   </data>
   <data name="InfoDialogPivotFeatures.Header" xml:space="preserve">
-    <value>Funktionen</value>
+    <value>funkce</value>
   </data>
   <data name="InfoDialogPivotInfo.Header" xml:space="preserve">
-    <value>Informationen</value>
+    <value>informace</value>
   </data>
   <data name="InfoDialogThanks.Text" xml:space="preserve">
-    <value>Danke an Rob Tranquillo (@robtranquillo), Johannes Kliemann (@JK70523), Kilian Költzsch (@kiliankoe) und Constantin Müller (@ubahnverleih) für das Entwickeln der API bzw. Android- und iOS-Apps. Danke an Paul Balzer (@balzer82) für das Berechnen und Bereitstellen der Daten für die Vorhersagen. Danke an Matthias Altermann für das Gestalten und Bereitstellen des App-Logos.</value>
+    <value>Poděkování si zaslouží Rob Tranquillo (@robtranquillo), Johannes Kliemann (@JK70523), Kilian Költzsch (@kiliankoe) a Constantin Müller (@ubahnverleih) za vývoj API, stejně tak aplikací pro iOS a Android, Paul Balzer (@balzer82) za výpočet a poskytnutí dat pro předpovědi, Matthias Altermann za návrh a poskytnutí loga aplikace. </value>
   </data>
   <data name="InfoDialogVersion.Text" xml:space="preserve">
-    <value>Version</value>
+    <value>Verze</value>
   </data>
   <data name="InfoDialogWriteAuthor.Content" xml:space="preserve">
-    <value>dem Entwickler schreiben</value>
+    <value>napište vývojáři</value>
   </data>
   <data name="InfoDialogWriteAuthor.NavigateUri" xml:space="preserve">
     <value>mailto:me@sibbl.net?subject=ParkenDD%20Feedback</value>
   </data>
   <data name="InfoTextLabel.Text" xml:space="preserve">
-    <value>Mehr...</value>
+    <value>Víc...</value>
   </data>
   <data name="ParkingLotFilterAscending.Text" xml:space="preserve">
-    <value>Aufsteigend</value>
+    <value>Vzestupně</value>
   </data>
   <data name="ParkingLotFilterDescending.Text" xml:space="preserve">
-    <value>Absteigend</value>
+    <value>Sestupně</value>
   </data>
   <data name="ParkingLotFilterMenuItemAlphabetically.Text" xml:space="preserve">
-    <value>Alphabetisch</value>
+    <value>Abecedně</value>
   </data>
   <data name="ParkingLotFilterMenuItemAvailability.Text" xml:space="preserve">
-    <value>Belegung</value>
+    <value>Obsazení</value>
   </data>
   <data name="ParkingLotFilterMenuItemDistance.Text" xml:space="preserve">
-    <value>Entfernung</value>
+    <value>Vzdálenost</value>
   </data>
   <data name="ParkingLotFilterMenuItemGrouping.Text" xml:space="preserve">
-    <value>Gruppierung</value>
+    <value>Seskupení</value>
   </data>
   <data name="ParkingLotHasForecastText.Text" xml:space="preserve">
-    <value>VORHERSAGE</value>
+    <value>PŘEDPOVĚĎ</value>
   </data>
   <data name="ParkingLotListDetailFree.Text" xml:space="preserve">
-    <value> frei</value>
+    <value> dostupných</value>
   </data>
   <data name="ParkingLotListFilterBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Filter</value>
+    <value>Filtr</value>
   </data>
   <data name="ParkingLotListMenuBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Menü</value>
+    <value>Menu</value>
   </data>
   <data name="ParkingLotListRefreshBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Aktualisieren</value>
+    <value>Obnovit</value>
   </data>
   <data name="SearchBox.PlaceholderText" xml:space="preserve">
-    <value>Adresse suchen...</value>
+    <value>Vyhledej adresu...</value>
   </data>
   <data name="SplitViewMenuBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Menü</value>
+    <value>Menu</value>
   </data>
   <data name="ParkingLotListDataAgeLabel.Text" xml:space="preserve">
-    <value>Stand: </value>
+    <value>od</value>
   </data>
   <data name="ParkingLotListFilterBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Filter</value>
+    <value>Filtr</value>
   </data>
   <data name="ParkingLotListMenuBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Menü</value>
+    <value>Menu</value>
   </data>
   <data name="ParkingLotListNavigationBtn.Content" xml:space="preserve">
-    <value>Wegbeschreibung</value>
+    <value>Popis cesty</value>
   </data>
   <data name="ParkingLotListRefreshBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Aktualisieren</value>
+    <value>Obnovit</value>
   </data>
   <data name="SplitViewMenuBtn.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Menü</value>
+    <value>Menu</value>
   </data>
   <data name="VoiceCommandParkingStateParkingLotNotFoundDisplayMsg" xml:space="preserve">
-    <value>Ich konnte den Parkplatz leider nicht finden...</value>
+    <value>Pardon, nemohl jsem najít parkoviště...</value>
   </data>
   <data name="VoiceCommandParkingStateParkingLotNotFoundSpokenMsg" xml:space="preserve">
-    <value>Ich konnte den Parkplatz leider nicht finden...</value>
+    <value>Nemohl jsem najít parkoviště</value>
   </data>
   <data name="VoiceCommandParkingStateUpToDateSpokenMsg" xml:space="preserve">
-    <value>{0} von {1} Parkplätzen sind aktuell frei</value>
+    <value>{0} z {1} parkovacích míst je momentálně dostupných</value>
     <comment>{0} = free lots, {1} = total lots</comment>
   </data>
   <data name="VoiceCommandParkingStateUpToDateDisplayMsg" xml:space="preserve">
-    <value>Der Parkplatz {0} hat aktuell {1} von {2} freie Parkplätze ({3}%).</value>
+    <value>Parkoviště {0} má momentálně {1} z {2} dostupných parkovacích míst ({3}%).</value>
     <comment>{0} = name, {1} = free lots, {2} = total lots, {3} = percentage</comment>
   </data>
   <data name="VoiceCommandParkingStateLessThan2HrsSpokenMsg" xml:space="preserve">
-    <value>{0} von {1} Parkplätzen waren vor {2} Minuten frei</value>
+    <value>{0} z {1} parkovacích míst bylo dostupných před {2} minutami</value>
     <comment>{0} = free lots, {1} = total lots, {2} = age in minutes</comment>
   </data>
   <data name="VoiceCommandParkingStateLessThan2HrsDisplayMsg" xml:space="preserve">
-    <value>Der Parkplatz {0} hatte vor {4} Minuten {1} von {2} freie Parkplätze ({3}%).</value>
+    <value>Parkoviště {0} mělo {1} z {2} dostupných parkovacích míst před {4} minutami ({3}%).</value>
     <comment>{0} = name, {1} = free lots, {2} = total lots, {3} = percentage, {4} = age in minutes</comment>
   </data>
   <data name="VoiceCommandParkingStateLessThan2DaysSpokenMsg" xml:space="preserve">
-    <value>{0} von {1} Parkplätzen waren vor weniger als {2} Stunden frei</value>
+    <value>{0} z {1} parkovacích míst bylo dostupných před méně než {2} hodinami</value>
     <comment>{0} = free lots, {1} = total lots, {2} = age in hours</comment>
   </data>
   <data name="VoiceCommandParkingStateLessThan2DaysDisplayMsg" xml:space="preserve">
-    <value>Der Parkplatz {0} hatte vor weniger als {4} Stunden {1} von {2} freie Parkplätze ({3}%).</value>
+    <value>Parkoviště {0} mělo {1} z {2} dostupných parkovacích míst před méně než {4} hodinami ({3}%).</value>
     <comment>{0} = name, {1} = free lots, {2} = total lots, {3} = percentage, {4} = age in hours</comment>
   </data>
   <data name="VoiceCommandParkingStateVeryOldSpokenMsg" xml:space="preserve">
-    <value>{0} von {1} Parkplätzen waren mehr als 2 Tagen frei</value>
+    <value>{0} z {1} parkovacích míst bylo dostupných před více než 2 dny</value>
     <comment>{0} = free lots, {1} = total lots</comment>
   </data>
   <data name="VoiceCommandParkingStateVeryOldDisplayMsg" xml:space="preserve">
-    <value>Der Parkplatz {0} hatte vor mehr als 2 Tagen {1} von {2} freie Parkplätze ({3}%).</value>
+    <value>Parkoviště {0} mělo {1} z {2} dostupných parkovacích míst před více než 2 dny ({3}%).</value>
     <comment>{0} = name, {1} = free lots, {2} = total lots, {3} = percentage </comment>
   </data>
   <data name="ParkingLotForecastTimespan7Days" xml:space="preserve">
-    <value>Vorhersage für die nächsten 7 Tage</value>
+    <value>Předpověď pro následujících 7 dní</value>
   </data>
   <data name="ParkingLotForecastTimespan24Hrs" xml:space="preserve">
-    <value>Vorhersage für die nächsten 24 Stunden</value>
+    <value>Předpověď pro následujících 24 hodin</value>
   </data>
   <data name="ParkingLotForecastTimespan6Hrs" xml:space="preserve">
-    <value>Vorhersage für die nächsten 6 Stunden</value>
+    <value>Předpověď pro následujících 6 hodin</value>
   </data>
   <data name="ParkingLotLastRefreshHourFormat" xml:space="preserve">
-    <value>H:mm</value>
+    <value>h:mm tt</value>
   </data>
   <data name="ParkingLotLastRefreshYesterdayAt" xml:space="preserve">
-    <value>gestern um {0}</value>
+    <value>včera v {0}</value>
     <comment>{0} = formatted time</comment>
   </data>
   <data name="ParkingLotLastRefreshDaysAgo" xml:space="preserve">
-    <value>vor {0} Tagen</value>
+    <value>před {0} dny</value>
     <comment>{0} = days integer</comment>
   </data>
   <data name="ParkingLotStateClosed" xml:space="preserve">
-    <value>geschlossen</value>
+    <value>zavřeno</value>
   </data>
   <data name="ParkingLotStateOpen" xml:space="preserve">
-    <value>geöffnet</value>
+    <value>otevřeno</value>
   </data>
   <data name="MapCurrentLocationLabel" xml:space="preserve">
-    <value>Standort</value>
+    <value>Pozice</value>
   </data>
   <data name="ParkingLotListGroupHeaderAll" xml:space="preserve">
-    <value>Alle Parkplätze</value>
+    <value>Všechna parkoviště</value>
   </data>
   <data name="ParkingLotListGroupHeaderOther" xml:space="preserve">
-    <value>Weitere</value>
+    <value>Ostatní</value>
   </data>
   <data name="DirectionsParkingLotLabel" xml:space="preserve">
-    <value>Parkplatz {0}</value>
+    <value>Parkoviště {0}</value>
   </data>
   <data name="OfflineHintLabel.Text" xml:space="preserve">
-    <value>Keine Internetverbindung</value>
+    <value>Žádné připojení k internetu</value>
   </data>
   <data name="ExceptionMailMetaDataSubject" xml:space="preserve">
-    <value>ParkenDD: Städte konnten nicht geladen werden</value>
+    <value>ParkenDD: města nemohla být načtena</value>
   </data>
   <data name="ExceptionMailMetaDataBody" xml:space="preserve">
-    <value>Leider konnten die Städte nicht geladen werden und ich dachte mir, ich teile Dir das besser mit.
+    <value>Města nemohla být bohužel načtena, tak jsem si myslel, že bych vám o tom mohl říct.
 
-Der Fehler war:
+Chyba byla:
 {0}</value>
     <comment>{0} = the error</comment>
   </data>
   <data name="ExceptionToastTitle" xml:space="preserve">
-    <value>Oh nein!</value>
+    <value>Och ne!</value>
   </data>
   <data name="ExceptionToastMetaDataContent" xml:space="preserve">
-    <value>Leider ist der Server nicht erreichbar und die Städte konnten nicht geladen werden.</value>
+    <value>Server není bohužel dostupný a města proto nemohou být načtena.</value>
   </data>
   <data name="ExceptionMailCitySubject" xml:space="preserve">
-    <value>ParkenDD: {0} konnte nicht geladen werden</value>
+    <value>ParkenDD: {0} nemohlo být načteno</value>
     <comment>{0} = city name</comment>
   </data>
   <data name="ExceptionMailCityBody" xml:space="preserve">
-    <value>Leider konnten die Daten für {0} nicht geladen werden und ich dachte mir, ich teile Dir das besser mit.
+    <value>Data o {0} nemohla být bohužel načtena, tak jsem si myslel, že bych vám o tom mohl říct.
 
-Der Fehler war:
+Chyba byla:
 {1}</value>
     <comment>{0} = city name, {1} = error message</comment>
   </data>
   <data name="ExceptionToastCityContent" xml:space="preserve">
-    <value>Leider ist der Server nicht erreichbar und die Parkplatzdaten von {0} konnten nicht geladen werden.</value>
+    <value>Server není bohužel dostupný a aktuální data k parkovišti {0} nemohou být načtena.</value>
     <comment>{0} = city name</comment>
   </data>
   <data name="ExceptionToastVisitParkenDdButton" xml:space="preserve">
-    <value>ParkenDD.de besuchen</value>
+    <value>navštivte ParkenDD.de</value>
   </data>
   <data name="ExceptionToastContactDevButton" xml:space="preserve">
-    <value>Entwickler schreiben</value>
+    <value>kontaktujte vývojáře</value>
   </data>
   <data name="ExceptionToastShowInBrowserButton" xml:space="preserve">
-    <value>im Browser ansehen</value>
+    <value>zobrazit v prohlížeči</value>
   </data>
   <data name="ExceptionMailForecastSubject" xml:space="preserve">
-    <value>ParkenDD: Vorhersage für {0} in {1} konnte nicht geladen werden</value>
+    <value>ParkenDD: předpověď pro {0} z {1} nemohla být načtena</value>
     <comment>{0} = parking lot name, {1} = city name</comment>
   </data>
   <data name="ExceptionMailForecastBody" xml:space="preserve">
-    <value>Leider konnten die Vorhersagen für {0} in {1} nicht geladen werden und ich dachte mir, ich teile Dir das besser mit.
+    <value>Předpověď pro {0} z {1} nemohla být bohužel načtena, tak jsem si myslel, že bych vám o tom mohl říct.
 
-Der Fehler war:
+Chyba byla:
 {2}</value>
     <comment>{0} = parking lot name, {1} = city name, {2} = error message</comment>
   </data>
   <data name="ExceptionToastForecastContent" xml:space="preserve">
-    <value>Leider ist der Server nicht erreichbar und die Vorhersagen für {0} in {1} konnten nicht geladen werden.</value>
+    <value>Server není bohužel dostupný a předpověď pro {0} z {1} nemůže být načtena.</value>
     <comment>{0} = parking lot name, {1} = city name</comment>
   </data>
   <data name="VoiceCommandParkingStateWaitDisplayMsg" xml:space="preserve">
-    <value>Einen Moment, ich fahre kurz vorbei...</value>
+    <value>Vteřinku, hned tam dojedu...</value>
   </data>
   <data name="VoiceCommandParkingStateWaitSpokenMsg" xml:space="preserve">
-    <value>Moment, ich fahre kurz vorbei...</value>
+    <value>Vteřinku, hned tam dojedu...</value>
   </data>
   <data name="InfoDialogPivotSettings.Header" xml:space="preserve">
-    <value>Einstellungen</value>
+    <value>nastavení</value>
   </data>
   <data name="SettingsExperimentalCitiesToggleSwitch.Header" xml:space="preserve">
-    <value>Experimentelle Städte anzeigen</value>
+    <value>Zobraz města ve zkušebním provozu</value>
   </data>
   <data name="SettingsExperimentalCitiesToggleSwitch.OnContent" xml:space="preserve">
-    <value>Ja</value>
+    <value>Ano</value>
   </data>
   <data name="SettingsExperimentalCitiesToggleSwitch.OffContent" xml:space="preserve">
-    <value>Nein</value>
+    <value>Ne</value>
   </data>
   <data name="SettingsExperimentalCitiesHint.Text" xml:space="preserve">
-    <value>Hinweis: Daten von experimentellen Städten können stark fehlerbehaftet oder unvollständig sein.</value>
+    <value>Upozornění: data k městům ve zkušebním provozu mohou být velmi nepřesná nebo nekompletní.</value>
   </data>
   <data name="SettingsLanguageComboBox.Header" xml:space="preserve">
-    <value>Sprache</value>
+    <value>Jazyk</value>
   </data>
   <data name="SettingsDistanceUnitComboBox.Header" xml:space="preserve">
-    <value>Einheit für Entfernungen</value>
+    <value>Jednotky vzdálenosti</value>
   </data>
   <data name="DistanceUnitKilometers" xml:space="preserve">
-    <value>Kilometer</value>
+    <value>Kilometry</value>
   </data>
   <data name="DistanceUnitMiles" xml:space="preserve">
-    <value>Meilen</value>
+    <value>Míle</value>
   </data>
   <data name="SettingsLanguageRestartRequiredMessage" xml:space="preserve">
-    <value>Du musst die App neu starten, damit die Änderung der Sprache sichtbar wird.</value>
+    <value>Musíte zrestartovat aplikaci, abyste mohli vidět provedené jazykové změny.</value>
   </data>
   <data name="JumpListCitiesHeader" xml:space="preserve">
-    <value>Städte</value>
+    <value>Města</value>
   </data>
   <data name="ReviewAppDialog1Title" xml:space="preserve">
-    <value>Dir gefällt ParkenDD?</value>
+    <value>Líbí se vám ParkenDD?</value>
   </data>
   <data name="ReviewAppDialog1YesButton" xml:space="preserve">
-    <value>Ja, klar!</value>
+    <value>Ano, samozřejmě!</value>
   </data>
   <data name="ReviewAppDialog1NoButton" xml:space="preserve">
-    <value>Nein, danke</value>
+    <value>Ne, díky</value>
   </data>
   <data name="ReviewAppDialog1Content" xml:space="preserve">
-    <value>Wenn Dir ParkenDD gefällt, würden wir uns über eine positive Bewertung im Store freuen! Nur so können wir die Anwendung weiterhin kostenlos anbieten und auch immer weitere Städte unterstützen, sodass wir gemeinsam immer die besten Parkplätze finden.</value>
+    <value>Pokud se vám líbí ParkenDD, ocenili bychom vaše ohodnocení aplikace ve Store! Jen tak můžeme aplikaci dál poskytovat zdarma a taky stále podporovat další města, takže takhle společně můžeme najít ty nejlepší parkovací místa.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="ReviewAppDialog2Title" xml:space="preserve">
-    <value>Dir gefällt etwas nicht?</value>
+    <value>Je zde něco, co se vám nelíbí?</value>
   </data>
   <data name="ReviewAppDialog2FeedbackButton" xml:space="preserve">
-    <value>Feedback senden</value>
+    <value>Pošlete feedback</value>
   </data>
   <data name="ReviewAppDialog2NoButton" xml:space="preserve">
-    <value>Nerve mich nicht</value>
+    <value>Neotravuj mě</value>
   </data>
   <data name="ReviewAppDialog2Content" xml:space="preserve">
-    <value>Wir freuen uns immer sehr über Feedback, Meinungen sowie Wünsche rund um ParkenDD und würden uns sehr freuen, wenn Du uns mitteilst, warum Du die App nicht bewerten magst.</value>
+    <value>Potěšilo by nás, kdybyste nám mohli poslat zpětnou vazbu, vysvětlit vaše problémy a prozradit nám vaše přání. Tak můžeme ParkenDD vylepšit a možná od vás v budoucnu dostat lepší hodnocení. Vývojáři zatím bohužel neovládají češtinu, odpověď tak můžete očekávat v angličtině.</value>
   </data>
   <data name="ReviewAppFeedbackMailTitle" xml:space="preserve">
-    <value>ParkenDD Feedback</value>
+    <value>ParkenDD feedback</value>
   </data>
   <data name="ReviewAppFeedbackMailBody" xml:space="preserve">
-    <value>Hallo Sebastian! 
+    <value>Zdravím Sebastiane!
 
-Bevor ich dir eine 5-Sterne-Bewertung geben möchte, setze doch bitte noch Folgendes um:
+Abych tvojí aplikaci mohl dát v hodnocení 5 hvězdiček, prosím vylepši následující:
 </value>
   </data>
 

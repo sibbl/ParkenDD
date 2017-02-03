@@ -69,6 +69,6 @@
     <Rule Id="CA2242" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="PlatformSpecificAnalyzer" RuleNamespace="PlatformSpecificAnalyzer">
-    <Rule Id="UWP001" Action="Error" />
+    <Rule Id="UWP001" Action="Info" />
   </Rules>
 </RuleSet>

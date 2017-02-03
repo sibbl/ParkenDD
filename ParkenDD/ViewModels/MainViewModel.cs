@@ -48,6 +48,8 @@ namespace ParkenDD.ViewModels
 
         #region PUBLIC PROPERTIES
 
+        public int UpdateFilterInProgress { get; set; }
+
         #region MetaData
         private MetaData _metaData;
         public MetaData MetaData
@@ -461,9 +463,12 @@ namespace ParkenDD.ViewModels
 
         private async Task<City> GetCity(string cityId, bool forceServerRefresh = false, MetaDataCityRow cityMetaData = null)
         {
-            if (forceServerRefresh && _cityLoading.ContainsKey(cityId) && _cityLoading[cityId] != null && !_cityLoading[cityId].IsFaulted && !_cityLoading[cityId].IsCompleted && !_cityLoading[cityId].IsCanceled)
+            if (_cityLoading.ContainsKey(cityId) && _cityLoading[cityId] != null && !_cityLoading[cityId].IsFaulted && !_cityLoading[cityId].IsCompleted && !_cityLoading[cityId].IsCanceled)
             {
-                return await _cityLoading[cityId];
+                if (!forceServerRefresh || _initialized)
+                {
+                    return await _cityLoading[cityId];
+                }
             }
             _cityLoading[cityId] = Task.Run(async () =>
             {
@@ -539,7 +544,7 @@ namespace ParkenDD.ViewModels
             if (FindCityById(meta, id) == null)
             {
                 Debug.WriteLine("[MainVm] TrySelectCityById for {0}: needs loading meta data", id, null);
-                meta = await GetMetaData() ?? await GetMetaData(true);
+                meta = (await GetMetaData()) ?? (await GetMetaData(true));
                 if (meta != null)
                 {
                     await DispatcherHelper.RunAsync(() =>
@@ -687,17 +692,16 @@ namespace ParkenDD.ViewModels
                 return _cities[cityId];
             }
             var newCityData = await GetCity(cityId, forceRefresh);
-            if (_cities.ContainsKey(cityId) && newCityData != null)
+            if (_cities.ContainsKey(cityId) && newCityData != null && _cities[cityId] != null)
             {
-                //merge only when newer data is available
-                if (newCityData.LastUpdated.ToUniversalTime() > _cities[cityId].LastUpdated.ToUniversalTime())
+                if (newCityData.LastUpdated >= _cities[cityId].LastUpdated)
                 {
                     Debug.WriteLine("[MainVm] LoadCity: {0} already in dict, merge", cityId, null);
                     _cities[cityId].Merge(newCityData, ParkingLots);
                 }
                 else
                 {
-                    Debug.WriteLine("[MainVm] LoadCity: {0} already in dict, but not merging because last updated is not higher", cityId, null);
+                    Debug.WriteLine("[MainVm] LoadCity: {0} already in dict, but do not merge as last updated is older", cityId, null);
                 }
             }
             else if(newCityData != null)
@@ -718,6 +722,7 @@ namespace ParkenDD.ViewModels
             {
                 return;
             }
+            UpdateFilterInProgress++;
             Debug.WriteLine("[MainVm] UpdateParkingLotListFilter");
             if (ParkingLots == null)
             {
@@ -749,6 +754,8 @@ namespace ParkenDD.ViewModels
                 SetLoadingCity(false);
             }
             Messenger.Default.Send(new UpdateParkingLotListSelectionMessage());
+            Debug.WriteLine("[MainVm] UpdateParkingLotListFilter finished");
+            UpdateFilterInProgress--;
         }
 
         private async void TryLoadOnlineCityData()
@@ -762,6 +769,7 @@ namespace ParkenDD.ViewModels
                     await LoadCity(SelectedCity.Id, true);
                 }
             }
+            DispatcherHelper.CheckBeginInvokeOnUI(UpdateParkingLotListFilter);
         }
 
         private async void TryLoadOnlineMetaData()
@@ -816,7 +824,6 @@ namespace ParkenDD.ViewModels
         private void SetParkingLotFilterToAlphabetically()
         {
             ParkingLotFilterMode = ParkingLotFilterMode.Alphabetically;
-            UpdateParkingLotListFilter();
         }
 #endregion
 
@@ -827,7 +834,6 @@ namespace ParkenDD.ViewModels
         private void SetParkingLotFilterToDistance()
         {
             ParkingLotFilterMode = ParkingLotFilterMode.Distance;
-            UpdateParkingLotListFilter();
         }
 #endregion
 
@@ -838,7 +844,6 @@ namespace ParkenDD.ViewModels
         private void SetParkingLotFilterToAvailability()
         {
             ParkingLotFilterMode = ParkingLotFilterMode.Availability;
-            UpdateParkingLotListFilter();
         }
 #endregion
 
@@ -1033,10 +1038,10 @@ namespace ParkenDD.ViewModels
             });
         }
 
-        public void Initialize(bool loadState)
+        public async void Initialize(bool loadState)
         {
             Debug.WriteLine("[MainVm] Initialize");
-            Task.Run(async () =>
+            await Task.Run(async () =>
             {
                 await DispatcherHelper.RunAsync(() =>
                 {
@@ -1046,8 +1051,8 @@ namespace ParkenDD.ViewModels
                 });
             });
 
-            Task.Factory.StartNew(async () =>
-            {
+            //Task.Factory.StartNew(async () =>
+            //{
                 var lastStateLoaded = false;
                 if (loadState)
                 {
@@ -1072,15 +1077,34 @@ namespace ParkenDD.ViewModels
                     await InitMetaData();
                     _initialized = true;
                 }
-                await DispatcherHelper.RunAsync(UpdateParkingLotListFilter);
 
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
-                    Task.Factory.StartNew(TryLoadOnlineMetaData);
-                    Task.Factory.StartNew(TryLoadOnlineCityData);
-                    Task.Factory.StartNew(TryGetUserPosition);
+                    do
+                    {
+                        await Task.Delay(500);
+                    } while (!_initialized);
+
+                    Debug.WriteLine("[MainVm] Initialize - initial setup done, loading online things now");
+
+                    await Task.Run(() =>
+                    {
+                        Task.Factory.StartNew(TryLoadOnlineMetaData);
+                        Task.Factory.StartNew(TryLoadOnlineCityData);
+                        Task.Factory.StartNew(TryGetUserPosition);
+                    });
                 });
-            }, TaskCreationOptions.PreferFairness);
+            //}, TaskCreationOptions.PreferFairness);
+        }
+
+        public void Resume()
+        {
+            Debug.WriteLine("[MainVm] Resume");
+            TryLoadOnlineMetaData();
+            RefreshCityDetails(true);
+            RaisePropertyChanged(() => MetaDataCities);
+            RaisePropertyChanged(() => ParkingLots);
+            DispatcherHelper.CheckBeginInvokeOnUI(UpdateParkingLotListFilter);
         }
        
 
@@ -1123,8 +1147,16 @@ namespace ParkenDD.ViewModels
 
         private void UpdateServiceData()
         {
-            _voiceCommands.UpdateCityList(MetaDataCities);
-            _jumpList.UpdateCityList(MetaDataCities);
+            Task.Run(() =>
+            {
+                Task.Delay(1000);
+                _jumpList.UpdateCityList(MetaDataCities);
+            });
+            Task.Run(() =>
+            {
+                Task.Delay(2000);
+                _voiceCommands.UpdateCityList(MetaDataCities);
+            });
         }
 
 #endregion

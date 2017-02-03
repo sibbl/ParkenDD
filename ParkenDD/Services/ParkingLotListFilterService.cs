@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Devices.Geolocation;
+using GalaSoft.MvvmLight.Threading;
 using Microsoft.Practices.ServiceLocation;
 using ParkenDD.Api.Models;
 using ParkenDD.Models;
@@ -23,8 +26,15 @@ namespace ParkenDD.Services
                 case ParkingLotFilterMode.Alphabetically:
                     return orderAsc ? items.OrderBy(alphabeticalSortingFunc) : items.OrderByDescending(alphabeticalSortingFunc);
                 case ParkingLotFilterMode.Availability:
-                    var availabilitySortingFunc = new Func<ParkingLot, double>(x => ((double)x.TotalLots / (double)x.FreeLots));
-                    return orderAsc ? items.OrderBy(availabilitySortingFunc) : items.OrderByDescending(availabilitySortingFunc);
+                    var availabilitySortingFunc = new Func<ParkingLot, double>(x =>
+                    {
+                        if (x.TotalLots == 0)
+                        {
+                            return 2; //they're always last of the list
+                        }
+                        return 1 - ((double) x.FreeLots / (double)x.TotalLots); //something between 0 and 1
+                    });
+                    return orderAsc ? items.OrderBy(availabilitySortingFunc).ThenBy(alphabeticalSortingFunc) : items.OrderByDescending(availabilitySortingFunc).ThenBy(alphabeticalSortingFunc);
                 case ParkingLotFilterMode.Distance:
                     var userPos = await ServiceLocator.Current.GetInstance<GeolocationService>().GetUserLocation();
                     if (userPos == null)
@@ -45,24 +55,29 @@ namespace ParkenDD.Services
             var result = new List<ParkingLotListGroup>();
             var res = ResourceService.Instance;
             //create groups in the order which the server returned
+            Debug.WriteLine("test");
             foreach (var i in items)
             {
+                Debug.WriteLine("header");
                 var header = i.Region ?? res.ParkingLotListGroupHeaderOther;
                 if (!result.Any(x => x.Header.Equals(header)))
                 {
                     result.Add(new ParkingLotListGroup(header));
                 }
             }
+            Debug.WriteLine("order them now");
             //then add ordered items
             foreach (var i in orderedItems)
             {
                 var header = i.Region ?? res.ParkingLotListGroupHeaderOther;
                 result.FirstOrDefault(x => x.Header.Equals(header)).ParkingLots.Add(i);
             }
+            Debug.WriteLine("blaa");
             if (result.Count == 1)
             {
                 result[0].Header = res.ParkingLotListGroupHeaderAll;
             }
+            Debug.WriteLine("return");
             return result;
         }
     }

@@ -27,7 +27,7 @@ namespace ParkenDD
             UnhandledException += OnUnhandledException;
             Resuming += (sender, o) =>
             {
-                ServiceLocator.Current.GetInstance<MainViewModel>().RefreshCityDetails(true);
+                ServiceLocator.Current.GetInstance<MainViewModel>().RefreshCityDetails();
             };
         }
 

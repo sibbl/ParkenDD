@@ -71,7 +71,15 @@ namespace ParkenDD.Api.Models
         }
         private bool _activeSupport;
 
-
+        /// <summary>
+        ///     Data source attribution 
+        /// </summary>
+        public MetaDataAttribution Attribution
+        {
+            get { return _attribution; }
+            set { Set(ref _attribution, value); }
+        }
+        private MetaDataAttribution _attribution;
 
         public override string ToString()
         {

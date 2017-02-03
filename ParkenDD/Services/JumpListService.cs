@@ -22,7 +22,6 @@ namespace ParkenDD.Services
         }
         public async Task UpdateCityListAsync(IEnumerable<MetaDataCityRow> cities)
         {
-            /*
             if (cities == null)
             {
                 return;
@@ -42,7 +41,6 @@ namespace ParkenDD.Services
                 }
                 await jumpList.SaveAsync();
             }
-            */
         }
     }
 }

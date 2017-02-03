@@ -9,7 +9,8 @@ namespace ParkenDD.Services
     public enum SupportedLocale
     {
         German,
-        English
+        English,
+        Czech
     }
     public class LocalizationService
     {
@@ -26,6 +27,8 @@ namespace ParkenDD.Services
             var primaryLanguage = ApplicationLanguages.Languages[0];
             if (primaryLanguage.StartsWith("de"))
                 return SupportedLocale.German;
+            if(primaryLanguage.StartsWith("cs")) 
+                return SupportedLocale.Czech;
             return SupportedLocale.English;
         }
 
@@ -34,7 +37,8 @@ namespace ParkenDD.Services
             return new List<SupportedLocale>
             {
                 SupportedLocale.German,
-                SupportedLocale.English
+                SupportedLocale.English,
+                SupportedLocale.Czech
             };
         }
 
@@ -55,6 +59,8 @@ namespace ParkenDD.Services
                     return "Deutsch";
                 case SupportedLocale.English:
                     return "English";
+                case SupportedLocale.Czech:
+                    return "Čeština";
             }
             return string.Empty;
         }
@@ -77,15 +83,14 @@ namespace ParkenDD.Services
             {
                 case SupportedLocale.German:
                     return "Du musst die App neu starten, damit die Änderung der Sprache sichtbar wird.";
+                case SupportedLocale.Czech:
+                    return "Aby se změna jazyka projevila, je třeba aplikaci znovu spustit.";
                 default:
                     return "You have to restart the app in order to see the language changes.";
             }
         }
 
-        public void UpdateCulture()
-        {
-            UpdateCulture(_settings.CurrentLocale);
-        }
+        public void UpdateCulture() => UpdateCulture(_settings.CurrentLocale);
 
         public void UpdateCulture(SupportedLocale locale)
         {
@@ -104,10 +109,17 @@ namespace ParkenDD.Services
             {
                 case SupportedLocale.German:
                     return "de-DE";
+                case SupportedLocale.Czech:
+                    return "cs-CZ";
                 case SupportedLocale.English:
                     return "en-US";
             }
             return GlobalizationPreferences.Languages[0];
+        }
+
+        public bool HasVoiceCommands(SupportedLocale locale)
+        {
+            return locale == SupportedLocale.German || locale == SupportedLocale.English;
         }
     }
 }

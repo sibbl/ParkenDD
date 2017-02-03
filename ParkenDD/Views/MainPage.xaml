@@ -21,7 +21,7 @@
 
     <!-- #region Behaviors -->
     <interactivity:Interaction.Behaviors>
-        <behaviors:WindowSizeBehavior 
+        <behaviors:WindowSizeBehavior
             PreferredMinSize="300,450"
             />
         <behaviors:TitleBarBehavior
@@ -32,7 +32,7 @@
             ButtonHoverBackgroundColor="{StaticResource BlueColor}"
             ButtonHoverForegroundColor="#FFFFFF"
             ButtonPressedBackgroundColor="{StaticResource DarkBlueColor}"
-            ButtonPressedForegroundColor="#FFFFFF"    
+            ButtonPressedForegroundColor="#FFFFFF"
             />
         <behaviors:StatusBarBehavior
             ForegroundColor="#666666"
@@ -85,7 +85,7 @@
                         <Setter Target="ParkingLotListPanel.Width" Value="300"/>
                         <Setter Target="ParkingLotListTopBar.Width" Value="300"/>
                         <Setter Target="ParkingLotListTopBar.(RelativePanel.AlignRightWithPanel)" Value="False"/>
-                        <Setter Target="MapTopBar.Height" Value="Auto"/>
+                        <Setter Target="MapTopBar.Height" Value="42"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -144,6 +144,7 @@
                     <VisualState.Setters>
                         <Setter Target="ParkingLotListTopBar.Height" Value="48"/>
                         <Setter Target="ParkingLotListTopBar.Padding" Value="0"/>
+                        <Setter Target="SplitViewPane.Margin" Value="0,-30,0,0"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -158,7 +159,8 @@
             >
             <!-- #region Pane -->
             <SplitView.Pane>
-                <Grid 
+                <Grid
+                    x:Name="SplitViewPane"
                     Style="{ThemeResource SplitViewContainerStyle}"
                     BorderThickness="0,0,1,0"
                     BorderBrush="{StaticResource DarkBlueBrush}"
@@ -368,7 +370,7 @@
                             x:Name="ParkingLotList"
                             Grid.Row="1"
                             ItemsSource="{Binding Source={StaticResource SelectedCityData}}"
-                            SelectedItem="{x:Bind Vm.SelectedParkingLot, Mode=TwoWay, Converter={StaticResource NoopConverter}}"
+                            SelectedItem="{Binding SelectedParkingLot, Mode=TwoWay}"
                             Style="{ThemeResource ParkingLotListStyle}"
                             Header="{x:Bind Vm.SelectedCityData.LastUpdated, Mode=OneWay, Converter={StaticResource DateTimeToStringConverter}}"
                             RelativePanel.AlignLeftWithPanel="True"
@@ -376,6 +378,11 @@
                             RelativePanel.Below="OfflineHint"
                             SelectionChanged="ParkingLotListSelectionChanged"
                             >
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsStackPanel ItemsUpdatingScrollMode="KeepItemsInView" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
                             <ListView.GroupStyle>
                                 <GroupStyle
                                     HidesIfEmpty="True"
@@ -395,7 +402,7 @@
                                     <UserControl x:Name="ItemContainer" Background="#ffffff">
                                         <UserControl.Resources>
                                             <Storyboard x:Key="LoadedStoryboard">
-                                                <DoubleAnimation
+                                                <!--<DoubleAnimation
                                                     Duration="0:0:0.500"
                                                     From="100"
                                                     To="0"
@@ -417,7 +424,7 @@
                                                     <DoubleAnimation.EasingFunction>
                                                         <CubicEase EasingMode="EaseOut" />
                                                     </DoubleAnimation.EasingFunction>
-                                                </DoubleAnimation>
+                                                </DoubleAnimation>-->
                                             </Storyboard>
                                         </UserControl.Resources>
                                         <interactivity:Interaction.Behaviors>
@@ -430,6 +437,17 @@
                                         </UserControl.RenderTransform>
                                         <StackPanel Style="{ThemeResource ParkingLotListItemStyle}">
                                             <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup>
+                                                    <VisualState x:Name="HasParkingLotSituation" />
+                                                    <VisualState x:Name="HasNoParkingLotSituation">
+                                                        <VisualState.StateTriggers>
+                                                            <windowsStateTriggers:EqualsStateTrigger Value="{x:Bind TotalLots, Mode=OneWay}" EqualTo="0" />
+                                                        </VisualState.StateTriggers>
+                                                        <VisualState.Setters>
+                                                            <Setter Target="ParkingLotSituationContainer.Visibility" Value="Collapsed" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                </VisualStateGroup>
                                                 <VisualStateGroup x:Name="SelectionStates">
                                                     <VisualState x:Name="Selected">
                                                         <VisualState.Setters>
@@ -535,7 +553,7 @@
                                                             x:Phase="6"
                                                             />
                                                     </StackPanel>
-                                                    <StackPanel Orientation="Horizontal">
+                                                    <StackPanel Orientation="Horizontal" x:Name="ParkingLotSituationContainer">
                                                         <TextBlock
                                                                 Style="{ThemeResource ParkingLotListDetailStyle}"
                                                                 Text="{x:Bind FreeLots, Mode=OneWay}"
@@ -585,7 +603,7 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                        <Border 
+                        <Border
                             RelativePanel.AlignTopWithPanel="True"
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignLeftWithPanel="True"
@@ -600,7 +618,7 @@
                     </RelativePanel>
                     <!-- #endregion -->
                     <!-- #region Map -->
-                    <RelativePanel 
+                    <RelativePanel
                         x:Name="ParkingLotMap"
                         RelativePanel.AlignRightWithPanel="True"
                         RelativePanel.AlignLeftWithPanel="True"
@@ -630,7 +648,7 @@
                     </RelativePanel>
                     <!-- #endregion -->
                     <!-- #region Container for background drawings -->
-                    <Grid 
+                    <Grid
                         x:DeferLoadStrategy="Lazy"
                         x:Name="BackgroundDrawingContainer"
                         Margin="-500,-500,0,0" />
